@@ -1,0 +1,4 @@
+fec_recipetype
+GTCEuStartupEvents.registry('gtceu:recipe_type', event => {
+event.create('local_transfer').category('transfer').setMaxIOSize(1,6,0,1).setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, FillDirection.LEFT_TO_RIGHT)
+})

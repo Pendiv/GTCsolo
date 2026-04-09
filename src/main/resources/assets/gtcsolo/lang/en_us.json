@@ -1,0 +1,14 @@
+{
+  "itemGroup.gtcsolo": "GTCsoloEU",
+
+  "item.gtcsolo.xcrystal":    "Unknown Crystal",
+  "item.gtcsolo.fgear":       "Fantasy Gear",
+  "item.gtcsolo.fcore":       "Fantasy Core",
+  "item.gtcsolo.priest_axe":  "Priest's Axe",
+
+  "block.gtcsolo.high_strength_steel_casing": "High-Strength Steel Casing",
+  "block.gtcsolo.extend_energy_cube":         "Extended Energy Cube",
+
+  "gtceu.machine.fec.name": "Fantasy Element Constructor",
+  "gtceu.machine.extended_electric_blast_furnace.name": "Extended Electric Blast Furnace"
+}

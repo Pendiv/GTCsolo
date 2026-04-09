@@ -1,0 +1,64 @@
+マルチブロックが構造通りでも不正扱いになる現象について
+■ 症状
+  FEC (Fantasy Element Constructor) マルチブロックを、GTCEu標準の
+  オートビルドターミナルで構築しても、コントローラーが構造不正と判定する。
+  ターミナルはパターンデータを読み取って正確にブロックを配置するため、
+  パターン定義上は正しいはずの構造が認識されない。
+
+■ 原因 (3点)
+
+  1. ブロック参照が文字列ベースで、名前が不正確だった (致命的)
+  ---------------------------------------------------------------
+  修正前:
+    ForgeRegistries.BLOCKS.getValue(
+        ResourceLocation.fromNamespaceAndPath("gtceu", "tempered_glass"))
+    ForgeRegistries.BLOCKS.getValue(
+        ResourceLocation.fromNamespaceAndPath("gtceu", "clean_machine_casing"))
+
+  ForgeRegistries.BLOCKS.getValue() はレジストリ名が存在しない場合、
+  エラーを出さずデフォルト値 (null または AIR) を返す。
+  つまりプレディケートが「空気ブロックであること」または「何にもマッチしない」
+  になり、ガラスやケーシングが配置されている位置を全て不正と判定していた。
+
+  GTCEuの正しいレジストリ名は:
+    tempered_glass     -> GTBlocks.CASING_TEMPERED_GLASS
+    clean_machine_casing -> GTBlocks.CASING_STAINLESS_CLEAN
+    sturdy_machine_casing -> GTBlocks.CASING_HSSE_STURDY
+
+  参考コード (GT本体・StarTechnology) は全て GTBlocks 定数を使っており、
+  文字列ベースのレジストリ検索は使用していない。
+
+  2. ResourceLocation.fromNamespaceAndPath() が 1.20.1 に存在しない
+  ---------------------------------------------------------------
+  このstaticメソッドは 1.21+ で追加されたもの。1.20.1 では
+  new ResourceLocation(namespace, path) を使う必要がある。
+  パターン定義はlambda (遅延評価) のため、コンパイル時ではなく
+  マルチブロック構造チェック時に初めて実行され、そこで失敗していた。
+
+  3. 構造外の位置に air() を使用していた (副次的)
+  ---------------------------------------------------------------
+  修正前: 構造外の角 (構造の一部でない位置) も内部空洞も
+         全て同じ文字 'X' = air() にしていた。
+  GTCEuの慣例:
+    構造外 (don't care)  -> ' ' (スペース) = any()  何があってもOK
+    内部空洞             -> '#' や 'X'      = air()  空気でなければならない
+  air() の場合、構造の角に土や石が1つでもあると不正判定になる。
+
+■ 修正内容
+
+  1. ForgeRegistries.BLOCKS.getValue() を廃止し GTBlocks 定数に置換
+     .where('F', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+     .appearanceBlock(GTBlocks.CASING_HSSE_STURDY)
+
+  2. ResourceLocation.fromNamespaceAndPath() -> new ResourceLocation()
+
+  3. パターン文字列でスペースを導入し、構造外は any() に分離
+     .where('X', air())    // 内部空洞のみ
+     .where(' ', any())    // 構造外の角
+
+■ 教訓
+  - ブロック参照は必ず GTBlocks 等の型安全な定数を使う。
+    文字列ベースの ForgeRegistries.BLOCKS.getValue() はサイレントに失敗する。
+  - GTCEu参考実装 (GT本体ソース, 他のアドオン) のコーディング規約に従う。
+  - air() と any() は明確に使い分ける。

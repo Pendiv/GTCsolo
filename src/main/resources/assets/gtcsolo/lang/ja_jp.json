@@ -1,0 +1,14 @@
+{
+  "itemGroup.gtcsolo": "GTCsoloEU",
+
+  "item.gtcsolo.xcrystal":    "異位相晶石",
+  "item.gtcsolo.fgear":       "幻想構成ギア",
+  "item.gtcsolo.fcore":       "幻想構築コア",
+  "item.gtcsolo.priest_axe":  "司祭の斧",
+
+  "block.gtcsolo.high_strength_steel_casing": "高強度鋼ケーシング",
+  "block.gtcsolo.extend_energy_cube":         "拡張蓄電キューブ",
+
+  "gtceu.machine.fec.name": "幻想元素生成機",
+  "gtceu.machine.extended_electric_blast_furnace.name": "拡張電気高炉"
+}

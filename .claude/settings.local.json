@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(javap -p com/gregtechceu/gtceu/utils/FormattingUtil.class)"
-    ]
-  }
-}

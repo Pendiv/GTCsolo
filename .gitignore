@@ -22,3 +22,8 @@ Thumbs.db
 *.log
 *.bak
 *.tmp
+.claude/
+*.log
+*.log.txt
+libs/
+refs/

@@ -46,21 +46,34 @@ ModCreativeTabs {
                                 // GTRegistrate経由で登録したマルチブロックコントローラー
                                 if (ModMachines.FEC != null) output.accept(ModMachines.FEC.asStack());
                                 if (ModMachines.EEBF != null) output.accept(ModMachines.EEBF.asStack());
+                                if (ModMachines.CC != null) output.accept(ModMachines.CC.asStack());
                             })
                             .build()
             );
 
-    // 別タブを増やす場合の例:
-    // public static final RegistryObject<CreativeModeTab> ANOTHER_TAB =
-    //         CREATIVE_MODE_TABS.register("another_tab", () ->
-    //                 CreativeModeTab.builder()
-    //                         .icon(() -> new ItemStack(ModItems.PRIEST_AXE.get()))
-    //                         .title(Component.translatable("itemGroup.gtcsolo.another"))
-    //                         .displayItems((params, output) -> {
-    //                             TAB_OVERRIDES.entrySet().stream()
-    //                                     .filter(e -> e.getValue() == ANOTHER_TAB)
-    //                                     .forEach(e -> output.accept(e.getKey().get()));
-    //                         })
-    //                         .build()
-    //         );
+    public static final RegistryObject<CreativeModeTab> WIRELESS_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_wireless_tab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> new ItemStack(ModItems.WEN_MAINSTORAGE_CASING_ITEM.get()))
+                            .title(Component.translatable("itemGroup.gtcsolo.wireless"))
+                            .displayItems((params, output) -> {
+                                // WENブロック群
+                                output.accept(ModItems.WEN_MAINSTORAGE_CASING_ITEM.get());
+                                output.accept(ModItems.WEN_MAINSTORAGE_OUTPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_MAINSTORAGE_INPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_DATA_MONITOR_ITEM.get());
+                                output.accept(ModItems.WEN_BASIC_ENERGY_CELL_ITEM.get());
+                                // WENコントローラー
+                                if (ModMachines.WEN_MAIN_STORAGE != null)
+                                    output.accept(ModMachines.WEN_MAIN_STORAGE.asStack());
+                                // ワイヤレスIOマシン全種
+                                WENMachines.WIRELESS_INPUT.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                                WENMachines.WIRELESS_OUTPUT.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                                WENMachines.ENERGY_HATCH.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                            })
+                            .build()
+            );
 }

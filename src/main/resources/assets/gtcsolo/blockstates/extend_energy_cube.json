@@ -1,8 +1,5 @@
 {
   "variants": {
-    "boosted=false,powered=false": { "model": "gtcsolo:block/extend_energy_cube" },
-    "boosted=false,powered=true":  { "model": "gtcsolo:block/extend_energy_cube" },
-    "boosted=true,powered=false":  { "model": "gtcsolo:block/extend_energy_cube" },
-    "boosted=true,powered=true":   { "model": "gtcsolo:block/extend_energy_cube" }
+    "": { "model": "gtcsolo:block/extend_energy_cube" }
   }
 }

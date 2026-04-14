@@ -1,0 +1,1708 @@
+"": {
+	recipe_type: "gtceu:gate_assembly"
+	root: {
+		layout: NONE
+		selfPosition: {
+			x: 56
+			y: 22
+		}
+		size: {
+			width: 232
+			height: 180
+		}
+		isDynamicSized: 0B
+		allowXEIIngredientOverMouse: 1B
+		children: [
+			{
+				data: {
+					layout: NONE
+					selfPosition: {
+						x: 26
+						y: -10
+					}
+					size: {
+						width: 62
+						height: 170
+					}
+					isDynamicSized: 0B
+					allowXEIIngredientOverMouse: 1B
+					children: [
+						{
+							data: {
+								selfPosition: {
+									x: 105
+									y: 158
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_0
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 124
+									y: 156
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_1
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 143
+									y: 152
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_2
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 162
+									y: 146
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_3
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 169
+									y: 127
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_4
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 174
+									y: 108
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_5
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 176
+									y: 89
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_6
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 174
+									y: 70
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_7
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 169
+									y: 51
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_8
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 162
+									y: 32
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_9
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 143
+									y: 27
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_10
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 124
+									y: 22
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_11
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 105
+									y: 20
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_12
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 86
+									y: 22
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_13
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 67
+									y: 27
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_14
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 48
+									y: 32
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_15
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 40
+									y: 51
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_16
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 35
+									y: 70
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_17
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 33
+									y: 89
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_18
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 35
+									y: 108
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_19
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 40
+									y: 127
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_20
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 48
+									y: 146
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_21
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 67
+									y: 152
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_22
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 86
+									y: 156
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_in_23
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: -20
+									y: 29
+								}
+								fillDirection: ALWAYS_FULL
+								tooltipTexts: []
+								showAmount: 1B
+								allowClickDrained: 1B
+								align: NONE
+								allowClickFilled: 1B
+								drawHoverTips: 1B
+								size: {
+									width: 9
+									height: 138
+								}
+								drawHoverOverlay: 1B
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/fluid_slot.png"
+									}
+									type: border_texture
+								}
+								id: fluid_in_0
+								drawBackgroundWhenHover: 1B
+							}
+							type: fluid_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: -3
+									y: 29
+								}
+								fillDirection: ALWAYS_FULL
+								tooltipTexts: []
+								showAmount: 1B
+								allowClickDrained: 1B
+								align: NONE
+								allowClickFilled: 1B
+								drawHoverTips: 1B
+								size: {
+									width: 9
+									height: 138
+								}
+								drawHoverOverlay: 1B
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/fluid_slot.png"
+									}
+									type: border_texture
+								}
+								id: fluid_in_1
+								drawBackgroundWhenHover: 1B
+							}
+							type: fluid_slot
+						},
+						{
+							data: {
+								selfPosition: {
+									x: 14
+									y: 29
+								}
+								fillDirection: ALWAYS_FULL
+								tooltipTexts: []
+								showAmount: 1B
+								allowClickDrained: 1B
+								align: NONE
+								allowClickFilled: 1B
+								drawHoverTips: 1B
+								size: {
+									width: 9
+									height: 138
+								}
+								drawHoverOverlay: 1B
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/fluid_slot.png"
+									}
+									type: border_texture
+								}
+								id: fluid_in_2
+								drawBackgroundWhenHover: 1B
+							}
+							type: fluid_slot
+						},
+					]
+					tooltipTexts: []
+					layoutPadding: 0
+					id: ""
+					drawBackgroundWhenHover: 1B
+					align: NONE
+				}
+				type: group
+			},
+			{
+				data: {
+					layout: NONE
+					selfPosition: {
+						x: 127
+						y: 75
+					}
+					size: {
+						width: 26
+						height: 26
+					}
+					isDynamicSized: 0B
+					allowXEIIngredientOverMouse: 1B
+					children: [
+						{
+							data: {
+								selfPosition: {
+									x: 4
+									y: 4
+								}
+								canPutItems: 1B
+								size: {
+									width: 18
+									height: 18
+								}
+								drawHoverOverlay: 1B
+								tooltipTexts: []
+								backgroundTexture: {
+									data: {
+										offsetX: 0.0F
+										imageWidth: 1.0F
+										yOffset: 0.0F
+										xOffset: 0.0F
+										offsetY: 0.0F
+										color: -1
+										rotation: 0.0F
+										scale: 1.0F
+										imageSize: {
+											width: 18
+											height: 18
+										}
+										imageHeight: 1.0F
+										boderSize: {
+											width: 4
+											height: 4
+										}
+										imageLocation: "gtceu:textures/gui/base/slot.png"
+									}
+									type: border_texture
+								}
+								canTakeItems: 1B
+								id: item_out_0
+								drawBackgroundWhenHover: 1B
+								align: NONE
+								drawHoverTips: 1B
+							}
+							type: item_slot
+						},
+					]
+					tooltipTexts: []
+					layoutPadding: 0
+					id: ""
+					drawBackgroundWhenHover: 1B
+					align: NONE
+				}
+				type: group
+			},
+		]
+		tooltipTexts: []
+		backgroundTexture: {
+			type: ui_resource
+			key: empty
+		}
+		layoutPadding: 0
+		id: ""
+		drawBackgroundWhenHover: 1B
+		align: NONE
+	}
+	resources: {
+		ldlib.gui.editor.group.textures: {
+			ldlib.gui.editor.register.texture.progress_texture: {
+				data: {
+					yOffset: 0.0F
+					xOffset: 0.0F
+					fillDirection: DOWN_TO_UP
+					rotation: 0.0F
+					scale: 1.0F
+					filledBarArea: {
+						data: {
+							offsetX: 0.0F
+							imageWidth: 1.0F
+							yOffset: 0.0F
+							xOffset: 0.0F
+							offsetY: 0.5F
+							color: -1
+							rotation: 0.0F
+							scale: 1.0F
+							imageHeight: 0.5F
+							imageLocation: "ldlib:textures/gui/progress_bar_fuel.png"
+						}
+						type: resource_texture
+					}
+					emptyBarArea: {
+						data: {
+							offsetX: 0.0F
+							imageWidth: 1.0F
+							yOffset: 0.0F
+							xOffset: 0.0F
+							offsetY: 0.0F
+							color: -1
+							rotation: 0.0F
+							scale: 1.0F
+							imageHeight: 0.5F
+							imageLocation: "ldlib:textures/gui/progress_bar_fuel.png"
+						}
+						type: resource_texture
+					}
+				}
+				type: progress_texture
+			}
+			fluid slot: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageSize: {
+						width: 18
+						height: 18
+					}
+					imageHeight: 1.0F
+					boderSize: {
+						width: 1
+						height: 1
+					}
+					imageLocation: "ldlib:textures/gui/fluid_slot.png"
+				}
+				type: border_texture
+			}
+			tab pressed: {
+				data: {
+					offsetX: 0.5F
+					imageWidth: 0.5F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageHeight: 0.33333334F
+					imageLocation: "ldlib:textures/gui/tabs_left.png"
+				}
+				type: resource_texture
+			}
+			ldlib.gui.editor.register.texture.color_rect_texture: {
+				data: {
+					radiusRT: 0.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					color: 1326448095
+					rotation: 0.0F
+					radiusRB: 0.0F
+					scale: 1.0F
+					radiusLB: 0.0F
+					radiusLT: 0.0F
+				}
+				type: color_rect_texture
+			}
+			ldlib.gui.editor.register.texture.border_texture: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageSize: {
+						width: 195
+						height: 136
+					}
+					imageHeight: 1.0F
+					boderSize: {
+						width: 4
+						height: 4
+					}
+					imageLocation: "ldlib:textures/gui/bordered_background_blue.png"
+				}
+				type: border_texture
+			}
+			ldlib.gui.editor.register.texture.item_stack_texture: {
+				data: {
+					yOffset: 0.0F
+					itemStack: [
+						{
+							p: {
+								id: "minecraft:apple"
+								Count: 1B
+							}
+							t: 17B
+						},
+					]
+					xOffset: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+				}
+				type: item_stack_texture
+			}
+			slot: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageSize: {
+						width: 18
+						height: 18
+					}
+					imageHeight: 1.0F
+					boderSize: {
+						width: 1
+						height: 1
+					}
+					imageLocation: "ldlib:textures/gui/slot.png"
+				}
+				type: border_texture
+			}
+			ldlib.gui.editor.register.texture.text_texture: {
+				data: {
+					dropShadow: 0B
+					yOffset: 0.0F
+					backgroundColor: 0
+					xOffset: 0.0F
+					color: -1
+					rollSpeed: 1.0F
+					rotation: 0.0F
+					width: 50
+					scale: 1.0F
+					text: A
+					type: NORMAL
+				}
+				type: text_texture
+			}
+			button: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageSize: {
+						width: 32
+						height: 32
+					}
+					imageHeight: 1.0F
+					boderSize: {
+						width: 2
+						height: 2
+					}
+					imageLocation: "ldlib:textures/gui/button.png"
+				}
+				type: border_texture
+			}
+			tab: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 0.5F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageHeight: 0.33333334F
+					imageLocation: "ldlib:textures/gui/tabs_left.png"
+				}
+				type: resource_texture
+			}
+			ldlib.gui.editor.register.texture.group_texture: {
+				data: {
+					yOffset: 0.0F
+					xOffset: 0.0F
+					textures: [
+						{
+							p: {
+								data: {
+									offsetX: 0.0F
+									imageWidth: 1.0F
+									yOffset: 0.0F
+									xOffset: 0.0F
+									offsetY: 0.0F
+									color: -1
+									rotation: 0.0F
+									scale: 1.0F
+									imageSize: {
+										width: 16
+										height: 16
+									}
+									imageHeight: 1.0F
+									boderSize: {
+										width: 4
+										height: 4
+									}
+									imageLocation: "ldlib:textures/gui/background.png"
+								}
+								type: border_texture
+							}
+							t: 11B
+						},
+						{
+							p: {
+								data: {
+									offsetX: 0.0F
+									imageWidth: 1.0F
+									yOffset: 0.0F
+									xOffset: 0.0F
+									offsetY: 0.0F
+									color: -1
+									rotation: 0.0F
+									scale: 1.0F
+									imageHeight: 1.0F
+									imageLocation: "ldlib:textures/gui/icon.png"
+								}
+								type: resource_texture
+							}
+							t: 11B
+						},
+					]
+					rotation: 0.0F
+					scale: 1.0F
+				}
+				type: group_texture
+			}
+			border background: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageSize: {
+						width: 16
+						height: 16
+					}
+					imageHeight: 1.0F
+					boderSize: {
+						width: 4
+						height: 4
+					}
+					imageLocation: "ldlib:textures/gui/background.png"
+				}
+				type: border_texture
+			}
+			ldlib.gui.editor.register.texture.shader_texture: {
+				data: {
+					yOffset: 0.0F
+					xOffset: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					location: "ldlib:fbm"
+					resolution: 2.0F
+				}
+				type: shader_texture
+			}
+			ldlib.gui.editor.register.texture.color_border_texture: {
+				data: {
+					border: -2
+					yOffset: 0.0F
+					xOffset: 0.0F
+					radiusRBOuter: 0.0F
+					color: 1326448095
+					radiusLBOuter: 0.0F
+					rotation: 0.0F
+					radiusLTInner: 0.0F
+					scale: 1.0F
+					radiusLTOuter: 0.0F
+					radiusLBInner: 0.0F
+					radiusRBInner: 0.0F
+					radiusRTOuter: 0.0F
+					radiusRTInner: 0.0F
+				}
+				type: color_border_texture
+			}
+			ldlib.gui.editor.register.texture.animation_texture: {
+				data: {
+					yOffset: 0.0F
+					xOffset: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					from: 32
+					to: 44
+					cellSize: 8
+					imageLocation: "ldlib:textures/gui/particles.png"
+					animation: 1
+				}
+				type: animation_texture
+			}
+			ldlib.gui.editor.register.texture.resource_texture: {
+				data: {
+					offsetX: 0.0F
+					imageWidth: 1.0F
+					yOffset: 0.0F
+					xOffset: 0.0F
+					offsetY: 0.0F
+					color: -1
+					rotation: 0.0F
+					scale: 1.0F
+					imageHeight: 1.0F
+					imageLocation: "ldlib:textures/gui/icon.png"
+				}
+				type: resource_texture
+			}
+		}
+		ldlib.gui.editor.group.colors: {
+			GRAY: -10066330
+			BLUE: -12037377
+			T_RED: -2002976478
+			T_BRIGHT_RED: -1996554240
+			T_WHITE: -1996488705
+			T_GREEN: -2009858304
+			T_LIGHT_BLUE: -2008765697
+			PINK: -52225
+			T_BLUE: -2008526081
+			T_LIME: -2005423548
+			T_BLACK: 1143087650
+			BLACK: -14540254
+			T_BROWN: -2002094268
+			T_GRAY: 1717986918
+			T_DARK_GRAY: 1145324612
+			T_YELLOW: -1996488909
+			BROWN: -5605564
+			T_CYAN: -2009893001
+			ORANGE: -30720
+			WHITE: -1
+			T_MAGENTA: -2002107222
+			PURPLE: -6736897
+			GREEN: -13369600
+			T_PURPLE: -2003225601
+			RED: -6487774
+			SEAL_BLACK: -13552072
+			LIGHT_GRAY: -5592406
+			LIGHT_BLUE: -12276993
+			T_LIGHT_GRAY: -2002081110
+			T_PINK: -1996540929
+			LIME: -8934844
+			BRIGHT_RED: -65536
+			T_SEAL_BLACK: -2010040776
+			T_ORANGE: -1996519424
+			MAGENTA: -5618518
+			YELLOW: -205
+			DARK_GRAY: -12303292
+			CYAN: -13404297
+		}
+		ldlib.gui.editor.group.entries: {
+			ldlib.author: Hello KilaBash!
+		}
+	}
+}

@@ -1,6 +1,9 @@
 package DIV.gtcsolo;
 
+import DIV.gtcsolo.integration.mekanism.ChemicalBridge;
 import DIV.gtcsolo.block.ExtendEnergyCubeScreen;
+import DIV.gtcsolo.block.wen.WENDataMonitorScreen;
+import DIV.gtcsolo.block.wen.WENIdSelectScreen;
 import DIV.gtcsolo.command.GtcSoloCommand;
 import DIV.gtcsolo.network.ModNetwork;
 import DIV.gtcsolo.common.TooltipDisplayEvents;
@@ -14,6 +17,8 @@ import DIV.gtcsolo.registry.ModMachines;
 import DIV.gtcsolo.registry.ModMenuTypes;
 import DIV.gtcsolo.registry.ModRecipeTypes;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
+import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.mojang.logging.LogUtils;
@@ -39,6 +44,10 @@ public class Gtcsolo {
         RecipeDumpService recipeDumpService = new RecipeDumpService();
         GtcSoloCommand commandHandler = new GtcSoloCommand(recipeDumpService);
         TooltipDisplayEvents tooltipDisplayEvents = new TooltipDisplayEvents();
+        // 素材登録
+        modEventBus.addListener(this::addMaterialRegistries);
+        modEventBus.addListener(this::addMaterials);
+        modEventBus.addListener(this::commonSetup);
         // レシピタイプはGTのレジストリが開いているタイミングで登録する
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         ModMachines.REGISTRATE.registerRegistrate();
@@ -60,8 +69,30 @@ public class Gtcsolo {
     }
 
     private static void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() ->
-                MenuScreens.register(ModMenuTypes.EXTEND_ENERGY_CUBE.get(), ExtendEnergyCubeScreen::new));
+        event.enqueueWork(() -> {
+            MenuScreens.register(ModMenuTypes.EXTEND_ENERGY_CUBE.get(), ExtendEnergyCubeScreen::new);
+            MenuScreens.register(ModMenuTypes.WEN_DATA_MONITOR.get(), WENDataMonitorScreen::new);
+            MenuScreens.register(ModMenuTypes.WEN_ID_SELECT.get(), WENIdSelectScreen::new);
+        });
+    }
+
+    // CommonSetup — Mekanism レジストリ照合
+    private void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            LOGGER.info("[gtcsolo] commonSetup: validating ChemicalBridge...");
+            ChemicalBridge.validateAgainstMekanismRegistry();
+        });
+    }
+
+    // 素材レジストリ作成（自MODの名前空間）
+    private void addMaterialRegistries(MaterialRegistryEvent event) {
+        GTCEuAPI.materialManager.createRegistry(MODID);
+    }
+
+    // 素材登録
+    private void addMaterials(MaterialEvent event) {
+        LOGGER.info("[gtcsolo] addMaterials: registering Chemical Bridge materials...");
+        ChemicalBridge.registerAllChemicalsAsMaterials();
     }
 
     private void gatherData(GatherDataEvent event) {

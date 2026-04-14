@@ -2,6 +2,8 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlockEntity;
+import DIV.gtcsolo.block.wen.WENDataMonitorBlockEntity;
+import DIV.gtcsolo.block.wen.WENPortBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,5 +18,19 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("extend_energy_cube",
                     () -> BlockEntityType.Builder
                             .of(ExtendEnergyCubeBlockEntity::new, ModBlocks.EXTEND_ENERGY_CUBE.get())
+                            .build(null));
+
+    public static final RegistryObject<BlockEntityType<WENDataMonitorBlockEntity>> WEN_DATA_MONITOR =
+            BLOCK_ENTITIES.register("wen_data_monitor",
+                    () -> BlockEntityType.Builder
+                            .of(WENDataMonitorBlockEntity::new, ModBlocks.WEN_DATA_MONITOR.get())
+                            .build(null));
+
+    public static final RegistryObject<BlockEntityType<WENPortBlockEntity>> WEN_PORT =
+            BLOCK_ENTITIES.register("wen_port",
+                    () -> BlockEntityType.Builder
+                            .of(WENPortBlockEntity::new,
+                                    ModBlocks.WEN_MAINSTORAGE_INPUT_PORT.get(),
+                                    ModBlocks.WEN_MAINSTORAGE_OUTPUT_PORT.get())
                             .build(null));
 }

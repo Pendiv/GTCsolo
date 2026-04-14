@@ -1,0 +1,3100 @@
+{
+  "recipe_type": "gtceu:dimension_transfer",
+  "schema": {
+    "id": "string",
+    "serializer": "string|null",
+    "group": "string",
+    "ingredients": "list",
+    "result_item": "object|null",
+    "item_inputs": "list",
+    "fluid_inputs": "list",
+    "item_outputs": "list",
+    "fluid_outputs": "list",
+    "tick_item_inputs": "list",
+    "tick_fluid_inputs": "list",
+    "tick_item_outputs": "list",
+    "tick_fluid_outputs": "list",
+    "duration": "int",
+    "input_eut": "int",
+    "output_eut": "int",
+    "eut": "int",
+    "special": "object"
+  },
+  "defaults": {
+    "serializer": null,
+    "group": "",
+    "ingredients": [],
+    "result_item": null,
+    "item_inputs": [],
+    "fluid_inputs": [],
+    "item_outputs": [],
+    "fluid_outputs": [],
+    "tick_item_inputs": [],
+    "tick_fluid_inputs": [],
+    "tick_item_outputs": [],
+    "tick_fluid_outputs": [],
+    "duration": 0,
+    "input_eut": 0,
+    "output_eut": 0,
+    "eut": 0,
+    "special": {}
+  },
+  "recipes": [
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_bedrockium",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_bedrockium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_cobaltite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_dense_stellarium_enigma",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_stellarium_enigma_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_jupitate_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_enigma",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_enigma_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_ilmenite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_molybdenite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_exporonium",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_exporonium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_naquadah_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_neodymium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_flaurite",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_flaurite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_cobaltite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_bastnasite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_hafhnium",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_hafhnium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_naquadah_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_platinum_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_jupitate",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_jupitate_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_bedrockium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_platinum_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_stagnanted_neutronium",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_stagnanted_neutronium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_naquadah_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_stellarium",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_stellarium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_bastnasite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_stellarium_enigma",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_stellarium_enigma_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_enigma_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_stellarium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_bedrockium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/ameijia_valinium",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ameijia_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:marble_valinium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_cobaltite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:marble"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 8388608,
+      "eut": 8388608,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/apatite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:apatite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:tricalcium_phosphate_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:pyrochlore_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/banded_iron_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_goethite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_yellow_limonite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_hematite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_gold_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/bauxite_vein_end",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_bauxite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_ilmenite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_aluminium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/beryllium_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_beryllium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_emerald_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_thorium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/cassiterite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:tin_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:cassiterite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/certus_quartz",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_quartzite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_certus_quartz_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_barite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/coal_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:coal_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/copper_tin_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:chalcopyrite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:zeolite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:cassiterite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:realgar_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/copper_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_chalcopyrite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_iron_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_pyrite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_copper_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/diamond_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_graphite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_diamond_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_coal_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/galena_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:galena_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:silver_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:lead_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/garnet_tin_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:cassiterite_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:garnet_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:asbestos_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:diatomite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/garnet_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:red_garnet_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:yellow_garnet_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:amethyst_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:opal_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/iron_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:goethite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:hematite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:malachite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/lapis_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_lazurite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_sodalite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_lapis_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_calcite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/lubricant_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:soapstone_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:talc_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:glauconite_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:pentlandite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/magnetite_vein_end",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_magnetite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_vanadium_magnetite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_chromite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_gold_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/magnetite_vein_ow",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:magnetite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:vanadium_magnetite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:gold_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/manganese_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_grossular_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_pyrolusite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_tantalite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/manganese_vein_ow",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_grossular_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_spessartine_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_pyrolusite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_tantalite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/mica_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_kyanite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_mica_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_bauxite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_pollucite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/mineral_sand_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:basaltic_mineral_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:granitic_mineral_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:fullers_earth_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:gypsum_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/molybdenum_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_wulfenite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_molybdenite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_molybdenum_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_powellite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/monazite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_bastnasite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_monazite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_neodymium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/naquadah_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_naquadah_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_plutonium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/nether_quartz_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_nether_quartz_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_quartzite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/nickel_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:garnierite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:nickel_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:cobaltite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:pentlandite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/oilsands_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:oilsands_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/olivine_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_bentonite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_magnesite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_olivine_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_glauconite_sand_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/pitchblende_vein_end",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_pitchblende_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_uraninite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/redstone_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_redstone_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_ruby_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_cinnabar_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/redstone_vein_ow",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_redstone_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_ruby_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_cinnabar_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/saltpeter_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_saltpeter_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_diatomite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_electrotine_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_alunite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/salts_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:rock_salt_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:salt_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:lepidolite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:spodumene_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/sapphire_vein",
+      "serializer": "gtceu:machine",
+      "duration": 36000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:deepslate_almandine_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_pyrope_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_sapphire_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:deepslate_green_sapphire_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:deepslate"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 131072,
+      "eut": 131072,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/scheelite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_scheelite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_tungstate_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_lithium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/sheldonite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:ender_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:endstone_bornite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_cooperite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_platinum_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:endstone_palladium_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:end_stone"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 2097152,
+      "eut": 2097152,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/sulfur_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_sulfur_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_pyrite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_sphalerite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/tetrahedrite_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_tetrahedrite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_copper_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_stibnite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    },
+    {
+      "id": "gtceu:dimension_transfer/dimension_transfer/topaz_vein",
+      "serializer": "gtceu:machine",
+      "duration": 24000,
+      "item_inputs": [
+        {
+          "options": [
+            "gtceu:programmed_circuit"
+          ],
+          "amount": 1,
+          "chance": 0
+        }
+      ],
+      "fluid_inputs": [
+        {
+          "options": [
+            "gtceu:nether_air"
+          ],
+          "amount": 128000,
+          "chance": 10000
+        }
+      ],
+      "item_outputs": [
+        {
+          "options": [
+            "gtceu:netherrack_blue_topaz_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_topaz_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_chalcocite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "gtceu:netherrack_bornite_ore"
+          ],
+          "amount": 1,
+          "chance": 10000
+        },
+        {
+          "options": [
+            "minecraft:netherrack"
+          ],
+          "amount": 1,
+          "chance": 10000
+        }
+      ],
+      "input_eut": 524288,
+      "eut": 524288,
+      "special": {
+        "recipe_class": "com.gregtechceu.gtceu.api.recipe.GTRecipe"
+      }
+    }
+  ]
+}

@@ -3,6 +3,9 @@ package DIV.gtcsolo.block;
 import DIV.gtcsolo.network.EnergyCubeUpdatePacket;
 import DIV.gtcsolo.network.ModNetwork;
 import DIV.gtcsolo.registry.ModBlockEntities;
+import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
+import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
+import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -25,38 +28,39 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
-
+/**
+ * 拡張型蓄電器 v2
+ * - 内部はFE(long)で保持、EU変換は 4FE = 1EU
+ * - UIスイッチ: 吸収/放出、FE/EU切替
+ * - EU出力時は隣接GTブロックの電圧を自動検出
+ */
 public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProvider {
 
-    // 2^128 - 1
-    public static final BigInteger MAX_CAPACITY =
-            BigInteger.ONE.shiftLeft(128).subtract(BigInteger.ONE);
-    // 搬入速度: 2^64 - 1
-    public static final BigInteger INPUT_RATE =
-            BigInteger.ONE.shiftLeft(64).subtract(BigInteger.ONE);
-    // 搬出速度(通常): 2^32 - 1
-    public static final BigInteger NORMAL_OUTPUT_RATE =
-            BigInteger.ONE.shiftLeft(32).subtract(BigInteger.ONE);
-    // 搬出速度(BOOST時): 2^64 - 1
-    public static final BigInteger BOOSTED_OUTPUT_RATE =
-            BigInteger.ONE.shiftLeft(64).subtract(BigInteger.ONE);
+    public static final long MAX_CAPACITY = Long.MAX_VALUE; // 2^63-1
+    public static final int FE_PER_EU = 4;
 
-    private BigInteger storedEnergy = BigInteger.ZERO;
+    /** 内部エネルギー (FE単位) */
+    private long storedEnergy = 0;
+
+    /** true = 放出モード, false = 吸収モード */
+    private boolean emitMode = false;
+
+    /** true = EU出力, false = FE出力 (放出モード時のみ意味がある) */
+    private boolean euMode = false;
+
     private int syncTimer = 0;
 
-    // Forge Energy Capability ラッパー
-    // IEnergyStorage は int ベースのため、実際の転送量は Integer.MAX_VALUE が上限
-    private final IEnergyStorage energyCapability = new IEnergyStorage() {
+    // ---- Forge Energy Capability (FE入出力用) ----
+
+    private final IEnergyStorage feCapability = new IEnergyStorage() {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
-            if (maxReceive <= 0) return 0;
-            BigInteger space = MAX_CAPACITY.subtract(storedEnergy);
-            if (space.signum() <= 0) return 0;
-            int actual = (int) Math.min(maxReceive,
-                    space.min(BigInteger.valueOf(Integer.MAX_VALUE)).longValue());
+            if (emitMode || maxReceive <= 0) return 0;
+            long space = MAX_CAPACITY - storedEnergy;
+            if (space <= 0) return 0;
+            int actual = (int) Math.min(maxReceive, Math.min(space, Integer.MAX_VALUE));
             if (!simulate && actual > 0) {
-                storedEnergy = storedEnergy.add(BigInteger.valueOf(actual));
+                storedEnergy += actual;
                 setChanged();
             }
             return actual;
@@ -64,11 +68,10 @@ public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProv
 
         @Override
         public int extractEnergy(int maxExtract, boolean simulate) {
-            if (maxExtract <= 0 || storedEnergy.signum() == 0) return 0;
-            int actual = (int) Math.min(maxExtract,
-                    storedEnergy.min(BigInteger.valueOf(Integer.MAX_VALUE)).longValue());
+            if (!emitMode || euMode || maxExtract <= 0 || storedEnergy <= 0) return 0;
+            int actual = (int) Math.min(maxExtract, Math.min(storedEnergy, Integer.MAX_VALUE));
             if (!simulate && actual > 0) {
-                storedEnergy = storedEnergy.subtract(BigInteger.valueOf(actual));
+                storedEnergy -= actual;
                 setChanged();
             }
             return actual;
@@ -76,7 +79,7 @@ public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProv
 
         @Override
         public int getEnergyStored() {
-            return storedEnergy.min(BigInteger.valueOf(Integer.MAX_VALUE)).intValue();
+            return (int) Math.min(storedEnergy, Integer.MAX_VALUE);
         }
 
         @Override
@@ -85,82 +88,198 @@ public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProv
         }
 
         @Override
-        public boolean canExtract() { return true; }
+        public boolean canExtract() { return emitMode && !euMode; }
 
         @Override
-        public boolean canReceive() { return true; }
+        public boolean canReceive() { return !emitMode; }
     };
 
-    private final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energyCapability);
+    // ---- GT Energy Capability (EU入出力用) ----
+
+    private final IEnergyContainer euCapability = new IEnergyContainer() {
+        @Override
+        public long acceptEnergyFromNetwork(Direction side, long voltage, long amperage) {
+            if (emitMode) return 0;
+            long spaceInFe = MAX_CAPACITY - storedEnergy;
+            long spaceInEu = spaceInFe / FE_PER_EU;
+            if (spaceInEu <= 0) return 0;
+
+            long maxAmps = Math.min(amperage, spaceInEu / Math.max(voltage, 1));
+            if (maxAmps <= 0) return 0;
+
+            long euAccepted = maxAmps * voltage;
+            storedEnergy += euAccepted * FE_PER_EU;
+            setChanged();
+            return maxAmps;
+        }
+
+        @Override
+        public boolean inputsEnergy(Direction side) {
+            return !emitMode;
+        }
+
+        @Override
+        public boolean outputsEnergy(Direction side) {
+            return false; // EU出力はtickで能動的に行う
+        }
+
+        @Override
+        public long changeEnergy(long differenceAmount) {
+            long feChange = differenceAmount * FE_PER_EU;
+            long before = storedEnergy;
+            storedEnergy = Math.max(0, Math.min(MAX_CAPACITY, storedEnergy + feChange));
+            setChanged();
+            return (storedEnergy - before) / FE_PER_EU;
+        }
+
+        @Override
+        public long getEnergyStored() {
+            return storedEnergy / FE_PER_EU;
+        }
+
+        @Override
+        public long getEnergyCapacity() {
+            return MAX_CAPACITY / FE_PER_EU;
+        }
+
+        @Override
+        public long getInputAmperage() { return 16; }
+
+        @Override
+        public long getInputVoltage() {
+            return com.gregtechceu.gtceu.api.GTValues.V[com.gregtechceu.gtceu.api.GTValues.MAX];
+        }
+    };
+
+    private final LazyOptional<IEnergyStorage> feOptional = LazyOptional.of(() -> feCapability);
+    private final LazyOptional<IEnergyContainer> euOptional = LazyOptional.of(() -> euCapability);
 
     public ExtendEnergyCubeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.EXTEND_ENERGY_CUBE.get(), pos, state);
     }
 
-    // --- Tick ---
+    // =========================================================================
+    //  Tick
+    // =========================================================================
 
     public static void tick(Level level, BlockPos pos, BlockState state, ExtendEnergyCubeBlockEntity be) {
         if (level.isClientSide) return;
 
-        boolean powered = state.getValue(ExtendEnergyCubeBlock.POWERED);
-        if (powered) {
-            be.pushEnergyToNeighbors(level, pos, state);
+        if (be.emitMode) {
+            if (be.euMode) {
+                be.pushEuToNeighbors(level, pos);
+            } else {
+                be.pushFeToNeighbors(level, pos);
+            }
         } else {
-            be.pullEnergyFromNeighbors(level, pos);
+            be.pullFeFromNeighbors(level, pos);
+            // EU入力はGTケーブル側がacceptEnergyFromNetworkを呼ぶので能動的pullは不要
         }
 
-        // 20tick (1秒) ごとに開いているUIへ最新データを送信
+        // 20tick (1秒) ごとにUI同期
         be.syncTimer++;
         if (be.syncTimer >= 20) {
             be.syncTimer = 0;
-            be.syncToViewers(level, pos, state);
+            be.syncToViewers(level, pos);
         }
     }
 
-    /** OUTPUT モード: 隣接ブロックに FE を押し出す */
-    private void pushEnergyToNeighbors(Level level, BlockPos pos, BlockState state) {
-        if (storedEnergy.signum() == 0) return;
+    // ---- FE出力 ----
+
+    private void pushFeToNeighbors(Level level, BlockPos pos) {
+        if (storedEnergy <= 0) return;
         for (Direction dir : Direction.values()) {
             BlockEntity neighbor = level.getBlockEntity(pos.relative(dir));
             if (neighbor == null) continue;
             neighbor.getCapability(ForgeCapabilities.ENERGY, dir.getOpposite()).ifPresent(storage -> {
                 if (!storage.canReceive()) return;
-                int toSend = storedEnergy.min(BigInteger.valueOf(Integer.MAX_VALUE)).intValue();
+                int toSend = (int) Math.min(storedEnergy, Integer.MAX_VALUE);
                 int accepted = storage.receiveEnergy(toSend, false);
                 if (accepted > 0) {
-                    storedEnergy = storedEnergy.subtract(BigInteger.valueOf(accepted));
+                    storedEnergy -= accepted;
                     setChanged();
                 }
             });
-            if (storedEnergy.signum() == 0) break;
+            if (storedEnergy <= 0) break;
         }
     }
 
-    /** ABSORB モード: 隣接ブロックから FE を引き抜く */
-    private void pullEnergyFromNeighbors(Level level, BlockPos pos) {
-        if (storedEnergy.compareTo(MAX_CAPACITY) >= 0) return;
+    // ---- EU出力 (隣接GTブロックの電圧を自動検出) ----
+
+    private void pushEuToNeighbors(Level level, BlockPos pos) {
+        if (storedEnergy < FE_PER_EU) return;
+        for (Direction dir : Direction.values()) {
+            Direction opposite = dir.getOpposite();
+            IEnergyContainer neighbor = GTCapabilityHelper.getEnergyContainer(
+                    level, pos.relative(dir), opposite);
+            if (neighbor == null || !neighbor.inputsEnergy(opposite)) continue;
+
+            long voltage = neighbor.getInputVoltage();
+            long amperage = neighbor.getInputAmperage();
+            if (voltage <= 0 || amperage <= 0) continue;
+
+            // 送れる最大アンペア数 = min(相手の受入アンペア, 蓄電量から出せる量)
+            long availableEu = storedEnergy / FE_PER_EU;
+            long maxAmps = Math.min(amperage, availableEu / voltage);
+            if (maxAmps <= 0) continue;
+
+            long ampsAccepted = neighbor.acceptEnergyFromNetwork(opposite, voltage, maxAmps);
+            if (ampsAccepted > 0) {
+                long euSent = ampsAccepted * voltage;
+                storedEnergy -= euSent * FE_PER_EU;
+                setChanged();
+            }
+            if (storedEnergy < FE_PER_EU) break;
+        }
+    }
+
+    // ---- FE吸収 ----
+
+    private void pullFeFromNeighbors(Level level, BlockPos pos) {
+        if (storedEnergy >= MAX_CAPACITY) return;
         for (Direction dir : Direction.values()) {
             BlockEntity neighbor = level.getBlockEntity(pos.relative(dir));
             if (neighbor == null) continue;
             neighbor.getCapability(ForgeCapabilities.ENERGY, dir.getOpposite()).ifPresent(storage -> {
                 if (!storage.canExtract()) return;
-                BigInteger space = MAX_CAPACITY.subtract(storedEnergy);
-                int toRequest = space.min(BigInteger.valueOf(Integer.MAX_VALUE)).intValue();
+                long space = MAX_CAPACITY - storedEnergy;
+                int toRequest = (int) Math.min(space, Integer.MAX_VALUE);
                 int extracted = storage.extractEnergy(toRequest, false);
                 if (extracted > 0) {
-                    storedEnergy = storedEnergy.add(BigInteger.valueOf(extracted));
+                    storedEnergy += extracted;
                     setChanged();
                 }
             });
-            if (storedEnergy.compareTo(MAX_CAPACITY) >= 0) break;
+            if (storedEnergy >= MAX_CAPACITY) break;
         }
     }
 
-    /** このブロックのメニューを開いているプレイヤーへ最新データを送信する */
-    private void syncToViewers(Level level, BlockPos pos, BlockState state) {
+    // =========================================================================
+    //  スイッチ操作
+    // =========================================================================
+
+    public boolean isEmitMode() { return emitMode; }
+    public boolean isEuMode() { return euMode; }
+    public long getStoredEnergy() { return storedEnergy; }
+
+    public void setEmitMode(boolean emit) {
+        this.emitMode = emit;
+        setChanged();
+    }
+
+    public void setEuMode(boolean eu) {
+        this.euMode = eu;
+        setChanged();
+    }
+
+    // =========================================================================
+    //  UI同期
+    // =========================================================================
+
+    private void syncToViewers(Level level, BlockPos pos) {
         if (!(level instanceof ServerLevel serverLevel)) return;
         EnergyCubeUpdatePacket packet = new EnergyCubeUpdatePacket(
-                pos, storedEnergy, currentOutputRate(state));
+                pos, storedEnergy, emitMode, euMode);
         for (ServerPlayer player : serverLevel.getServer().getPlayerList().getPlayers()) {
             if (player.containerMenu instanceof ExtendEnergyCubeMenu menu
                     && menu.getBlockPos().equals(pos)) {
@@ -169,7 +288,9 @@ public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProv
         }
     }
 
-    // --- MenuProvider ---
+    // =========================================================================
+    //  MenuProvider
+    // =========================================================================
 
     @Override
     public Component getDisplayName() {
@@ -178,49 +299,52 @@ public class ExtendEnergyCubeBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new ExtendEnergyCubeMenu(id, worldPosition, storedEnergy, currentOutputRate(getBlockState()));
+        return new ExtendEnergyCubeMenu(id, worldPosition, storedEnergy, emitMode, euMode);
     }
 
-    /** NetworkHooks.openScreen の extraData 書き込み */
     public void writeScreenOpenData(FriendlyByteBuf buf) {
         buf.writeBlockPos(worldPosition);
-        buf.writeUtf(storedEnergy.toString());
-        buf.writeUtf(currentOutputRate(getBlockState()).toString());
+        buf.writeLong(storedEnergy);
+        buf.writeBoolean(emitMode);
+        buf.writeBoolean(euMode);
     }
 
-    private BigInteger currentOutputRate(BlockState state) {
-        boolean boosted = state.getValue(ExtendEnergyCubeBlock.BOOSTED);
-        return boosted ? BOOSTED_OUTPUT_RATE : NORMAL_OUTPUT_RATE;
-    }
-
-    // --- Capability ---
+    // =========================================================================
+    //  Capability
+    // =========================================================================
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ENERGY) return energyOptional.cast();
+        if (cap == ForgeCapabilities.ENERGY) return feOptional.cast();
+        if (cap == GTCapability.CAPABILITY_ENERGY_CONTAINER) return euOptional.cast();
         return super.getCapability(cap, side);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
-        energyOptional.invalidate();
+        feOptional.invalidate();
+        euOptional.invalidate();
     }
 
-    // --- NBT ---
+    // =========================================================================
+    //  NBT
+    // =========================================================================
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        if (tag.contains("Energy")) {
-            storedEnergy = new BigInteger(tag.getByteArray("Energy"));
-            if (storedEnergy.signum() < 0) storedEnergy = BigInteger.ZERO;
-        }
+        storedEnergy = tag.getLong("Energy");
+        if (storedEnergy < 0) storedEnergy = 0;
+        emitMode = tag.getBoolean("EmitMode");
+        euMode = tag.getBoolean("EuMode");
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.putByteArray("Energy", storedEnergy.toByteArray());
+        tag.putLong("Energy", storedEnergy);
+        tag.putBoolean("EmitMode", emitMode);
+        tag.putBoolean("EuMode", euMode);
     }
 }

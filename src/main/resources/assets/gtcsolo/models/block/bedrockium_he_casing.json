@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtcsolo:block/bedrockium_he_casing"
+  }
+}

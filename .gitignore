@@ -26,5 +26,6 @@ Thumbs.db
 *.log
 *.log.txt
 libs/
+info/
 refs/
 MODsUnComplessed/

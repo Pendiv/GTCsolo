@@ -1,6 +1,7 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.machine.wen.WENEnergyHatchMachine;
+import DIV.gtcsolo.machine.wen.WENEnergyOutputHatchMachine;
 import DIV.gtcsolo.machine.wen.WENWirelessInputMachine;
 import DIV.gtcsolo.machine.wen.WENWirelessOutputMachine;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -30,10 +31,13 @@ public class WENMachines {
     public static final Map<Integer, Map<Integer, MachineDefinition>> WIRELESS_INPUT = new HashMap<>();
     public static final Map<Integer, Map<Integer, MachineDefinition>> WIRELESS_OUTPUT = new HashMap<>();
     public static final Map<Integer, Map<Integer, MachineDefinition>> ENERGY_HATCH = new HashMap<>();
+    public static final Map<Integer, Map<Integer, MachineDefinition>> ENERGY_OUTPUT_HATCH = new HashMap<>();
 
     private static final int[] AMPERAGES = {1, 4, 16, 64, 256};
     /** エネルギーハッチ専用の追加高アンペア */
     private static final int[] HATCH_EXTRA_AMPS = {1024, 4096, 16384};
+    /** 出力ハッチのアンペア（画像に対応: 1,4,16,64,256,1024,2048） */
+    private static final int[] OUTPUT_HATCH_AMPS = {1, 4, 16, 64, 256, 1024, 2048};
     private static final int MIN_TIER = GTValues.EV;
     private static final int MAX_TIER = GTValues.MAX;
 
@@ -42,6 +46,7 @@ public class WENMachines {
             WIRELESS_INPUT.put(tier, new HashMap<>());
             WIRELESS_OUTPUT.put(tier, new HashMap<>());
             ENERGY_HATCH.put(tier, new HashMap<>());
+            ENERGY_OUTPUT_HATCH.put(tier, new HashMap<>());
             for (int amp : AMPERAGES) {
                 registerWirelessInput(tier, amp);
                 registerWirelessOutput(tier, amp);
@@ -50,6 +55,10 @@ public class WENMachines {
             // エネルギーハッチのみ高アンペア追加
             for (int amp : HATCH_EXTRA_AMPS) {
                 registerEnergyHatch(tier, amp);
+            }
+            // エネルギー出力ハッチ（ダイナモ）
+            for (int amp : OUTPUT_HATCH_AMPS) {
+                registerEnergyOutputHatch(tier, amp);
             }
         }
         int tierCount = MAX_TIER - MIN_TIER + 1;
@@ -120,6 +129,29 @@ public class WENMachines {
                 .register();
 
         ENERGY_HATCH.get(tier).put(amperage, def);
+    }
+
+    private static void registerEnergyOutputHatch(int tier, int amperage) {
+        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        String name = "wen_energy_output_hatch_" + tierName + "_" + amperage + "a";
+        String overlayPath = "output_" + amperage + "a";
+
+        MachineDefinition def = REGISTRATE.machine(name,
+                        holder -> WENEnergyOutputHatchMachine.create(holder, tier, amperage))
+                .rotationState(RotationState.ALL)
+                .tier(tier)
+                .abilities(PartAbility.OUTPUT_ENERGY)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.wen_energy_output_hatch.desc",
+                                GTValues.VNF[tier], getAmpDisplay(amperage)),
+                        Component.translatable("gtcsolo.machine.wen_energy_output_hatch.desc2"),
+                        Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
+                                com.gregtechceu.gtceu.utils.FormattingUtil.formatNumbers(
+                                        EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))))
+                .overlayTieredHullRenderer(overlayPath)
+                .register();
+
+        ENERGY_OUTPUT_HATCH.get(tier).put(amperage, def);
     }
 
     private static void registerWirelessOutput(int tier, int amperage) {

@@ -4,6 +4,9 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
 }
 
+// Ensure the :cmdex subproject is evaluated before we reference its sourceSets below.
+evaluationDependsOn(':cmdex')
+
 group = mod_group_id
 version = mod_version
 
@@ -29,6 +32,9 @@ minecraft {
             mods {
                 "${mod_id}" {
                     source sourceSets.main
+                }
+                cmdex {
+                    source project(':cmdex').sourceSets.main
                 }
             }
         }
@@ -79,6 +85,14 @@ repositories {
     // Architectury (KubeJS dependency)
     maven { url = "https://maven.architectury.dev" }
 
+    // AE2公式メンテメイヴン
+    maven {
+        url = "https://modmaven.dev/"
+        content {
+            includeGroup "appeng"
+        }
+    }
+
     // ★重要: libsフォルダを「リポジトリ（倉庫）」として登録する
     flatDir {
         dir 'libs'
@@ -93,22 +107,20 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
+    // Jade — カスタムプロバイダ実装用にAPI(compileOnly)も追加
+    compileOnly fg.deobf("curse.maven:jade-324717:6855440")
     runtimeOnly fg.deobf("curse.maven:jade-324717:6855440")
-    // ★修正ポイント: "local:名前:バージョン" の形にする
 
-    // 1. GregTech Modern
-    // 元ファイル: gtceu-1.20.1-1.6.4.jar
-    // 書き方: "local : gtceu-1.20.1 : 1.6.4"
+    // AE2 — 必須依存 (GTCEu前提環境のため)
+    implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
+
+
     implementation fg.deobf("local:gtceu-1.20.1:1.6.4")
 
-    // 2. LDLib
-    // 元ファイル: ldlib-forge-1.20.1-1.0.48.jar
-    // 書き方: "local : ldlib-forge-1.20.1 : 1.0.48"
+
     implementation fg.deobf("local:ldlib-forge-1.20.1:1.0.48")
     implementation fg.deobf("curse.maven:mekanism-268560:6552911")
-    // 3. Registrate
-    // 元ファイル: Registrate-MC1.20-1.3.11.jar
-    // 書き方: "local : Registrate-MC1.20 : 1.3.11"
+
     implementation fg.deobf("local:Registrate-MC1.20:1.3.3")
     // KubeJS + dependencies (fg.deobf経由でSRG→officialリマッピング)
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")

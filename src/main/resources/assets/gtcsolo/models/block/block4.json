@@ -1,1 +1,1 @@
-{ "parent": "block/cube_all", "textures": { "all": "gtcsolo:block/cryostat_glass" } }
+{ "parent": "block/cube_all", "render_type": "minecraft:cutout", "textures": { "all": "gtcsolo:block/cryostat_glass" } }

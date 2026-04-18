@@ -43,6 +43,11 @@ public class ModItems {
                     () -> new BlockItem(ModBlocks.BEDROCKIUM_HE_CASING.get(), new Item.Properties())
             );
 
+    public static final RegistryObject<Item> CONVERSION_SYSTEM =
+            ITEMS.register("conversionsystem_block",
+                    () -> new BlockItem(ModBlocks.CONVERSION_SYSTEM.get(), new Item.Properties())
+            );
+
     public static final RegistryObject<Item> PRIEST_AXE =
             ITEMS.register("priest_axe",
                     () -> new PriestAxeItem(
@@ -115,12 +120,68 @@ public class ModItems {
             ITEMS.register("block8", () -> new BlockItem(ModBlocks.BLOCK8.get(), new Item.Properties()));
 
     /** block9 — テクスチャ: ore_smelter_controller.png */
-    public static final RegistryObject<Item> BLOCK9_ITEM =
-            ITEMS.register("block9", () -> new BlockItem(ModBlocks.BLOCK9.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RESONANCE_CONTROL_CORE_BLOCK_ITEM =
+            ITEMS.register("resonance_control_core_block", () -> new BlockItem(ModBlocks.RESONANCE_CONTROL_CORE_BLOCK.get(), new Item.Properties()));
 
     /** block10 — テクスチャ: refined_netherstar_block.png */
     public static final RegistryObject<Item> BLOCK10_ITEM =
             ITEMS.register("block10", () -> new BlockItem(ModBlocks.BLOCK10.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BLOCK_12_ITEM =
+            ITEMS.register("block_12", () -> new BlockItem(ModBlocks.BLOCK_12.get(), new Item.Properties()));
+
+    // casingblock_n — 仮追加ケーシング群
+    public static final RegistryObject<Item> AURORALIUM_RESONANCE_CASING_ITEM =
+            ITEMS.register("auroralium_resonance_casing", () -> new BlockItem(ModBlocks.AURORALIUM_RESONANCE_CASING.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BEDROCKIUM_NOCTURNIUM_FUSION_CASING_ITEM =
+            ITEMS.register("bedrockium_nocturnium_fusion_casing", () -> new BlockItem(ModBlocks.BEDROCKIUM_NOCTURNIUM_FUSION_CASING.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CASINGBLOCK_3_ITEM =
+            ITEMS.register("casingblock_3", () -> new BlockItem(ModBlocks.CASINGBLOCK_3.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CASINGBLOCK_4_ITEM =
+            ITEMS.register("casingblock_4", () -> new BlockItem(ModBlocks.CASINGBLOCK_4.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CASINGBLOCK_5_ITEM =
+            ITEMS.register("casingblock_5", () -> new BlockItem(ModBlocks.CASINGBLOCK_5.get(), new Item.Properties()));
+    public static final RegistryObject<Item> REFINED_OBSIDIAN_CASING_ITEM =
+            ITEMS.register("refined_obsidian_casing", () -> new BlockItem(ModBlocks.REFINED_OBSIDIAN_CASING.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CASINGBLOCK_7_ITEM =
+            ITEMS.register("casingblock_7", () -> new BlockItem(ModBlocks.CASINGBLOCK_7.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CHEMICAL_RESISTANT_CASING_ITEM =
+            ITEMS.register("chemical_resistant_casing", () -> new BlockItem(ModBlocks.CHEMICAL_RESISTANT_CASING.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HTFF_CASING_ITEM =
+            ITEMS.register("htff_casing", () -> new BlockItem(ModBlocks.HTFF_CASING.get(), new Item.Properties()));
+
+    // =========================================================================
+    //  AE2統合用アイテム・ブロックアイテム (仮登録・未統合)
+    // =========================================================================
+
+    /** AE2版 WEN入力ポート (BlockItem) */
+    public static final RegistryObject<Item> WEN_AE_INPUT_PORT_ITEM =
+            ITEMS.register("wen_ae_inputport",
+                    () -> new BlockItem(ModBlocks.WEN_AE_INPUT_PORT.get(), new Item.Properties()));
+
+    /** AE2版 WEN出力ポート (BlockItem) */
+    public static final RegistryObject<Item> WEN_AE_OUTPUT_PORT_ITEM =
+            ITEMS.register("wen_ae_outputport",
+                    () -> new BlockItem(ModBlocks.WEN_AE_OUTPUT_PORT.get(), new Item.Properties()));
+
+    /** FE版 WEN入力ポート (BlockItem) */
+    public static final RegistryObject<Item> WEN_FE_INPUT_PORT_ITEM =
+            ITEMS.register("wen_fe_inputport",
+                    () -> new BlockItem(ModBlocks.WEN_FE_INPUT_PORT.get(), new Item.Properties()));
+
+    /** FE版 WEN出力ポート (BlockItem) */
+    public static final RegistryObject<Item> WEN_FE_OUTPUT_PORT_ITEM =
+            ITEMS.register("wen_fe_outputport",
+                    () -> new BlockItem(ModBlocks.WEN_FE_OUTPUT_PORT.get(), new Item.Properties()));
+
+    /** WEN ワイヤレスエネルギーカード — テクスチャ: item/ae2/wen_wireless_energycard.png
+     *  AE2アップグレードスロットに挿入するとそのAE2網全体がWENから無制限給電される */
+    public static final RegistryObject<Item> WEN_WIRELESS_ENERGYCARD =
+            ITEMS.register("wen_wireless_energycard",
+                    () -> new DIV.gtcsolo.integration.ae2.WENEnergyCardItem(
+                            new Item.Properties().stacksTo(16)));
 
     // =========================================================================
     //  新規防具 (仮名: armor1 helmet/chestplate/leggings/boots)

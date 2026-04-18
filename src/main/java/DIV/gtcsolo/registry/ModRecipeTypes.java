@@ -19,6 +19,15 @@ public class ModRecipeTypes {
     // マルチブロック登録に必要だが、実際のレシピは持たない
     public static GTRecipeType WEN_STORAGE;
 
+    // Space Forge — 仮値 IO (16, 3, 3, 3)
+    public static GTRecipeType SPACEFORGE;
+
+    // Chemical Combustion Generator — 液体入力3、発電
+    public static GTRecipeType CHEMICAL_COMBUSTION_GENERATOR;
+
+    // Fantasia Forge — 幻想元素鍛造マルチブロック、items 3/3, fluids 1/1
+    public static GTRecipeType FANTASIA_FORGE;
+
     public static void init() {
         FEC = new GTRecipeType(
                 new ResourceLocation("gtcsolo", "fec"), "multiblock")
@@ -42,5 +51,38 @@ public class ModRecipeTypes {
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, fecId, FEC);
         GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, fecId, new GTRecipeSerializer());
         GTRegistries.RECIPE_TYPES.register(fecId, FEC);
+
+        // Space Forge
+        SPACEFORGE = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "spaceforge"), "multiblock")
+                .setMaxIOSize(16, 3, 3, 3)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation spaceforgeId = new ResourceLocation("gtcsolo", "spaceforge");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, spaceforgeId, SPACEFORGE);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, spaceforgeId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(spaceforgeId, SPACEFORGE);
+
+        // Chemical Combustion Generator
+        CHEMICAL_COMBUSTION_GENERATOR = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "chemical_combustion_generator"), "multiblock")
+                .setMaxIOSize(0, 0, 3, 3)
+                .setEUIO(IO.OUT)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT);
+        ResourceLocation ccgId = new ResourceLocation("gtcsolo", "chemical_combustion_generator");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, ccgId, CHEMICAL_COMBUSTION_GENERATOR);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, ccgId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(ccgId, CHEMICAL_COMBUSTION_GENERATOR);
+
+        // Fantasia Forge
+        FANTASIA_FORGE = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "fantasia_forge"), "multiblock")
+                .setMaxIOSize(3, 3, 1, 1)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation ffId = new ResourceLocation("gtcsolo", "fantasia_forge");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, ffId, FANTASIA_FORGE);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, ffId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(ffId, FANTASIA_FORGE);
     }
 }

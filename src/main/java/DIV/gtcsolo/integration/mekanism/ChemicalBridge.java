@@ -64,7 +64,7 @@ public class ChemicalBridge {
         list.add(new ChemDef(ChemType.GAS, mek, "polonium",            0x1B9E7B));
         list.add(new ChemDef(ChemType.GAS, mek, "antimatter",          0xA464B3));
 
-        // --- InfuseType (8種) ---
+        // --- InfuseType (8種 + EMek 3種) ---
         list.add(new ChemDef(ChemType.INFUSION, mek, "carbon",           0x2C2C2C));
         list.add(new ChemDef(ChemType.INFUSION, mek, "redstone",         0xB30505));
         list.add(new ChemDef(ChemType.INFUSION, mek, "diamond",          0x6CEDD8));
@@ -73,6 +73,14 @@ public class ChemicalBridge {
         list.add(new ChemDef(ChemType.INFUSION, mek, "tin",              0xCCCCD9));
         list.add(new ChemDef(ChemType.INFUSION, mek, "fungi",            0x74656A));
         list.add(new ChemDef(ChemType.INFUSION, mek, "bio",              0x5A4630));
+        // EMek 追加分（EMek がロードされている場合のみ）
+        if (net.minecraftforge.fml.ModList.get().isLoaded("evolvedmekanism")) {
+            String emek = "evolvedmekanism";
+            list.add(new ChemDef(ChemType.INFUSION, emek, "uranium",         0x9BE199));
+            list.add(new ChemDef(ChemType.INFUSION, emek, "better_gold",     0xF9C918));
+            list.add(new ChemDef(ChemType.INFUSION, emek, "plaslitherite",   0x666667));
+            LOGGER.info("[ChemBridge] EMek detected, added 3 infusions");
+        }
 
         // --- Pigment (18色 — EnumColor.registryPrefix がレジストリ名) ---
         addPigment(list, mek, "black",       0x404040);

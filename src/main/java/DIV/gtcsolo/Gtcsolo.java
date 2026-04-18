@@ -14,6 +14,8 @@ import DIV.gtcsolo.registry.ModBlocks;
 import DIV.gtcsolo.registry.ModCreativeTabs;
 import DIV.gtcsolo.registry.ModItems;
 import DIV.gtcsolo.registry.ModMachines;
+import DIV.gtcsolo.registry.ModMaterials;
+import DIV.gtcsolo.registry.ModEnchantments;
 import DIV.gtcsolo.registry.ModMenuTypes;
 import DIV.gtcsolo.registry.ModRecipeTypes;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -60,9 +62,14 @@ public class Gtcsolo {
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.AbsoluteKillHandler());
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.framealtar.FrameAltarHandler());
         MinecraftForge.EVENT_BUS.addListener(commandHandler::onRegisterCommands);
         MinecraftForge.EVENT_BUS.addListener(tooltipDisplayEvents::onItemTooltip);
+        // AE2統合: WENワイヤレスエネルギーカードのポーリングハンドラ
+        MinecraftForge.EVENT_BUS.register(DIV.gtcsolo.integration.ae2.WENAe2Integration.class);
         // クライアント専用セットアップ
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
                 () -> () -> modEventBus.addListener(Gtcsolo::clientSetup));
@@ -81,6 +88,9 @@ public class Gtcsolo {
         event.enqueueWork(() -> {
             LOGGER.info("[gtcsolo] commonSetup: validating ChemicalBridge...");
             ChemicalBridge.validateAgainstMekanismRegistry();
+            DIV.gtcsolo.common.framealtar.FrameAltarRecipes.init();
+            // AE2 アップグレードカード登録 (対象AE2マシンへの互換登録)
+            DIV.gtcsolo.integration.ae2.WENAe2Integration.registerUpgrades();
         });
     }
 
@@ -91,7 +101,8 @@ public class Gtcsolo {
 
     // 素材登録
     private void addMaterials(MaterialEvent event) {
-        LOGGER.info("[gtcsolo] addMaterials: registering Chemical Bridge materials...");
+        LOGGER.info("[gtcsolo] addMaterials: registering materials...");
+        ModMaterials.init();
         ChemicalBridge.registerAllChemicalsAsMaterials();
     }
 

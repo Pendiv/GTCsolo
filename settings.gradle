@@ -13,3 +13,6 @@ plugins {
 }
 
 rootProject.name = 'gtcsoloeu'
+
+include ':cmdex'
+project(':cmdex').projectDir = file('MODs/CmdExtra')

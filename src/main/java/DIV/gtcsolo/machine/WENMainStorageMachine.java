@@ -64,6 +64,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
     public static final int MIN_SIZE = 3;
     public static final int MAX_SIZE = 15;
     public static final int FE_PER_EU = 4;
+    public static final double AE_PER_EU = 2.0;
     public static final long EU_PER_CELL = 1_000_000L;
 
     // lDist/rDist = コントローラーから左右の壁まで
@@ -134,6 +135,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         if (!data.registerNetwork(id, dim)) return false;
         networkId = id;
         syncNetworkData();
+        applyUpgrades(); // アップグレード済みなら新ネットワークにも反映
         LOGGER.info("[WEN] Network ID set: {}", id);
         return true;
     }
@@ -482,11 +484,54 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         for (BlockPos portPos : inputPortPositions) {
             if (entry.storedEnergy.compareTo(entry.maxCapacity) >= 0) break;
             pullFeFromOutside(level, data, entry, portPos, shouldLog);
+            pullAeFromPort(level, data, entry, portPos, shouldLog);
         }
 
         for (BlockPos portPos : outputPortPositions) {
             if (entry.storedEnergy.signum() <= 0) break;
             pushFeToOutside(level, data, entry, portPos, shouldLog);
+            pushAeToPort(level, data, entry, portPos, shouldLog);
+        }
+    }
+
+    private void pullAeFromPort(Level level, WENNetworkData data,
+                                 WENNetworkData.WENEntry entry, BlockPos portPos, boolean log) {
+        BlockEntity be = level.getBlockEntity(portPos);
+        if (!(be instanceof DIV.gtcsolo.block.wen.WENPortBlockEntity port)) return;
+        long spaceEu = entry.maxCapacity.subtract(entry.storedEnergy)
+                .min(java.math.BigInteger.valueOf(Long.MAX_VALUE)).longValue();
+        if (spaceEu <= 0) return;
+        double aeWanted = Math.min((double) spaceEu * AE_PER_EU, 1e18);
+        double simulated = port.simulateExtractAE(aeWanted);
+        long euPossible = (long) (simulated / AE_PER_EU);
+        if (euPossible < 1) return;
+        double actualAE = euPossible * AE_PER_EU;
+        double extracted = port.extractAEPower(actualAE);
+        long eu = (long) (extracted / AE_PER_EU);
+        if (eu >= 1) {
+            data.addEnergy(networkId, eu);
+            if (log) LOGGER.info("[WEN Port] Pulled {}AE ({}EU)", extracted, eu);
+        }
+    }
+
+    private void pushAeToPort(Level level, WENNetworkData data,
+                               WENNetworkData.WENEntry entry, BlockPos portPos, boolean log) {
+        BlockEntity be = level.getBlockEntity(portPos);
+        if (!(be instanceof DIV.gtcsolo.block.wen.WENPortBlockEntity port)) return;
+        long euAvailable = entry.storedEnergy
+                .min(java.math.BigInteger.valueOf((long) (Long.MAX_VALUE / AE_PER_EU))).longValue();
+        if (euAvailable <= 0) return;
+        double aeToOffer = euAvailable * AE_PER_EU;
+        double leftover = port.simulateInjectAE(aeToOffer);
+        double acceptable = aeToOffer - leftover;
+        long euToSend = (long) (acceptable / AE_PER_EU);
+        if (euToSend < 1) return;
+        double actualAE = euToSend * AE_PER_EU;
+        double finalLeftover = port.injectAEPower(actualAE);
+        long euSent = (long) ((actualAE - finalLeftover) / AE_PER_EU);
+        if (euSent >= 1) {
+            data.removeEnergy(networkId, euSent);
+            if (log) LOGGER.info("[WEN Port] Pushed {}AE ({}EU)", actualAE - finalLeftover, euSent);
         }
     }
 
@@ -711,7 +756,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
                     networkId.isEmpty() ? "---" : networkId));
             textList.add(Component.translatable("gtcsolo.machine.wen.stored",
                     DIV.gtcsolo.util.EnergyFormat.format(getStoredEnergyBig()),
-                    DIV.gtcsolo.util.EnergyFormat.format(maxCapacity)));
+                    DIV.gtcsolo.util.EnergyFormat.format(getMaxCapacity())));
             textList.add(Component.translatable("gtcsolo.machine.wen.cells", energyCellCount));
             textList.add(Component.translatable("gtcsolo.machine.wen.ports",
                     inputPortPositions.size(), outputPortPositions.size()));

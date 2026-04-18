@@ -36,3 +36,35 @@ mandatory = true
 versionRange = "[1.6.4,)"
 ordering = "AFTER"
 side = "BOTH"
+
+# 4. Mekanism（必須 — ChemicalBridge/ConversionHatchが依存）
+[[dependencies.gtcsolo]]
+modId = "mekanism"
+mandatory = true
+versionRange = "[10.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 5. EvolvedMekanism（任意 — あれば追加素材を登録）
+[[dependencies.gtcsolo]]
+modId = "evolvedmekanism"
+mandatory = false
+versionRange = "[1.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 6. AE2（必須 — GTCEu前提環境のため）
+[[dependencies.gtcsolo]]
+modId = "ae2"
+mandatory = true
+versionRange = "[15.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 7. Jade（任意 — カスタムプロバイダを統合する場合）
+[[dependencies.gtcsolo]]
+modId = "jade"
+mandatory = false
+versionRange = "[11.0,)"
+ordering = "AFTER"
+side = "CLIENT"

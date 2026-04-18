@@ -1,6 +1,9 @@
 package DIV.gtcsolo.network.wen;
 
+import DIV.gtcsolo.block.wen.WENAePortBlockEntity;
+import DIV.gtcsolo.block.wen.WENFePortBlockEntity;
 import DIV.gtcsolo.machine.wen.WENEnergyHatchMachine;
+import DIV.gtcsolo.machine.wen.WENEnergyOutputHatchMachine;
 import DIV.gtcsolo.machine.wen.WENWirelessInputMachine;
 import DIV.gtcsolo.machine.wen.WENWirelessOutputMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -41,19 +44,29 @@ public class WENSelectIdPacket {
             if (player == null) return;
 
             var be = player.level().getBlockEntity(pkt.machinePos);
-            if (!(be instanceof MetaMachineBlockEntity mmbe)) return;
-            var machine = mmbe.getMetaMachine();
-
-            if (machine instanceof WENEnergyHatchMachine hatch) {
-                hatch.setLinkedNetworkId(pkt.networkId);
-            } else if (machine instanceof WENWirelessInputMachine input) {
-                input.setLinkedNetworkId(pkt.networkId);
-            } else if (machine instanceof WENWirelessOutputMachine output) {
-                output.setLinkedNetworkId(pkt.networkId);
+            if (be instanceof MetaMachineBlockEntity mmbe) {
+                var machine = mmbe.getMetaMachine();
+                if (machine instanceof WENEnergyHatchMachine hatch) {
+                    hatch.setLinkedNetworkId(pkt.networkId);
+                } else if (machine instanceof WENWirelessInputMachine input) {
+                    input.setLinkedNetworkId(pkt.networkId);
+                } else if (machine instanceof WENWirelessOutputMachine output) {
+                    output.setLinkedNetworkId(pkt.networkId);
+                } else if (machine instanceof WENEnergyOutputHatchMachine outputHatch) {
+                    outputHatch.setLinkedNetworkId(pkt.networkId);
+                } else {
+                    return;
+                }
+            } else if (be instanceof WENAePortBlockEntity aePort) {
+                aePort.setLinkedNetworkId(pkt.networkId);
+            } else if (be instanceof WENFePortBlockEntity fePort) {
+                fePort.setLinkedNetworkId(pkt.networkId);
+            } else {
+                return;
             }
 
             player.sendSystemMessage(Component.literal("§aLinked to: " + pkt.networkId));
-            LOGGER.info("[WEN] {} selected ID '{}' for machine at {}",
+            LOGGER.info("[WEN] {} selected ID '{}' at {}",
                     player.getName().getString(), pkt.networkId, pkt.machinePos);
         });
         ctx.get().setPacketHandled(true);

@@ -1,6 +1,7 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
+import DIV.gtcsolo.block.ConversionSystemBlock;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlock;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlock;
 import DIV.gtcsolo.block.wen.WENPortBlock;
@@ -38,6 +39,13 @@ public class ModBlocks {
             );
 
     // =========================================================================
+    //  Chemical Conversion System
+    // =========================================================================
+
+    public static final RegistryObject<Block> CONVERSION_SYSTEM =
+            BLOCKS.register("conversionsystem_block", ConversionSystemBlock::new);
+
+    // =========================================================================
     //  WEN (Wireless Energy Network) ブロック群
     // =========================================================================
 
@@ -63,8 +71,17 @@ public class ModBlocks {
     //  その他ブロック (仮名)
     // =========================================================================
 
-    /** block4 — テクスチャ: cryostat_glass.png */
-    public static final RegistryObject<Block> BLOCK4  = simpleBlock("block4");
+    /** 耐熱強化ガラス — テクスチャ: cryostat_glass.png */
+    public static final RegistryObject<Block> BLOCK4 = BLOCKS.register("block4",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0f, 12.0f)
+                    .sound(SoundType.GLASS)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()
+                    .isRedstoneConductor((s, l, p) -> false)
+                    .isValidSpawn((s, l, p, t) -> false)
+                    .isViewBlocking((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false)));
     /** block6 — テクスチャ: nb3sn_coil.png */
     public static final RegistryObject<Block> BLOCK6  = simpleBlock("block6");
     /** WENデータモニター（機能外装・BlockEntity付き） — テクスチャ: cryogenic_monitor.png */
@@ -72,8 +89,52 @@ public class ModBlocks {
             BLOCKS.register("wen_data_monitor", WENDataMonitorBlock::new);
     /** block8 — テクスチャ: tungsten_wall.png */
     public static final RegistryObject<Block> BLOCK8  = simpleBlock("block8");
-    /** block9 — テクスチャ: ore_smelter_controller.png */
-    public static final RegistryObject<Block> BLOCK9  = simpleBlock("block9");
+    /** 共振制御コアブロック */
+    public static final RegistryObject<Block> RESONANCE_CONTROL_CORE_BLOCK = simpleBlock("resonance_control_core_block");
     /** block10 — テクスチャ: refined_netherstar_block.png */
     public static final RegistryObject<Block> BLOCK10 = simpleBlock("block10");
+
+    // =========================================================================
+    //  casingblock_n — 仮追加ケーシング群
+    // =========================================================================
+
+    public static final RegistryObject<Block> BLOCK_12 = simpleBlock("block_12");
+    public static final RegistryObject<Block> AURORALIUM_RESONANCE_CASING = simpleBlock("auroralium_resonance_casing");
+    public static final RegistryObject<Block> BEDROCKIUM_NOCTURNIUM_FUSION_CASING = simpleBlock("bedrockium_nocturnium_fusion_casing");
+    public static final RegistryObject<Block> CASINGBLOCK_3 = simpleBlock("casingblock_3");
+    public static final RegistryObject<Block> CASINGBLOCK_4 = simpleBlock("casingblock_4");
+    public static final RegistryObject<Block> CASINGBLOCK_5 = simpleBlock("casingblock_5");
+    public static final RegistryObject<Block> REFINED_OBSIDIAN_CASING = simpleBlock("refined_obsidian_casing");
+    public static final RegistryObject<Block> CASINGBLOCK_7 = simpleBlock("casingblock_7");
+
+    // =========================================================================
+    //  Chemical Combustion Generator 用ケーシング
+    // =========================================================================
+
+    public static final RegistryObject<Block> CHEMICAL_RESISTANT_CASING = simpleBlock("chemical_resistant_casing");
+
+    // =========================================================================
+    //  High-Pressure Alloy Blast Furnace 用ケーシング
+    // =========================================================================
+
+    /** HTFFケーシング — High-Pressure Alloy Blast Furnaceの内部ケーシング */
+    public static final RegistryObject<Block> HTFF_CASING = simpleBlock("htff_casing");
+
+    // =========================================================================
+    //  AE2版 WEN ポート (仮登録・未統合)
+    // =========================================================================
+
+    /** AE2版 WEN入力ポート (AE2→WEN 変換、1 EU = 2 AE) */
+    public static final RegistryObject<Block> WEN_AE_INPUT_PORT =
+            BLOCKS.register("wen_ae_inputport", DIV.gtcsolo.block.wen.WENAePortBlock::new);
+    /** AE2版 WEN出力ポート (WEN→AE2 変換、1 EU = 2 AE) */
+    public static final RegistryObject<Block> WEN_AE_OUTPUT_PORT =
+            BLOCKS.register("wen_ae_outputport", DIV.gtcsolo.block.wen.WENAePortBlock::new);
+
+    /** FEワイヤレス入力ポート (FE→WEN 変換、1 EU = 4 FE) */
+    public static final RegistryObject<Block> WEN_FE_INPUT_PORT =
+            BLOCKS.register("wen_fe_inputport", DIV.gtcsolo.block.wen.WENFePortBlock::new);
+    /** FEワイヤレス出力ポート (WEN→FE 変換、1 EU = 4 FE) */
+    public static final RegistryObject<Block> WEN_FE_OUTPUT_PORT =
+            BLOCKS.register("wen_fe_outputport", DIV.gtcsolo.block.wen.WENFePortBlock::new);
 }

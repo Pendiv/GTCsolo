@@ -1,0 +1,1 @@
+{ "parent": "minecraft:item/generated", "textures": { "layer0": "gtcsolo:item/ae2/wen_wireless_energycard" } }

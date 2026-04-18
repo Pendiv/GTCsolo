@@ -1,19 +1,29 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.machine.CCMachine;
+import DIV.gtcsolo.machine.ChemicalCombustionGeneratorMachine;
+import DIV.gtcsolo.machine.ConversionFluidHatchMachine;
+import DIV.gtcsolo.machine.ConversionFluidOutputHatchMachine;
 import DIV.gtcsolo.machine.FECMachine;
+import DIV.gtcsolo.machine.HPABFMachine;
+import DIV.gtcsolo.machine.SpaceforgeEnergyHatchMachine;
+import DIV.gtcsolo.machine.SpaceforgeMachine;
 import DIV.gtcsolo.machine.WENMainStorageMachine;
+import DIV.gtcsolo.machine.WMFMachine;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GCYMRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
@@ -23,6 +33,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
@@ -34,6 +45,23 @@ public class ModMachines {
     public static MultiblockMachineDefinition EEBF;
     public static MultiblockMachineDefinition CC;
     public static MultiblockMachineDefinition WEN_MAIN_STORAGE;
+    public static MultiblockMachineDefinition SPACEFORGE;
+    public static MultiblockMachineDefinition CHEMICAL_COMBUSTION_GENERATOR;
+    public static MultiblockMachineDefinition FANTASIA_FORGE;
+    public static MultiblockMachineDefinition HIGHPRESSURE_ALLOY_BLAST_FURNACE;
+    public static MultiblockMachineDefinition WIRE_MANUFACTURING_FACTORY;
+
+    // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
+    public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
+    public static final java.util.Map<Integer, java.util.Map<Integer, MachineDefinition>> SPACEFORGE_ENERGY_HATCH = new java.util.HashMap<>();
+    private static final int[] SEHATCH_AMPERAGES = {16, 64, 256, 2048};
+
+    // 化学変換液体搬入/搬出ハッチ (Tier → Definition)
+    public static final java.util.Map<Integer, MachineDefinition> CONVERSION_FLUID_HATCH = new java.util.HashMap<>();
+    public static final java.util.Map<Integer, MachineDefinition> CONVERSION_FLUID_OUTPUT_HATCH = new java.util.HashMap<>();
+
+    private static final int CONV_MIN_TIER = GTValues.EV;
+    private static final int CONV_MAX_TIER = GTValues.MAX;
 
     public static void init() {
         FEC = REGISTRATE.multiblock("fec", FECMachine::new)
@@ -200,7 +228,381 @@ public class ModMachines {
                         new ResourceLocation("gtceu", "block/multiblock/data_bank"))
                 .register();
 
+        // =========================================================================
+        //  Chemical Combustion Generator — 液体2+1種燃焼発電マルチブロック
+        // =========================================================================
+        CHEMICAL_COMBUSTION_GENERATOR = REGISTRATE.multiblock("chemical_combustion_generator",
+                        ChemicalCombustionGeneratorMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .generator(true)
+                .recipeType(ModRecipeTypes.CHEMICAL_COMBUSTION_GENERATOR)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.ccg.desc.1"),
+                        Component.translatable("gtcsolo.machine.ccg.desc.2"))
+                .appearanceBlock(ModBlocks.REFINED_OBSIDIAN_CASING)
+                .additionalDisplay((controller, components) -> {
+                    if (controller instanceof ChemicalCombustionGeneratorMachine ccg && controller.isFormed()) {
+                        if (ccg.isBoosted()) {
+                            components.add(Component.translatable("gtcsolo.machine.ccg.boosted")
+                                    .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+                        } else {
+                            components.add(Component.translatable("gtcsolo.machine.ccg.not_boosted")
+                                    .setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
+                        }
+                    }
+                })
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAA", "AAAAA", "AAMAA", "AAAAA", "AAAAA")
+                        .aisle("AAZAA", "ACDCA", "ZDYDZ", "ACDCA", "AAZAA")
+                        .aisle("AAZAA", "ACDCA", "ZDYDZ", "ACDCA", "AAZAA")
+                        .aisle("AAZAA", "ACDCA", "ZDYDZ", "ACDCA", "AAZAA")
+                        .aisle("AAZAA", "ACDCA", "ZDYDZ", "ACDCA", "AAZAA")
+                        .aisle("AAZAA", "ACDCA", "ZDYDZ", "ACDCA", "AAZAA")
+                        .aisle("AAAAA", "ABBBA", "ABXBA", "ABBBA", "AAAAA")
+                        .where('X', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(ModBlocks.REFINED_OBSIDIAN_CASING.get())
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where('B', blocks(GCYMBlocks.HEAT_VENT.get()))
+                        .where('C', blocks(ModBlocks.HIGH_STRENGTH_STEEL_CASING.get()))
+                        .where('D', blocks(ModBlocks.CHEMICAL_RESISTANT_CASING.get()))
+                        .where('M', abilities(PartAbility.MUFFLER).setExactLimit(1))
+                        .where('Y', air())
+                        .where('Z', blocks(ModBlocks.REFINED_OBSIDIAN_CASING.get())
+                                .or(abilities(PartAbility.OUTPUT_ENERGY).setMinGlobalLimited(1))
+                                .or(abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(2))
+                                .or(abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1)))
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/refined_obsidian_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/generator/large_combustion_engine"))
+                .register();
+
+        // 化学変換液体搬入/搬出ハッチ
+        for (int tier = CONV_MIN_TIER; tier <= CONV_MAX_TIER; tier++) {
+            registerConversionFluidHatch(tier);
+            registerConversionFluidOutputHatch(tier);
+        }
+
+        // Space Forge — 発展型核融合マルチブロック
+        SPACEFORGE = REGISTRATE.multiblock("spaceforge", SpaceforgeMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(ModRecipeTypes.SPACEFORGE)
+                .recipeModifiers(SpaceforgeMachine::spaceforgeOverclock)
+                .tier(GTValues.MAX)  // OC上限: SEHatch tierを超える部分は不完全OC
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.1"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.2"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.3"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.4"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.5"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.6"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.7"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.8"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.9"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.10"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.11"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.12"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.13"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.14"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.15"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.16"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.17"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.18"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.19"),
+                        Component.translatable("gtcsolo.machine.spaceforge.desc.20"))
+                .appearanceBlock(ModBlocks.AURORALIUM_RESONANCE_CASING)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        // リング構造1 (5 aisle)
+                        .aisle("#########################","##A#########H#########A##","#AGA#######AGA#######AGA#","#########################","#########################","#########################","#########################","#AAA#######AAA#######AAA#","##A#########A#########A##","#########################")
+                        .aisle("#########################","#AAA#######AAA#######AAA#","AAAAA#####AAAAA#####AAAAA","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","AAAAA#####AAAAA#####AAAAA","#AAA#######AAA#######AAA#","#########################")
+                        .aisle("##A#########A#########A##","AAAAA#####AAAAA#####AAAAA","GAAAAAAAAAAAAAAAAAAAAAAAG","#CBC#######CBC#######CBC#","#CBC#######CBC#######CBC#","#CBC#######CBC#######CBC#","#CBC#######CBC#######CBC#","AAAAAAAAAAAAAAAAAAAAAAAAA","AAAAA#####AAAAA#####AAAAA","##A#########A#########A##")
+                        .aisle("#########################","#AAA#######AAA#######AAA#","AAAAA#####AAAAA#####AAAAA","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","AAAAA#####AAAAA#####AAAAA","#AAA#######AAA#######AAA#","#########################")
+                        .aisle("#########################","##A#########A#########A##","#AAA#######AAA#######AAA#","#########################","#########################","#########################","#########################","#AAA#######AAA#######AAA#","##A#########A#########A##","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########################","#########################","#########################","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########################","###########DDD###########","#########################","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","###########DDD###########","#########DD#E#DD#########","###########DDD###########","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########DD###DD#########","########F#EDDDE#F########","#########DD###DD#########","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","########D#######D########","#######F#DD###DD#F#######","########D#######D########","##A###################A##","#########################","#########################")
+                        .aisle("##A###################A##","##A###################A##","#AAA#################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
+                        .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
+                        .aisle("#########################","AAAAA###############AAAAA","GAAAA###############AAAAG","#CBC#################CBC#","#CBC###D#########D###CBC#","#CBC##DED#######DED##CBC#","#CBC###D#########D###CBC#","AAAAA###############AAAAA","AAAAA###############AAAAA","##A###################A##")
+                        .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
+                        .aisle("##A###################A##","##A###################A##","#AA##################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","########D#######D########","#######F#DD###DD#F#######","########D#######D########","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########DD###DD#########","########F#EDDDE#F########","#########DD###DD#########","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","###########DDD###########","#########DD#E#DD#########","###########DDD###########","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########################","###########DMD###########","#########################","##A###################A##","#########################","#########################")
+                        .aisle("#########################","#########################","##A###################A##","#########################","#########################","#########################","#########################","##A###################A##","#########################","#########################")
+                        .aisle("#########################","##A#########A#########A##","#AAA#######AAA#######AAA#","#########################","#########################","#########################","#########################","#AAA#######AAA#######AAA#","##A#########A#########A##","#########################")
+                        .aisle("#########################","#AAA#######AAA#######AAA#","AAAAA#####AAAAA#####AAAAA","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","AAAAA#####AAAAA#####AAAAA","#AAA#######AAA#######AAA#","#########################")
+                        .aisle("##A#########A#########A##","AAAAA#####AAAAA#####AAAAA","AAAAAAAAAAAAAAAAAAAAAAAAA","#CBC#######CBC#######CBC#","#CBC#######CCC#######CBC#","#CBC#######CBC#######CBC#","#CBC#######CBC#######CBC#","AAAAAAAAAAAAAAAAAAAAAAAAA","AAAAA#####AAAAA#####AAAAA","##A#########A#########A##")
+                        .aisle("#########################","#AAA#######AAA#######AAA#","AAAAA#####AAAAA#####AAAAA","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","#CCC#######CCC#######CCC#","AAAAA#####AAAAA#####AAAAA","#AAA#######AAA#######AAA#","#########################")
+                        .aisle("#########################","##A#########A#########A##","#AGA#######AXA#######AGA#","#########################","#########################","#########################","#########################","#AAA#######AAA#######AAA#","##A#########A#########A##","#########################")
+                        .where('#', any())
+                        .where('C', heatingCoils())
+                        .where('B', blocks(ModBlocks.RESONANCE_CONTROL_CORE_BLOCK.get()))
+                        .where('D', blocks(ModBlocks.BEDROCKIUM_NOCTURNIUM_FUSION_CASING.get()))
+                        .where('E', blocks(GTBlocks.FUSION_COIL.get()))
+                        .where('A', blocks(ModBlocks.AURORALIUM_RESONANCE_CASING.get()))
+                        .where('G', blocks(ModBlocks.AURORALIUM_RESONANCE_CASING.get())
+                                .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1)))
+                        .where('H', abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                        .where('F', blocks(ModBlocks.BEDROCKIUM_NOCTURNIUM_FUSION_CASING.get())
+                                .or(abilities(PartAbility.IMPORT_FLUIDS))
+                                .or(abilities(PartAbility.IMPORT_ITEMS))
+                                .or(abilities(PartAbility.EXPORT_FLUIDS))
+                                .or(abilities(PartAbility.EXPORT_ITEMS)))
+                        .where('M', abilities(SPACEFORGE_MAIN_ENERGY).setExactLimit(1))
+                        .where('X', controller(blocks(definition.getBlock())))
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/auroralium_resonance_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/fusion_reactor"))
+                .register();
+
+        // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 各アンペア
+        int[] seTiers = { GTValues.UV, GTValues.UHV, GTValues.UEV,
+                GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX };
+        for (int tier : seTiers) {
+            SPACEFORGE_ENERGY_HATCH.put(tier, new java.util.HashMap<>());
+            for (int amp : SEHATCH_AMPERAGES) {
+                registerSpaceforgeEnergyHatch(tier, amp);
+            }
+        }
+
+        // =========================================================================
+        //  Fantasia Forge — 9x9x9 幻想鍛造マルチブロック
+        //  構造パターンは run/cmdex/export/fantasiaforge.txt 由来
+        //  A=幻想強化ケーシング(casingblock_3), B=エクスポロニウムフレーム,
+        //  C=積層ガラス, D=ヒートベント, E=キュプロニッケルコイル,
+        //  F=高強度鋼ケーシング, G=鉄ブロック, H=タングステン鋼ギアボックス
+        // =========================================================================
+        FANTASIA_FORGE = REGISTRATE.multiblock("fantasia_forge", WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(ModRecipeTypes.FANTASIA_FORGE)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.fantasia_forge.desc.1"),
+                        Component.translatable("gtcsolo.machine.fantasia_forge.desc.2"))
+                .appearanceBlock(ModBlocks.CASINGBLOCK_3)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAAAAAA", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCDDDDDCB", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "A#EEEEE#C", "A#######C", "A#######C", "A#######C", "A#######C", "A#######C", "A#EEEEE#C", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "CEEFFFEEC", "C#######C", "C#######C", "C#######C", "C#######C", "C#######C", "CEEGGGEEC", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "CEFHHHFEC", "C##FFF##C", "C#######C", "C#######C", "C#######C", "C##FFF##C", "CEGGGGGEC", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "CEFHHHFEC", "C##FFF##C", "C#######C", "C#######C", "C#######C", "C##FFF##C", "CEGGGGGEC", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "CEFHHHFEC", "C##FFF##C", "C#######C", "C#######C", "C#######C", "C##FFF##C", "CEGGGGGEC", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "CEEFFFEEC", "C#######C", "C#######C", "C#######C", "C#######C", "C#######C", "CEEGGGEEC", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "C#EEEEE#C", "C#######C", "C#######C", "C#######C", "C#######C", "C#######C", "C#EEEEE#C", "AAAAAAAAA")
+                        .aisle("AAAAYAAAA", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCCCCCCCB", "BCDDDDDCB", "AAAAAAAAA")
+                        .where('Y', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(ModBlocks.CASINGBLOCK_3.get())
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, ModMaterials.EXPORONIUM)))
+                        .where('C', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                        .where('D', blocks(GCYMBlocks.HEAT_VENT.get()))
+                        .where('E', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                        .where('F', blocks(ModBlocks.HIGH_STRENGTH_STEEL_CASING.get()))
+                        .where('G', blocks(Blocks.IRON_BLOCK))
+                        .where('H', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                        .where('#', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/casingblock_3"),
+                        new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
+                .register();
+
+        // =========================================================================
+        //  High-Pressure Alloy Blast Furnace — 9x9x9 高圧合金高炉
+        //  構造パターンは run/cmdex/export/HPABF.txt 由来
+        //  A=高温精錬ケーシング(GCYM), B=タングステンフレーム, C=ヒートベント,
+        //  D=加熱コイル, E=HTFFケーシング(gtcsolo)
+        //  レシピは合金高炉(ALLOY_BLAST_RECIPES)、ロジックはEBFと同じコイル温度OC
+        // =========================================================================
+        HIGHPRESSURE_ALLOY_BLAST_FURNACE = REGISTRATE.multiblock("highpressure_alloy_blast_furnace",
+                        HPABFMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, HPABFMachine::hpabfOverclock)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.hpabf.desc.1"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.2"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.3"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.4"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.5"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.6"),
+                        Component.translatable("gtcsolo.machine.hpabf.desc.7"))
+                .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("##AAAAA##", "#########", "#########", "#########", "#########", "#########", "#########", "#########", "##AAAAA##")
+                        .aisle("#AAAAAAA#", "#BAAAAAB#", "#BACCCAB#", "#BDDDDDB#", "#BDDDDDB#", "#BDDDDDB#", "#BACCCAB#", "#BAAAAAB#", "#AAAAAAA#")
+                        .aisle("AAAAAAAAA", "#AAAAAAA#", "#AEEEEEA#", "#DEEEEED#", "#DEEEEED#", "#DEEEEED#", "#AEEEEEA#", "#AAAAAAA#", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "#AAEEEAA#", "#CE###EC#", "#DE###ED#", "#DE###ED#", "#DE###ED#", "#CEEEEEC#", "#AAAAAAA#", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "#AAEEEAA#", "#CE###EC#", "#DE###ED#", "#DE###ED#", "#DE###ED#", "#CEE#EEC#", "#AAAAAAA#", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "#AAEEEAA#", "#CE###EC#", "#DE###ED#", "#DE###ED#", "#DE###ED#", "#CEEEEEC#", "#AAAAAAA#", "AAAAAAAAA")
+                        .aisle("AAAAAAAAA", "#AAAAAAA#", "#AEEEEEA#", "#DEEEEED#", "#DEEEEED#", "#DEEEEED#", "#AEEEEEA#", "#AAAAAAA#", "AAAAAAAAA")
+                        .aisle("#AAAAAAA#", "#BAAYAAB#", "#BACCCAB#", "#BDDDDDB#", "#BDDDDDB#", "#BDDDDDB#", "#BACCCAB#", "#BAAAAAB#", "#AAAAAAA#")
+                        .aisle("##AAAAA##", "#########", "#########", "#########", "#########", "#########", "#########", "#########", "##AAAAA##")
+                        .where('Y', controller(blocks(definition.getBlock())))
+                        .where('A', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get())
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(PartAbility.MUFFLER).setExactLimit(1))))
+                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tungsten)))
+                        .where('C', blocks(GCYMBlocks.HEAT_VENT.get()))
+                        .where('D', heatingCoils())
+                        .where('E', blocks(ModBlocks.HTFF_CASING.get()))
+                        .where('#', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/gcym/high_temperature_smelting_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/gcym/blast_alloy_smelter"))
+                .additionalDisplay((controller, components) -> {
+                    if (controller instanceof HPABFMachine hpabf && controller.isFormed()) {
+                        components.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature",
+                                Component.literal(
+                                        FormattingUtil.formatNumbers(hpabf.getBoostedCoilMaxTemp()) + "K")
+                                        .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))));
+                        components.add(Component.translatable("gtcsolo.machine.hpabf.display.boosted")
+                                .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
+                    }
+                })
+                .register();
+
+        // =========================================================================
+        //  Wire Manufacturing Factory — 5x5x18 ワイヤー加工工場
+        //  構造パターンは run/cmdex/export/WMF.txt 由来
+        //  A=ストレスプルーフケーシング(外殻+エネルギー入力+メンテナンス)
+        //  B=搬入バス位置, X=搬出バス位置
+        //  C=高強度鋼ケーシング(gtcsolo), D=タングステン鋼ギアボックス
+        //  工業OC: 各段 duration×0.9, EUt×4, I/O×2 (並列ハッチは非対応)
+        //  排他化: 他MBとハッチ共有不可
+        // =========================================================================
+        WIRE_MANUFACTURING_FACTORY = REGISTRATE.multiblock("wire_manufacturing_factory",
+                        WMFMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(GTRecipeTypes.WIREMILL_RECIPES)
+                .recipeModifiers(WMFMachine::industrialOverclock)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.wmf.desc.1"),
+                        Component.translatable("gtcsolo.machine.wmf.desc.2"),
+                        Component.translatable("gtcsolo.machine.wmf.desc.3"),
+                        Component.translatable("gtcsolo.machine.wmf.desc.4"))
+                .appearanceBlock(GCYMBlocks.CASING_STRESS_PROOF)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAA", "AAAAA", "ABBBA", "AAAAA", "AAAAA")
+                        .aisle("AAAAA", "ACCCA", "A###A", "ACCCA", "AAAAA")
+                        .aisle("AAAAA", "ACCCA", "A###A", "ACCCA", "AAAAA")
+                        .aisle("AAAAA", "ACCCA", "A###A", "ACCCA", "AAAAA")
+                        .aisle("AAAAA", "AAAAA", "A###A", "AAAAA", "AAAAA")
+                        .aisle("AAAAA", "AACAA", "AA#AA", "#ADA#", "#AAA#")
+                        .aisle("AAAAA", "AACAA", "AA#AA", "#ADA#", "#AAA#")
+                        .aisle("AAAAA", "AACAA", "AA#AA", "#ADA#", "#AAA#")
+                        .aisle("AAAAA", "AACAA", "AA#AA", "#ADA#", "#AAA#")
+                        .aisle("AAAAA", "AADAA", "AADAA", "##A##", "##A##")
+                        .aisle("AAAAA", "AADAA", "AADAA", "##A##", "##A##")
+                        .aisle("AAAAA", "AADAA", "AADAA", "##A##", "##A##")
+                        .aisle("AAAAA", "AADAA", "AADAA", "##A##", "##A##")
+                        .aisle("AAAAA", "AA#AA", "AA#AA", "AAAAA", "AAAAA")
+                        .aisle("AAAAA", "AC#CA", "AC#CA", "AC#CA", "AAAAA")
+                        .aisle("AAAAA", "AC#CA", "AC#CA", "AC#CA", "AAAAA")
+                        .aisle("AAAAA", "AC#CA", "AC#CA", "AC#CA", "AAAAA")
+                        .aisle("AAEAA", "AAXAA", "AAXAA", "AAXAA", "AAAAA")
+                        .where('E', controller(blocks(definition.getBlock())))
+                        .where('A', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))))
+                        .where('B', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.IMPORT_ITEMS).setMinGlobalLimited(1))))
+                        .where('X', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.EXPORT_ITEMS).setMinGlobalLimited(1))))
+                        .where('C', blocks(ModBlocks.HIGH_STRENGTH_STEEL_CASING.get()))
+                        .where('D', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                        .where('#', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/gcym/stress_proof_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/gcym/large_wiremill"))
+                .register();
+
         // WEN ワイヤレスIOマシン群
         WENMachines.init();
+    }
+
+    private static void registerSpaceforgeEnergyHatch(int tier, int amperage) {
+        String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+        String name = "spaceforge_energy_hatch_" + tierName + "_" + amperage + "a";
+        String overlayName = "sf_" + amperage + "a";
+
+        MachineDefinition def = REGISTRATE.machine(name,
+                        holder -> SpaceforgeEnergyHatchMachine.create(holder, tier, amperage))
+                .rotationState(RotationState.ALL)
+                .tier(tier)
+                .abilities(SPACEFORGE_MAIN_ENERGY)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.sehatch.desc.1",
+                                GTValues.VNF[tier], amperage),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.2"),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.3",
+                                GTValues.VNF[Math.max(0, tier - 3)]),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.4"),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.5"),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.6"),
+                        Component.translatable("gtcsolo.machine.sehatch.desc.7"))
+                .overlayTieredHullRenderer(overlayName)
+                .register();
+
+        SPACEFORGE_ENERGY_HATCH.get(tier).put(amperage, def);
+    }
+
+    private static void registerConversionFluidHatch(int tier) {
+        String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+        String name = "conversion_fluid_hatch_" + tierName;
+        int capacity = ConversionFluidHatchMachine.getTierCapacity(tier);
+
+        MachineDefinition def = REGISTRATE.machine(name,
+                        holder -> ConversionFluidHatchMachine.create(holder, tier))
+                .rotationState(RotationState.ALL)
+                .tier(tier)
+                .abilities(PartAbility.IMPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.conversion_fluid_hatch.desc",
+                                GTValues.VNF[tier]),
+                        Component.translatable("gtcsolo.machine.conversion_fluid_hatch.desc2"),
+                        Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
+                                FormattingUtil.formatNumbers(capacity)))
+                .overlayTieredHullRenderer("conversion_input")
+                .register();
+
+        CONVERSION_FLUID_HATCH.put(tier, def);
+    }
+
+    private static void registerConversionFluidOutputHatch(int tier) {
+        String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+        String name = "conversion_fluid_output_hatch_" + tierName;
+        int capacity = ConversionFluidHatchMachine.getTierCapacity(tier);
+
+        MachineDefinition def = REGISTRATE.machine(name,
+                        holder -> ConversionFluidOutputHatchMachine.create(holder, tier))
+                .rotationState(RotationState.ALL)
+                .tier(tier)
+                .abilities(PartAbility.EXPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.conversion_fluid_output_hatch.desc",
+                                GTValues.VNF[tier]),
+                        Component.translatable("gtcsolo.machine.conversion_fluid_output_hatch.desc2"),
+                        Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
+                                FormattingUtil.formatNumbers(capacity)))
+                .overlayTieredHullRenderer("conversion_output")
+                .register();
+
+        CONVERSION_FLUID_OUTPUT_HATCH.put(tier, def);
     }
 }

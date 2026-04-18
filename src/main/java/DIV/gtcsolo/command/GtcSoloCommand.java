@@ -1,6 +1,7 @@
 package DIV.gtcsolo.command;
 
 import DIV.gtcsolo.Gtcsolo;
+import DIV.gtcsolo.common.AbsoluteKillHandler;
 import DIV.gtcsolo.dump.RecipeDumpModels;
 import DIV.gtcsolo.dump.RecipeDumpService;
 import DIV.gtcsolo.dump.extend.ExtendedDumpService;
@@ -13,6 +14,7 @@ import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 public class GtcSoloCommand {
@@ -45,6 +47,11 @@ public class GtcSoloCommand {
                                                         )
                                                         .executes(this::dumpRecipe)
                                         )
+                        )
+
+                        .then(
+                                Commands.literal("absolute_kill")
+                                        .executes(this::absoluteKillSelf)
                         )
 
                         .then(
@@ -81,6 +88,17 @@ public class GtcSoloCommand {
             source.sendFailure(Component.literal("Failed to dump recipe type: " + recipeTypeId));
             return 0;
         }
+    }
+
+    private int absoluteKillSelf(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+        if (source.getEntity() instanceof ServerPlayer player) {
+            AbsoluteKillHandler.absoluteKill(player, player.damageSources().magic());
+            source.sendSuccess(() -> Component.literal("Absolute kill applied to self."), true);
+            return 1;
+        }
+        source.sendFailure(Component.literal("Must be run by a player."));
+        return 0;
     }
 
     private int dumpOreVeinFromJei(CommandContext<CommandSourceStack> context) {

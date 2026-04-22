@@ -45,6 +45,8 @@ public class ModElements {
     public static Element E_VALINIUM;
     public static Element E_ORIGINALIUM;
     public static Element E_BEDROCKIUM;
+    public static Element E_PURE_NAQUADAH;
+    public static Element E_IMPURE_OSMIUM;
 
     // ── FEC 幻想元素 ──
     public static Element E_MITHRIL;
@@ -115,6 +117,8 @@ public class ModElements {
         E_VALINIUM                 = create(110, 160, "e_valinium",                 "Vl");
         E_ORIGINALIUM              = create(110, 160, "e_originalium",              "Or");
         E_BEDROCKIUM               = create(110, 160, "e_bedrockium",               "◇Br");
+        E_PURE_NAQUADAH            = create(110, 160, "e_pure_naquadah",            "ΦNqa");
+        E_IMPURE_OSMIUM            = create(110, 160, "e_impure_osmium",            "Os-");
 
         // 上位素材
         E_INFINITY                 = create(110, 160, "e_infinity",                "∞");

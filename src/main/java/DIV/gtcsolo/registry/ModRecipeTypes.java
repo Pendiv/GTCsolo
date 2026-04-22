@@ -28,7 +28,15 @@ public class ModRecipeTypes {
     // Fantasia Forge — 幻想元素鍛造マルチブロック、items 3/3, fluids 1/1
     public static GTRecipeType FANTASIA_FORGE;
 
+    // Mekanism Infuser — 吹込み合金生成マルチ (item 3/3, fluid 2/2, EU in)
+    public static GTRecipeType MEKANISM_INFUSER;
+
     public static void init() {
+        // GTCEu 標準 BLAST_RECIPES に GAS capability 最大1入力 を後付け (EEBF でfissile_fuel等を受ける)
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES
+                .setMaxSize(IO.IN,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS, 1);
+
         FEC = new GTRecipeType(
                 new ResourceLocation("gtcsolo", "fec"), "multiblock")
                 // アイテム入力6, アイテム出力1, 液体入力1, 液体出力0
@@ -84,5 +92,19 @@ public class ModRecipeTypes {
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, ffId, FANTASIA_FORGE);
         GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, ffId, new GTRecipeSerializer());
         GTRegistries.RECIPE_TYPES.register(ffId, FANTASIA_FORGE);
+
+        // Mekanism Infuser
+        MEKANISM_INFUSER = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "mekanism_infuser"), "multiblock")
+                .setMaxIOSize(3, 3, 2, 2)
+                .setEUIO(IO.IN)
+                // chemical capability (INFUSION 最大2入力) — 新方式migration
+                .setMaxSize(IO.IN,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation miId = new ResourceLocation("gtcsolo", "mekanism_infuser");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, miId, MEKANISM_INFUSER);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, miId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(miId, MEKANISM_INFUSER);
     }
 }

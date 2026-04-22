@@ -1,0 +1,1 @@
+DIV.gtcsolo.integration.kubejs.GtcSoloKubeJSPlugin

@@ -1,6 +1,8 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -51,13 +53,20 @@ ModCreativeTabs {
                                 if (ModMachines.CHEMICAL_COMBUSTION_GENERATOR != null) output.accept(ModMachines.CHEMICAL_COMBUSTION_GENERATOR.asStack());
                                 if (ModMachines.HIGHPRESSURE_ALLOY_BLAST_FURNACE != null) output.accept(ModMachines.HIGHPRESSURE_ALLOY_BLAST_FURNACE.asStack());
                                 if (ModMachines.WIRE_MANUFACTURING_FACTORY != null) output.accept(ModMachines.WIRE_MANUFACTURING_FACTORY.asStack());
+                                if (ModMachines.MATERIAL_PRESS_FACTORY != null) output.accept(ModMachines.MATERIAL_PRESS_FACTORY.asStack());
+                                if (ModMachines.MEKANISM_INFUSER != null) output.accept(ModMachines.MEKANISM_INFUSER.asStack());
+                                ModMachines.UPGRADE_HATCHES.values()
+                                        .forEach(def -> output.accept(def.asStack()));
                                 ModMachines.SPACEFORGE_ENERGY_HATCH.values()
                                         .forEach(ampMap -> ampMap.values()
                                                 .forEach(def -> output.accept(def.asStack())));
-                                // 化学変換液体搬入/搬出ハッチ
+                                // 化学変換液体搬入/搬出ハッチ (legacy、削除予定)
                                 ModMachines.CONVERSION_FLUID_HATCH.values()
                                         .forEach(def -> output.accept(def.asStack()));
                                 ModMachines.CONVERSION_FLUID_OUTPUT_HATCH.values()
+                                        .forEach(def -> output.accept(def.asStack()));
+                                // Mek chemical IO hatch 72台
+                                DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.ALL
                                         .forEach(def -> output.accept(def.asStack()));
                             })
                             .build()
@@ -70,6 +79,18 @@ ModCreativeTabs {
                             .title(Component.translatable("itemGroup.gtcsolo.material"))
                             .displayItems((params, output) -> {
                                 ModMaterials.addToCreativeTab(output);
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> CABLE_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_cable", () ->
+                    CreativeModeTab.builder()
+                            // アイコン: Fractaline 2倍ワイヤー (超電導は絶縁cableGt*が生成されないため wireGt* を採用)
+                            .icon(() -> ChemicalHelper.get(TagPrefix.wireGtDouble, ModMaterials.FRACTALINE))
+                            .title(Component.translatable("itemGroup.gtcsolo.cable"))
+                            .displayItems((params, output) -> {
+                                ModMaterials.addCablesToCreativeTab(output);
                             })
                             .build()
             );

@@ -152,6 +152,16 @@ public class ModItems {
     public static final RegistryObject<Item> HTFF_CASING_ITEM =
             ITEMS.register("htff_casing", () -> new BlockItem(ModBlocks.HTFF_CASING.get(), new Item.Properties()));
 
+    /** タイムアップグレード — UpgradeHatch内に格納するとレシピ稼働時間を短縮 (stacksTo=1)
+     *  テクスチャ: item/upgread/time_upgread.png */
+    public static final RegistryObject<Item> TIME_UPGRADE =
+            ITEMS.register("time_upgread",
+                    () -> new Item(new Item.Properties().stacksTo(1)));
+
+    /** pc — アニメーションテクスチャ (pc.png + pc.png.mcmeta, 10 frame ping-pong) */
+    public static final RegistryObject<Item> PC =
+            ITEMS.register("pc", () -> new Item(new Item.Properties()));
+
     // =========================================================================
     //  AE2統合用アイテム・ブロックアイテム (仮登録・未統合)
     // =========================================================================

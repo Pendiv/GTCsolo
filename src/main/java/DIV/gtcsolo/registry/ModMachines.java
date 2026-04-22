@@ -50,11 +50,24 @@ public class ModMachines {
     public static MultiblockMachineDefinition FANTASIA_FORGE;
     public static MultiblockMachineDefinition HIGHPRESSURE_ALLOY_BLAST_FURNACE;
     public static MultiblockMachineDefinition WIRE_MANUFACTURING_FACTORY;
+    public static MultiblockMachineDefinition MATERIAL_PRESS_FACTORY;
+    public static MultiblockMachineDefinition MEKANISM_INFUSER;
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
     public static final java.util.Map<Integer, java.util.Map<Integer, MachineDefinition>> SPACEFORGE_ENERGY_HATCH = new java.util.HashMap<>();
     private static final int[] SEHATCH_AMPERAGES = {16, 64, 256, 2048};
+
+    // Upgrade Hatch — 機能拡張用アイテムハッチ (4 tier: LV/EV/LuV/UHV を tier_1..tier_4 として登録)
+    public static final PartAbility UPGRADE_HATCH = new PartAbility("upgrade_hatch");
+    public static final java.util.Map<Integer, MachineDefinition> UPGRADE_HATCHES = new java.util.HashMap<>();
+    /** {voltageTier, tierIndex} */
+    private static final int[][] UPGRADE_HATCH_TIERS = {
+            {GTValues.LV, 1},
+            {GTValues.EV, 2},
+            {GTValues.LuV, 3},
+            {GTValues.UHV, 4}
+    };
 
     // 化学変換液体搬入/搬出ハッチ (Tier → Definition)
     public static final java.util.Map<Integer, MachineDefinition> CONVERSION_FLUID_HATCH = new java.util.HashMap<>();
@@ -135,7 +148,10 @@ public class ModMachines {
                         .where('O', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                                 .or(autoAbilities(definition.getRecipeTypes()))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2)))
+                                .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
+                                // M5 migration: Mek gas 入力を受けるための INPUT_GAS hatch
+                                .or(abilities(DIV.gtcsolo.integration.mekanism.capability
+                                        .ChemicalPartAbilities.INPUT_GAS).setMinGlobalLimited(1)))
                         .where('A', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
                         .where('B', blocks(GCYMBlocks.CASING_ATOMIC.get()))
                         .where('C', abilities(PartAbility.MUFFLER).setExactLimit(1))
@@ -532,8 +548,135 @@ public class ModMachines {
                         new ResourceLocation("gtceu", "block/multiblock/gcym/large_wiremill"))
                 .register();
 
+        // =========================================================================
+        //  Material Press Factory — 7x4x9 マテリアルプレス工場
+        //  LARGE_MATERIAL_PRESS (BENDER/COMPRESSOR/FORGE_HAMMER/FORMING_PRESS) と
+        //  同じレシピタイプを担うが、PARALLEL_HATCH 非対応、代わりに工業OC
+        //  草案: run/cmdex/export/material_press_factory.txt
+        //  A=ストレスプルーフ外殻+メンテ, B=強化ガラス, C=高強度鋼ケーシング(gtcsolo)
+        //  D=鋼パイプケーシング, E=鋼ギアボックス
+        //  F=入力バス, G=出力バス, I=エネルギー入力ハッチ(MAX 2), H=コントローラー
+        // =========================================================================
+        MATERIAL_PRESS_FACTORY = REGISTRATE.multiblock("material_press_factory",
+                        WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeTypes(GTRecipeTypes.BENDER_RECIPES,
+                             GTRecipeTypes.COMPRESSOR_RECIPES,
+                             GTRecipeTypes.FORGE_HAMMER_RECIPES,
+                             GTRecipeTypes.FORMING_PRESS_RECIPES)
+                .recipeModifiers(WMFMachine::industrialOverclock)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.mpf.desc.1"),
+                        Component.translatable("gtcsolo.machine.mpf.desc.2"),
+                        Component.translatable("gtcsolo.machine.mpf.desc.3"),
+                        Component.translatable("gtcsolo.machine.mpf.desc.4"))
+                .appearanceBlock(GCYMBlocks.CASING_STRESS_PROOF)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA")
+                        .aisle("AAAAAAA", "BACCCCD", "BACCCCC", "AAAAAAA")
+                        .aisle("AAAAAAA", "BACCEED", "B#CC##F", "AAAAAAA")
+                        .aisle("GACCAAA", "B###EED", "B#####F", "AAAAAAA")
+                        .aisle("GACCAAA", "B###EED", "B#####F", "AAAAAAA")
+                        .aisle("GACCAAA", "B###EED", "B#####F", "AAAAAAA")
+                        .aisle("AAAAAAA", "BACCEED", "B#CC##F", "AAAAAAA")
+                        .aisle("AAAAAAA", "AACCCCC", "HACCCCC", "AAAAAAA")
+                        .aisle("AAAAAII", "AAAAAAA", "AAAAAAA", "AAAAAAA")
+                        .where('H', controller(blocks(definition.getBlock())))
+                        .where('A', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))))
+                        .where('B', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                        .where('C', blocks(ModBlocks.HIGH_STRENGTH_STEEL_CASING.get()))
+                        .where('D', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                        .where('E', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
+                        .where('F', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.IMPORT_ITEMS).setMinGlobalLimited(1))))
+                        .where('G', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.EXPORT_ITEMS).setMinGlobalLimited(1))))
+                        .where('I', HPABFMachine.exclusive(
+                                blocks(GCYMBlocks.CASING_STRESS_PROOF.get())
+                                .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))))
+                        .where('#', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/gcym/stress_proof_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/gcym/large_material_press"))
+                .register();
+
+        // =========================================================================
+        //  Mekanism Infuser — 5x7x5 吹込み合金生成マルチブロック
+        //  ({infused, reinforced, atomic, hypercharged}合金の生成)
+        //  KubeJSから移植 (アップグレード(parallel_hatch等)対応のため)
+        // =========================================================================
+        MEKANISM_INFUSER = REGISTRATE.multiblock("mekanism_infuser",
+                        WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(ModRecipeTypes.MEKANISM_INFUSER)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH,
+                        DIV.gtcsolo.util.GtcsoloRecipeModifiers::industrialOverclockWithUpgradeHatch)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.mekanism_infuser.desc.1"),
+                        Component.translatable("gtcsolo.machine.mekanism_infuser.desc.2"),
+                        Component.translatable("gtcsolo.machine.mekanism_infuser.desc.3"),
+                        Component.translatable("gtcsolo.machine.mekanism_infuser.desc.4"),
+                        Component.translatable("gtcsolo.machine.mekanism_infuser.desc.5"))
+                .appearanceBlock(GTBlocks.CASING_INVAR_HEATPROOF)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAA", "BBBBB", "CCCCC", "CCCCC", "CCCCC", "BBBBB", "AAAAA")
+                        .aisle("ABBBA", "BDDDB", "CDDDC", "CDDDC", "CDDDC", "BDDDB", "AAAAA")
+                        .aisle("ABBBA", "BDDDB", "CD DC", "CD DC", "CD DC", "BDDDB", "AAFAA")
+                        .aisle("ABBBA", "BDDDB", "CDDDC", "CDDDC", "CDDDC", "BDDDB", "AAAAA")
+                        .aisle("AAEAA", "BBBBB", "CCCCC", "CCCCC", "CCCCC", "BBBBB", "AAAAA")
+                        .where('E', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(UPGRADE_HATCH).setMaxGlobalLimited(8))
+                                // 新 Chemical INPUT_INFUSION hatch を受け入れ (migration)
+                                .or(abilities(DIV.gtcsolo.integration.mekanism.capability
+                                        .ChemicalPartAbilities.INPUT_INFUSION).setMinGlobalLimited(1)))
+                        .where('B', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                        .where('C', heatingCoils())
+                        .where('D', blocks(net.minecraftforge.registries.ForgeRegistries.BLOCKS
+                                .getValue(new ResourceLocation("mekanism", "block_steel"))))
+                        .where('F', abilities(PartAbility.MUFFLER).setExactLimit(1))
+                        .where(' ', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/solid/machine_casing_heatproof"),
+                        new ResourceLocation("gtceu", "block/multiblock/large_miner"))
+                .register();
+
+        for (int[] pair : UPGRADE_HATCH_TIERS) {
+            registerUpgradeHatch(pair[0], pair[1]);
+        }
+
+        // Mekanism chemical IO hatch 群 (GAS/INFUSION/PIGMENT/SLURRY × IN/OUT × 9tier = 72台)
+        DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.init();
+
         // WEN ワイヤレスIOマシン群
         WENMachines.init();
+    }
+
+    private static void registerUpgradeHatch(int voltageTier, int tierIndex) {
+        String name = "upgrade_hatch_tier_" + tierIndex;
+        int slots = (tierIndex + 1) * (tierIndex + 1);
+
+        MachineDefinition def = REGISTRATE.machine(name,
+                        holder -> DIV.gtcsolo.machine.UpgradeHatchMachine.create(holder, voltageTier, tierIndex))
+                .rotationState(RotationState.ALL)
+                .tier(voltageTier)
+                .abilities(UPGRADE_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.upgrade_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.upgrade_hatch.desc.2", tierIndex, slots))
+                .overlayTieredHullRenderer("upgrade_hatch")
+                .register();
+
+        UPGRADE_HATCHES.put(tierIndex, def);
     }
 
     private static void registerSpaceforgeEnergyHatch(int tier, int amperage) {

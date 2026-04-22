@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/overlay/tinted/front_2",
+  "textures": {
+    "overlay": "gtcsolo:block/port/upgread/upgread",
+    "overlay_tinted": "gtcsolo:block/port/upgread/upgread"
+  }
+}

@@ -58,6 +58,12 @@ public class ModMaterials {
     public static Material HYPERX_NEUTRONIUM;
     public static Material ORIGINALIUM;
     public static Material MONEL;
+    public static Material TARITON;
+    public static Material INFUSED_STAINLESS_STEEL;
+    public static Material OBLIVION;
+    public static Material HSSX;
+    public static Material PURE_NAQUADAH;
+    public static Material IMPURE_OSMIUM;
 
     // 一般素材（シンプル）
     public static Material PROSPERITY;
@@ -158,15 +164,15 @@ public class ModMaterials {
         REFINED_OBSIDIAN = wireMaterial("refined_obsidian", 0xC58BFF, ModElements.E_REFINED_OBSIDIAN,
                 GTValues.EV, 16, false);
 
-        // endnium: tier=HV, amp=32A, ore
+        // endnium: tier=EV, amp=32A, ore
         ENDNIUM = wireMaterialBuilder("endnium", 0x050007, ModElements.E_ENDNIUM,
-                GTValues.HV, 32)
+                GTValues.EV, 32)
                 .ore(1, 1)
                 .buildAndRegister();
 
-        // fractaline: tier=UXV, amp=1111111A
+        // fractaline: tier=OpV, amp=1111111A (UXV から OpV へ昇格)
         FRACTALINE = wireMaterial("fractaline", 0x123456, ModElements.E_FRACTALINE,
-                GTValues.UXV, 1111111, false);
+                GTValues.OpV, 1111111, false);
 
         // jupitate: tier=UEV, amp=1024A, ore
         JUPITATE = wireMaterialBuilder("jupitate", 0x50C878, ModElements.E_JUPITATE,
@@ -187,16 +193,52 @@ public class ModMaterials {
                 .ore(1, 1)
                 .buildAndRegister();
 
-        // monel: tier=MV, amp=32A, alloy
+        // monel: 通常合金 (MV超電導は refined_glowstone に一本化したのでワイヤー剥がし)
         MONEL = new Material.Builder(id("monel"))
                 .ingot().dust().fluid()
                 .color(0xFFE4E1)
                 .iconSet(MaterialIconSet.METALLIC)
                 .flags(COMMON_FLAGS)
-                .flags(MaterialFlags.GENERATE_FINE_WIRE)
                 .components("copper", 1, "nickel", 2)
                 .blastTemp(21600, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.MV], 4000)
-                .cableProperties(GTValues.V[GTValues.MV], 32, 0, true)
+                .buildAndRegister();
+
+        // tariton: tier=LV, amp=32A, alloy (red_alloy 2 + blue_alloy 3)
+        TARITON = alloyWireBuilder("tariton", 0x5D3FD3, GTValues.LV, 32)
+                .components("red_alloy", 2, "blue_alloy", 3)
+                .buildAndRegister();
+
+        // infused_stainless_steel: tier=HV, amp=32A, alloy (作成方法は別途)
+        INFUSED_STAINLESS_STEEL = alloyWireBuilder("infused_stainless_steel", 0xB4C4DF,
+                GTValues.HV, 32)
+                .buildAndRegister();
+
+        // oblivion: tier=IV, amp=32A, 幻想元素系合金
+        OBLIVION = alloyWireBuilder("oblivion", 0x1A0933, GTValues.IV, 32)
+                .buildAndRegister();
+
+        // hssx: tier=LuV, amp=32A, alloy (HSSG9+HSSS9+HSSE9+RoseGold5+StainlessSteel9)
+        // EBF焼成用に blastTemp 付き (LuVゲート)
+        HSSX = alloyWireBuilder("hssx", 0x5E4068, GTValues.LuV, 32)
+                .components(GTMaterials.HSSG, 9, GTMaterials.HSSS, 9, GTMaterials.HSSE, 9,
+                            GTMaterials.RoseGold, 5, GTMaterials.StainlessSteel, 9)
+                .blastTemp(5400, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.LuV], 4000)
+                .buildAndRegister();
+
+        // pure_naquadah: tier=ZPM, amp=32A, 幻想元素 ΦNqa
+        // レシピ保留、色はデフォルト Naquadah より明るめ
+        PURE_NAQUADAH = wireMaterialBuilder("pure_naquadah", 0x4A4A4A, ModElements.E_PURE_NAQUADAH,
+                GTValues.ZPM, 32)
+                .buildAndRegister();
+
+        // impure_osmium: Mek産出 osmium の差し替え先。低〜中tier Mekレシピで代替可能。
+        // blastTemp 無し (EBF焼き回避)、plate等の COMMON_FLAGS も無し (精製前の粗素材)
+        IMPURE_OSMIUM = new Material.Builder(id("impure_osmium"))
+                .ingot().dust()
+                .color(0x5A6B4D)
+                .iconSet(MaterialIconSet.METALLIC)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+                .element(ModElements.E_IMPURE_OSMIUM)
                 .buildAndRegister();
 
         // ================================================================
@@ -232,7 +274,11 @@ public class ModMaterials {
         ENIGMA                  = simpleMaterial("enigma",                  0xA3182F, ModElements.E_ENIGMA,                  true,  false);
         STELLARIUM              = simpleMaterial("stellarium",              0x9FA3A7, ModElements.E_STELLARIUM,              true,  false);
         // stellarium_enigma は合金セクションで登録（ore + components）
-        FRACTAL                 = simpleMaterial("fractal",                 0x123456, ModElements.E_FRACTAL,                 true,  false);
+        // fractal: tier=UXV, amp=111111A, ore (UXV 超電導へ昇格)
+        FRACTAL = wireMaterialBuilder("fractal", 0x123456, ModElements.E_FRACTAL,
+                GTValues.UXV, 111111)
+                .ore(1, 1)
+                .buildAndRegister();
         STAGNANTED_NEUTRONIUM   = simpleMaterial("stagnanted_neutronium",   0xDFBFDF, ModElements.E_STAGNANTED_NEUTRONIUM,   true,  false);
         VALINIUM                = simpleMaterial("valinium",                0x8F8F8F, ModElements.E_VALINIUM,                true,  false);
         BEDROCKIUM              = simpleMaterial("bedrockium",              0x000000, ModElements.E_BEDROCKIUM,              true,  false);
@@ -464,6 +510,34 @@ public class ModMaterials {
         }
     }
 
+    // ── ケーブル専用タブ用 prefix（1倍〜16倍、裸線+絶縁両方） ──
+    // 超電導素材は cableGt*（絶縁）が生成されないため wireGt* も含める
+    private static final TagPrefix[] CABLE_PREFIXES = {
+            TagPrefix.wireGtSingle,
+            TagPrefix.wireGtDouble,
+            TagPrefix.wireGtQuadruple,
+            TagPrefix.wireGtOctal,
+            TagPrefix.wireGtHex,
+            TagPrefix.cableGtSingle,
+            TagPrefix.cableGtDouble,
+            TagPrefix.cableGtQuadruple,
+            TagPrefix.cableGtOctal,
+            TagPrefix.cableGtHex
+    };
+
+    public static void addCablesToCreativeTab(CreativeModeTab.Output output) {
+        Collection<Material> allMats = GTCEuAPI.materialManager
+                .getRegistry(Gtcsolo.MODID).getAllMaterials();
+        for (Material mat : allMats) {
+            for (TagPrefix prefix : CABLE_PREFIXES) {
+                ItemStack stack = ChemicalHelper.get(prefix, mat);
+                if (!stack.isEmpty()) {
+                    output.accept(stack);
+                }
+            }
+        }
+    }
+
     // ── ヘルパー ──
 
     private static ResourceLocation id(String path) {
@@ -531,5 +605,18 @@ public class ModMaterials {
         Material.Builder builder = wireMaterialBuilder(name, color, element, tier, amperage);
         if (plasma) builder.plasma();
         return builder.buildAndRegister();
+    }
+
+    /**
+     * 合金ワイヤー素材の Builder (element無し、blastTemp無し)。超電導設定は cableProperties で isSuperconductor=true。
+     */
+    private static Material.Builder alloyWireBuilder(String name, int color, int tier, int amperage) {
+        return new Material.Builder(id(name))
+                .ingot().dust().fluid()
+                .color(color)
+                .iconSet(MaterialIconSet.METALLIC)
+                .flags(COMMON_FLAGS)
+                .flags(MaterialFlags.GENERATE_FINE_WIRE)
+                .cableProperties(GTValues.V[tier], amperage, 0, true);
     }
 }

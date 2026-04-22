@@ -1,5 +1,8 @@
 package DIV.gtcsolo;
 
+import DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities;
+import DIV.gtcsolo.integration.mekanism.capability.ChemicalIngredient;
+import DIV.gtcsolo.integration.mekanism.capability.ChemicalRecipeComponents;
 import DIV.gtcsolo.registry.ModElements;
 import DIV.gtcsolo.registry.ModItems;
 import DIV.gtcsolo.registry.ModMachines;
@@ -14,12 +17,10 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
@@ -49,45 +50,52 @@ public class GtcSoloAddon implements IGTAddon {
     }
 
     @Override
+    public void registerRecipeCapabilities() {
+        Gtcsolo.LOGGER.info("[ChemCap] Addon.registerRecipeCapabilities called");
+        ChemicalCapabilities.init();
+    }
+
+    @Override
+    public void registerRecipeKeys(com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent event) {
+        Gtcsolo.LOGGER.info("[ChemCap] Addon.registerRecipeKeys called");
+        ChemicalRecipeComponents.registerRecipeKeys(event);
+    }
+
+    @Override
     public String addonModId() {
         return Gtcsolo.MODID;
     }
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        // FEC レシピ1: クアンタムスター×1, スカルクシュリーカー×2, ニッケルプラズマ144mb → fcore×1
+        // FEC レシピ1: fgear×2 + エンチャ本(種類不問) + 現世液体空気1000mb → fcore×1
         ModRecipeTypes.FEC.recipeBuilder(new ResourceLocation("gtcsolo", "quantum_construct"))
-                .inputItems(GTItems.QUANTUM_STAR.asStack(1))
-                .inputItems(new net.minecraft.world.item.ItemStack(Blocks.SCULK_SHRIEKER, 2))
-                .inputFluids(new FluidStack(GTMaterials.Nickel.getFluid(FluidStorageKeys.PLASMA), 144))
+                .inputItems(ModItems.FGEAR.get(), 2)
+                .inputItems(net.minecraft.world.item.Items.ENCHANTED_BOOK, 1)
+                .inputFluids(GTMaterials.LiquidAir.getFluid(1000))
                 .outputItems(ModItems.FCORE.get(), 1)
                 .duration(200)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
 
-        // FEC レシピ2: fcore×1, fgear×2, ナクアドリア28800mb → ニュートロニウムブロック×16
-        ModRecipeTypes.FEC.recipeBuilder(new ResourceLocation("gtcsolo", "neutronium_synthesis"))
-                .inputItems(ModItems.FCORE.get(), 1)
-                .inputItems(ModItems.FGEAR.get(), 2)
-                .inputFluids(GTMaterials.Naquadria.getFluid(28800))
-                .outputItems(ChemicalHelper.get(TagPrefix.block, GTMaterials.Neutronium, 16))
-                .duration(12000)
-                .EUt(GTValues.VA[GTValues.ZPM] * 2)
-                .save(provider);
-
-        // EBF テストレシピ: 吹込みダイヤモンド液体80mb + 黒曜石粉x2 → 精製黒曜石液体80mb
-        // EV 2A (960 EU/t), 40秒 (800 ticks)
-        Material infDiamond = GTCEuAPI.materialManager.getMaterial("gtcsolo:infusion_mekanism_diamond");
-        Material infRefinedObs = GTCEuAPI.materialManager.getMaterial("gtcsolo:infusion_mekanism_refined_obsidian");
-        if (infDiamond != null && infRefinedObs != null) {
-            GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "infusion_refined_obsidian"))
-                    .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Obsidian, 2))
-                    .inputFluids(new FluidStack(infDiamond.getFluid(), 80))
-                    .outputFluids(new FluidStack(infRefinedObs.getFluid(), 80))
-                    .blastFurnaceTemp(2000)
-                    .duration(800)
-                    .EUt(GTValues.VA[GTValues.EV] * 2)
+        // EEBF fissile_fuel テストレシピ: 鉄dust + 核分裂燃料ガス 100mb → ウラン dust
+        //   新 chemical capability (GAS) 経由の end-to-end 動作確認用
+        //   EEBF 側の INPUT_GAS hatch から fissile_fuel を供給することで発動
+        Gtcsolo.LOGGER.info("[ChemCap] registering test_iron_to_uranium recipe (BLAST + GAS input)");
+        try {
+            GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "test_iron_to_uranium"))
+                    .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Iron, 1))
+                    .input(DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS,
+                            DIV.gtcsolo.integration.mekanism.capability.ChemicalIngredient
+                                    .gas("mekanism:fissile_fuel", 100))
+                    .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Uranium238, 1))
+                    .blastFurnaceTemp(3000)
+                    .duration(400)
+                    .EUt(GTValues.VA[GTValues.EV])
                     .save(provider);
+            Gtcsolo.LOGGER.info("[ChemCap] test_iron_to_uranium recipe saved OK");
+        } catch (Exception e) {
+            Gtcsolo.LOGGER.error("[ChemCap] test_iron_to_uranium recipe FAILED: {}", e.toString(), e);
         }
 
         // SpaceForge レシピ1: 液体Nt + 精製グロウストーンプラズマ + 錫プラズマ288mb → ユーピタイトプラズマ144mb
@@ -158,5 +166,112 @@ public class GtcSoloAddon implements IGTAddon {
                 .duration(400)
                 .EUt(-GTValues.VA[GTValues.LuV])
                 .save(provider);
+
+        // =====================================================================
+        //  Mekanism Infuser — 合金チェーン
+        //  infused(LV) → reinforced(MV) → atomic(HV) → hypercharged(IV, EMek)
+        // =====================================================================
+        addMekanismInfuserRecipes(provider);
+
+        // =====================================================================
+        //  超電導ワイヤー素材レシピ
+        // =====================================================================
+        addSuperconductorRecipes(provider);
+    }
+
+    private void addSuperconductorRecipes(Consumer<FinishedRecipe> provider) {
+        // Tariton (LV 超電導): RedAlloy 2 + BlueAlloy 3 → Tariton 5 ingot
+        // Alloy Smelter — 蒸気合金炉でも製造可能 (LV, 100t)
+        GTRecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "tariton_ingot"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RedAlloy, 2))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.BlueAlloy, 3))
+                .outputItems(ChemicalHelper.get(TagPrefix.ingot, ModMaterials.TARITON, 5))
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.LV])
+                .save(provider);
+
+        // Endnium (EV 超電導): Tungsten ingot 1 + Endstone dust 5 → Endnium ingot 1 (EBF, EV, 3500K)
+        GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "endnium_ingot"))
+                .inputItems(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Tungsten, 1))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Endstone, 5))
+                .outputItems(ChemicalHelper.get(TagPrefix.ingot, ModMaterials.ENDNIUM, 1))
+                .blastFurnaceTemp(3500)
+                .duration(400)
+                .EUt(GTValues.VA[GTValues.EV])
+                .save(provider);
+
+        // HSS-X (LuV 超電導) dust 合成: HSSG9 + HSSS9 + HSSE9 + RoseGold5 + StainlessSteel9 → HSSX dust 41
+        // Mixer, EV, 600t
+        // その後 EBF で 1 dust → 1 ingot (blastTemp 5400K から自動生成)
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "hssx_dust"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.HSSG, 9))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.HSSS, 9))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.HSSE, 9))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RoseGold, 5))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.StainlessSteel, 9))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, ModMaterials.HSSX, 41))
+                .duration(600)
+                .EUt(GTValues.VA[GTValues.EV])
+                .save(provider);
+    }
+
+    private void addMekanismInfuserRecipes(Consumer<FinishedRecipe> provider) {
+        // M5 migration: 旧 ChemicalBridge fluid-based infusion → 新 ChemicalCapabilities.INFUSION 方式
+        net.minecraft.world.item.Item alloyInfused = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("mekanism", "alloy_infused"));
+        net.minecraft.world.item.Item alloyReinforced = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("mekanism", "alloy_reinforced"));
+        net.minecraft.world.item.Item alloyAtomic = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("mekanism", "alloy_atomic"));
+        net.minecraft.world.item.Item alloyHypercharged = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("evolvedmekanism", "alloy_hypercharged"));
+
+        if (alloyInfused != null) {
+            ModRecipeTypes.MEKANISM_INFUSER.recipeBuilder(
+                            new ResourceLocation("gtcsolo", "mekanism_infuser_alloy_infused"))
+                    .inputItems(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Iron, 1))
+                    .input(ChemicalCapabilities.INFUSION,
+                            ChemicalIngredient.infusion("mekanism:redstone", 10))
+                    .outputItems(new net.minecraft.world.item.ItemStack(alloyInfused, 1))
+                    .duration(100)
+                    .EUt(GTValues.VA[GTValues.LV])
+                    .save(provider);
+        }
+
+        if (alloyInfused != null && alloyReinforced != null) {
+            ModRecipeTypes.MEKANISM_INFUSER.recipeBuilder(
+                            new ResourceLocation("gtcsolo", "mekanism_infuser_alloy_reinforced"))
+                    .inputItems(new net.minecraft.world.item.ItemStack(alloyInfused, 1))
+                    .input(ChemicalCapabilities.INFUSION,
+                            ChemicalIngredient.infusion("mekanism:diamond", 20))
+                    .outputItems(new net.minecraft.world.item.ItemStack(alloyReinforced, 1))
+                    .duration(140)
+                    .EUt(GTValues.VA[GTValues.MV])
+                    .save(provider);
+        }
+
+        if (alloyReinforced != null && alloyAtomic != null) {
+            ModRecipeTypes.MEKANISM_INFUSER.recipeBuilder(
+                            new ResourceLocation("gtcsolo", "mekanism_infuser_alloy_atomic"))
+                    .inputItems(new net.minecraft.world.item.ItemStack(alloyReinforced, 1))
+                    .input(ChemicalCapabilities.INFUSION,
+                            ChemicalIngredient.infusion("mekanism:refined_obsidian", 40))
+                    .outputItems(new net.minecraft.world.item.ItemStack(alloyAtomic, 1))
+                    .duration(180)
+                    .EUt(GTValues.VA[GTValues.HV])
+                    .save(provider);
+        }
+
+        if (alloyAtomic != null && alloyHypercharged != null) {
+            ModRecipeTypes.MEKANISM_INFUSER.recipeBuilder(
+                            new ResourceLocation("gtcsolo", "mekanism_infuser_alloy_hypercharged"))
+                    .inputItems(new net.minecraft.world.item.ItemStack(alloyAtomic, 1))
+                    .input(ChemicalCapabilities.INFUSION,
+                            ChemicalIngredient.infusion("evolvedmekanism:uranium", 20))
+                    .outputItems(new net.minecraft.world.item.ItemStack(alloyHypercharged, 1))
+                    .duration(260)
+                    .EUt(GTValues.VA[GTValues.IV])
+                    .save(provider);
+        }
     }
 }

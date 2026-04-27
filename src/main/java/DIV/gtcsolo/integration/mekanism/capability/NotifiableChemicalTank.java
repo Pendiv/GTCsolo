@@ -48,25 +48,48 @@ public class NotifiableChemicalTank
 
     public NotifiableChemicalTank(MetaMachine machine, ChemicalIngredient.Type type,
                                     long capacity, IO io) {
+        this(machine, type, capacity, io, null);
+    }
+
+    /**
+     * canInsert: external 条件で挿入可否を判定するブール供給源. null の場合は常時許可.
+     * UniversalIOHatchMachine で「反対タンクが空の時のみ」排他実現に使う.
+     */
+    public NotifiableChemicalTank(MetaMachine machine, ChemicalIngredient.Type type,
+                                    long capacity, IO io,
+                                    java.util.function.BooleanSupplier canInsert) {
         super(machine);
         this.type = type;
         this.capacity = capacity;
         this.handlerIO = io;
         this.capabilityIO = io;
-        this.mekTank = createTank(type, capacity, this::notifyListeners);
-        LOGGER.debug("[ChemCap] Tank created type={} io={} cap={} machine={}",
-                type, io, capacity, machine.getClass().getSimpleName());
+        this.mekTank = createTank(type, capacity, this::notifyListeners, canInsert);
+        LOGGER.debug("[ChemCap] Tank created type={} io={} cap={} machine={} gated={}",
+                type, io, capacity, machine.getClass().getSimpleName(), canInsert != null);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private static IChemicalTank createTank(ChemicalIngredient.Type type, long capacity,
-                                              Runnable onChange) {
+                                              Runnable onChange,
+                                              java.util.function.BooleanSupplier canInsert) {
         mekanism.api.functions.ConstantPredicates.class.hashCode(); // ensure loaded
         mekanism.api.IContentsListener listener = onChange::run;
+        if (canInsert == null) {
+            switch (type) {
+                case GAS:      return ChemicalTankBuilder.GAS.create(capacity, listener);
+                case INFUSION: return ChemicalTankBuilder.INFUSION.create(capacity, listener);
+                case PIGMENT:  return ChemicalTankBuilder.PIGMENT.create(capacity, listener);
+                case SLURRY:   return ChemicalTankBuilder.SLURRY.create(capacity, listener);
+            }
+            throw new IllegalStateException("Unknown chemical type: " + type);
+        }
+        java.util.function.Predicate alwaysTrue = c -> true;
+        java.util.function.Predicate insertPred = c -> canInsert.getAsBoolean();
         switch (type) {
-            case GAS:      return ChemicalTankBuilder.GAS.create(capacity, listener);
-            case INFUSION: return ChemicalTankBuilder.INFUSION.create(capacity, listener);
-            case PIGMENT:  return ChemicalTankBuilder.PIGMENT.create(capacity, listener);
-            case SLURRY:   return ChemicalTankBuilder.SLURRY.create(capacity, listener);
+            case GAS:      return ChemicalTankBuilder.GAS.create(capacity, alwaysTrue, insertPred, listener);
+            case INFUSION: return ChemicalTankBuilder.INFUSION.create(capacity, alwaysTrue, insertPred, listener);
+            case PIGMENT:  return ChemicalTankBuilder.PIGMENT.create(capacity, alwaysTrue, insertPred, listener);
+            case SLURRY:   return ChemicalTankBuilder.SLURRY.create(capacity, alwaysTrue, insertPred, listener);
         }
         throw new IllegalStateException("Unknown chemical type: " + type);
     }

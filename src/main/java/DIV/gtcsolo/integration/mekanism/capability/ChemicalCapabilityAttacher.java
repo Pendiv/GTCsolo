@@ -20,8 +20,6 @@ import org.jetbrains.annotations.Nullable;
 /**
  * GT MetaMachineBlockEntity に Mekanism chemical capabilities (GAS/INFUSION/PIGMENT/SLURRY HANDLER)
  * を attach する. 対象は ChemicalIOHatchMachine を内包する BE のみ.
- *
- * 旧 ConversionCapabilityAttacher と同じパターンだが、4 種の chemical 型を統一的に扱う.
  */
 @Mod.EventBusSubscriber(modid = Gtcsolo.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ChemicalCapabilityAttacher {
@@ -45,8 +43,15 @@ public class ChemicalCapabilityAttacher {
                 if (machine instanceof ChemicalIOHatchMachine hatch) {
                     LazyOptional<T> result = hatch.getMekCapability(cap);
                     if (result.isPresent()) {
-                        LOGGER.debug("[ChemCap] Attacher: cap HIT cap={} side={} hatchType={}",
-                                cap.getName(), side, hatch.getChemType());
+                        LOGGER.debug("[ChemCap] Attacher: cap HIT cap={} side={} variant={}",
+                                cap.getName(), side, hatch.getVariant());
+                    }
+                    return result;
+                }
+                if (machine instanceof UniversalIOHatchMachine uni) {
+                    LazyOptional<T> result = uni.getMekCapability(cap);
+                    if (result.isPresent()) {
+                        LOGGER.debug("[ChemCap] Attacher: cap HIT cap={} side={} universal", cap.getName(), side);
                     }
                     return result;
                 }

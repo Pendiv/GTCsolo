@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 /**
  * KubeJS startup scripts から chemical capability の max IO size を設定する helper.
  *
- * 使い方 (KubeJS):
+ * 使い方 :
  *   const t = event.create('my_recipe').category('...').setMaxIOSize(1,0,0,0).setEUIO('out')
  *   GtcsoloChemCapHelper.setInfusionOut(t, 1)   // INFUSION 最大1出力
  *   GtcsoloChemCapHelper.setGasIn(t, 2)         // GAS 最大2入力

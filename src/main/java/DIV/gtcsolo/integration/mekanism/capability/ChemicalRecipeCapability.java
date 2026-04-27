@@ -53,12 +53,13 @@ public class ChemicalRecipeCapability extends RecipeCapability<ChemicalIngredien
     }
 
     private static int chemSortIndex(ChemicalIngredient.Type t) {
-        // Fluid (sortIndex=1) の直後に並ぶよう 2..5 を割り当て.
+        // GT 標準 cap (Item=0, Fluid=1, EU=2, CWU=3, BlockState=5) と衝突を避けるため 10+ に配置.
+        // TreeMap の Comparator が sortIndex で比較するため、重複すると put が効かない (既存 key が残る).
         switch (t) {
-            case GAS:      return 2;
-            case INFUSION: return 3;
-            case PIGMENT:  return 4;
-            case SLURRY:   return 5;
+            case GAS:      return 10;
+            case INFUSION: return 11;
+            case PIGMENT:  return 12;
+            case SLURRY:   return 13;
         }
         return 99;
     }
@@ -140,14 +141,11 @@ public class ChemicalRecipeCapability extends RecipeCapability<ChemicalIngredien
     /** レシピの Content を ChemicalStack リストに変換 (Mek renderer が描画できる形式). */
     @Override
     public @NotNull List<Object> createXEIContainerContents(List<Content> contents, GTRecipe recipe, IO io) {
-        List<Object> result = contents.stream()
+        return contents.stream()
                 .map(c -> of(c.content))
                 .map(ChemicalIngredient::toStack)
                 .map(Object.class::cast)
                 .collect(Collectors.toList());
-        LOGGER.info("[ChemCap] createXEIContainerContents[{}] io={} recipe={} → {} stacks",
-                type, io, recipe == null ? "?" : recipe.id, result.size());
-        return result;
     }
 
     /** Content list をそのまま wrap. widget 側で index 指定して取り出す. */
@@ -159,7 +157,6 @@ public class ChemicalRecipeCapability extends RecipeCapability<ChemicalIngredien
     @NotNull
     @Override
     public Widget createWidget() {
-        LOGGER.info("[ChemCap] createWidget[{}] called", type);
         return new ChemicalStackWidget();
     }
 
@@ -188,12 +185,12 @@ public class ChemicalRecipeCapability extends RecipeCapability<ChemicalIngredien
         ChemicalStack<?> stackToShow = mekanism.api.chemical.gas.GasStack.EMPTY;
 
         // storage = createXEIContainer から渡ってくる. List<ChemicalStack> 前提.
-        if (storage instanceof List<?> list) {
-            if (index >= 0 && index < list.size() && list.get(index) instanceof ChemicalStack<?> cs) {
-                stackToShow = cs;
-            } else if (!list.isEmpty() && list.get(0) instanceof ChemicalStack<?> first) {
-                stackToShow = first;
-            }
+        // index が list の範囲外 (slot 数 > 実 ingredient 数) の場合は空のまま.
+        // フォールバックで先頭を返すと recipe が使わない slot にも先頭 ingredient が複製表示される.
+        if (storage instanceof List<?> list
+                && index >= 0 && index < list.size()
+                && list.get(index) instanceof ChemicalStack<?> cs) {
+            stackToShow = cs;
         }
         // content が存在するなら、そこから ChemicalStack を再構築 (storage が null の場合用 fallback)
         if ((stackToShow == null || stackToShow.isEmpty()) && content != null) {

@@ -11,9 +11,10 @@ import com.lowdragmc.lowdraglib.utils.Size;
 import com.mojang.logging.LogUtils;
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.client.jei.ChemicalStackRenderer;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.ingredients.ITypedIngredient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.slf4j.Logger;
@@ -38,8 +39,11 @@ public class ChemicalStackWidget extends Widget implements IRecipeIngredientSlot
 
     private ChemicalStack<?> stack = mekanism.api.chemical.gas.GasStack.EMPTY;
     private IngredientIO ingredientIO = IngredientIO.INPUT;
-    private transient IDrawable cachedDrawable;
-    private transient ChemicalStack<?> cachedDrawableStack;
+    // Mek renderer: capacity=stack.getAmount() にして 100% fill 表示させる.
+    // amount が変わったときだけ作り直す (per-frame allocation を避ける).
+    @SuppressWarnings("rawtypes")
+    private transient ChemicalStackRenderer cachedRenderer;
+    private transient long cachedRendererCapacity = 0L;
 
     public ChemicalStackWidget() {
         super(0, 0, 18, 18); // standard slot size
@@ -47,6 +51,11 @@ public class ChemicalStackWidget extends Widget implements IRecipeIngredientSlot
 
     public ChemicalStackWidget setStack(ChemicalStack<?> stack) {
         this.stack = stack == null ? mekanism.api.chemical.gas.GasStack.EMPTY : stack;
+        long cap = Math.max(1L, this.stack.getAmount());
+        if (cachedRenderer == null || cachedRendererCapacity != cap) {
+            cachedRenderer = new ChemicalStackRenderer(cap, 16, 16);
+            cachedRendererCapacity = cap;
+        }
         return this;
     }
 
@@ -71,9 +80,6 @@ public class ChemicalStackWidget extends Widget implements IRecipeIngredientSlot
      */
     @Override
     public List<Object> getXEIIngredients() {
-        LOGGER.info("[ChemCap] getXEIIngredients called stack={}",
-                stack == null || stack.isEmpty() ? "<empty>"
-                        : stack.getTypeRegistryName() + "x" + stack.getAmount());
         if (stack == null || stack.isEmpty()) return Collections.emptyList();
         if (!GTCEu.Mods.isJEILoaded()) {
             return List.of(stack);
@@ -83,18 +89,12 @@ public class ChemicalStackWidget extends Widget implements IRecipeIngredientSlot
             Size size = getSize();
             Optional<?> typedIngredient = JEIPlugin.jeiHelpers.getIngredientManager()
                     .createTypedIngredient((Object) stack);
-            LOGGER.info("[ChemCap] createTypedIngredient present={}", typedIngredient.isPresent());
             if (typedIngredient.isPresent()) {
                 mezz.jei.api.ingredients.ITypedIngredient<?> typed =
                         (mezz.jei.api.ingredients.ITypedIngredient<?>) typedIngredient.get();
-                LOGGER.info("[ChemCap] typedIngredient type={} ingredient={}",
-                        typed.getType().getIngredientClass().getName(),
-                        typed.getIngredient().getClass().getName());
                 @SuppressWarnings({"unchecked"})
                 Object clickable = new ClickableIngredient(
                         typed, pos.x, pos.y, size.width, size.height);
-                LOGGER.info("[ChemCap] wrapped as ClickableIngredient at ({},{}) size {}x{}",
-                        pos.x, pos.y, size.width, size.height);
                 return List.of(clickable);
             }
             LOGGER.warn("[ChemCap] JEI createTypedIngredient returned empty for stack={}",
@@ -133,20 +133,75 @@ public class ChemicalStackWidget extends Widget implements IRecipeIngredientSlot
     @OnlyIn(Dist.CLIENT)
     public void drawInBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
-        if (stack == null || stack.isEmpty()) return;
+        if (stack == null || stack.isEmpty() || cachedRenderer == null) return;
         int x = getPosition().x + 1;
         int y = getPosition().y + 1;
         try {
-            // capacity=stack.getAmount() で常に 100% fill → swirl pattern 全開で表示
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            ChemicalStackRenderer renderer = new ChemicalStackRenderer(
-                    Math.max(1L, stack.getAmount()), 16, 16);
             graphics.pose().pushPose();
             graphics.pose().translate(x, y, 0);
-            renderer.render(graphics, stack);
+            cachedRenderer.render(graphics, stack);
             graphics.pose().popPose();
         } catch (Throwable t) {
             LOGGER.warn("[ChemCap] drawInBackground render failed: {}", t.toString());
         }
     }
+
+    // ---- drawInForeground: tooltip 描画 (JEI $2 経路が発火しないため自前で描画) ----
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void drawInForeground(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
+        if (stack == null || stack.isEmpty() || cachedRenderer == null) return;
+        if (!isMouseOverElement(mouseX, mouseY)) return;
+        try {
+            TooltipFlag flag = Minecraft.getInstance().options.advancedItemTooltips
+                    ? TooltipFlag.Default.ADVANCED
+                    : TooltipFlag.Default.NORMAL;
+            @SuppressWarnings({"rawtypes", "unchecked"})
+            List<Component> tooltip = cachedRenderer.getTooltip(stack, flag);
+            if (!tooltip.isEmpty()) {
+                graphics.renderComponentTooltip(
+                        Minecraft.getInstance().font, tooltip, mouseX, mouseY);
+            }
+        } catch (Throwable t) {
+            LOGGER.warn("[ChemCap] drawInForeground tooltip render failed: {}", t.toString());
+        }
+    }
+
+    // click-through: LDLib の ClickableIngredient 経由は JEI の hit test に届かないため、
+    // widget が click を受けたら直接 JEI runtime を呼んで recipe/usage gui を開く.
+    // 挙動は Fluid/Item の JEI native 挙動と同一:
+    //   Left click  → IFocus(OUTPUT)  = この chemical を「作る」レシピ一覧
+    //   Right click → IFocus(INPUT)   = この chemical を「使う」レシピ一覧 (usages)
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (stack == null || stack.isEmpty() || !isMouseOverElement(mouseX, mouseY)) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+        if (!GTCEu.Mods.isJEILoaded() || (button != 0 && button != 1)) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+        try {
+            mezz.jei.api.recipe.RecipeIngredientRole role = (button == 0)
+                    ? mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT
+                    : mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
+            Optional<?> typedIngredient = JEIPlugin.jeiHelpers.getIngredientManager()
+                    .createTypedIngredient((Object) stack);
+            if (typedIngredient.isPresent()) {
+                @SuppressWarnings({"unchecked", "rawtypes"})
+                mezz.jei.api.recipe.IFocus<?> focus = JEIPlugin.jeiHelpers.getFocusFactory()
+                        .createFocus(role, (mezz.jei.api.ingredients.ITypedIngredient) typedIngredient.get());
+                JEIPlugin.jeiRuntime.getRecipesGui().show(focus);
+                return true;
+            } else {
+                LOGGER.warn("[ChemCap] mouseClicked could not create typed ingredient for {}",
+                        stack.getTypeRegistryName());
+            }
+        } catch (Throwable t) {
+            LOGGER.warn("[ChemCap] mouseClicked JEI focus show failed: {}", t.toString(), t);
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
 }

@@ -37,6 +37,13 @@ public class ModRecipeTypes {
                 .setMaxSize(IO.IN,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS, 1);
 
+        // Large Chemical Reactor: gas+gas→gas 系を受けるため GAS cap 入出力を追加
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.LARGE_CHEMICAL_RECIPES
+                .setMaxSize(IO.IN,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS, 3)
+                .setMaxSize(IO.OUT,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS, 2);
+
         FEC = new GTRecipeType(
                 new ResourceLocation("gtcsolo", "fec"), "multiblock")
                 // アイテム入力6, アイテム出力1, 液体入力1, 液体出力0

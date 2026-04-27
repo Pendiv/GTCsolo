@@ -16,3 +16,6 @@ rootProject.name = 'gtcsoloeu'
 
 include ':cmdex'
 project(':cmdex').projectDir = file('MODs/CmdExtra')
+
+include ':credit'
+project(':credit').projectDir = file('MODs/credit')

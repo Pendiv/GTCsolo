@@ -43,11 +43,6 @@ public class ModItems {
                     () -> new BlockItem(ModBlocks.BEDROCKIUM_HE_CASING.get(), new Item.Properties())
             );
 
-    public static final RegistryObject<Item> CONVERSION_SYSTEM =
-            ITEMS.register("conversionsystem_block",
-                    () -> new BlockItem(ModBlocks.CONVERSION_SYSTEM.get(), new Item.Properties())
-            );
-
     public static final RegistryObject<Item> PRIEST_AXE =
             ITEMS.register("priest_axe",
                     () -> new PriestAxeItem(
@@ -103,9 +98,19 @@ public class ModItems {
     //  その他ブロックアイテム (仮名)
     // =========================================================================
 
-    /** block4 — テクスチャ: cryostat_glass.png */
-    public static final RegistryObject<Item> BLOCK4_ITEM =
-            ITEMS.register("block4", () -> new BlockItem(ModBlocks.BLOCK4.get(), new Item.Properties()));
+    /** R-HICC ガラス — テクスチャ: cryostat_glass.png */
+    public static final RegistryObject<Item> R_HICC_GLASS_ITEM =
+            ITEMS.register("r_hicc_glass", () -> new BlockItem(ModBlocks.R_HICC_GLASS.get(), new Item.Properties()) {
+                @Override
+                public void appendHoverText(net.minecraft.world.item.ItemStack stack,
+                                            net.minecraft.world.level.Level level,
+                                            java.util.List<net.minecraft.network.chat.Component> tooltip,
+                                            net.minecraft.world.item.TooltipFlag flag) {
+                    tooltip.add(net.minecraft.network.chat.Component.translatable("block.gtcsolo.r_hicc_glass.tooltip.1")
+                            .withStyle(net.minecraft.ChatFormatting.GRAY));
+                    super.appendHoverText(stack, level, tooltip, flag);
+                }
+            });
 
     /** block6 — テクスチャ: nb3sn_coil.png */
     public static final RegistryObject<Item> BLOCK6_ITEM =
@@ -123,12 +128,15 @@ public class ModItems {
     public static final RegistryObject<Item> RESONANCE_CONTROL_CORE_BLOCK_ITEM =
             ITEMS.register("resonance_control_core_block", () -> new BlockItem(ModBlocks.RESONANCE_CONTROL_CORE_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> AMEIJIA_MAKER_ITEM =
+            ITEMS.register("ameijia_maker", () -> new BlockItem(ModBlocks.AMEIJIA_MAKER.get(), new Item.Properties()));
+
     /** block10 — テクスチャ: refined_netherstar_block.png */
     public static final RegistryObject<Item> BLOCK10_ITEM =
             ITEMS.register("block10", () -> new BlockItem(ModBlocks.BLOCK10.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> BLOCK_12_ITEM =
-            ITEMS.register("block_12", () -> new BlockItem(ModBlocks.BLOCK_12.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SIMULATION_CASING_ITEM =
+            ITEMS.register("simulation_casing", () -> new BlockItem(ModBlocks.SIMULATION_CASING.get(), new Item.Properties()));
 
     // casingblock_n — 仮追加ケーシング群
     public static final RegistryObject<Item> AURORALIUM_RESONANCE_CASING_ITEM =

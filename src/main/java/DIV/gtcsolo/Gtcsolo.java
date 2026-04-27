@@ -1,6 +1,5 @@
 package DIV.gtcsolo;
 
-import DIV.gtcsolo.integration.mekanism.ChemicalBridge;
 import DIV.gtcsolo.block.ExtendEnergyCubeScreen;
 import DIV.gtcsolo.block.wen.WENDataMonitorScreen;
 import DIV.gtcsolo.block.wen.WENIdSelectScreen;
@@ -64,6 +63,7 @@ public class Gtcsolo {
         ModItems.ITEMS.register(modEventBus);
         ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModCreativeTabs.applyTabOverrides();
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.AbsoluteKillHandler());
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.framealtar.FrameAltarHandler());
         MinecraftForge.EVENT_BUS.addListener(commandHandler::onRegisterCommands);
@@ -83,11 +83,9 @@ public class Gtcsolo {
         });
     }
 
-    // CommonSetup — Mekanism レジストリ照合
+    // CommonSetup
     private void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            LOGGER.info("[gtcsolo] commonSetup: validating ChemicalBridge...");
-            ChemicalBridge.validateAgainstMekanismRegistry();
             DIV.gtcsolo.common.framealtar.FrameAltarRecipes.init();
             // AE2 アップグレードカード登録 (対象AE2マシンへの互換登録)
             DIV.gtcsolo.integration.ae2.WENAe2Integration.registerUpgrades();
@@ -103,7 +101,6 @@ public class Gtcsolo {
     private void addMaterials(MaterialEvent event) {
         LOGGER.info("[gtcsolo] addMaterials: registering materials...");
         ModMaterials.init();
-        ChemicalBridge.registerAllChemicalsAsMaterials();
     }
 
     private void gatherData(GatherDataEvent event) {

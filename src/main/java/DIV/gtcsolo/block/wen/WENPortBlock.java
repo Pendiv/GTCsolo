@@ -10,7 +10,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 /** WEN Input/Output Port ブロック。FE Capability付きBlockEntity。 */
-public class WENPortBlock extends BaseEntityBlock {
+public class
+
+WENPortBlock extends BaseEntityBlock {
 
     public WENPortBlock() {
         super(BlockBehaviour.Properties.of()

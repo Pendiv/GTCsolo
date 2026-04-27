@@ -37,7 +37,7 @@ versionRange = "[1.6.4,)"
 ordering = "AFTER"
 side = "BOTH"
 
-# 4. Mekanism（必須 — ChemicalBridge/ConversionHatchが依存）
+# 4. Mekanism（必須 — ChemicalCapability 経由で chemical を recipe input として扱う）
 [[dependencies.gtcsolo]]
 modId = "mekanism"
 mandatory = true

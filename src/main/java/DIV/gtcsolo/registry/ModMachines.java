@@ -2,8 +2,6 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.machine.CCMachine;
 import DIV.gtcsolo.machine.ChemicalCombustionGeneratorMachine;
-import DIV.gtcsolo.machine.ConversionFluidHatchMachine;
-import DIV.gtcsolo.machine.ConversionFluidOutputHatchMachine;
 import DIV.gtcsolo.machine.FECMachine;
 import DIV.gtcsolo.machine.HPABFMachine;
 import DIV.gtcsolo.machine.SpaceforgeEnergyHatchMachine;
@@ -52,6 +50,7 @@ public class ModMachines {
     public static MultiblockMachineDefinition WIRE_MANUFACTURING_FACTORY;
     public static MultiblockMachineDefinition MATERIAL_PRESS_FACTORY;
     public static MultiblockMachineDefinition MEKANISM_INFUSER;
+    public static MultiblockMachineDefinition MICRO_PLANET_MINER;
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
@@ -68,13 +67,6 @@ public class ModMachines {
             {GTValues.LuV, 3},
             {GTValues.UHV, 4}
     };
-
-    // 化学変換液体搬入/搬出ハッチ (Tier → Definition)
-    public static final java.util.Map<Integer, MachineDefinition> CONVERSION_FLUID_HATCH = new java.util.HashMap<>();
-    public static final java.util.Map<Integer, MachineDefinition> CONVERSION_FLUID_OUTPUT_HATCH = new java.util.HashMap<>();
-
-    private static final int CONV_MIN_TIER = GTValues.EV;
-    private static final int CONV_MAX_TIER = GTValues.MAX;
 
     public static void init() {
         FEC = REGISTRATE.multiblock("fec", FECMachine::new)
@@ -292,12 +284,6 @@ public class ModMachines {
                         new ResourceLocation("gtcsolo", "block/refined_obsidian_casing"),
                         new ResourceLocation("gtceu", "block/multiblock/generator/large_combustion_engine"))
                 .register();
-
-        // 化学変換液体搬入/搬出ハッチ
-        for (int tier = CONV_MIN_TIER; tier <= CONV_MAX_TIER; tier++) {
-            registerConversionFluidHatch(tier);
-            registerConversionFluidOutputHatch(tier);
-        }
 
         // Space Forge — 発展型核融合マルチブロック
         SPACEFORGE = REGISTRATE.multiblock("spaceforge", SpaceforgeMachine::new)
@@ -654,8 +640,56 @@ public class ModMachines {
             registerUpgradeHatch(pair[0], pair[1]);
         }
 
-        // Mekanism chemical IO hatch 群 (GAS/INFUSION/PIGMENT/SLURRY × IN/OUT × 9tier = 72台)
+        // =========================================================================
+        //  Micro Planet Miner — 7x7x7 角丸球状マルチブロック
+        //  構造パターンは run/cmdex/export/micro_planet_miner.txt 由来
+        //  A = シミュレーションケーシング or fluid/chemical ハッチ
+        //  B = R-HICC ガラス (角丸球の窓)
+        //  C = コントローラ (層 0 前面中央 A に配置)
+        // =========================================================================
+        MICRO_PLANET_MINER = REGISTRATE.multiblock("micro_planet_miner", WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(GTRecipeTypes.MACERATOR_RECIPES)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.micro_planet_miner.desc.1"),
+                        Component.translatable("gtcsolo.machine.micro_planet_miner.desc.2"))
+                .appearanceBlock(ModBlocks.SIMULATION_CASING)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("##ACA##", "#######", "A#BBB#A", "A#BBB#A", "A#BBB#A", "#######", "##AAA##")
+                        .aisle("#######", "#ABBBA#", "#B###B#", "#B###B#", "#B###B#", "#ABBBA#", "#######")
+                        .aisle("A#BBB#A", "#B###B#", "B#####B", "B#####B", "B#####B", "#B###B#", "A#BBB#A")
+                        .aisle("A#BBB#A", "#B###B#", "B#####B", "B#####B", "B#####B", "#B###B#", "A#BBB#A")
+                        .aisle("A#BBB#A", "#B###B#", "B#####B", "B#####B", "B#####B", "#B###B#", "A#BBB#A")
+                        .aisle("#######", "#ABBBA#", "#B###B#", "#B###B#", "#B###B#", "#ABBBA#", "#######")
+                        .aisle("##AAA##", "#######", "A#BBB#A", "A#BBB#A", "A#BBB#A", "#######", "##AAA##")
+                        .where('C', Predicates.controller(Predicates.blocks(definition.getBlock())))
+                        .where('A', Predicates.blocks(ModBlocks.SIMULATION_CASING.get())
+                                .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4))
+                                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4))
+                                .or(Predicates.abilities(
+                                        DIV.gtcsolo.integration.mekanism.capability.ChemicalPartAbilities.INPUT_GAS)
+                                        .setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(
+                                        DIV.gtcsolo.integration.mekanism.capability.ChemicalPartAbilities.OUTPUT_GAS)
+                                        .setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1))
+                                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where('B', Predicates.blocks(ModBlocks.R_HICC_GLASS.get()))
+                        .where('#', Predicates.any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/large_material_press"))
+                .register();
+
+        // Mekanism chemical IO hatch 群 (GAS/INFUSION/OTHER × IN/OUT × 9tier + creative = 60台)
         DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.init();
+
+        // Universal IO hatch 群 (fluid or gas 排他、IN/OUT × 9tier = 18台)
+        DIV.gtcsolo.integration.mekanism.capability.UniversalHatches.init();
 
         // WEN ワイヤレスIOマシン群
         WENMachines.init();
@@ -703,49 +737,5 @@ public class ModMachines {
                 .register();
 
         SPACEFORGE_ENERGY_HATCH.get(tier).put(amperage, def);
-    }
-
-    private static void registerConversionFluidHatch(int tier) {
-        String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
-        String name = "conversion_fluid_hatch_" + tierName;
-        int capacity = ConversionFluidHatchMachine.getTierCapacity(tier);
-
-        MachineDefinition def = REGISTRATE.machine(name,
-                        holder -> ConversionFluidHatchMachine.create(holder, tier))
-                .rotationState(RotationState.ALL)
-                .tier(tier)
-                .abilities(PartAbility.IMPORT_FLUIDS)
-                .tooltips(
-                        Component.translatable("gtcsolo.machine.conversion_fluid_hatch.desc",
-                                GTValues.VNF[tier]),
-                        Component.translatable("gtcsolo.machine.conversion_fluid_hatch.desc2"),
-                        Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
-                                FormattingUtil.formatNumbers(capacity)))
-                .overlayTieredHullRenderer("conversion_input")
-                .register();
-
-        CONVERSION_FLUID_HATCH.put(tier, def);
-    }
-
-    private static void registerConversionFluidOutputHatch(int tier) {
-        String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
-        String name = "conversion_fluid_output_hatch_" + tierName;
-        int capacity = ConversionFluidHatchMachine.getTierCapacity(tier);
-
-        MachineDefinition def = REGISTRATE.machine(name,
-                        holder -> ConversionFluidOutputHatchMachine.create(holder, tier))
-                .rotationState(RotationState.ALL)
-                .tier(tier)
-                .abilities(PartAbility.EXPORT_FLUIDS)
-                .tooltips(
-                        Component.translatable("gtcsolo.machine.conversion_fluid_output_hatch.desc",
-                                GTValues.VNF[tier]),
-                        Component.translatable("gtcsolo.machine.conversion_fluid_output_hatch.desc2"),
-                        Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
-                                FormattingUtil.formatNumbers(capacity)))
-                .overlayTieredHullRenderer("conversion_output")
-                .register();
-
-        CONVERSION_FLUID_OUTPUT_HATCH.put(tier, def);
     }
 }

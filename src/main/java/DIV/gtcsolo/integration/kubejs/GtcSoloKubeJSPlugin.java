@@ -10,10 +10,8 @@ import org.slf4j.Logger;
 
 /**
  * GTCsoloEU の KubeJS 拡張 entry point.
- *
  * - RecipeComponent 登録 (ChemicalIngredient 用)
  * - Bindings 追加 (KubeJS スクリプト内で ChemicalPartAbilities 等を参照可能に)
- *
  * 登録ファイル: src/main/resources/kubejs.plugins.txt
  */
 public class GtcSoloKubeJSPlugin extends KubeJSPlugin {

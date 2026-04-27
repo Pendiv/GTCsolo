@@ -1,0 +1,8 @@
+{
+  "parent": "gtceu:block/overlay/front_emissive",
+  "textures": {
+    "particle": "gtceu:block/overlay/machine/overlay_hatch",
+    "overlay": "gtcsolo:block/overlay/machine/chemical/output_gas",
+    "overlay_emissive": "gtcsolo:block/overlay/machine/chemical/output_gas"
+  }
+}

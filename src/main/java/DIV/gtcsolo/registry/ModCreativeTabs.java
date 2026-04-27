@@ -55,18 +55,36 @@ ModCreativeTabs {
                                 if (ModMachines.WIRE_MANUFACTURING_FACTORY != null) output.accept(ModMachines.WIRE_MANUFACTURING_FACTORY.asStack());
                                 if (ModMachines.MATERIAL_PRESS_FACTORY != null) output.accept(ModMachines.MATERIAL_PRESS_FACTORY.asStack());
                                 if (ModMachines.MEKANISM_INFUSER != null) output.accept(ModMachines.MEKANISM_INFUSER.asStack());
+                                if (ModMachines.MICRO_PLANET_MINER != null) output.accept(ModMachines.MICRO_PLANET_MINER.asStack());
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> HATCH_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_hatch_tab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> {
+                                var creativeGas = DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.CREATIVE_LOOKUP
+                                        .getOrDefault(
+                                                DIV.gtcsolo.integration.mekanism.capability.ChemicalHatchVariant.GAS,
+                                                java.util.Collections.emptyMap())
+                                        .get(com.gregtechceu.gtceu.api.capability.recipe.IO.IN);
+                                return creativeGas != null ? creativeGas.asStack() : new ItemStack(ModItems.XCRYSTAL.get());
+                            })
+                            .title(Component.translatable("itemGroup.gtcsolo.hatch"))
+                            .displayItems((params, output) -> {
+                                // Upgrade Hatch
                                 ModMachines.UPGRADE_HATCHES.values()
                                         .forEach(def -> output.accept(def.asStack()));
+                                // SpaceForge Energy Hatch
                                 ModMachines.SPACEFORGE_ENERGY_HATCH.values()
                                         .forEach(ampMap -> ampMap.values()
                                                 .forEach(def -> output.accept(def.asStack())));
-                                // 化学変換液体搬入/搬出ハッチ (legacy、削除予定)
-                                ModMachines.CONVERSION_FLUID_HATCH.values()
-                                        .forEach(def -> output.accept(def.asStack()));
-                                ModMachines.CONVERSION_FLUID_OUTPUT_HATCH.values()
-                                        .forEach(def -> output.accept(def.asStack()));
-                                // Mek chemical IO hatch 72台
+                                // Mek chemical IO hatch 60台
                                 DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.ALL
+                                        .forEach(def -> output.accept(def.asStack()));
+                                // Universal IO hatch 18台
+                                DIV.gtcsolo.integration.mekanism.capability.UniversalHatches.ALL
                                         .forEach(def -> output.accept(def.asStack()));
                             })
                             .build()
@@ -129,4 +147,21 @@ ModCreativeTabs {
                             })
                             .build()
             );
+
+    /**
+     * WEN 系アイテムを GTCSOLO_TAB から除外して WIRELESS_TAB のみに表示させる.
+     * ModBlocks/ModItems の登録完了後に呼ぶ.
+     */
+    public static void applyTabOverrides() {
+        assignTab(ModItems.WEN_MAINSTORAGE_CASING_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_MAINSTORAGE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_MAINSTORAGE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_DATA_MONITOR_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_BASIC_ENERGY_CELL_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_AE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_AE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_WIRELESS_ENERGYCARD, WIRELESS_TAB);
+        assignTab(ModItems.WEN_FE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_FE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+    }
 }

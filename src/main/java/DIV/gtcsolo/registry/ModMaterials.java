@@ -492,7 +492,13 @@ public class ModMaterials {
             TagPrefix.gear, TagPrefix.gearSmall,
             TagPrefix.spring, TagPrefix.springSmall,
             TagPrefix.foil, TagPrefix.wireGtSingle,
-            TagPrefix.block, TagPrefix.rawOre, TagPrefix.ore,
+            TagPrefix.block, TagPrefix.rawOre,
+            // ore の 15 stone 変種 (存在する material のみ自動で ChemicalHelper.get が返す)
+            TagPrefix.ore, TagPrefix.oreGranite, TagPrefix.oreDiorite,
+            TagPrefix.oreAndesite, TagPrefix.oreRedGranite, TagPrefix.oreMarble,
+            TagPrefix.oreDeepslate, TagPrefix.oreTuff, TagPrefix.oreSand,
+            TagPrefix.oreRedSand, TagPrefix.oreGravel, TagPrefix.oreBasalt,
+            TagPrefix.oreNetherrack, TagPrefix.oreBlackstone, TagPrefix.oreEndstone,
             TagPrefix.gem, TagPrefix.lens,
             TagPrefix.frameGt
     };

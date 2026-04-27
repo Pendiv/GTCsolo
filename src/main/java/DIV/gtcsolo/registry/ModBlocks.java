@@ -1,7 +1,6 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
-import DIV.gtcsolo.block.ConversionSystemBlock;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlock;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlock;
 import DIV.gtcsolo.block.wen.WENPortBlock;
@@ -39,13 +38,6 @@ public class ModBlocks {
             );
 
     // =========================================================================
-    //  Chemical Conversion System
-    // =========================================================================
-
-    public static final RegistryObject<Block> CONVERSION_SYSTEM =
-            BLOCKS.register("conversionsystem_block", ConversionSystemBlock::new);
-
-    // =========================================================================
     //  WEN (Wireless Energy Network) ブロック群
     // =========================================================================
 
@@ -71,8 +63,8 @@ public class ModBlocks {
     //  その他ブロック (仮名)
     // =========================================================================
 
-    /** 耐熱強化ガラス — テクスチャ: cryostat_glass.png */
-    public static final RegistryObject<Block> BLOCK4 = BLOCKS.register("block4",
+    /** R-HICC ガラス (耐熱耐衝撃耐冷耐化学薬品) — テクスチャ: cryostat_glass.png */
+    public static final RegistryObject<Block> R_HICC_GLASS = BLOCKS.register("r_hicc_glass",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0f, 12.0f)
                     .sound(SoundType.GLASS)
@@ -91,6 +83,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> BLOCK8  = simpleBlock("block8");
     /** 共振制御コアブロック */
     public static final RegistryObject<Block> RESONANCE_CONTROL_CORE_BLOCK = simpleBlock("resonance_control_core_block");
+
+    /** Ameijia 次元マーカー (鉱脈図での次元表示用) — テクスチャ: maker/ameijia_top.png (6面共通) */
+    public static final RegistryObject<Block> AMEIJIA_MAKER = simpleBlock("ameijia_maker");
     /** block10 — テクスチャ: refined_netherstar_block.png */
     public static final RegistryObject<Block> BLOCK10 = simpleBlock("block10");
 
@@ -98,7 +93,7 @@ public class ModBlocks {
     //  casingblock_n — 仮追加ケーシング群
     // =========================================================================
 
-    public static final RegistryObject<Block> BLOCK_12 = simpleBlock("block_12");
+    public static final RegistryObject<Block> SIMULATION_CASING = simpleBlock("simulation_casing");
     public static final RegistryObject<Block> AURORALIUM_RESONANCE_CASING = simpleBlock("auroralium_resonance_casing");
     public static final RegistryObject<Block> BEDROCKIUM_NOCTURNIUM_FUSION_CASING = simpleBlock("bedrockium_nocturnium_fusion_casing");
     public static final RegistryObject<Block> CASINGBLOCK_3 = simpleBlock("casingblock_3");

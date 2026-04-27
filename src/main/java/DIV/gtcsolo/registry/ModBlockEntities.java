@@ -1,7 +1,6 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
-import DIV.gtcsolo.block.ConversionSystemBlockEntity;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlockEntity;
 import DIV.gtcsolo.block.wen.WENAePortBlockEntity;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlockEntity;
@@ -21,12 +20,6 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("extend_energy_cube",
                     () -> BlockEntityType.Builder
                             .of(ExtendEnergyCubeBlockEntity::new, ModBlocks.EXTEND_ENERGY_CUBE.get())
-                            .build(null));
-
-    public static final RegistryObject<BlockEntityType<ConversionSystemBlockEntity>> CONVERSION_SYSTEM =
-            BLOCK_ENTITIES.register("conversion_system",
-                    () -> BlockEntityType.Builder
-                            .of(ConversionSystemBlockEntity::new, ModBlocks.CONVERSION_SYSTEM.get())
                             .build(null));
 
     public static final RegistryObject<BlockEntityType<WENDataMonitorBlockEntity>> WEN_DATA_MONITOR =

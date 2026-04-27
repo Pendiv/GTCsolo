@@ -6,6 +6,7 @@ plugins {
 
 // Ensure the :cmdex subproject is evaluated before we reference its sourceSets below.
 evaluationDependsOn(':cmdex')
+evaluationDependsOn(':credit')
 
 group = mod_group_id
 version = mod_version
@@ -35,6 +36,9 @@ minecraft {
                 }
                 cmdex {
                     source project(':cmdex').sourceSets.main
+                }
+                credit {
+                    source project(':credit').sourceSets.main
                 }
             }
         }
@@ -120,6 +124,7 @@ dependencies {
 
     implementation fg.deobf("local:ldlib-forge-1.20.1:1.0.48")
     implementation fg.deobf("curse.maven:mekanism-268560:6552911")
+    runtimeOnly fg.deobf("curse.maven:mekanism-generators-268566:6552914")
     runtimeOnly fg.deobf("curse.maven:evolved-mekanism-1230085:7599591")
     runtimeOnly fg.deobf("curse.maven:iglee-library-541199:6987117")
 

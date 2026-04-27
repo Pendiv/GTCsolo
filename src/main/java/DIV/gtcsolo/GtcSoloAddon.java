@@ -28,7 +28,6 @@ import java.util.function.Consumer;
 /**
  * GTCEu アドオン。
  * IGTAddon.addRecipes() はゲーム起動時にランタイム呼び出しされるため、
- * ここに GTCEu 機械レシピを登録する。
  * (ModRecipeProvider はあくまで runData 用のデータ生成専用)
  */
 @GTAddon
@@ -53,6 +52,58 @@ public class GtcSoloAddon implements IGTAddon {
     public void registerRecipeCapabilities() {
         Gtcsolo.LOGGER.info("[ChemCap] Addon.registerRecipeCapabilities called");
         ChemicalCapabilities.init();
+        disableCustomUIForChemicalCompatibleTypes();
+    }
+
+    @Override
+    public void registerWorldgenLayers() {
+        DIV.gtcsolo.worldgen.GtcsoloWorldGenLayers.init();
+    }
+
+    /**
+     * GTCEu の一部 recipe type は `ui/recipe_type/xxx.rtui` で custom JEI レイアウトを持つが、
+     * それは item/fluid/EU のスロットしか含まない. 我々が後付けで追加した chemical cap は
+     * layout 外になり slot が描画されない.
+     *
+     * 対策: 該当 recipe type の `customUICache` を空で上書きし、
+     * `hasCustomUI() = false` を強制 → default `addInventorySlotGroup` 経路で全 cap の slot 作成.
+     *
+     * 副作用: 対象 recipe type の JEI 見た目が default grid になる. chemical 使わないレシピも同じ表示.
+     */
+    private void disableCustomUIForChemicalCompatibleTypes() {
+        com.gregtechceu.gtceu.api.recipe.GTRecipeType[] targets = {
+                com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES,
+                com.gregtechceu.gtceu.common.data.GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
+        };
+        for (com.gregtechceu.gtceu.api.recipe.GTRecipeType type : targets) {
+            if (type == null) {
+                Gtcsolo.LOGGER.warn("[ChemCap] target recipe type is null at this lifecycle phase");
+                continue;
+            }
+            try {
+                com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI ui = type.getRecipeUI();
+                Gtcsolo.LOGGER.info("[ChemCap] BEFORE reflection: {} hasCustomUI()={}",
+                        type.registryName, ui.hasCustomUI());
+                // xeiSize も null にして再計算させる
+                java.lang.reflect.Field cacheField =
+                        com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI.class
+                                .getDeclaredField("customUICache");
+                cacheField.setAccessible(true);
+                cacheField.set(ui, new net.minecraft.nbt.CompoundTag());
+                try {
+                    java.lang.reflect.Field xeiSizeField =
+                            com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI.class
+                                    .getDeclaredField("xeiSize");
+                    xeiSizeField.setAccessible(true);
+                    xeiSizeField.set(ui, null);
+                } catch (NoSuchFieldException ignored) {}
+                Gtcsolo.LOGGER.info("[ChemCap] AFTER reflection: {} hasCustomUI()={}",
+                        type.registryName, ui.hasCustomUI());
+            } catch (Throwable t) {
+                Gtcsolo.LOGGER.error("[ChemCap] Failed to disable custom UI for {}",
+                        type.registryName, t);
+            }
+        }
     }
 
     @Override
@@ -80,7 +131,7 @@ public class GtcSoloAddon implements IGTAddon {
 
         // EEBF fissile_fuel テストレシピ: 鉄dust + 核分裂燃料ガス 100mb → ウラン dust
         //   新 chemical capability (GAS) 経由の end-to-end 動作確認用
-        //   EEBF 側の INPUT_GAS hatch から fissile_fuel を供給することで発動
+        //   EEBF 側の INPUT_GAS hatch から fissile_fuel を供給することで発動する...はず
         Gtcsolo.LOGGER.info("[ChemCap] registering test_iron_to_uranium recipe (BLAST + GAS input)");
         try {
             GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "test_iron_to_uranium"))
@@ -98,8 +149,7 @@ public class GtcSoloAddon implements IGTAddon {
             Gtcsolo.LOGGER.error("[ChemCap] test_iron_to_uranium recipe FAILED: {}", e.toString(), e);
         }
 
-        // SpaceForge レシピ1: 液体Nt + 精製グロウストーンプラズマ + 錫プラズマ288mb → ユーピタイトプラズマ144mb
-        // UV 2A (524288 EU/t), 60秒 (1200 ticks)
+
         Material refinedGlowstone = GTCEuAPI.materialManager.getMaterial("gtcsolo:refined_glowstone");
         Material tinPlasma = GTCEuAPI.materialManager.getMaterial("gtcsolo:tin_plasma");
         Material jupitatePlasma = GTCEuAPI.materialManager.getMaterial("gtcsolo:jupitate_plasma");
@@ -114,7 +164,6 @@ public class GtcSoloAddon implements IGTAddon {
                     .save(provider);
         }
 
-        // NH₃ + H₂O₂ → N₂H₄ + H₂O (化学反応機, IV, 40秒)
         GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "hydrazine"))
                 .inputFluids(GTMaterials.Ammonia.getFluid(2000))
                 .inputFluids(new FluidStack(ModMaterials.HYDROGEN_PEROXIDE.getFluid(), 1000))
@@ -124,7 +173,6 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.IV])
                 .save(provider);
 
-        // SbF₃ + F₂ → SbF₅ (化学反応機, LuV, 10秒)
         GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "antimony_pentafluoride"))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.AntimonyTrifluoride, 1))
                 .inputFluids(GTMaterials.Fluorine.getFluid(1000))
@@ -133,7 +181,6 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.LuV])
                 .save(provider);
 
-        // Cl₂ + 3F₂ → 2ClF₃ (化学反応機)
         GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "chlorine_trifluoride"))
                 .inputFluids(GTMaterials.Chlorine.getFluid(1000))
                 .inputFluids(GTMaterials.Fluorine.getFluid(3000))
@@ -142,9 +189,7 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
 
-        // === Chemical Combustion Generator レシピ ===
 
-        // ClF₃ + H₂ → 3HF + HCl + IV 2A発電
         ModRecipeTypes.CHEMICAL_COMBUSTION_GENERATOR.recipeBuilder(
                         new ResourceLocation("gtcsolo", "ccg_clf3_hydrogen"))
                 .inputFluids(new FluidStack(ModMaterials.CHLORINE_TRIFLUORIDE.getFluid(), 1000))
@@ -155,7 +200,6 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(-GTValues.VA[GTValues.IV] * 2)
                 .save(provider);
 
-        // 2ClF₃ + 3N₂H₄ → 6HF + 2HCl + 3N₂ + LuV 1A発電
         ModRecipeTypes.CHEMICAL_COMBUSTION_GENERATOR.recipeBuilder(
                         new ResourceLocation("gtcsolo", "ccg_clf3_hydrazine"))
                 .inputFluids(new FluidStack(ModMaterials.CHLORINE_TRIFLUORIDE.getFluid(), 2000))
@@ -180,8 +224,7 @@ public class GtcSoloAddon implements IGTAddon {
     }
 
     private void addSuperconductorRecipes(Consumer<FinishedRecipe> provider) {
-        // Tariton (LV 超電導): RedAlloy 2 + BlueAlloy 3 → Tariton 5 ingot
-        // Alloy Smelter — 蒸気合金炉でも製造可能 (LV, 100t)
+
         GTRecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "tariton_ingot"))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RedAlloy, 2))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.BlueAlloy, 3))
@@ -190,7 +233,6 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.LV])
                 .save(provider);
 
-        // Endnium (EV 超電導): Tungsten ingot 1 + Endstone dust 5 → Endnium ingot 1 (EBF, EV, 3500K)
         GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "endnium_ingot"))
                 .inputItems(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Tungsten, 1))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Endstone, 5))
@@ -200,9 +242,7 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.EV])
                 .save(provider);
 
-        // HSS-X (LuV 超電導) dust 合成: HSSG9 + HSSS9 + HSSE9 + RoseGold5 + StainlessSteel9 → HSSX dust 41
-        // Mixer, EV, 600t
-        // その後 EBF で 1 dust → 1 ingot (blastTemp 5400K から自動生成)
+
         GTRecipeTypes.MIXER_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "hssx_dust"))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.HSSG, 9))
                 .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.HSSS, 9))
@@ -216,7 +256,7 @@ public class GtcSoloAddon implements IGTAddon {
     }
 
     private void addMekanismInfuserRecipes(Consumer<FinishedRecipe> provider) {
-        // M5 migration: 旧 ChemicalBridge fluid-based infusion → 新 ChemicalCapabilities.INFUSION 方式
+        // ChemicalCapabilities.INFUSION 方式で Mek infusion を直接入力として扱う
         net.minecraft.world.item.Item alloyInfused = net.minecraftforge.registries.ForgeRegistries.ITEMS
                 .getValue(new ResourceLocation("mekanism", "alloy_infused"));
         net.minecraft.world.item.Item alloyReinforced = net.minecraftforge.registries.ForgeRegistries.ITEMS

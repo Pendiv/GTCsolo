@@ -47,6 +47,7 @@ public final class GtcsoloRecipeModifiers {
     }
 
     private static final double TIME_UPGRADE_DURATION_FACTOR = 0.8;
+    private static final double PARALLEL_UPGRADE_FACTOR = 1.25;
 
     public static ModifierFunction industrialOverclockWithUpgradeHatch(
             @Nonnull MetaMachine machine, @Nonnull GTRecipe recipe) {
@@ -64,6 +65,38 @@ public final class GtcsoloRecipeModifiers {
         return industrial.andThen(upgradeFn);
     }
 
+    /**
+     * Conversion 機械専用: 工業OC + パラレルアップグレード乗算 (1.25^N)。
+     * industrialOverclock の parallel に PARALLEL_UPGRADE 個数分の累乗倍率をかける。
+     */
+    public static ModifierFunction industrialOverclockWithParallelUpgrade(
+            @Nonnull MetaMachine machine, @Nonnull GTRecipe recipe) {
+        int machineTier = resolveTier(machine);
+        if (machineTier < 0) return ModifierFunction.NULL;
+
+        int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
+        if (recipeTier > machineTier) return ModifierFunction.NULL;
+
+        int n = machineTier - recipeTier;
+        int parallelUpgrades = countParallelUpgrades(machine);
+
+        if (n == 0 && parallelUpgrades == 0) return ModifierFunction.IDENTITY;
+
+        double durationMult = Math.pow(INDUSTRIAL_DURATION_FACTOR, n);
+        double eutMult = Math.pow(INDUSTRIAL_EUT_FACTOR, n);
+        double ioMult = Math.pow(INDUSTRIAL_IO_FACTOR, n);
+        double upgradeMult = Math.pow(PARALLEL_UPGRADE_FACTOR, parallelUpgrades);
+        int parallels = Math.max(1, (int) Math.round(ioMult * upgradeMult));
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(parallels))
+                .eutMultiplier(eutMult)
+                .durationMultiplier(durationMult)
+                .addOCs(n)
+                .parallels(parallels)
+                .build();
+    }
+
     private static int resolveTier(MetaMachine machine) {
         if (machine instanceof WorkableElectricMultiblockMachine wem) {
             if (machine instanceof IMultiController mc && !mc.isFormed()) return -1;
@@ -76,9 +109,16 @@ public final class GtcsoloRecipeModifiers {
     }
 
     private static int countTimeUpgrades(MetaMachine machine) {
+        return countUpgradeItem(machine, ModItems.TIME_UPGRADE.get());
+    }
+
+    private static int countParallelUpgrades(MetaMachine machine) {
+        return countUpgradeItem(machine, ModItems.PARALLEL_UPGRADE.get());
+    }
+
+    private static int countUpgradeItem(MetaMachine machine, net.minecraft.world.item.Item targetItem) {
         if (!(machine instanceof IMultiController controller)) return 0;
         int total = 0;
-        var targetItem = ModItems.TIME_UPGRADE.get();
         for (var part : controller.getParts()) {
             if (!(part instanceof UpgradeHatchMachine hatch)) continue;
             var inv = hatch.getInventory();

@@ -135,6 +135,8 @@ ModCreativeTabs {
                                 // WENコントローラー
                                 if (ModMachines.WEN_MAIN_STORAGE != null)
                                     output.accept(ModMachines.WEN_MAIN_STORAGE.asStack());
+                                if (ModMachines.WEN_NEXUS_ASSEMBLER != null)
+                                    output.accept(ModMachines.WEN_NEXUS_ASSEMBLER.asStack());
                                 // ワイヤレスIOマシン全種
                                 WENMachines.WIRELESS_INPUT.values().forEach(ampMap ->
                                         ampMap.values().forEach(def -> output.accept(def.asStack())));

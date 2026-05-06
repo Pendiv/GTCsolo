@@ -221,6 +221,28 @@ public class GtcSoloAddon implements IGTAddon {
         //  超電導ワイヤー素材レシピ
         // =====================================================================
         addSuperconductorRecipes(provider);
+
+        // =====================================================================
+        //  WEN ハッチ系のクラフト + 組立機レシピ (LV〜OpV、UIV/MAX はsuper-conductor不在でskip)
+        // =====================================================================
+        addWENHatchRecipes(provider);
+
+        // =====================================================================
+        //  WEN ハッチ tier4以降アップグレードレシピ (全電圧、前tier×4 + ケーシング)
+        // =====================================================================
+        addWENHatchUpgradeRecipes(provider);
+
+        // =====================================================================
+        //  WEN Integration 易化レシピ (素材消費75%)
+        //  tier1-3: wire×3 + 中央hatch + casing
+        //  tier4+: 前tier hatch×3 + casing
+        // =====================================================================
+        addWENIntegrationRecipes(provider);
+
+        // =====================================================================
+        //  WEN Nexus Assembler — WEN関連レシピ
+        // =====================================================================
+        addWENNexusAssemblerRecipes(provider);
     }
 
     private void addSuperconductorRecipes(Consumer<FinishedRecipe> provider) {
@@ -252,6 +274,338 @@ public class GtcSoloAddon implements IGTAddon {
                 .outputItems(ChemicalHelper.get(TagPrefix.dust, ModMaterials.HSSX, 41))
                 .duration(600)
                 .EUt(GTValues.VA[GTValues.EV])
+                .save(provider);
+    }
+
+    /**
+     * WENハッチ4種(wireless_input/output, energy_hatch, energy_output_hatch)の
+     * クラフト + 組立機レシピを各電圧×amp(1/4/16)で生成。
+     * UIV/MAXは超電導素材不在でskip。
+     * クラフト配置: 1278=超電導wire, 4=レンチ('w'記号), 5=同電圧の機能ハッチ, 6=マシンケーシング
+     * 組立機: 同素材だがレンチ無し、duration=20ticks(1秒)、EUt=各電圧
+     */
+    private void addWENHatchRecipes(Consumer<FinishedRecipe> provider) {
+        java.util.Map<Integer, Material> wires = new java.util.LinkedHashMap<>();
+        wires.put(GTValues.LV, ModMaterials.TARITON);
+        wires.put(GTValues.MV, ModMaterials.REFINED_GLOWSTONE);
+        wires.put(GTValues.HV, ModMaterials.INFUSED_STAINLESS_STEEL);
+        wires.put(GTValues.EV, ModMaterials.REFINED_OBSIDIAN);
+        wires.put(GTValues.IV, ModMaterials.OBLIVION);
+        wires.put(GTValues.LuV, ModMaterials.HSSX);
+        wires.put(GTValues.ZPM, ModMaterials.PURE_NAQUADAH);
+        wires.put(GTValues.UV, ModMaterials.ORIGINALIUM);
+        wires.put(GTValues.UHV, GTMaterials.RutheniumTriniumAmericiumNeutronate);
+        wires.put(GTValues.UEV, ModMaterials.JUPITATE);
+        wires.put(GTValues.UXV, ModMaterials.HYPERX_NEUTRONIUM);
+        wires.put(GTValues.OpV, ModMaterials.FRACTALINE);
+
+        java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> casings =
+                new java.util.HashMap<>();
+        casings.put(GTValues.LV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LV);
+        casings.put(GTValues.MV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_MV);
+        casings.put(GTValues.HV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_HV);
+        casings.put(GTValues.EV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_EV);
+        casings.put(GTValues.IV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_IV);
+        casings.put(GTValues.LuV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LuV);
+        casings.put(GTValues.ZPM, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_ZPM);
+        casings.put(GTValues.UV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UV);
+        casings.put(GTValues.UHV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UHV);
+        casings.put(GTValues.UEV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UEV);
+        casings.put(GTValues.UXV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UXV);
+        casings.put(GTValues.OpV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_OpV);
+
+        java.util.Map<Integer, TagPrefix> wireSizes = new java.util.HashMap<>();
+        wireSizes.put(1, TagPrefix.wireGtSingle);
+        wireSizes.put(4, TagPrefix.wireGtQuadruple);
+        wireSizes.put(16, TagPrefix.wireGtHex);
+
+        for (var e : wires.entrySet()) {
+            int tier = e.getKey();
+            Material wire = e.getValue();
+            var casingBlock = casings.get(tier);
+            if (casingBlock == null) continue;
+
+            for (int amp : new int[]{1, 4, 16}) {
+                TagPrefix wireSize = wireSizes.get(amp);
+                String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+
+                generateWENRecipePair(provider, "wireless_input", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.WIRELESS_INPUT.get(tier).get(amp),
+                        com.gregtechceu.gtceu.common.data.GTMachines.FLUID_IMPORT_HATCH[tier]);
+                generateWENRecipePair(provider, "wireless_output", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.WIRELESS_OUTPUT.get(tier).get(amp),
+                        com.gregtechceu.gtceu.common.data.GTMachines.FLUID_EXPORT_HATCH[tier]);
+                generateWENRecipePair(provider, "energy_hatch", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.ENERGY_HATCH.get(tier).get(amp),
+                        gtEnergyHatchByAmp(amp, true)[tier]);
+                generateWENRecipePair(provider, "energy_output_hatch", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.ENERGY_OUTPUT_HATCH.get(tier).get(amp),
+                        gtEnergyHatchByAmp(amp, false)[tier]);
+            }
+        }
+    }
+
+    private static com.gregtechceu.gtceu.api.machine.MachineDefinition[] gtEnergyHatchByAmp(int amp, boolean input) {
+        if (input) {
+            return amp == 1 ? com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH
+                 : amp == 4 ? com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH_4A
+                 : com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH_16A;
+        } else {
+            return amp == 1 ? com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_OUTPUT_HATCH
+                 : amp == 4 ? com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_OUTPUT_HATCH_4A
+                 : com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_OUTPUT_HATCH_16A;
+        }
+    }
+
+    private void generateWENRecipePair(Consumer<FinishedRecipe> provider,
+            String typeKey, String tierName, int tier, int amp,
+            Material wire, TagPrefix wireSize,
+            com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block> casing,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition wenHatch,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition centerHatch) {
+        if (wenHatch == null || centerHatch == null) return;
+
+        String baseId = "wen_" + typeKey + "_" + tierName + "_" + amp + "a";
+
+        com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper.addShapedRecipe(provider,
+                new ResourceLocation("gtcsolo", "shaped/" + baseId),
+                wenHatch.asStack(),
+                "WW ", "wHC", "WW ",
+                'W', new com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry(wireSize, wire),
+                'H', centerHatch.asStack(),
+                'C', casing.asStack());
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(
+                        new ResourceLocation("gtcsolo", "assembler/" + baseId))
+                .inputItems(wireSize, wire, 4)
+                .inputItems(centerHatch.asStack())
+                .inputItems(casing.asStack())
+                .outputItems(wenHatch.asStack())
+                .duration(20)
+                .EUt(GTValues.VA[tier])
+                .save(provider);
+    }
+
+    /**
+     * WENハッチ tier4以降のアップグレードレシピ (全14電圧)。
+     * 1278: 同電圧・前tier(amp1段階下)のWENハッチ × 4
+     * 5: レンチ('w'記号、耐久-1)
+     * 6: 電圧に応じたマシンケーシング
+     * 組立機レシピも併設、duration=20ticks、EUt=各電圧。
+     */
+    private void addWENHatchUpgradeRecipes(Consumer<FinishedRecipe> provider) {
+        java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> casings =
+                buildAllMachineCasings();
+
+        java.util.Map<String, int[]> ampSequences = new java.util.LinkedHashMap<>();
+        ampSequences.put("wireless_input", new int[]{1, 4, 16, 64, 256});
+        ampSequences.put("wireless_output", new int[]{1, 4, 16, 64, 256});
+        ampSequences.put("energy_hatch", new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384});
+        ampSequences.put("energy_output_hatch", new int[]{1, 4, 16, 64, 256, 1024, 2048});
+
+        int[] allTiers = {GTValues.LV, GTValues.MV, GTValues.HV, GTValues.EV, GTValues.IV,
+                          GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV,
+                          GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX};
+
+        for (int tier : allTiers) {
+            var casingBlock = casings.get(tier);
+            if (casingBlock == null) continue;
+            String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+
+            for (var e : ampSequences.entrySet()) {
+                String typeKey = e.getKey();
+                int[] amps = e.getValue();
+                for (int i = 3; i < amps.length; i++) {
+                    int currAmp = amps[i];
+                    int prevAmp = amps[i - 1];
+                    var curr = getWENMachine(typeKey, tier, currAmp);
+                    var prev = getWENMachine(typeKey, tier, prevAmp);
+                    if (curr == null || prev == null) continue;
+
+                    generateWENUpgradeRecipePair(provider, typeKey, tierName, tier, currAmp,
+                            prev, casingBlock, curr);
+                }
+            }
+        }
+    }
+
+    private static java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> buildAllMachineCasings() {
+        java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> m =
+                new java.util.HashMap<>();
+        m.put(GTValues.LV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LV);
+        m.put(GTValues.MV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_MV);
+        m.put(GTValues.HV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_HV);
+        m.put(GTValues.EV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_EV);
+        m.put(GTValues.IV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_IV);
+        m.put(GTValues.LuV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LuV);
+        m.put(GTValues.ZPM, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_ZPM);
+        m.put(GTValues.UV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UV);
+        m.put(GTValues.UHV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UHV);
+        m.put(GTValues.UEV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UEV);
+        m.put(GTValues.UIV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UIV);
+        m.put(GTValues.UXV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UXV);
+        m.put(GTValues.OpV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_OpV);
+        m.put(GTValues.MAX, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_MAX);
+        return m;
+    }
+
+    private static com.gregtechceu.gtceu.api.machine.MachineDefinition getWENMachine(String typeKey, int tier, int amp) {
+        java.util.Map<Integer, com.gregtechceu.gtceu.api.machine.MachineDefinition> tierMap = switch (typeKey) {
+            case "wireless_input" -> DIV.gtcsolo.registry.WENMachines.WIRELESS_INPUT.get(tier);
+            case "wireless_output" -> DIV.gtcsolo.registry.WENMachines.WIRELESS_OUTPUT.get(tier);
+            case "energy_hatch" -> DIV.gtcsolo.registry.WENMachines.ENERGY_HATCH.get(tier);
+            case "energy_output_hatch" -> DIV.gtcsolo.registry.WENMachines.ENERGY_OUTPUT_HATCH.get(tier);
+            default -> null;
+        };
+        return tierMap == null ? null : tierMap.get(amp);
+    }
+
+    private void generateWENUpgradeRecipePair(Consumer<FinishedRecipe> provider,
+            String typeKey, String tierName, int tier, int amp,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition prev,
+            com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block> casing,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition curr) {
+        String baseId = "wen_upgrade_" + typeKey + "_" + tierName + "_" + amp + "a";
+
+        com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper.addShapedRecipe(provider,
+                new ResourceLocation("gtcsolo", "shaped/" + baseId),
+                curr.asStack(),
+                "HH ", " wC", "HH ",
+                'H', prev.asStack(),
+                'C', casing.asStack());
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(
+                        new ResourceLocation("gtcsolo", "assembler/" + baseId))
+                .inputItems(prev.asStack(4))
+                .inputItems(casing.asStack())
+                .outputItems(curr.asStack())
+                .duration(20)
+                .EUt(GTValues.VA[tier])
+                .save(provider);
+    }
+
+    /**
+     * WEN_INTEGRATION 易化レシピ。素材消費75%換算 (wire×4→×3、prev hatch×4→×3)。
+     * duration=20ticks、EUt=各電圧、duration/EUt は元の組立機と同じ。
+     */
+    private void addWENIntegrationRecipes(Consumer<FinishedRecipe> provider) {
+        java.util.Map<Integer, Material> wires = new java.util.LinkedHashMap<>();
+        wires.put(GTValues.LV, ModMaterials.TARITON);
+        wires.put(GTValues.MV, ModMaterials.REFINED_GLOWSTONE);
+        wires.put(GTValues.HV, ModMaterials.INFUSED_STAINLESS_STEEL);
+        wires.put(GTValues.EV, ModMaterials.REFINED_OBSIDIAN);
+        wires.put(GTValues.IV, ModMaterials.OBLIVION);
+        wires.put(GTValues.LuV, ModMaterials.HSSX);
+        wires.put(GTValues.ZPM, ModMaterials.PURE_NAQUADAH);
+        wires.put(GTValues.UV, ModMaterials.ORIGINALIUM);
+        wires.put(GTValues.UHV, GTMaterials.RutheniumTriniumAmericiumNeutronate);
+        wires.put(GTValues.UEV, ModMaterials.JUPITATE);
+        wires.put(GTValues.UXV, ModMaterials.HYPERX_NEUTRONIUM);
+        wires.put(GTValues.OpV, ModMaterials.FRACTALINE);
+
+        var allCasings = buildAllMachineCasings();
+
+        java.util.Map<Integer, TagPrefix> wireSizes = new java.util.HashMap<>();
+        wireSizes.put(1, TagPrefix.wireGtSingle);
+        wireSizes.put(4, TagPrefix.wireGtQuadruple);
+        wireSizes.put(16, TagPrefix.wireGtHex);
+
+        // tier1-3: wire-based 易化
+        for (var e : wires.entrySet()) {
+            int tier = e.getKey();
+            Material wire = e.getValue();
+            var casingBlock = allCasings.get(tier);
+            if (casingBlock == null) continue;
+            String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+
+            for (int amp : new int[]{1, 4, 16}) {
+                TagPrefix wireSize = wireSizes.get(amp);
+                registerWENIntegrationTier13(provider, "wireless_input", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.WIRELESS_INPUT.get(tier).get(amp),
+                        com.gregtechceu.gtceu.common.data.GTMachines.FLUID_IMPORT_HATCH[tier]);
+                registerWENIntegrationTier13(provider, "wireless_output", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.WIRELESS_OUTPUT.get(tier).get(amp),
+                        com.gregtechceu.gtceu.common.data.GTMachines.FLUID_EXPORT_HATCH[tier]);
+                registerWENIntegrationTier13(provider, "energy_hatch", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.ENERGY_HATCH.get(tier).get(amp),
+                        gtEnergyHatchByAmp(amp, true)[tier]);
+                registerWENIntegrationTier13(provider, "energy_output_hatch", tierName, tier, amp, wire, wireSize, casingBlock,
+                        DIV.gtcsolo.registry.WENMachines.ENERGY_OUTPUT_HATCH.get(tier).get(amp),
+                        gtEnergyHatchByAmp(amp, false)[tier]);
+            }
+        }
+
+        // tier4+: cascade 易化 (前tier hatch×3 + casing)
+        java.util.Map<String, int[]> ampSequences = new java.util.LinkedHashMap<>();
+        ampSequences.put("wireless_input", new int[]{1, 4, 16, 64, 256});
+        ampSequences.put("wireless_output", new int[]{1, 4, 16, 64, 256});
+        ampSequences.put("energy_hatch", new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384});
+        ampSequences.put("energy_output_hatch", new int[]{1, 4, 16, 64, 256, 1024, 2048});
+
+        int[] allTiers = {GTValues.LV, GTValues.MV, GTValues.HV, GTValues.EV, GTValues.IV,
+                          GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV,
+                          GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX};
+
+        for (int tier : allTiers) {
+            var casingBlock = allCasings.get(tier);
+            if (casingBlock == null) continue;
+            String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
+            for (var entry : ampSequences.entrySet()) {
+                String typeKey = entry.getKey();
+                int[] amps = entry.getValue();
+                for (int i = 3; i < amps.length; i++) {
+                    int currAmp = amps[i];
+                    int prevAmp = amps[i - 1];
+                    var curr = getWENMachine(typeKey, tier, currAmp);
+                    var prev = getWENMachine(typeKey, tier, prevAmp);
+                    if (curr == null || prev == null) continue;
+
+                    String baseId = "integration_upgrade_" + typeKey + "_" + tierName + "_" + currAmp + "a";
+                    ModRecipeTypes.WEN_INTEGRATION.recipeBuilder(
+                                    new ResourceLocation("gtcsolo", baseId))
+                            .inputItems(prev.asStack(3))
+                            .inputItems(casingBlock.asStack())
+                            .outputItems(curr.asStack())
+                            .duration(20)
+                            .EUt(GTValues.VA[tier])
+                            .save(provider);
+                }
+            }
+        }
+    }
+
+    private void registerWENIntegrationTier13(Consumer<FinishedRecipe> provider,
+            String typeKey, String tierName, int tier, int amp,
+            Material wire, TagPrefix wireSize,
+            com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block> casing,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition wenHatch,
+            com.gregtechceu.gtceu.api.machine.MachineDefinition centerHatch) {
+        if (wenHatch == null || centerHatch == null) return;
+        String baseId = "integration_" + typeKey + "_" + tierName + "_" + amp + "a";
+        ModRecipeTypes.WEN_INTEGRATION.recipeBuilder(
+                        new ResourceLocation("gtcsolo", baseId))
+                .inputItems(wireSize, wire, 3)
+                .inputItems(centerHatch.asStack())
+                .inputItems(casing.asStack())
+                .outputItems(wenHatch.asStack())
+                .duration(20)
+                .EUt(GTValues.VA[tier])
+                .save(provider);
+    }
+
+    /**
+     * WEN Nexus Assembler レシピ群。WEN関連の機材をここで作る。
+     */
+    private void addWENNexusAssemblerRecipes(Consumer<FinishedRecipe> provider) {
+        // WEN基本蓄電セル: 石炭ブロック×4 + LV小型リチウム電池 → WEN_BASIC_ENERGY_CELL, MV 2A, 120ticks
+        ModRecipeTypes.WEN_NEXUS_ASSEMBLER.recipeBuilder(
+                        new ResourceLocation("gtcsolo", "wen_basic_energy_cell"))
+                .inputItems(new net.minecraft.world.item.ItemStack(net.minecraft.world.level.block.Blocks.COAL_BLOCK, 4))
+                .inputItems(com.gregtechceu.gtceu.common.data.GTItems.BATTERY_LV_LITHIUM.asStack())
+                .outputItems(new net.minecraft.world.item.ItemStack(
+                        DIV.gtcsolo.registry.ModBlocks.WEN_BASIC_ENERGY_CELL.get(), 1))
+                .duration(120)
+                .EUt(GTValues.VA[GTValues.MV] * 2L)
                 .save(provider);
     }
 

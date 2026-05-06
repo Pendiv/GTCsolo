@@ -31,6 +31,19 @@ public class ModRecipeTypes {
     // Mekanism Infuser — 吹込み合金生成マルチ (item 3/3, fluid 2/2, EU in)
     public static GTRecipeType MEKANISM_INFUSER;
 
+    // Conversion — Mekanism infusion_conversion 模倣 (item 3/3, INFUSION 1/1, output 1.5x)
+    public static GTRecipeType CONVERSION;
+
+    // Industrial Infusion Conversion — 工業的吹き込みタイプ変換 (Conversion機械が扱う追加レシピタイプ)
+    // duration = output_amount × 8 ticks (= 4s/10mb), EUt = LV固定, output = Mekanism元の1.5倍
+    public static GTRecipeType INDUSTRIAL_INFUSION_CONVERSION;
+
+    // WEN Integration — items 9/32, fluids 3/0, EU IN
+    public static GTRecipeType WEN_INTEGRATION;
+
+    // WEN Nexus Assembler — items 9/32, fluids 3/2, EU IN
+    public static GTRecipeType WEN_NEXUS_ASSEMBLER;
+
     public static void init() {
         // GTCEu 標準 BLAST_RECIPES に GAS capability 最大1入力 を後付け (EEBF でfissile_fuel等を受ける)
         com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES
@@ -113,5 +126,63 @@ public class ModRecipeTypes {
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, miId, MEKANISM_INFUSER);
         GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, miId, new GTRecipeSerializer());
         GTRegistries.RECIPE_TYPES.register(miId, MEKANISM_INFUSER);
+
+        // Conversion — infusion_conversion 模倣 (1.5倍 output)
+        CONVERSION = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "conversion"), "multiblock")
+                .setMaxIOSize(3, 3, 0, 0)
+                .setEUIO(IO.IN)
+                .setMaxSize(IO.IN,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
+                .setMaxSize(IO.OUT,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation convId = new ResourceLocation("gtcsolo", "conversion");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, convId, CONVERSION);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, convId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(convId, CONVERSION);
+
+        // Industrial Infusion Conversion
+        INDUSTRIAL_INFUSION_CONVERSION = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "industrial_infusion_conversion"), "multiblock")
+                .setMaxIOSize(3, 3, 0, 0)
+                .setEUIO(IO.IN)
+                .setMaxSize(IO.IN,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
+                .setMaxSize(IO.OUT,
+                        DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation iicId = new ResourceLocation("gtcsolo", "industrial_infusion_conversion");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, iicId, INDUSTRIAL_INFUSION_CONVERSION);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, iicId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(iicId, INDUSTRIAL_INFUSION_CONVERSION);
+
+        // Conversion 系: レシピ EUt から構造tier 要求を自動で data に焼き、JEI に "Required Tier" 行を追加
+        CONVERSION.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
+        INDUSTRIAL_INFUSION_CONVERSION.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
+        DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(CONVERSION);
+        DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(INDUSTRIAL_INFUSION_CONVERSION);
+
+        // WEN Integration
+        WEN_INTEGRATION = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "wen_integration"), "multiblock")
+                .setMaxIOSize(9, 32, 3, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation wiId = new ResourceLocation("gtcsolo", "wen_integration");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, wiId, WEN_INTEGRATION);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, wiId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(wiId, WEN_INTEGRATION);
+
+        // WEN Nexus Assembler
+        WEN_NEXUS_ASSEMBLER = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "wen_nexus_assembler"), "multiblock")
+                .setMaxIOSize(9, 2, 3, 2)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation wnaId = new ResourceLocation("gtcsolo", "wen_nexus_assembler");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, wnaId, WEN_NEXUS_ASSEMBLER);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, wnaId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(wnaId, WEN_NEXUS_ASSEMBLER);
     }
 }

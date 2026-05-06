@@ -16,7 +16,7 @@ WENPortBlock extends BaseEntityBlock {
 
     public WENPortBlock() {
         super(BlockBehaviour.Properties.of()
-                .strength(5.0f, 12.0f)
+                .strength(1.5f, 6.0f)
                 .sound(SoundType.METAL)
                 .requiresCorrectToolForDrops());
     }

@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
 }
 
-// Ensure the :cmdex subproject is evaluated before we reference its sourceSets below.
+// Ensure subprojects are evaluated before we reference their sourceSets below.
 evaluationDependsOn(':cmdex')
 evaluationDependsOn(':credit')
 
@@ -127,6 +127,13 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:mekanism-generators-268566:6552914")
     runtimeOnly fg.deobf("curse.maven:evolved-mekanism-1230085:7599591")
     runtimeOnly fg.deobf("curse.maven:iglee-library-541199:6987117")
+
+    // Immersive Engineering (credit MOD の対応 system 拡張用)
+    implementation fg.deobf("curse.maven:immersive-engineering-231951:6206989")
+
+    // Create (credit MOD の対応 system 拡張用)
+    // Registrate / Flywheel / Ponder / MixinExtras は JarJar で内包済み
+    implementation fg.deobf("curse.maven:create-328085:7178761")
 
     implementation fg.deobf("local:Registrate-MC1.20:1.3.3")
     // KubeJS + dependencies (fg.deobf経由でSRG→officialリマッピング)

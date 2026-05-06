@@ -147,8 +147,8 @@ public class ModItems {
             ITEMS.register("casingblock_3", () -> new BlockItem(ModBlocks.CASINGBLOCK_3.get(), new Item.Properties()));
     public static final RegistryObject<Item> CASINGBLOCK_4_ITEM =
             ITEMS.register("casingblock_4", () -> new BlockItem(ModBlocks.CASINGBLOCK_4.get(), new Item.Properties()));
-    public static final RegistryObject<Item> CASINGBLOCK_5_ITEM =
-            ITEMS.register("casingblock_5", () -> new BlockItem(ModBlocks.CASINGBLOCK_5.get(), new Item.Properties()));
+    public static final RegistryObject<Item> WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING_ITEM =
+            ITEMS.register("wen_functional_assembler_machine_casing", () -> new BlockItem(ModBlocks.WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> REFINED_OBSIDIAN_CASING_ITEM =
             ITEMS.register("refined_obsidian_casing", () -> new BlockItem(ModBlocks.REFINED_OBSIDIAN_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> CASINGBLOCK_7_ITEM =
@@ -161,9 +161,15 @@ public class ModItems {
             ITEMS.register("htff_casing", () -> new BlockItem(ModBlocks.HTFF_CASING.get(), new Item.Properties()));
 
     /** タイムアップグレード — UpgradeHatch内に格納するとレシピ稼働時間を短縮 (stacksTo=1)
-     *  テクスチャ: item/upgread/time_upgread.png */
+     *  テクスチャ: item/upgrade/time_upgrade.png */
     public static final RegistryObject<Item> TIME_UPGRADE =
-            ITEMS.register("time_upgread",
+            ITEMS.register("time_upgrade",
+                    () -> new Item(new Item.Properties().stacksTo(1)));
+
+    /** パラレルアップグレード — UpgradeHatch内に格納するとマルチブロックの並列数を増加 (stacksTo=1, ロジック未実装)
+     *  テクスチャ: item/upgrade/parallel_upgrade.png */
+    public static final RegistryObject<Item> PARALLEL_UPGRADE =
+            ITEMS.register("parallel_upgrade",
                     () -> new Item(new Item.Properties().stacksTo(1)));
 
     /** pc — アニメーションテクスチャ (pc.png + pc.png.mcmeta, 10 frame ping-pong) */

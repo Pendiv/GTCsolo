@@ -43,7 +43,7 @@ public class ModBlocks {
 
     private static RegistryObject<Block> simpleBlock(String name) {
         return BLOCKS.register(name, () -> new Block(BlockBehaviour.Properties.of()
-                .strength(5.0f, 12.0f)
+                .strength(1.5f, 6.0f)
                 .sound(SoundType.METAL)
                 .requiresCorrectToolForDrops()));
     }
@@ -98,7 +98,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> BEDROCKIUM_NOCTURNIUM_FUSION_CASING = simpleBlock("bedrockium_nocturnium_fusion_casing");
     public static final RegistryObject<Block> CASINGBLOCK_3 = simpleBlock("casingblock_3");
     public static final RegistryObject<Block> CASINGBLOCK_4 = simpleBlock("casingblock_4");
-    public static final RegistryObject<Block> CASINGBLOCK_5 = simpleBlock("casingblock_5");
+    public static final RegistryObject<Block> WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING = simpleBlock("wen_functional_assembler_machine_casing");
     public static final RegistryObject<Block> REFINED_OBSIDIAN_CASING = simpleBlock("refined_obsidian_casing");
     public static final RegistryObject<Block> CASINGBLOCK_7 = simpleBlock("casingblock_7");
 

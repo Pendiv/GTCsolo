@@ -21,8 +21,8 @@ import static DIV.gtcsolo.registry.ModMachines.REGISTRATE;
 
 /**
  * WEN ワイヤレスエネルギーネットワーク — マシン登録
- * EV(4)~MAX(14) × 1A,4A,16A,64A,256A
- * Input: 55マシン + Output: 55マシン = 110マシン
+ * LV(1)~MAX(14) × 1A,4A,16A,64A,256A
+ * Input: 70マシン + Output: 70マシン = 140マシン
  */
 public class WENMachines {
 
@@ -38,7 +38,7 @@ public class WENMachines {
     private static final int[] HATCH_EXTRA_AMPS = {1024, 4096, 16384};
     /** 出力ハッチのアンペア（画像に対応: 1,4,16,64,256,1024,2048） */
     private static final int[] OUTPUT_HATCH_AMPS = {1, 4, 16, 64, 256, 1024, 2048};
-    private static final int MIN_TIER = GTValues.EV;
+    private static final int MIN_TIER = GTValues.LV;
     private static final int MAX_TIER = GTValues.MAX;
 
     public static void init() {

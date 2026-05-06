@@ -51,6 +51,8 @@ public class ModMachines {
     public static MultiblockMachineDefinition MATERIAL_PRESS_FACTORY;
     public static MultiblockMachineDefinition MEKANISM_INFUSER;
     public static MultiblockMachineDefinition MICRO_PLANET_MINER;
+    public static MultiblockMachineDefinition CONVERSION;
+    public static MultiblockMachineDefinition WEN_NEXUS_ASSEMBLER;
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
@@ -68,7 +70,35 @@ public class ModMachines {
             {GTValues.UHV, 4}
     };
 
+    /**
+     * CONVERSION マルチブロック用の電圧tier ↔ マシンケーシング対応。
+     * GTBlocks.MACHINE_CASING_LV..MAX を LV..MAX に対応 (ULV は対象外)。
+     * 構造の壁 (A 位置) はこれら同一 tier のケーシングで統一されていなければならない。
+     *
+     * NOTE: GTBlocks のフィールドを直接参照すると ModMachines の static init 時に
+     * GTBlocks.&lt;clinit&gt; → GTSoundEntries 等が連鎖し、レジストリ凍結後の
+     * 二重登録で死ぬ。よって init() 呼び出し時に遅延構築する。
+     */
+    public static DIV.gtcsolo.api.tier.TieredBlockSet CONVERSION_TIERS;
+
     public static void init() {
+        CONVERSION_TIERS = DIV.gtcsolo.api.tier.TieredBlockSet.builder("conversion_machine_tier")
+                .errorKey("gtcsolo.multiblock.error.tier_block_mismatch")
+                .tier(GTValues.LV,  GTBlocks.MACHINE_CASING_LV)
+                .tier(GTValues.MV,  GTBlocks.MACHINE_CASING_MV)
+                .tier(GTValues.HV,  GTBlocks.MACHINE_CASING_HV)
+                .tier(GTValues.EV,  GTBlocks.MACHINE_CASING_EV)
+                .tier(GTValues.IV,  GTBlocks.MACHINE_CASING_IV)
+                .tier(GTValues.LuV, GTBlocks.MACHINE_CASING_LuV)
+                .tier(GTValues.ZPM, GTBlocks.MACHINE_CASING_ZPM)
+                .tier(GTValues.UV,  GTBlocks.MACHINE_CASING_UV)
+                .tier(GTValues.UHV, GTBlocks.MACHINE_CASING_UHV)
+                .tier(GTValues.UEV, GTBlocks.MACHINE_CASING_UEV)
+                .tier(GTValues.UIV, GTBlocks.MACHINE_CASING_UIV)
+                .tier(GTValues.UXV, GTBlocks.MACHINE_CASING_UXV)
+                .tier(GTValues.OpV, GTBlocks.MACHINE_CASING_OpV)
+                .tier(GTValues.MAX, GTBlocks.MACHINE_CASING_MAX)
+                .build();
         FEC = REGISTRATE.multiblock("fec", FECMachine::new)
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(ModRecipeTypes.FEC)
@@ -639,6 +669,119 @@ public class ModMachines {
         for (int[] pair : UPGRADE_HATCH_TIERS) {
             registerUpgradeHatch(pair[0], pair[1]);
         }
+
+        // =========================================================================
+        //  Conversion — 3x3x3 infusion_conversion 模倣マルチブロック
+        //  構造パターンは run/cmdex/export/conversion.txt 由来
+        //  A = solid_machine_casing + autoAbilities + PARALLEL/MAINTENANCE/UPGRADE_HATCH + INFUSION I/O
+        //  B = cmdex:adressblock (中段下層センター)
+        //  C = gtceu:steel_pipe_casing (中段中央 # 周辺、上段センター)
+        //  # = controller
+        //  ロジック (1.5x output, パラレルアップグレード) は未実装
+        // =========================================================================
+        CONVERSION = REGISTRATE.multiblock("conversion",
+                        holder -> new DIV.gtcsolo.api.tier.TieredMultiblockMachine(holder, CONVERSION_TIERS))
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeTypes(ModRecipeTypes.CONVERSION, ModRecipeTypes.INDUSTRIAL_INFUSION_CONVERSION)
+                .recipeModifiers(
+                        DIV.gtcsolo.api.tier.TierRecipeLogic::tierGate,
+                        GTRecipeModifiers.PARALLEL_HATCH,
+                        DIV.gtcsolo.util.GtcsoloRecipeModifiers::industrialOverclockWithParallelUpgrade)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.conversion.desc.1"),
+                        Component.translatable("gtcsolo.machine.conversion.desc.2"),
+                        Component.translatable("gtcsolo.machine.conversion.desc.3"),
+                        Component.translatable("gtcsolo.machine.conversion.desc.4"),
+                        Component.translatable("gtcsolo.machine.conversion.desc.5"),
+                        Component.translatable("gtcsolo.machine.conversion.desc.6"))
+                .appearanceBlock(GTBlocks.MACHINE_CASING_LV)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAA", "A#A", "AAA")
+                        .aisle("AAA", "CAC", "AAA")
+                        .aisle("AAA", "ACA", "AAA")
+                        .where('#', controller(blocks(definition.getBlock())))
+                        .where('A', CONVERSION_TIERS.predicate()
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(UPGRADE_HATCH).setMaxGlobalLimited(8))
+                                .or(abilities(DIV.gtcsolo.integration.mekanism.capability
+                                        .ChemicalPartAbilities.INPUT_INFUSION).setMaxGlobalLimited(1))
+                                .or(abilities(DIV.gtcsolo.integration.mekanism.capability
+                                        .ChemicalPartAbilities.OUTPUT_INFUSION).setMaxGlobalLimited(1)))
+                        .where('C', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                        .build())
+                .shapeInfos(definition -> CONVERSION_TIERS.generateShapeInfos(
+                        tier -> {
+                            // GT 標準ハッチは UHV(9) までしか配列に存在しないので tier を clamp
+                            int hatchTier = Math.min(tier, GTValues.UHV);
+                            // 重要: shape の aisle は pattern の aisle と逆向き。
+                            // pattern の # は aisle 0 にあるので、shape の @ は aisle 2 (LAST) に置く。
+                            // つまり pattern の (aisle 0, 1, 2) ↔ shape の (aisle 2, 1, 0) で対応。
+                            // pattern aisle 0 "AAA / A#A / AAA" → shape aisle 2 "EAA / A@A / MAA"
+                            // pattern aisle 1 "AAA / CAC / AAA" → shape aisle 1 "AAA / CAC / AAA"
+                            // pattern aisle 2 "AAA / ACA / AAA" → shape aisle 0 "IAA / ACA / OAA"
+                            return com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo.builder()
+                                    .aisle("IAA", "ACA", "OAA")  // ↔ pattern aisle 2
+                                    .aisle("AAA", "CAC", "AAA")  // ↔ pattern aisle 1
+                                    .aisle("EAA", "A@A", "MAA")  // ↔ pattern aisle 0 (controller)
+                                    .where('@', definition, net.minecraft.core.Direction.NORTH)
+                                    .where('C', GTBlocks.CASING_STEEL_PIPE.get())
+                                    .where('M', com.gregtechceu.gtceu.common.data.GTMachines.MAINTENANCE_HATCH,
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('E', com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('I', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_IMPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.SOUTH)
+                                    .where('O', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_EXPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.SOUTH);
+                        },
+                        'A'))
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/voltage/lv/side"),
+                        new ResourceLocation("gtceu", "block/multiblock/electric_blast_furnace"))
+                .register();
+
+        // =========================================================================
+        //  WEN Nexus Assembler — 7x7x7 マルチブロック
+        //  構造パターンは run/cmdex/export/wen_functional_assembler.txt 由来
+        //  A = WEN機能組立マシン外装 + autoAbilities
+        //  B = steel_turbine_casing, C = large_scale_assembler_casing,
+        //  D = assembly_line_grating, E = assembly_line_casing, F = iv_hermetic_casing
+        //  Y = controller (aisle 0 row 3 col 3)、レシピタイプ: WEN_INTEGRATION + WEN_NEXUS_ASSEMBLER
+        // =========================================================================
+        WEN_NEXUS_ASSEMBLER = REGISTRATE.multiblock("wen_nexus_assembler", WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeTypes(ModRecipeTypes.WEN_INTEGRATION, ModRecipeTypes.WEN_NEXUS_ASSEMBLER)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_PERFECT)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.wen_nexus_assembler.desc.1"),
+                        Component.translatable("gtcsolo.machine.wen_nexus_assembler.desc.2"))
+                .appearanceBlock(ModBlocks.WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("###A###","##AAA##","#AAAAA#","AAAYAAA","#AAAAA#","##AAA##","###A###")
+                        .aisle("##AAA##","#ABBBA#","ACDDDCA","ACDDDCA","ACDDDCA","#ACCCA#","##AAA##")
+                        .aisle("#AAAAA#","ABEEEBA","AF###FA","AF###FA","AC###CA","ACEEECA","#AAAAA#")
+                        .aisle("AAAAAAA","ABEEEBA","AE###EA","AE###EA","AE###EA","ACEEECA","AAAAAAA")
+                        .aisle("#AAAAA#","ABEEEBA","AF###FA","AF###FA","AC###CA","ACEEECA","#AAAAA#")
+                        .aisle("##AAA##","#ABBBA#","ACDDDCA","ACDDDCA","ACDDDCA","#ACCCA#","##AAA##")
+                        .aisle("###A###","##AAA##","#AAAAA#","AAAAAAA","#AAAAA#","##AAA##","###A###")
+                        .where('Y', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(ModBlocks.WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING.get())
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where('B', blocks(GTBlocks.CASING_STEEL_TURBINE.get()))
+                        .where('C', blocks(GCYMBlocks.CASING_LARGE_SCALE_ASSEMBLING.get()))
+                        .where('D', blocks(GTBlocks.CASING_GRATE.get()))
+                        .where('E', blocks(GTBlocks.CASING_ASSEMBLY_LINE.get()))
+                        .where('F', blocks(GTBlocks.HERMETIC_CASING_IV.get()))
+                        .where('#', any())
+                        .build())
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/wen_functional_assembler_machine_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/gcym/blast_alloy_smelter"))
+                .register();
 
         // =========================================================================
         //  Micro Planet Miner — 7x7x7 角丸球状マルチブロック

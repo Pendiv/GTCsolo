@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "DIV.gtcsolo.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "gtcsolo.refmap.json",
+  "mixins": [],
+  "client": [
+    "PatternPreviewWidgetMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

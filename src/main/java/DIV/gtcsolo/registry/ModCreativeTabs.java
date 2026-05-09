@@ -56,6 +56,7 @@ ModCreativeTabs {
                                 if (ModMachines.MATERIAL_PRESS_FACTORY != null) output.accept(ModMachines.MATERIAL_PRESS_FACTORY.asStack());
                                 if (ModMachines.MEKANISM_INFUSER != null) output.accept(ModMachines.MEKANISM_INFUSER.asStack());
                                 if (ModMachines.MICRO_PLANET_MINER != null) output.accept(ModMachines.MICRO_PLANET_MINER.asStack());
+                                if (ModMachines.LOCUS_SIMULATION_BUILDER != null) output.accept(ModMachines.LOCUS_SIMULATION_BUILDER.asStack());
                             })
                             .build()
             );

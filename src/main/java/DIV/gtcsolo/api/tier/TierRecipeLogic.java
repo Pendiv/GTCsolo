@@ -75,8 +75,9 @@ public final class TierRecipeLogic {
         return recipeType.addDataInfo(data -> {
             if (data == null || !data.contains(RECIPE_DATA_KEY)) return "";
             int tier = data.getInt(RECIPE_DATA_KEY);
-            if (tier < 0 || tier >= GTValues.VN.length) return "";
-            return LocalizationUtils.format("gtcsolo.recipe.required_tier", GTValues.VN[tier]);
+            if (tier < 0 || tier >= GTValues.VNF.length) return "";
+            // VNF は GT 純正の tier 色 (LV=GRAY, MV=AQUA, HV=GOLD, ...) が前置されている
+            return LocalizationUtils.format("gtcsolo.recipe.required_tier", GTValues.VNF[tier]);
         });
     }
 

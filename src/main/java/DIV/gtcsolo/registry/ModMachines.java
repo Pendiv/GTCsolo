@@ -53,6 +53,11 @@ public class ModMachines {
     public static MultiblockMachineDefinition MICRO_PLANET_MINER;
     public static MultiblockMachineDefinition CONVERSION;
     public static MultiblockMachineDefinition WEN_NEXUS_ASSEMBLER;
+    public static MultiblockMachineDefinition SINGULARITY_MAKER;
+    /** SINGULARITY_MAKER 用 tier セット (ZPM/UV/UHV)。init() 内で構築。 */
+    public static DIV.gtcsolo.api.tier.TieredBlockSet SINGULARITY_MAKER_TIERS;
+    /** Locus Simulation Builder — 空 star_locus に Trace NBT を書き込む 17×37×18 球状マルチブロック */
+    public static MultiblockMachineDefinition LOCUS_SIMULATION_BUILDER;
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
@@ -355,11 +360,11 @@ public class ModMachines {
                         .aisle("#########################","#########################","##A###################A##","#########################","###########DDD###########","#########DD#E#DD#########","###########DDD###########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","#########DD###DD#########","########F#EDDDE#F########","#########DD###DD#########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","########D#######D########","#######F#DD###DD#F#######","########D#######D########","##A###################A##","#########################","#########################")
-                        .aisle("##A###################A##","##A###################A##","#AAA#################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
+                        .aisle("#########################","##A###################A##","#AAA#################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
                         .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
-                        .aisle("#########################","AAAAA###############AAAAA","GAAAA###############AAAAG","#CBC#################CBC#","#CBC###D#########D###CBC#","#CBC##DED#######DED##CBC#","#CBC###D#########D###CBC#","AAAAA###############AAAAA","AAAAA###############AAAAA","##A###################A##")
+                        .aisle("##A###################A##","AAAAA###############AAAAA","GAAAA###############AAAAG","#CBC#################CBC#","#CBC###D#########D###CBC#","#CBC##DED#######DED##CBC#","#CBC###D#########D###CBC#","AAAAA###############AAAAA","AAAAA###############AAAAA","##A###################A##")
                         .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
-                        .aisle("##A###################A##","##A###################A##","#AA##################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
+                        .aisle("########################","##A###################A##","#AA##################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","########D#######D########","#######F#DD###DD#F#######","########D#######D########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","#########DD###DD#########","########F#EDDDE#F########","#########DD###DD#########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","###########DDD###########","#########DD#E#DD#########","###########DDD###########","##A###################A##","#########################","#########################")
@@ -742,6 +747,10 @@ public class ModMachines {
                         new ResourceLocation("gtceu", "block/multiblock/electric_blast_furnace"))
                 .register();
 
+        // JEI プレビュー画面で P ボタン上に「LV」「MV」等の tier ラベルを表示するための
+        // mixin 用 registry に登録 (未登録 MB は mixin が素通りするので影響なし)
+        DIV.gtcsolo.api.tier.TieredMultiblockRegistry.register(CONVERSION, CONVERSION_TIERS);
+
         // =========================================================================
         //  WEN Nexus Assembler — 7x7x7 マルチブロック
         //  構造パターンは run/cmdex/export/wen_functional_assembler.txt 由来
@@ -826,6 +835,140 @@ public class ModMachines {
                 .workableCasingRenderer(
                         new ResourceLocation("gtcsolo", "block/simulation_casing"),
                         new ResourceLocation("gtceu", "block/multiblock/large_material_press"))
+                .register();
+
+        // =========================================================================
+        //  Singularity Maker — 11x7x11 球状マルチブロック
+        //  構造パターン: run/cmdex/export/singularity_maker.txt 由来
+        //  A = unknown (透過, 外殻スパース)
+        //  B = atomic_casing (機能ブロック、auto-abilities/parallel/maintenance 受付)
+        //  C = tier 制ケーシング (ZPM=simulation / UV=auroralium_resonance / UHV=eternal)
+        //  D = high_power_casing
+        //  E = superconducting_coil
+        //  F = ae2:controller (装飾、AE2 ネット参加するが意図的に放置)
+        //  X = controller (aisle 7 row 1 col 5)
+        // =========================================================================
+        SINGULARITY_MAKER_TIERS = DIV.gtcsolo.api.tier.TieredBlockSet.builder("singularity_maker_tier")
+                .errorKey("gtcsolo.multiblock.error.tier_block_mismatch")
+                .tier(GTValues.ZPM, ModBlocks.SIMULATION_CASING)
+                .tier(GTValues.UV,  ModBlocks.AURORALIUM_RESONANCE_CASING)
+                .tier(GTValues.UHV, ModBlocks.ETERNAL_CASING)
+                .build();
+
+        SINGULARITY_MAKER = REGISTRATE.multiblock("singularity_maker",
+                        holder -> new DIV.gtcsolo.api.tier.TieredMultiblockMachine(holder, SINGULARITY_MAKER_TIERS))
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeTypes(ModRecipeTypes.SINGULARITY_MAKER, ModRecipeTypes.SINGULARITY_COMPRESSER)
+                .recipeModifiers(
+                        DIV.gtcsolo.api.tier.TierRecipeLogic::tierGate,
+                        GTRecipeModifiers.PARALLEL_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.singularity_maker.desc.1"),
+                        Component.translatable("gtcsolo.machine.singularity_maker.desc.2"),
+                        Component.translatable("gtcsolo.machine.singularity_maker.desc.3"))
+                .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########", "###AAAAA###")
+                        .aisle("#AA#####AA#", "###########", "###########", "###########", "###########", "###########", "#AA#####AA#")
+                        .aisle("#A#######A#", "###########", "###########", "###########", "###########", "###########", "#A#######A#")
+                        .aisle("A#########A", "###BBBBB###", "###CCCCC###", "###DDDDD###", "###CCCCC###", "###BBBBB###", "A#########A")
+                        .aisle("A#########A", "###BBBBB###", "###CEEEC###", "###DEEED###", "###CEEEC###", "###BBBBB###", "A#########A")
+                        .aisle("A#########A", "###BBFBB###", "###CEFEC###", "###DEFED###", "###CEFEC###", "###BBFBB###", "A#########A")
+                        .aisle("A#########A", "###BBBBB###", "###CEEEC###", "###DEEED###", "###CEEEC###", "###BBBBB###", "A#########A")
+                        .aisle("A#########A", "###BBXBB###", "###CCCCC###", "###DDDDD###", "###CCCCC###", "###BBBBB###", "A#########A")
+                        .aisle("#A#######A#", "###########", "###########", "###########", "###########", "###########", "#A#######A#")
+                        .aisle("#AA#####AA#", "###########", "###########", "###########", "###########", "###########", "#AA#####AA#")
+                        .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########", "###AAAAA###")
+                        .where('X', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(ModBlocks.UNKNOWN.get()))
+                        .where('B', blocks(GCYMBlocks.CASING_ATOMIC.get())
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(UPGRADE_HATCH).setMaxGlobalLimited(8)))
+                        .where('C', SINGULARITY_MAKER_TIERS.predicate())
+                        .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                        .where('E', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
+                        .where('F', blocks(net.minecraftforge.registries.ForgeRegistries.BLOCKS
+                                .getValue(new ResourceLocation("ae2", "controller"))))
+                        .where('#', any())
+                        .build())
+                .shapeInfos(definition -> SINGULARITY_MAKER_TIERS.generateShapeInfos(
+                        tier -> {
+                            int hatchTier = Math.min(tier, GTValues.UHV);
+                            // shape の aisle は pattern と逆順 (controller を front 側に置くため)
+                            // pattern aisle 7 (controller) → shape aisle 3
+                            // shape aisle 3 row 1 で X→@、BBBBB→IN@MO に置換
+                            return com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo.builder()
+                                    .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########", "###AAAAA###") // shape 0 = pattern 10
+                                    .aisle("#AA#####AA#", "###########", "###########", "###########", "###########", "###########", "#AA#####AA#") // shape 1 = pattern 9
+                                    .aisle("#A#######A#", "###########", "###########", "###########", "###########", "###########", "#A#######A#") // shape 2 = pattern 8
+                                    .aisle("A#########A", "###IN@MO###", "###CCCCC###", "###DDDDD###", "###CCCCC###", "###BBBBB###", "A#########A") // shape 3 = pattern 7 (controller)
+                                    .aisle("A#########A", "###BBBBB###", "###CEEEC###", "###DEEED###", "###CEEEC###", "###BBBBB###", "A#########A") // shape 4 = pattern 6
+                                    .aisle("A#########A", "###BBFBB###", "###CEFEC###", "###DEFED###", "###CEFEC###", "###BBFBB###", "A#########A") // shape 5 = pattern 5 (中央)
+                                    .aisle("A#########A", "###BBBBB###", "###CEEEC###", "###DEEED###", "###CEEEC###", "###BBBBB###", "A#########A") // shape 6 = pattern 4
+                                    .aisle("A#########A", "###BBBBB###", "###CCCCC###", "###DDDDD###", "###CCCCC###", "###BBBBB###", "A#########A") // shape 7 = pattern 3
+                                    .aisle("#A#######A#", "###########", "###########", "###########", "###########", "###########", "#A#######A#") // shape 8 = pattern 2
+                                    .aisle("#AA#####AA#", "###########", "###########", "###########", "###########", "###########", "#AA#####AA#") // shape 9 = pattern 1
+                                    .aisle("###AAAAA###", "###########", "###########", "###########", "###########", "###########", "###AAAAA###") // shape 10 = pattern 0
+                                    .where('@', definition, net.minecraft.core.Direction.NORTH)
+                                    .where('A', ModBlocks.UNKNOWN.get())
+                                    .where('B', GCYMBlocks.CASING_ATOMIC.get())
+                                    .where('D', GTBlocks.HIGH_POWER_CASING.get())
+                                    .where('E', GTBlocks.SUPERCONDUCTING_COIL.get())
+                                    .where('F', net.minecraftforge.registries.ForgeRegistries.BLOCKS
+                                            .getValue(new ResourceLocation("ae2", "controller")))
+                                    .where('I', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_IMPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('O', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_EXPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('N', com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('M', com.gregtechceu.gtceu.common.data.GTMachines.MAINTENANCE_HATCH,
+                                            net.minecraft.core.Direction.NORTH);
+                        },
+                        'C'))
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/casings/gcym/atomic_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/fusion_reactor"))
+                .register();
+
+        DIV.gtcsolo.api.tier.TieredMultiblockRegistry.register(SINGULARITY_MAKER, SINGULARITY_MAKER_TIERS);
+
+        // =========================================================================
+        //  Locus Simulation Builder — 17×37×18 球状マルチブロック (StarForge 系)
+        //  レシピ: ModRecipeTypes.LOCUS_SIMULATION_BUILDER (item 3/1, no fluid, EU IN)
+        //  用途: 空 star_locus + 触媒 decaying_star_locus → Trace NBT 付き star_locus
+        //  構造データ: DIV.gtcsolo.machine.starforge.LocusSimulationBuilderPattern
+        //  controller 位置: aisle 9 row 0 中央 (記号 'Y')
+        // =========================================================================
+        LOCUS_SIMULATION_BUILDER = REGISTRATE.multiblock("locus_simulation_builder",
+                        WorkableElectricMultiblockMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(ModRecipeTypes.LOCUS_SIMULATION_BUILDER)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.1"),
+                        Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.2"),
+                        Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.3"))
+                .appearanceBlock(ModBlocks.SIMULATION_CASING)
+                .pattern(definition -> {
+                    FactoryBlockPattern p = FactoryBlockPattern.start();
+                    for (String[] aisle : DIV.gtcsolo.machine.starforge.LocusSimulationBuilderPattern.AISLES) {
+                        p = p.aisle(aisle);
+                    }
+                    return p
+                            .where('Y', controller(blocks(definition.getBlock())))
+                            .where('A', blocks(ModBlocks.SIMULATION_CASING.get())
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                            .where('#', any())
+                            .build();
+                })
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
                 .register();
 
         // Mekanism chemical IO hatch 群 (GAS/INFUSION/OTHER × IN/OUT × 9tier + creative = 60台)

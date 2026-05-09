@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtcsolo:eebf_controller"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_xcrystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtcsolo:xcrystal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_xcrystal",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtcsolo:eebf_controller"
+    ]
+  },
+  "sends_telemetry_event": false
+}

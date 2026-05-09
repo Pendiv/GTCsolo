@@ -67,9 +67,10 @@ public class TieredMultiblockMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
-        if (isFormed() && structureTier >= 0 && structureTier < GTValues.VN.length) {
+        if (isFormed() && structureTier >= 0 && structureTier < GTValues.VNF.length) {
+            // VNF は GT 純正の tier 色付き短縮名 (例 HV→§6HV)
             textList.add(Component.translatable("gtcsolo.multiblock.structure_tier",
-                    GTValues.VN[structureTier]));
+                    GTValues.VNF[structureTier]));
         }
     }
 }

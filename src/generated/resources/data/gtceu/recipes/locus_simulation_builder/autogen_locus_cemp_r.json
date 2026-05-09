@@ -1,0 +1,67 @@
+{
+  "type": "gtcsolo:locus_simulation_builder",
+  "category": "gtcsolo:locus_simulation_builder",
+  "data": {
+    "requiredTier": 7
+  },
+  "duration": 72000,
+  "inputChanceLogics": {},
+  "inputs": {
+    "item": [
+      {
+        "chance": 10000,
+        "content": {
+          "type": "forge:nbt",
+          "count": 1,
+          "item": "gtcsolo:star_locus"
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 0,
+        "content": {
+          "type": "forge:nbt",
+          "count": 1,
+          "item": "gtcsolo:decaying_star_locus",
+          "nbt": "{Trace:\"hd101065\"}"
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "outputChanceLogics": {},
+  "outputs": {
+    "item": [
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "type": "forge:nbt",
+            "count": 1,
+            "item": "gtcsolo:star_locus",
+            "nbt": "{Trace:\"cemp_r\"}"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickInputChanceLogics": {},
+  "tickInputs": {
+    "eu": [
+      {
+        "chance": 10000,
+        "content": 131072,
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickOutputChanceLogics": {},
+  "tickOutputs": {}
+}

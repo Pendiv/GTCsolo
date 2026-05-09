@@ -20,6 +20,9 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> writer) {
+        // StarForge / locus_simulation_builder 自動生成レシピ (8 軌跡)
+        DIV.gtcsolo.data.recipe.LocusSimulationBuilderRecipes.register(writer);
+
         // FEC機械レシピは GtcSoloAddon.addRecipes() で登録（ランタイムレシピ）。
         // ここではクラフトテーブルレシピ（runData用JSON生成）のみ定義する。
 

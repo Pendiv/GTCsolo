@@ -151,8 +151,8 @@ public class ModItems {
             ITEMS.register("wen_functional_assembler_machine_casing", () -> new BlockItem(ModBlocks.WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> REFINED_OBSIDIAN_CASING_ITEM =
             ITEMS.register("refined_obsidian_casing", () -> new BlockItem(ModBlocks.REFINED_OBSIDIAN_CASING.get(), new Item.Properties()));
-    public static final RegistryObject<Item> CASINGBLOCK_7_ITEM =
-            ITEMS.register("casingblock_7", () -> new BlockItem(ModBlocks.CASINGBLOCK_7.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ETERNAL_CASING_ITEM =
+            ITEMS.register("eternal_casing", () -> new BlockItem(ModBlocks.ETERNAL_CASING.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> CHEMICAL_RESISTANT_CASING_ITEM =
             ITEMS.register("chemical_resistant_casing", () -> new BlockItem(ModBlocks.CHEMICAL_RESISTANT_CASING.get(), new Item.Properties()));
@@ -227,4 +227,51 @@ public class ModItems {
     public static final RegistryObject<Item> ARMOR1_BOOTS =
             ITEMS.register("armor1_boots", () -> new ArmorItem(
                     ModArmorMaterial.PLACEHOLDER, ArmorItem.Type.BOOTS, new Item.Properties()));
+
+    // =========================================================================
+    //  exclamation/ 系仮素材
+    // =========================================================================
+
+    /** old_glass ブロックアイテム — テクスチャ: exclamation/old_glass.png */
+    public static final RegistryObject<Item> OLD_GLASS_ITEM =
+            ITEMS.register("old_glass",
+                    () -> new BlockItem(ModBlocks.OLD_GLASS.get(), new Item.Properties()));
+
+    /** unknown ブロックアイテム — テクスチャ: exclamation/unknown.png */
+    public static final RegistryObject<Item> UNKNOWN_ITEM =
+            ITEMS.register("unknown",
+                    () -> new BlockItem(ModBlocks.UNKNOWN.get(), new Item.Properties()));
+
+    /** water — 設置すると水源になるアイテム (snowball 系の挙動)。stack 64。 */
+    public static final RegistryObject<Item> WATER =
+            ITEMS.register("water",
+                    () -> new DIV.gtcsolo.item.FluidPlacingItem(
+                            net.minecraft.world.level.material.Fluids.WATER,
+                            new Item.Properties()));
+
+    /** magma — 設置すると溶岩源になるアイテム。stack 64。 */
+    public static final RegistryObject<Item> MAGMA =
+            ITEMS.register("magma",
+                    () -> new DIV.gtcsolo.item.FluidPlacingItem(
+                            net.minecraft.world.level.material.Fluids.LAVA,
+                            new Item.Properties()));
+
+    // =========================================================================
+    //  StarForge / 星の軌跡
+    // =========================================================================
+
+    /** 星の軌跡 — テクスチャ: star_locus.png
+     *  NBT "Trace" で 8 種類の軌跡を識別。空状態 (NBT 未設定) は観測機構で書き込まれる。 */
+    public static final RegistryObject<Item> STAR_LOCUS =
+            ITEMS.register("star_locus",
+                    () -> new DIV.gtcsolo.item.StarLocusItem(
+                            new Item.Properties().stacksTo(1)));
+
+    /** 朽ち果てた星の軌跡 — テクスチャ: decaying_star_locus.png (未配置、追加予定)
+     *  StarForge の崩壊フェイズで出力される副産物。locus_simulation_builder で次 tier 軌跡を作る触媒
+     *  (消費されない、stack 64 で持ち歩き可)。NBT "Trace" は star_locus と同仕様。 */
+    public static final RegistryObject<Item> DECAYING_STAR_LOCUS =
+            ITEMS.register("decaying_star_locus",
+                    () -> new DIV.gtcsolo.item.DecayingStarLocusItem(
+                            new Item.Properties()));
 }

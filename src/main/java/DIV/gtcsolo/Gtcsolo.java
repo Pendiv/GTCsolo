@@ -41,6 +41,11 @@ public class Gtcsolo {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Gtcsolo() {
+        // Forge 1.20.1 は mods.toml の [[mixins]] / jar manifest MixinConfigs を dev で読まないので
+        // ここで明示的に Mixin config を登録する。target class (PatternPreviewWidget 等) のロード前に
+        // 走るため、JEI 経由でロードされるクラスへの mixin は問題なく適用される。
+        org.spongepowered.asm.mixin.Mixins.addConfiguration("gtcsolo.mixins.json");
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         RecipeDumpService recipeDumpService = new RecipeDumpService();
         GtcSoloCommand commandHandler = new GtcSoloCommand(recipeDumpService);

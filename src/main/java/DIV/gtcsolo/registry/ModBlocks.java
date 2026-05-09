@@ -100,7 +100,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> CASINGBLOCK_4 = simpleBlock("casingblock_4");
     public static final RegistryObject<Block> WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING = simpleBlock("wen_functional_assembler_machine_casing");
     public static final RegistryObject<Block> REFINED_OBSIDIAN_CASING = simpleBlock("refined_obsidian_casing");
-    public static final RegistryObject<Block> CASINGBLOCK_7 = simpleBlock("casingblock_7");
+    public static final RegistryObject<Block> ETERNAL_CASING = simpleBlock("eternal_casing");
 
     // =========================================================================
     //  Chemical Combustion Generator 用ケーシング
@@ -132,4 +132,25 @@ public class ModBlocks {
     /** FEワイヤレス出力ポート (WEN→FE 変換、1 EU = 4 FE) */
     public static final RegistryObject<Block> WEN_FE_OUTPUT_PORT =
             BLOCKS.register("wen_fe_outputport", DIV.gtcsolo.block.wen.WENFePortBlock::new);
+
+    // =========================================================================
+    //  exclamation/ 系仮素材ブロック (透過)
+    // =========================================================================
+
+    /** 透過ブロック共通プロパティ。視認貫通・湧き禁止・窒息なし・redstone非伝導。 */
+    private static RegistryObject<Block> transparentBlock(String name, float hardness, SoundType sound) {
+        return BLOCKS.register(name, () -> new Block(BlockBehaviour.Properties.of()
+                .strength(hardness, hardness * 3.0f)
+                .sound(sound)
+                .noOcclusion()
+                .isRedstoneConductor((s, l, p) -> false)
+                .isValidSpawn((s, l, p, t) -> false)
+                .isViewBlocking((s, l, p) -> false)
+                .isSuffocating((s, l, p) -> false)));
+    }
+
+    /** old_glass — テクスチャ: exclamation/old_glass.png */
+    public static final RegistryObject<Block> OLD_GLASS = transparentBlock("old_glass", 0.3f, SoundType.GLASS);
+    /** unknown — テクスチャ: exclamation/unknown.png */
+    public static final RegistryObject<Block> UNKNOWN   = transparentBlock("unknown", 1.5f, SoundType.STONE);
 }

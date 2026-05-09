@@ -44,6 +44,16 @@ public class ModRecipeTypes {
     // WEN Nexus Assembler — items 9/32, fluids 3/2, EU IN
     public static GTRecipeType WEN_NEXUS_ASSEMBLER;
 
+    // Singularity Maker — items 16/1, no fluid, EU IN。Singularity を 16 個まとめて 1 個へ統合
+    public static GTRecipeType SINGULARITY_MAKER;
+
+    // Singularity Compresser — items 1/1, no fluid, EU IN。素材を圧縮して singularity を 1 個生成
+    public static GTRecipeType SINGULARITY_COMPRESSER;
+
+    // Locus Simulation Builder — items 3/1, no fluid, EU IN。空 star_locus に Trace NBT を書き込む
+    // (decaying_star_locus 触媒で次 tier 解放、消費しない)
+    public static GTRecipeType LOCUS_SIMULATION_BUILDER;
+
     public static void init() {
         // GTCEu 標準 BLAST_RECIPES に GAS capability 最大1入力 を後付け (EEBF でfissile_fuel等を受ける)
         com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES
@@ -162,6 +172,45 @@ public class ModRecipeTypes {
         INDUSTRIAL_INFUSION_CONVERSION.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(CONVERSION);
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(INDUSTRIAL_INFUSION_CONVERSION);
+
+        // Singularity Maker
+        SINGULARITY_MAKER = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "singularity_maker"), "multiblock")
+                .setMaxIOSize(16, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation smId = new ResourceLocation("gtcsolo", "singularity_maker");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, smId, SINGULARITY_MAKER);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, smId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(smId, SINGULARITY_MAKER);
+        SINGULARITY_MAKER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
+        DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(SINGULARITY_MAKER);
+
+        // Singularity Compresser
+        SINGULARITY_COMPRESSER = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "singularity_compresser"), "multiblock")
+                .setMaxIOSize(1, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation scId = new ResourceLocation("gtcsolo", "singularity_compresser");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, scId, SINGULARITY_COMPRESSER);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, scId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(scId, SINGULARITY_COMPRESSER);
+        SINGULARITY_COMPRESSER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
+        DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(SINGULARITY_COMPRESSER);
+
+        // Locus Simulation Builder
+        LOCUS_SIMULATION_BUILDER = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "locus_simulation_builder"), "multiblock")
+                .setMaxIOSize(3, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation lsbId = new ResourceLocation("gtcsolo", "locus_simulation_builder");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, lsbId, LOCUS_SIMULATION_BUILDER);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, lsbId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(lsbId, LOCUS_SIMULATION_BUILDER);
+        LOCUS_SIMULATION_BUILDER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
+        DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(LOCUS_SIMULATION_BUILDER);
 
         // WEN Integration
         WEN_INTEGRATION = new GTRecipeType(

@@ -56,8 +56,12 @@ public class ModMachines {
     public static MultiblockMachineDefinition SINGULARITY_MAKER;
     /** SINGULARITY_MAKER 用 tier セット (ZPM/UV/UHV)。init() 内で構築。 */
     public static DIV.gtcsolo.api.tier.TieredBlockSet SINGULARITY_MAKER_TIERS;
-    /** Locus Simulation Builder — 空 star_locus に Trace NBT を書き込む 17×37×18 球状マルチブロック */
+    /** Locus Simulation Builder — 空 star_locus に Trace NBT を書き込む 17×37×17 球状マルチブロック */
     public static MultiblockMachineDefinition LOCUS_SIMULATION_BUILDER;
+    /** LOCUS_SIMULATION_BUILDER 用 tier セット (ZPM/UV=auroralium_block, UHV=bedrockium_block)。init() 内で構築。 */
+    public static DIV.gtcsolo.api.tier.TieredBlockSet LOCUS_SIMULATION_BUILDER_TIERS;
+    /** StarForge — 27×27×28 球状の恒星鍛造炉。仕様: docs/StarForge_spec.md */
+    public static MultiblockMachineDefinition STARFORGE;
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
@@ -364,7 +368,7 @@ public class ModMachines {
                         .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
                         .aisle("##A###################A##","AAAAA###############AAAAA","GAAAA###############AAAAG","#CBC#################CBC#","#CBC###D#########D###CBC#","#CBC##DED#######DED##CBC#","#CBC###D#########D###CBC#","AAAAA###############AAAAA","AAAAA###############AAAAA","##A###################A##")
                         .aisle("#########################","#AAA#################AAA#","AAAAA###############AAAAA","#CCC#################CCC#","#CCC###D#########D###CCC#","#CCC##D#D#######D#D##CCC#","#CCC###D#########D###CCC#","AAAAA###############AAAAA","#AAA#################AAA#","#########################")
-                        .aisle("########################","##A###################A##","#AA##################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
+                        .aisle("#########################","##A###################A##","#AAA#################AAA#","#########################","########D#######D########","#######DED#####DED#######","########D#######D########","#AAA#################AAA#","##A###################A##","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","########D#######D########","#######F#DD###DD#F#######","########D#######D########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","#########DD###DD#########","########F#EDDDE#F########","#########DD###DD#########","##A###################A##","#########################","#########################")
                         .aisle("#########################","#########################","##A###################A##","#########################","###########DDD###########","#########DD#E#DD#########","###########DDD###########","##A###################A##","#########################","#########################")
@@ -936,17 +940,27 @@ public class ModMachines {
         DIV.gtcsolo.api.tier.TieredMultiblockRegistry.register(SINGULARITY_MAKER, SINGULARITY_MAKER_TIERS);
 
         // =========================================================================
-        //  Locus Simulation Builder — 17×37×18 球状マルチブロック (StarForge 系)
+        //  Locus Simulation Builder — 17×37×17 球状マルチブロック (StarForge 系、tier 化)
         //  レシピ: ModRecipeTypes.LOCUS_SIMULATION_BUILDER (item 3/1, no fluid, EU IN)
         //  用途: 空 star_locus + 触媒 decaying_star_locus → Trace NBT 付き star_locus
         //  構造データ: DIV.gtcsolo.machine.starforge.LocusSimulationBuilderPattern
-        //  controller 位置: aisle 9 row 0 中央 (記号 'Y')
+        //  記号: A=simulation_casing, B=tier ブロック, C=controller (aisle 9 row 0 中央)
+        //  tier: ZPM=auroralium_block / UV=auroralium_block / UHV=bedrockium_block
         // =========================================================================
+        LOCUS_SIMULATION_BUILDER_TIERS = DIV.gtcsolo.api.tier.TieredBlockSet.builder("locus_simulation_builder_tier")
+                .errorKey("gtcsolo.multiblock.error.tier_block_mismatch")
+                .tier(GTValues.ZPM, () -> ChemicalHelper.getBlock(TagPrefix.block, ModMaterials.AURORALIUM))
+                .tier(GTValues.UV,  () -> ChemicalHelper.getBlock(TagPrefix.block, ModMaterials.AURORALIUM))
+                .tier(GTValues.UHV, () -> ChemicalHelper.getBlock(TagPrefix.block, ModMaterials.BEDROCKIUM))
+                .build();
+
         LOCUS_SIMULATION_BUILDER = REGISTRATE.multiblock("locus_simulation_builder",
-                        WorkableElectricMultiblockMachine::new)
+                        holder -> new DIV.gtcsolo.api.tier.TieredMultiblockMachine(holder, LOCUS_SIMULATION_BUILDER_TIERS))
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(ModRecipeTypes.LOCUS_SIMULATION_BUILDER)
-                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)
+                .recipeModifiers(
+                        DIV.gtcsolo.api.tier.TierRecipeLogic::tierGate,
+                        GTRecipeModifiers.PARALLEL_HATCH)
                 .tooltips(
                         Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.1"),
                         Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.2"),
@@ -958,8 +972,50 @@ public class ModMachines {
                         p = p.aisle(aisle);
                     }
                     return p
-                            .where('Y', controller(blocks(definition.getBlock())))
+                            .where('C', controller(blocks(definition.getBlock())))
                             .where('A', blocks(ModBlocks.SIMULATION_CASING.get())
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                            .where('B', LOCUS_SIMULATION_BUILDER_TIERS.predicate())
+                            .where('#', any())
+                            .build();
+                })
+                .workableCasingRenderer(
+                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
+                        new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
+                .register();
+
+        DIV.gtcsolo.api.tier.TieredMultiblockRegistry.register(LOCUS_SIMULATION_BUILDER, LOCUS_SIMULATION_BUILDER_TIERS);
+
+        // =========================================================================
+        //  StarForge — 27×27×28 球状マルチブロック (恒星鍛造炉)
+        //  仕様: docs/StarForge_spec.md (ver.0.4)
+        //  TODO: フェイズ管理ロジックは StarForgeMachine 内で順次実装
+        //  TODO: E 位置は将来 StarForgeEnergyHatch に切り替え
+        // =========================================================================
+        STARFORGE = REGISTRATE.multiblock("starforge",
+                        DIV.gtcsolo.machine.starforge.StarForgeMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(ModRecipeTypes.STARFORGE)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.starforge.desc.1"),
+                        Component.translatable("gtcsolo.machine.starforge.desc.2"),
+                        Component.translatable("gtcsolo.machine.starforge.desc.3"),
+                        Component.translatable("gtcsolo.machine.starforge.desc.4"))
+                .appearanceBlock(ModBlocks.DEVASTATION_CORE_BLOCK)
+                .pattern(definition -> {
+                    FactoryBlockPattern p = FactoryBlockPattern.start();
+                    for (String[] aisle : DIV.gtcsolo.machine.starforge.StarForgePattern.AISLES) {
+                        p = p.aisle(aisle);
+                    }
+                    return p
+                            .where('X', controller(blocks(definition.getBlock())))
+                            .where('A', blocks(ModBlocks.DEVASTATION_CORE_BLOCK.get()))
+                            .where('B', blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                            .where('C', blocks(ModBlocks.AURORALIUM_STARFORGE_CASING.get()))
+                            .where('E', blocks(ModBlocks.DEVASTATION_CORE_BLOCK.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
                                     .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                                     .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
@@ -967,8 +1023,8 @@ public class ModMachines {
                             .build();
                 })
                 .workableCasingRenderer(
-                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
-                        new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
+                        new ResourceLocation("gtcsolo", "block/devastation_core_block"),
+                        new ResourceLocation("gtceu", "block/multiblock/fusion_reactor"))
                 .register();
 
         // Mekanism chemical IO hatch 群 (GAS/INFUSION/OTHER × IN/OUT × 9tier + creative = 60台)

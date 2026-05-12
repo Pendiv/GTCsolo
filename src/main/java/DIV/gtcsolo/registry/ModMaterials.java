@@ -478,6 +478,11 @@ public class ModMaterials {
         JUPITATE_PLASMA   = pseudoPlasma("jupitate_plasma",   0x50C878, ModElements.E_JUPITATE);
         AURORALIUM_PLASMA = pseudoPlasma("auroralium_plasma", 0x69D4C3, ModElements.E_AURORALIUM);
         TIN_PLASMA        = pseudoPlasma("tin_plasma",        0xDCDCDC, com.gregtechceu.gtceu.common.data.GTElements.Sn);
+
+        // ================================================================
+        // Masked テスト素材 (mask × base iconset の動的合成検証用)
+        // METALLIC で生成できる全 item 系 flag を有効化
+        // ================================================================
     }
 
     // ── クリエイティブタブ登録 ──

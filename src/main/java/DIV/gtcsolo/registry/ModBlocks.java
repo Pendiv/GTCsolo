@@ -79,8 +79,8 @@ public class ModBlocks {
     /** WENデータモニター（機能外装・BlockEntity付き） — テクスチャ: cryogenic_monitor.png */
     public static final RegistryObject<Block> WEN_DATA_MONITOR =
             BLOCKS.register("wen_data_monitor", WENDataMonitorBlock::new);
-    /** block8 — テクスチャ: tungsten_wall.png */
-    public static final RegistryObject<Block> BLOCK8  = simpleBlock("block8");
+    /** 壊滅コアブロック (Devastation Core Block) — StarForge controller のベース。テクスチャ: tungsten_wall.png */
+    public static final RegistryObject<Block> DEVASTATION_CORE_BLOCK = simpleBlock("devastation_core_block");
     /** 共振制御コアブロック */
     public static final RegistryObject<Block> RESONANCE_CONTROL_CORE_BLOCK = simpleBlock("resonance_control_core_block");
 
@@ -97,7 +97,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> AURORALIUM_RESONANCE_CASING = simpleBlock("auroralium_resonance_casing");
     public static final RegistryObject<Block> BEDROCKIUM_NOCTURNIUM_FUSION_CASING = simpleBlock("bedrockium_nocturnium_fusion_casing");
     public static final RegistryObject<Block> CASINGBLOCK_3 = simpleBlock("casingblock_3");
-    public static final RegistryObject<Block> CASINGBLOCK_4 = simpleBlock("casingblock_4");
+    /** オーロラリウム製 StarForge ケーシング — StarForge 構造の C 位置に使用 */
+    public static final RegistryObject<Block> AURORALIUM_STARFORGE_CASING = simpleBlock("auroralium_starforge_casing");
     public static final RegistryObject<Block> WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING = simpleBlock("wen_functional_assembler_machine_casing");
     public static final RegistryObject<Block> REFINED_OBSIDIAN_CASING = simpleBlock("refined_obsidian_casing");
     public static final RegistryObject<Block> ETERNAL_CASING = simpleBlock("eternal_casing");

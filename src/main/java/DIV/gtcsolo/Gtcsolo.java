@@ -62,6 +62,8 @@ public class Gtcsolo {
         // データ生成（./gradlew runData でレシピJSONを生成する）
         modEventBus.addListener(this::gatherData);
         ModNetwork.register();
+        // Apotheosis Gem skin (texture iconset + color マッピング)
+        DIV.gtcsolo.apoth.gem.GemSkinRegistry.bootstrap();
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);

@@ -120,9 +120,9 @@ public class ModItems {
             ITEMS.register("wen_data_monitor",
                     () -> new BlockItem(ModBlocks.WEN_DATA_MONITOR.get(), new Item.Properties()));
 
-    /** block8 — テクスチャ: tungsten_wall.png */
-    public static final RegistryObject<Item> BLOCK8_ITEM =
-            ITEMS.register("block8", () -> new BlockItem(ModBlocks.BLOCK8.get(), new Item.Properties()));
+    /** 壊滅コアブロック — StarForge controller ベース。テクスチャ: tungsten_wall.png */
+    public static final RegistryObject<Item> DEVASTATION_CORE_BLOCK_ITEM =
+            ITEMS.register("devastation_core_block", () -> new BlockItem(ModBlocks.DEVASTATION_CORE_BLOCK.get(), new Item.Properties()));
 
     /** block9 — テクスチャ: ore_smelter_controller.png */
     public static final RegistryObject<Item> RESONANCE_CONTROL_CORE_BLOCK_ITEM =
@@ -145,8 +145,8 @@ public class ModItems {
             ITEMS.register("bedrockium_nocturnium_fusion_casing", () -> new BlockItem(ModBlocks.BEDROCKIUM_NOCTURNIUM_FUSION_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> CASINGBLOCK_3_ITEM =
             ITEMS.register("casingblock_3", () -> new BlockItem(ModBlocks.CASINGBLOCK_3.get(), new Item.Properties()));
-    public static final RegistryObject<Item> CASINGBLOCK_4_ITEM =
-            ITEMS.register("casingblock_4", () -> new BlockItem(ModBlocks.CASINGBLOCK_4.get(), new Item.Properties()));
+    public static final RegistryObject<Item> AURORALIUM_STARFORGE_CASING_ITEM =
+            ITEMS.register("auroralium_starforge_casing", () -> new BlockItem(ModBlocks.AURORALIUM_STARFORGE_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING_ITEM =
             ITEMS.register("wen_functional_assembler_machine_casing", () -> new BlockItem(ModBlocks.WEN_FUNCTIONAL_ASSEMBLER_MACHINE_CASING.get(), new Item.Properties()));
     public static final RegistryObject<Item> REFINED_OBSIDIAN_CASING_ITEM =
@@ -274,4 +274,5 @@ public class ModItems {
             ITEMS.register("decaying_star_locus",
                     () -> new DIV.gtcsolo.item.DecayingStarLocusItem(
                             new Item.Properties()));
+
 }

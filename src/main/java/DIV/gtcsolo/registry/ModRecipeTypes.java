@@ -54,6 +54,10 @@ public class ModRecipeTypes {
     // (decaying_star_locus 触媒で次 tier 解放、消費しない)
     public static GTRecipeType LOCUS_SIMULATION_BUILDER;
 
+    // StarForge — items 1/15, fluids 0/12, EU IN。実態は GT 標準レシピで賄えない (フェイズ管理 + 累計消費)。
+    // ここに登録するレシピは JEI 表示専用のダミー (8 軌跡分)、実稼働は別ロジック。
+    public static GTRecipeType STARFORGE;
+
     public static void init() {
         // GTCEu 標準 BLAST_RECIPES に GAS capability 最大1入力 を後付け (EEBF でfissile_fuel等を受ける)
         com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES
@@ -211,6 +215,17 @@ public class ModRecipeTypes {
         GTRegistries.RECIPE_TYPES.register(lsbId, LOCUS_SIMULATION_BUILDER);
         LOCUS_SIMULATION_BUILDER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(LOCUS_SIMULATION_BUILDER);
+
+        // StarForge — JEI 表示専用 (実態ロジックは別系統、構築/成熟/崩壊フェイズ管理)
+        STARFORGE = new GTRecipeType(
+                new ResourceLocation("gtcsolo", "starforge"), "multiblock")
+                .setMaxIOSize(1, 15, 0, 12)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        ResourceLocation sfId = new ResourceLocation("gtcsolo", "starforge");
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, sfId, STARFORGE);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, sfId, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(sfId, STARFORGE);
 
         // WEN Integration
         WEN_INTEGRATION = new GTRecipeType(

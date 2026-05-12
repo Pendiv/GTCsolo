@@ -104,6 +104,14 @@ repositories {
         }
     }
 
+    // Apotheosis / Placebo / ApothicAttributes (公式 maven、deobf 配布あり)
+    maven {
+        url = "https://maven.shadowsoffire.dev/releases"
+        content {
+            includeGroup "dev.shadowsoffire"
+        }
+    }
+
     // ★重要: libsフォルダを「リポジトリ（倉庫）」として登録する
     flatDir {
         dir 'libs'
@@ -149,6 +157,11 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+
+    // Apotheosis suite (型解決つき開発用 — runtime にも乗る)
+    implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
+    implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
+    implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
 
     // Mixin annotation processor (gtceu.refmap 生成用)
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"

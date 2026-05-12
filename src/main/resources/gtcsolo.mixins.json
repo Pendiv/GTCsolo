@@ -6,7 +6,8 @@
   "refmap": "gtcsolo.refmap.json",
   "mixins": [],
   "client": [
-    "PatternPreviewWidgetMixin"
+    "PatternPreviewWidgetMixin",
+    "apoth.GemModelMixin"
   ],
   "server": [],
   "injectors": {

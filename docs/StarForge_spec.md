@@ -112,7 +112,7 @@
   - 接続電線から**取れるだけエネルギー**を消費し続ける
   - WEN ネットワークからは tick あたり **2.14G EU (ハッチ容量分)** を消費
   - 合計 = 「電線吸い尽くし」+ 「WEN 容量分」
-- 超消費中に**マシン電源を切る** (controller の active OFF) → **singularity 搬出 + 即座に崩壊フェイズ終了**
+- 超消費中に**マシン電源を切る** (controller の active OFF) → **gtcsolo:star_singularity 搬出 + 即座に崩壊フェイズ終了**
 
 ---
 

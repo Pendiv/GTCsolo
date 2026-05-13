@@ -18,6 +18,21 @@ public class ModItems {
                     () -> new Item(new Item.Properties())
             );
 
+    public static final RegistryObject<Item> TROPICAL_CANDY =
+            ITEMS.register("tropical_candy",
+                    () -> new DIV.gtcsolo.item.TropicalCandyItem(new Item.Properties())
+            );
+
+    public static final RegistryObject<Item> ORANGE =
+            ITEMS.register("orange",
+                    () -> new DIV.gtcsolo.item.OrangeItem(new Item.Properties())
+            );
+
+    public static final RegistryObject<Item> SECRET_SWORD =
+            ITEMS.register("secret_sword",
+                    () -> new DIV.gtcsolo.item.SecretSwordItem(new Item.Properties())
+            );
+
     public static final RegistryObject<Item> FGEAR =
             ITEMS.register("fgear",
                     () -> new Item(new Item.Properties())

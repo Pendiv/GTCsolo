@@ -150,7 +150,7 @@ public final class StarForgeTraceData {
         register(TraceInfo.builder(AbstractLocusItem.BLACK_HOLE, Kind.MATURITY_BLACK_HOLE)
                 .starterHints("TODO: 起動アイテム未確定")
                 .continuousHints("TODO: 成熟フェイズで瞬間消費される要求アイテム")
-                .outputHints("通常崩壊: TODO / 超消費中に電源 OFF: avaritia:singularity")
+                .outputHints("通常崩壊: TODO / 超消費中に電源 OFF: gtcsolo:star_singularity")
                 .maturityDuration(0L)
                 .maturityEUt(0L)
                 .build());

@@ -8,7 +8,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +18,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * EMallforone.js から移行した Material 登録。
@@ -27,6 +30,69 @@ public class ModMaterials {
     public static final MaterialIconSet ICON_SINGULARITY = new MaterialIconSet("singularity", MaterialIconSet.BRIGHT);
     public static final MaterialIconSet ICON_INFINITY    = new MaterialIconSet("infinity",    MaterialIconSet.BRIGHT);
     public static final MaterialIconSet ICON_ANTIMATTER  = new MaterialIconSet("antimatter",  MaterialIconSet.BRIGHT);
+
+    // ── Masked IconSet (mask × GTCEu base iconset の動的乗算合成、 MaskedTextureProvider が PNG inject) ──
+    // 親 iconset は base iconset と同じにして fallback 安定化 (= mask 適用先のテクスチャ層)
+    public static final MaterialIconSet ICON_PALEBLUE_STAR = new MaterialIconSet("paleblue_star", MaterialIconSet.METALLIC);
+    public static final MaterialIconSet ICON_RED_STAR      = new MaterialIconSet("red_star",      MaterialIconSet.BRIGHT);
+    // test_a..d : bright/metallic/rough/shiny の動作検証用
+    public static final MaterialIconSet ICON_TEST_A        = new MaterialIconSet("test_a",        MaterialIconSet.BRIGHT);
+    public static final MaterialIconSet ICON_TEST_B        = new MaterialIconSet("test_b",        MaterialIconSet.METALLIC);
+    public static final MaterialIconSet ICON_TEST_C        = new MaterialIconSet("test_c",        MaterialIconSet.ROUGH);
+    public static final MaterialIconSet ICON_TEST_D        = new MaterialIconSet("test_d",        MaterialIconSet.SHINY);
+    // test_e..w : 残り iconset 全網羅 (fluid のみ skip = アニメ流体テクスチャ別系統)
+    public static final MaterialIconSet ICON_TEST_E        = new MaterialIconSet("test_e",        MaterialIconSet.DULL);
+    public static final MaterialIconSet ICON_TEST_F        = new MaterialIconSet("test_f",        MaterialIconSet.MAGNETIC);
+    public static final MaterialIconSet ICON_TEST_G        = new MaterialIconSet("test_g",        MaterialIconSet.DIAMOND);
+    public static final MaterialIconSet ICON_TEST_H        = new MaterialIconSet("test_h",        MaterialIconSet.EMERALD);
+    public static final MaterialIconSet ICON_TEST_I        = new MaterialIconSet("test_i",        MaterialIconSet.GEM_HORIZONTAL);
+    public static final MaterialIconSet ICON_TEST_J        = new MaterialIconSet("test_j",        MaterialIconSet.GEM_VERTICAL);
+    public static final MaterialIconSet ICON_TEST_K        = new MaterialIconSet("test_k",        MaterialIconSet.RUBY);
+    public static final MaterialIconSet ICON_TEST_L        = new MaterialIconSet("test_l",        MaterialIconSet.OPAL);
+    public static final MaterialIconSet ICON_TEST_M        = new MaterialIconSet("test_m",        MaterialIconSet.GLASS);
+    public static final MaterialIconSet ICON_TEST_N        = new MaterialIconSet("test_n",        MaterialIconSet.NETHERSTAR);
+    public static final MaterialIconSet ICON_TEST_O        = new MaterialIconSet("test_o",        MaterialIconSet.FINE);
+    public static final MaterialIconSet ICON_TEST_P        = new MaterialIconSet("test_p",        MaterialIconSet.SAND);
+    public static final MaterialIconSet ICON_TEST_Q        = new MaterialIconSet("test_q",        MaterialIconSet.WOOD);
+    public static final MaterialIconSet ICON_TEST_R        = new MaterialIconSet("test_r",        MaterialIconSet.FLINT);
+    public static final MaterialIconSet ICON_TEST_S        = new MaterialIconSet("test_s",        MaterialIconSet.LIGNITE);
+    public static final MaterialIconSet ICON_TEST_T        = new MaterialIconSet("test_t",        MaterialIconSet.QUARTZ);
+    public static final MaterialIconSet ICON_TEST_U        = new MaterialIconSet("test_u",        MaterialIconSet.CERTUS);
+    public static final MaterialIconSet ICON_TEST_V        = new MaterialIconSet("test_v",        MaterialIconSet.LAPIS);
+    public static final MaterialIconSet ICON_TEST_W        = new MaterialIconSet("test_w",        MaterialIconSet.RADIOACTIVE);
+    // gtceu:aurum_stellis_gold (KubeJS 登録) 用。 austar.js から getByName で参照させる。
+    public static final MaterialIconSet ICON_AURUM_STELLIS_GOLD = new MaterialIconSet("aurum_stellis_gold", MaterialIconSet.SHINY);
+
+    // ── 大きなプレート (big_plate) システム ──
+    // カスタム MaterialIconType `bigPlate` + TagPrefix `bigPlate` の組合せ。
+    //   - 全 material で rough/plate_dense シェイプ表示 + 各 material の getLayerARGB tint
+    //   - 実体は dull/big_plate.json (= MaskedTextureProvider.injectBigPlateModel が runtime inject) を
+    //     getItemModelPath の parent chain walk で全 iconset が拾う仕組み
+    //   - 対象: INGOT プロパティ持つ全 material から MASKED_ICONSETS を除外したもの (gtcsolo + GTCEu base 両方)
+    public static final MaterialIconType BIG_PLATE_ICON_TYPE = new MaterialIconType("bigPlate");
+
+    /** mask 系統 iconset 名一覧 = big_plate 自動生成から除外する material の判定用 */
+    public static final Set<String> MASKED_ICONSETS = Set.of(
+            "paleblue_star", "red_star", "aurum_stellis_gold",
+            "test_a", "test_b", "test_c", "test_d",
+            "test_e", "test_f", "test_g", "test_h",
+            "test_i", "test_j", "test_k", "test_l",
+            "test_m", "test_n", "test_o", "test_p",
+            "test_q", "test_r", "test_s", "test_t",
+            "test_u", "test_v", "test_w"
+    );
+
+    public static final TagPrefix BIG_PLATE_PREFIX = new TagPrefix("bigPlate")
+            .idPattern("big_%s_plate")
+            .langValue("Big %s Plate")
+            .materialAmount(GTValues.M * 9)
+            .materialIconType(BIG_PLATE_ICON_TYPE)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(material ->
+                    material.hasProperty(PropertyKey.INGOT)
+                            && !MASKED_ICONSETS.contains(material.getMaterialIconSet().name)
+            );
 
     // ── 共通フラグ ──
     private static final MaterialFlag[] COMMON_FLAGS = {
@@ -92,6 +158,38 @@ public class ModMaterials {
     public static Material VALINIUM;
     public static Material BEDROCKIUM;
 
+    // Masked テスト素材 (mask × base iconset の動的乗算合成)
+    public static Material PALEBLUE_STAR;
+    public static Material RED_STAR;
+    public static Material TEST_A;
+    public static Material TEST_B;
+    public static Material TEST_C;
+    public static Material TEST_D;
+    public static Material TEST_E;
+    public static Material TEST_F;
+    public static Material TEST_G;
+    public static Material TEST_H;
+    public static Material TEST_I;
+    public static Material TEST_J;
+    public static Material TEST_K;
+    public static Material TEST_L;
+    public static Material TEST_M;
+    public static Material TEST_N;
+    public static Material TEST_O;
+    public static Material TEST_P;
+    public static Material TEST_Q;
+    public static Material TEST_R;
+    public static Material TEST_S;
+    public static Material TEST_T;
+    public static Material TEST_U;
+    public static Material TEST_V;
+    public static Material TEST_W;
+    // KubeJS conductorSuper からの Java 移植 (gtcsolo namespace 統一)
+    public static Material AURUM_STELLIS_GOLD;
+    public static Material DREAMING;
+    public static Material TIMELINE;
+    public static Material STARLIGHT;
+
     // 合金素材
     public static Material SKYSTONE_TITANIUM;
     public static Material HAFHNIUM_DIBORIDE;
@@ -143,6 +241,44 @@ public class ModMaterials {
     public static Material JUPITATE_PLASMA;
     public static Material AURORALIUM_PLASMA;
     public static Material TIN_PLASMA;
+
+    // ── StarForge 出力素材 (29 種、 docs/StarForge_spec.md §10) ──
+    // 実在元素 7 (r/s 過程、 異常恒星検出元素)
+    public static Material TECHNETIUM;
+    public static Material HOLMIUM;
+    public static Material DYSPROSIUM;
+    public static Material ERBIUM;
+    public static Material PROMETHIUM;
+    public static Material EINSTEINIUM;
+    public static Material CALIFORNIUM;
+    // フレーバー固体 (dust / dust+ingot)
+    public static Material BROWN_DWARF_CORE;
+    public static Material DEGENERATE_CARBON;
+    public static Material PULSAR_DUST;
+    public static Material MIRA_SILICATE;
+    public static Material PRZYBYLSKI_ESSENCE;
+    public static Material R_PROCESS_METAL;
+    public static Material CEMP_CARBON_DUST;
+    public static Material STRANGE_MATTER;
+    public static Material PULSAR_RESIDUE;
+    public static Material CORONIUM;
+    public static Material PHOTONIC_DUST;
+    public static Material ACCRETION_ALLOY;
+    public static Material GRAVITATIONAL_RESIDUE;
+    // フレーバー宝石/結晶 (gem)
+    public static Material WHITE_DWARF_SHARD;
+    public static Material BARYON_CRYSTAL;
+    public static Material MAGNETAR_CRYSTAL;
+    public static Material EVENT_HORIZON_SHARD;
+    public static Material SPACETIME_FRAGMENT;
+    // 流体/プラズマ専用
+    public static Material QUARK_SOUP;
+    public static Material SOLAR_PLASMA;
+    public static Material HAWKING_RADIATION;
+    public static Material PENROSE_ERGO;
+    // BH 専用シンギュラリティ。 SHINY iconset の通常 GT material として表現
+    // (vanilla GTCEu に GENERATE_SINGULARITY 系 flag は無いので、ingot+dust の素材として運用)
+    public static Material STAR_SINGULARITY;
 
     public static void init() {
 
@@ -480,9 +616,187 @@ public class ModMaterials {
         TIN_PLASMA        = pseudoPlasma("tin_plasma",        0xDCDCDC, com.gregtechceu.gtceu.common.data.GTElements.Sn);
 
         // ================================================================
-        // Masked テスト素材 (mask × base iconset の動的合成検証用)
-        // METALLIC で生成できる全 item 系 flag を有効化
+        // Masked テスト素材 (mask × base iconset の動的乗算合成)
+        // .color(0xFFFFFF) で ItemColor tint 効果なし、 MaskedTextureProvider が合成 PNG inject
         // ================================================================
+        PALEBLUE_STAR = new Material.Builder(id("paleblue_star"))
+                .ingot().dust()
+                .color(0xFFFFFF)
+                .iconSet(ICON_PALEBLUE_STAR)
+                .flags(COMMON_FLAGS)
+                .buildAndRegister();
+
+        RED_STAR = new Material.Builder(id("red_star"))
+                .ingot().dust()
+                .color(0xFFFFFF)
+                .iconSet(ICON_RED_STAR)
+                .flags(COMMON_FLAGS)
+                .buildAndRegister();
+
+        // test_a..w : 各 iconset への動作検証 (fluid のみ skip)
+        // ingot+dust+COMMON_FLAGS の共通 spec、 .color(0xFFFFFF) で tint なし (mask 結果素直に表示)
+        TEST_A = registerMaskedTestMaterial("test_a", ICON_TEST_A);
+        TEST_B = registerMaskedTestMaterial("test_b", ICON_TEST_B);
+        TEST_C = registerMaskedTestMaterial("test_c", ICON_TEST_C);
+        TEST_D = registerMaskedTestMaterial("test_d", ICON_TEST_D);
+        TEST_E = registerMaskedTestMaterial("test_e", ICON_TEST_E);
+        TEST_F = registerMaskedTestMaterial("test_f", ICON_TEST_F);
+        TEST_G = registerMaskedTestMaterial("test_g", ICON_TEST_G);
+        TEST_H = registerMaskedTestMaterial("test_h", ICON_TEST_H);
+        TEST_I = registerMaskedTestMaterial("test_i", ICON_TEST_I);
+        TEST_J = registerMaskedTestMaterial("test_j", ICON_TEST_J);
+        TEST_K = registerMaskedTestMaterial("test_k", ICON_TEST_K);
+        TEST_L = registerMaskedTestMaterial("test_l", ICON_TEST_L);
+        TEST_M = registerMaskedTestMaterial("test_m", ICON_TEST_M);
+        TEST_N = registerMaskedTestMaterial("test_n", ICON_TEST_N);
+        TEST_O = registerMaskedTestMaterial("test_o", ICON_TEST_O);
+        TEST_P = registerMaskedTestMaterial("test_p", ICON_TEST_P);
+        TEST_Q = registerMaskedTestMaterial("test_q", ICON_TEST_Q);
+        TEST_R = registerMaskedTestMaterial("test_r", ICON_TEST_R);
+        TEST_S = registerMaskedTestMaterial("test_s", ICON_TEST_S);
+        TEST_T = registerMaskedTestMaterial("test_t", ICON_TEST_T);
+        TEST_U = registerMaskedTestMaterial("test_u", ICON_TEST_U);
+        TEST_V = registerMaskedTestMaterial("test_v", ICON_TEST_V);
+        TEST_W = registerMaskedTestMaterial("test_w", ICON_TEST_W);
+
+        // ================================================================
+        // KubeJS conductorSuper からの Java 移植 (gtcsolo namespace 統一)
+        // 旧 gtceu:<name> 参照は run/kubejs/server_scripts 配下を gtcsolo:<name> に更新済
+        // ================================================================
+
+        // aurum_stellis_gold (旧 austar.js)
+        AURUM_STELLIS_GOLD = new Material.Builder(id("aurum_stellis_gold"))
+                .ingot()
+                .color(0xFFD700)
+                .iconSet(ICON_AURUM_STELLIS_GOLD)
+                .blastTemp(21600, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.UIV], 4000)
+                .cableProperties(GTValues.V[GTValues.UIV], 128, 0, true)
+                .flags(
+                        MaterialFlags.GENERATE_PLATE,
+                        MaterialFlags.GENERATE_DENSE,
+                        MaterialFlags.GENERATE_ROD,
+                        MaterialFlags.GENERATE_LONG_ROD,
+                        MaterialFlags.GENERATE_BOLT_SCREW,
+                        MaterialFlags.GENERATE_RING,
+                        MaterialFlags.GENERATE_ROUND,
+                        MaterialFlags.GENERATE_GEAR,
+                        MaterialFlags.GENERATE_SMALL_GEAR,
+                        MaterialFlags.GENERATE_SPRING,
+                        MaterialFlags.GENERATE_FRAME,
+                        MaterialFlags.GENERATE_FINE_WIRE,
+                        MaterialFlags.DISABLE_DECOMPOSITION
+                )
+                .buildAndRegister();
+
+        // dreaming (旧 dreaming.js)
+        DREAMING = new Material.Builder(id("dreaming"))
+                .ingot()
+                .color(0xFFFFFF)
+                .iconSet(MaterialIconSet.METALLIC)
+                .blastTemp(21600, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.LV], 4000)
+                .cableProperties(GTValues.V[GTValues.LV], 32, 0, true)
+                .flags(
+                        MaterialFlags.GENERATE_PLATE,
+                        MaterialFlags.GENERATE_DENSE,
+                        MaterialFlags.GENERATE_ROD,
+                        MaterialFlags.GENERATE_LONG_ROD,
+                        MaterialFlags.GENERATE_BOLT_SCREW,
+                        MaterialFlags.GENERATE_RING,
+                        MaterialFlags.GENERATE_ROUND,
+                        MaterialFlags.GENERATE_GEAR,
+                        MaterialFlags.GENERATE_ROTOR,
+                        MaterialFlags.GENERATE_SMALL_GEAR,
+                        MaterialFlags.GENERATE_SPRING,
+                        MaterialFlags.GENERATE_FRAME,
+                        MaterialFlags.GENERATE_FINE_WIRE,
+                        MaterialFlags.DISABLE_DECOMPOSITION
+                )
+                .buildAndRegister();
+
+        // timeline (旧 timerine.js)
+        TIMELINE = new Material.Builder(id("timeline"))
+                .ingot()
+                .color(0xFFFFFF)
+                .iconSet(MaterialIconSet.BRIGHT)
+                .blastTemp(321600, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.MAX], 4000)
+                .cableProperties(GTValues.V[GTValues.MAX], 134217727, 0, true)
+                .flags(
+                        MaterialFlags.GENERATE_PLATE,
+                        MaterialFlags.GENERATE_DENSE,
+                        MaterialFlags.GENERATE_ROD,
+                        MaterialFlags.GENERATE_LONG_ROD,
+                        MaterialFlags.GENERATE_BOLT_SCREW,
+                        MaterialFlags.GENERATE_RING,
+                        MaterialFlags.GENERATE_ROUND,
+                        MaterialFlags.GENERATE_GEAR,
+                        MaterialFlags.GENERATE_SMALL_GEAR,
+                        MaterialFlags.GENERATE_SPRING,
+                        MaterialFlags.GENERATE_FRAME,
+                        MaterialFlags.GENERATE_FINE_WIRE,
+                        MaterialFlags.DISABLE_DECOMPOSITION
+                )
+                .buildAndRegister();
+
+        // starlight (旧 staright.js material 部) - polymer + 3 flags
+        STARLIGHT = new Material.Builder(id("starlight"))
+                .polymer()
+                .color(0xF2E3A3)
+                .iconSet(MaterialIconSet.SHINY)
+                .flags(
+                        MaterialFlags.GENERATE_PLATE,
+                        MaterialFlags.GENERATE_ROD,
+                        MaterialFlags.GENERATE_FRAME
+                )
+                .buildAndRegister();
+
+        // ================================================================
+        //  StarForge 出力素材 30 種 (docs/StarForge_spec.md §10)
+        //  実在 7 + フレーバー固体 13 + フレーバー宝石 5 + 流体/プラズマ 4 + BH 専用 1
+        // ================================================================
+
+        // 実在元素 7 — r/s 過程・異常恒星検出
+        TECHNETIUM       = sfDustIngot("technetium",      0x5C5C5C, MaterialIconSet.METALLIC);
+        HOLMIUM          = sfDustIngot("holmium",         0xA8FFC2, MaterialIconSet.METALLIC);
+        DYSPROSIUM       = sfDustIngot("dysprosium",      0xC0E6FF, MaterialIconSet.METALLIC);
+        ERBIUM           = sfDustIngot("erbium",          0xFFC2DE, MaterialIconSet.METALLIC);
+        PROMETHIUM       = sfDust    ("promethium",       0xFFE7C9, MaterialIconSet.METALLIC);
+        EINSTEINIUM      = sfDust    ("einsteinium",      0xFF87B6, MaterialIconSet.METALLIC);
+        CALIFORNIUM      = sfDust    ("californium",      0xC299FF, MaterialIconSet.METALLIC);
+
+        // フレーバー固体 dust(+ingot)
+        BROWN_DWARF_CORE      = sfDust    ("brown_dwarf_core",      0x4A2C1A, MaterialIconSet.DULL);
+        DEGENERATE_CARBON     = sfDustIngot("degenerate_carbon",    0x1A1A1A, MaterialIconSet.METALLIC);
+        PULSAR_DUST           = sfDust    ("pulsar_dust",           0x707080, MaterialIconSet.DULL);
+        MIRA_SILICATE         = sfDust    ("mira_silicate",         0xC9A57B, MaterialIconSet.FINE);
+        PRZYBYLSKI_ESSENCE    = sfDustIngot("przybylski_essence",   0xFFD9F0, MaterialIconSet.BRIGHT);
+        R_PROCESS_METAL       = sfDustIngot("r_process_metal",      0xFFB347, MaterialIconSet.SHINY);
+        CEMP_CARBON_DUST      = sfDust    ("cemp_carbon_dust",      0x222222, MaterialIconSet.DULL);
+        STRANGE_MATTER        = sfDustFluid("strange_matter",       0xFF00AA, MaterialIconSet.BRIGHT);
+        PULSAR_RESIDUE        = sfDust    ("pulsar_residue",        0xD0D0E0, MaterialIconSet.METALLIC);
+        CORONIUM              = sfDustPlasma("coronium",            0xFFEAA8, MaterialIconSet.SHINY);
+        PHOTONIC_DUST         = sfDust    ("photonic_dust",         0xFFFFFF, MaterialIconSet.FINE);
+        ACCRETION_ALLOY       = sfDustIngot("accretion_alloy",      0xC04040, MaterialIconSet.METALLIC);
+        GRAVITATIONAL_RESIDUE = sfDust    ("gravitational_residue", 0x303030, MaterialIconSet.DULL);
+
+        // フレーバー宝石/結晶 (gem)
+        WHITE_DWARF_SHARD     = sfGem("white_dwarf_shard",     0xE8E8E8, MaterialIconSet.GEM_VERTICAL);
+        BARYON_CRYSTAL        = sfGem("baryon_crystal",        0x9F00FF, MaterialIconSet.GEM_HORIZONTAL);
+        MAGNETAR_CRYSTAL      = sfGem("magnetar_crystal",      0x0099FF, MaterialIconSet.DIAMOND);
+        EVENT_HORIZON_SHARD   = sfGem("event_horizon_shard",   0x080808, MaterialIconSet.NETHERSTAR);
+        SPACETIME_FRAGMENT    = sfGem("spacetime_fragment",    0x3300CC, MaterialIconSet.DIAMOND);
+
+        // 流体/プラズマ専用
+        QUARK_SOUP        = sfFluid ("quark_soup",         0x6E2B7F);
+        SOLAR_PLASMA      = sfPlasma("solar_plasma",       0xFFD23F);
+        HAWKING_RADIATION = sfPlasma("hawking_radiation",  0xFF6666);
+        PENROSE_ERGO      = sfFluid ("penrose_ergo",       0xFFB300);
+
+        // BH 専用シンギュラリティ — SHINY iconset、 ingot+dust 形式
+        STAR_SINGULARITY = new Material.Builder(id("star_singularity"))
+                .ingot().dust()
+                .color(0x6A4A8A)
+                .iconSet(MaterialIconSet.SHINY)
+                .buildAndRegister();
     }
 
     // ── クリエイティブタブ登録 ──
@@ -574,6 +888,79 @@ public class ModMaterials {
     /**
      * シンプルな ingot 素材（非ワイヤー、非合金）
      */
+    // ── StarForge 出力素材登録ヘルパ ──
+    // 30 個の素材を素直に書くと冗長なので、 状態 × iconset の組合せだけ受けるヘルパで整理
+
+    private static Material sfDust(String name, int color, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .dust()
+                .color(color)
+                .iconSet(iconSet)
+                .buildAndRegister();
+    }
+
+    private static Material sfDustIngot(String name, int color, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .ingot().dust()
+                .color(color)
+                .iconSet(iconSet)
+                .flags(COMMON_FLAGS)
+                .buildAndRegister();
+    }
+
+    private static Material sfGem(String name, int color, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .gem()
+                .color(color)
+                .iconSet(iconSet)
+                .buildAndRegister();
+    }
+
+    private static Material sfFluid(String name, int color) {
+        return new Material.Builder(id(name))
+                .fluid()
+                .color(color)
+                .iconSet(MaterialIconSet.DULL)
+                .buildAndRegister();
+    }
+
+    private static Material sfPlasma(String name, int color) {
+        return new Material.Builder(id(name))
+                .plasma()
+                .color(color)
+                .iconSet(MaterialIconSet.BRIGHT)
+                .buildAndRegister();
+    }
+
+    private static Material sfDustPlasma(String name, int color, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .dust().plasma()
+                .color(color)
+                .iconSet(iconSet)
+                .buildAndRegister();
+    }
+
+    private static Material sfDustFluid(String name, int color, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .dust().fluid()
+                .color(color)
+                .iconSet(iconSet)
+                .buildAndRegister();
+    }
+
+    /**
+     * Masked iconset 動作検証用テスト素材を共通仕様で登録。
+     * 名前のみが識別子、 0xFFFFFF tint で MaskedTextureProvider の合成 PNG をそのまま表示する。
+     */
+    private static Material registerMaskedTestMaterial(String name, MaterialIconSet iconSet) {
+        return new Material.Builder(id(name))
+                .ingot().dust()
+                .color(0xFFFFFF)
+                .iconSet(iconSet)
+                .flags(COMMON_FLAGS)
+                .buildAndRegister();
+    }
+
     private static Material simpleMaterial(String name, int color,
                                            com.gregtechceu.gtceu.api.data.chemical.Element element,
                                            boolean ore, boolean plasma) {

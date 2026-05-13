@@ -68,6 +68,7 @@ public class Gtcsolo {
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        DIV.gtcsolo.registry.ModEntities.ENTITY_TYPES.register(modEventBus);
         ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModCreativeTabs.applyTabOverrides();
@@ -77,6 +78,10 @@ public class Gtcsolo {
         MinecraftForge.EVENT_BUS.addListener(tooltipDisplayEvents::onItemTooltip);
         // AE2統合: WENワイヤレスエネルギーカードのポーリングハンドラ
         MinecraftForge.EVENT_BUS.register(DIV.gtcsolo.integration.ae2.WENAe2Integration.class);
+        // Masked texture provider — entry register のみ (両 dist 安全)。
+        // generateAll は MaskedTextureClient が AddPackFindersEvent (LOWEST) で呼ぶ
+        // = GTCEu の clearClient() の **後** に走らせて DATA を保持させる。
+        DIV.gtcsolo.render.dynamic.MaskedTextureProvider.bootstrap();
         // クライアント専用セットアップ
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
                 () -> () -> modEventBus.addListener(Gtcsolo::clientSetup));
@@ -87,6 +92,31 @@ public class Gtcsolo {
             MenuScreens.register(ModMenuTypes.EXTEND_ENERGY_CUBE.get(), ExtendEnergyCubeScreen::new);
             MenuScreens.register(ModMenuTypes.WEN_DATA_MONITOR.get(), WENDataMonitorScreen::new);
             MenuScreens.register(ModMenuTypes.WEN_ID_SELECT.get(), WENIdSelectScreen::new);
+
+            // 投擲体エンティティのレンダラ
+            net.minecraft.client.renderer.entity.EntityRenderers.register(
+                    DIV.gtcsolo.registry.ModEntities.ORANGE_PROJECTILE.get(),
+                    net.minecraft.client.renderer.entity.ThrownItemRenderer::new
+            );
+            // IceProjectile は専用 renderer (氷ブロックを描画)
+            net.minecraft.client.renderer.entity.EntityRenderers.register(
+                    DIV.gtcsolo.registry.ModEntities.ICE_PROJECTILE.get(),
+                    DIV.gtcsolo.client.IceProjectileRenderer::new
+            );
+            // AmethystProjectile は粒子 trail のみ = no-op renderer
+            net.minecraft.client.renderer.entity.EntityRenderers.register(
+                    DIV.gtcsolo.registry.ModEntities.AMETHYST_PROJECTILE.get(),
+                    DIV.gtcsolo.client.NoOpEntityRenderer::new
+            );
+
+            // SecretSword の mode → texture override 用のモデルプロパティ
+            // mode 1..8 を 0.1..0.8 にマップして JSON override の predicate と一致させる
+            net.minecraft.client.renderer.item.ItemProperties.register(
+                    DIV.gtcsolo.registry.ModItems.SECRET_SWORD.get(),
+                    new net.minecraft.resources.ResourceLocation(MODID, "mode"),
+                    (stack, level, entity, seed) ->
+                            DIV.gtcsolo.item.SecretSwordItem.getMode(stack) / 10.0f
+            );
         });
     }
 

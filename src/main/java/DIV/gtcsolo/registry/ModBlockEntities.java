@@ -2,6 +2,7 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlockEntity;
+import DIV.gtcsolo.block.datachest.DataChestBlockEntity;
 import DIV.gtcsolo.block.wen.WENAePortBlockEntity;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlockEntity;
 import DIV.gtcsolo.block.wen.WENFePortBlockEntity;
@@ -20,6 +21,12 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("extend_energy_cube",
                     () -> BlockEntityType.Builder
                             .of(ExtendEnergyCubeBlockEntity::new, ModBlocks.EXTEND_ENERGY_CUBE.get())
+                            .build(null));
+
+    public static final RegistryObject<BlockEntityType<DataChestBlockEntity>> DATACHEST =
+            BLOCK_ENTITIES.register("datachest",
+                    () -> BlockEntityType.Builder
+                            .of(DataChestBlockEntity::new, ModBlocks.DATACHEST.get())
                             .build(null));
 
     public static final RegistryObject<BlockEntityType<WENDataMonitorBlockEntity>> WEN_DATA_MONITOR =

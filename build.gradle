@@ -112,6 +112,15 @@ repositories {
         }
     }
 
+    // Curios (theillusivec4 maven、 L2Hostility の hard dep)
+    maven {
+        url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+            includeGroup "top.theillusivec4.caelus"
+        }
+    }
+
     // ★重要: libsフォルダを「リポジトリ（倉庫）」として登録する
     flatDir {
         dir 'libs'
@@ -163,6 +172,31 @@ dependencies {
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
     implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
 
+    // L2 suite (= L2Hostility 独自 MobTrait 開発用)
+    // 注: PlayerTotemMixin が MobTraitCap を参照するため runtime にも要、 implementation を使用
+    //  (jar 配布物には bundle されない、 modpack 側の各 mod jar を runtime で使う)
+    implementation fg.deobf("local:l2library:2.5.0-slim")
+    implementation fg.deobf("local:l2serial:1.2.2")
+    implementation fg.deobf("local:l2damagetracker:0.4.3")
+    implementation fg.deobf("local:l2complements:2.6.1-slim")
+    implementation fg.deobf("local:l2modularblock:1.1.0")
+    implementation fg.deobf("local:l2screentracker:0.1.4")
+    implementation fg.deobf("local:l2tabs:0.3.3")
+    implementation fg.deobf("local:l2itemselector:0.1.8")
+    implementation fg.deobf("local:l2hostility:2.5.19")
+    // L2H/Complements の compat class が参照する周辺 L2 系 (= classpath 解決のみ目的)
+    runtimeOnly fg.deobf("local:l2archery:2.4.13")
+    runtimeOnly fg.deobf("local:l2artifacts:2.4.18-slim")
+    runtimeOnly fg.deobf("local:l2backpack:2.4.19-slim")
+    runtimeOnly fg.deobf("local:l2weaponry:2.4.26")
+    runtimeOnly fg.deobf("local:modulargolems:2.4.33-pre4-slim")
+    runtimeOnly fg.deobf("local:pandora:0.1.9-slim")
+    runtimeOnly fg.deobf("local:curseofpandora:2.4.25-slim")
+    runtimeOnly fg.deobf("local:mob_weapon_api:0.2.13")
+    // L2H の hard dep: curios + patchouli (= mods.toml で mandatory 指定)
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1")
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4636277")
+
     // Mixin annotation processor (gtceu.refmap 生成用)
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
@@ -186,6 +220,11 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 tasks.named('jar', Jar).configure {
+    // MixinGradle の addMixinsToJar が gtcsolo.refmap.json を後付けする一方、
+    // sourceSets.main 経由で compile output にも refmap が出るため、 jar task が同名 entry を
+    // 2 回受け取って FAIL する。 EXCLUDE で「先勝ち」 (= 最初に見た方を採用、 後続は無視) し、
+    // ZIP 内には 1 個だけ残るようにして reobfJar が再 zip 化する際の重複検知も回避する。
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(["Specification-Title"     : mod_id,
                     "Specification-Vendor"    : mod_authors,

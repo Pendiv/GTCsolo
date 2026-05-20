@@ -28,5 +28,8 @@ public final class GemSkinRegistry {
     public static void bootstrap() {
         register(new ResourceLocation("gtcsolo", "risk_return"),
                  new GemSkin(0xCC99FF, "netherstar"));
+        // Nether Star Gem (魔法を増幅させるネザースター) — material_costume の "nether_star" iconset を参照
+        register(new ResourceLocation("gtcsolo", "nether_star"),
+                 new GemSkin(0xFFFFFF, "nether_star"));
     }
 }

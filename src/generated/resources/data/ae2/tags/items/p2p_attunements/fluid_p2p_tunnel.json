@@ -84,6 +84,12 @@
     "gtcsolo:bedrockium_plasma_bucket",
     "gtcsolo:jupitate_plasma_bucket",
     "gtcsolo:auroralium_plasma_bucket",
-    "gtcsolo:tin_plasma_bucket"
+    "gtcsolo:tin_plasma_bucket",
+    "gtcsolo:strange_matter_bucket",
+    "gtcsolo:coronium_plasma_bucket",
+    "gtcsolo:quark_soup_bucket",
+    "gtcsolo:solar_plasma_plasma_bucket",
+    "gtcsolo:hawking_radiation_plasma_bucket",
+    "gtcsolo:penrose_ergo_bucket"
   ]
 }

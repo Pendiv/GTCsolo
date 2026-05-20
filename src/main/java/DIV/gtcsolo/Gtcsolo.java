@@ -8,6 +8,7 @@ import DIV.gtcsolo.network.ModNetwork;
 import DIV.gtcsolo.common.TooltipDisplayEvents;
 import DIV.gtcsolo.data.ModRecipeProvider;
 import DIV.gtcsolo.dump.RecipeDumpService;
+import DIV.gtcsolo.registry.ModAttributes;
 import DIV.gtcsolo.registry.ModBlockEntities;
 import DIV.gtcsolo.registry.ModBlocks;
 import DIV.gtcsolo.registry.ModCreativeTabs;
@@ -64,6 +65,10 @@ public class Gtcsolo {
         ModNetwork.register();
         // Apotheosis Gem skin (texture iconset + color マッピング)
         DIV.gtcsolo.apoth.gem.GemSkinRegistry.bootstrap();
+        // カスタム Ingredient 登録 (LocusIngredient — StrictNBT の null vs {} 不一致を回避)
+        net.minecraftforge.common.crafting.CraftingHelper.register(
+                DIV.gtcsolo.api.ingredient.LocusIngredient.ID,
+                DIV.gtcsolo.api.ingredient.LocusIngredient.SERIALIZER);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);
@@ -72,6 +77,15 @@ public class Gtcsolo {
         ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModCreativeTabs.applyTabOverrides();
+        // L2Hostility 独自 MobTrait 群 (= 29 個、 全 trait)
+        DIV.gtcsolo.l2.ModL2Traits.register(modEventBus);
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.l2.L2EventHandlers());
+        // ラッキーヒット attribute (= lucky_hit_rate / lucky_hit_damage)
+        ModAttributes.register(modEventBus);
+        modEventBus.register(new DIV.gtcsolo.combat.LuckyHitAttribute());      // EntityAttributeModificationEvent
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.LuckyHitHandler()); // LivingDamageEvent
+        // 激戦の幕引き — 戦闘膠着で player ↔ hostile mob 双方に段階的補正
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.curtaincall.CurtainCallHandler());
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.AbsoluteKillHandler());
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.framealtar.FrameAltarHandler());
         MinecraftForge.EVENT_BUS.addListener(commandHandler::onRegisterCommands);
@@ -92,6 +106,7 @@ public class Gtcsolo {
             MenuScreens.register(ModMenuTypes.EXTEND_ENERGY_CUBE.get(), ExtendEnergyCubeScreen::new);
             MenuScreens.register(ModMenuTypes.WEN_DATA_MONITOR.get(), WENDataMonitorScreen::new);
             MenuScreens.register(ModMenuTypes.WEN_ID_SELECT.get(), WENIdSelectScreen::new);
+            MenuScreens.register(ModMenuTypes.DATACHEST.get(), DIV.gtcsolo.block.datachest.DataChestScreen::new);
 
             // 投擲体エンティティのレンダラ
             net.minecraft.client.renderer.entity.EntityRenderers.register(
@@ -126,6 +141,8 @@ public class Gtcsolo {
             DIV.gtcsolo.common.framealtar.FrameAltarRecipes.init();
             // AE2 アップグレードカード登録 (対象AE2マシンへの互換登録)
             DIV.gtcsolo.integration.ae2.WENAe2Integration.registerUpgrades();
+            // StarForge 軌跡データ初期化 (全 material/fluid 登録完了後タイミング)
+            DIV.gtcsolo.machine.starforge.StarForgeTraceData.init();
         });
     }
 

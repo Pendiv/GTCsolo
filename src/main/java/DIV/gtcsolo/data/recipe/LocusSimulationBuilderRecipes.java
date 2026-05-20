@@ -31,49 +31,53 @@ public final class LocusSimulationBuilderRecipes {
     private static final int DURATION = 72000;
 
     public static void register(Consumer<FinishedRecipe> writer) {
+        // 8 軌跡それぞれに circuit 1〜8 を振って GT recipe lookup tree 上で distinct 化。
+        // 同一入力 (= empty star_locus) 8 件が衝突して JEI 表示が 1 件にまとまる仮説を検証。
         // 起点 (褐色矮星): decaying 不要
-        register(writer, AbstractLocusItem.BROWN_DWARF,  null,                            GTValues.ZPM);
+        register(writer, AbstractLocusItem.BROWN_DWARF,  null,                            GTValues.ZPM, 1);
         // 連鎖 (太陽未満 = ZPM)
-        register(writer, AbstractLocusItem.KOI74,        AbstractLocusItem.BROWN_DWARF,   GTValues.ZPM);
-        register(writer, AbstractLocusItem.R_ANDROMEDAE, AbstractLocusItem.KOI74,         GTValues.ZPM);
-        register(writer, AbstractLocusItem.HD101065,     AbstractLocusItem.R_ANDROMEDAE,  GTValues.ZPM);
-        register(writer, AbstractLocusItem.CEMP_R,       AbstractLocusItem.HD101065,      GTValues.ZPM);
+        register(writer, AbstractLocusItem.KOI74,        AbstractLocusItem.BROWN_DWARF,   GTValues.ZPM, 2);
+        register(writer, AbstractLocusItem.R_ANDROMEDAE, AbstractLocusItem.KOI74,         GTValues.ZPM, 3);
+        register(writer, AbstractLocusItem.HD101065,     AbstractLocusItem.R_ANDROMEDAE,  GTValues.ZPM, 4);
+        register(writer, AbstractLocusItem.CEMP_R,       AbstractLocusItem.HD101065,      GTValues.ZPM, 5);
         // 太陽以上 = UV
-        register(writer, AbstractLocusItem.SUN,          AbstractLocusItem.CEMP_R,        GTValues.UV);
-        register(writer, AbstractLocusItem.NEUTRON_STAR, AbstractLocusItem.SUN,           GTValues.UV);
-        register(writer, AbstractLocusItem.BLACK_HOLE,   AbstractLocusItem.NEUTRON_STAR,  GTValues.UV);
+        register(writer, AbstractLocusItem.SUN,          AbstractLocusItem.CEMP_R,        GTValues.UV,  6);
+        register(writer, AbstractLocusItem.NEUTRON_STAR, AbstractLocusItem.SUN,           GTValues.UV,  7);
+        register(writer, AbstractLocusItem.BLACK_HOLE,   AbstractLocusItem.NEUTRON_STAR,  GTValues.UV,  8);
     }
 
     /**
      * @param outputTrace    出力する star_locus の Trace
      * @param decayingTrace  触媒となる decaying_star_locus の Trace (起点軌跡なら null)
      * @param tier           GTValues の tier index (ZPM=7 / UV=8)
+     * @param circuit        programmed circuit configuration (1〜8、 各軌跡で distinct)
      */
     private static void register(Consumer<FinishedRecipe> writer,
                                   String outputTrace,
                                   String decayingTrace,
-                                  int tier) {
+                                  int tier,
+                                  int circuit) {
         GTRecipeBuilder builder = ModRecipeTypes.LOCUS_SIMULATION_BUILDER
                 .recipeBuilder("autogen_locus_" + outputTrace)
                 .inputItems(emptyLocusIngredient())
                 .outputItems(AbstractLocusItem.of(ModItems.STAR_LOCUS.get(), outputTrace))
                 .duration(DURATION)
-                .EUt(GTValues.V[tier]);
+                .EUt(GTValues.V[tier])
+                .circuitMeta(circuit);
         if (decayingTrace != null) {
             builder.notConsumable(decayingTraceIngredient(decayingTrace));
         }
         builder.save(writer);
     }
 
-    /** NBT 完全に nil の star_locus を要求する Ingredient (Trace 付きはマッチしない) */
+    /** Trace 未設定の star_locus のみマッチ。 LocusIngredient で tag=null/{} を吸収 */
     private static Ingredient emptyLocusIngredient() {
-        return NBTIngredient.createNBTIngredient(new ItemStack(ModItems.STAR_LOCUS.get()));
+        return DIV.gtcsolo.api.ingredient.LocusIngredient.empty(ModItems.STAR_LOCUS.get());
     }
 
-    /** Trace 一致の decaying_star_locus を要求する Ingredient */
+    /** 指定 Trace の decaying_star_locus のみマッチ */
     private static Ingredient decayingTraceIngredient(String trace) {
-        return NBTIngredient.createNBTIngredient(
-                AbstractLocusItem.of(ModItems.DECAYING_STAR_LOCUS.get(), trace)
-        );
+        return DIV.gtcsolo.api.ingredient.LocusIngredient.ofTrace(
+                ModItems.DECAYING_STAR_LOCUS.get(), trace);
     }
 }

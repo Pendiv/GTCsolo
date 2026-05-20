@@ -53,6 +53,11 @@ public class ModItems {
                     () -> new BlockItem(ModBlocks.EXTEND_ENERGY_CUBE.get(), new Item.Properties())
             );
 
+    public static final RegistryObject<Item> DATACHEST =
+            ITEMS.register("datachest",
+                    () -> new BlockItem(ModBlocks.DATACHEST.get(), new Item.Properties())
+            );
+
     public static final RegistryObject<Item> BEDROCKIUM_HE_CASING =
             ITEMS.register("bedrockium_he_casing",
                     () -> new BlockItem(ModBlocks.BEDROCKIUM_HE_CASING.get(), new Item.Properties())

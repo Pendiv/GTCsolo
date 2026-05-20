@@ -11,9 +11,18 @@
       {
         "chance": 10000,
         "content": {
-          "type": "forge:nbt",
-          "count": 1,
-          "item": "gtcsolo:star_locus"
+          "type": "gtcsolo:locus",
+          "item": "gtcsolo:star_locus",
+          "mode": "empty"
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 0,
+        "content": {
+          "type": "gtceu:circuit",
+          "configuration": 1
         },
         "maxChance": 10000,
         "tierChanceBoost": 0

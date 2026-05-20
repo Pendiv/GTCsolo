@@ -11,9 +11,9 @@
       {
         "chance": 10000,
         "content": {
-          "type": "forge:nbt",
-          "count": 1,
-          "item": "gtcsolo:star_locus"
+          "type": "gtcsolo:locus",
+          "item": "gtcsolo:star_locus",
+          "mode": "empty"
         },
         "maxChance": 10000,
         "tierChanceBoost": 0
@@ -21,10 +21,19 @@
       {
         "chance": 0,
         "content": {
-          "type": "forge:nbt",
-          "count": 1,
+          "type": "gtceu:circuit",
+          "configuration": 6
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 0,
+        "content": {
+          "type": "gtcsolo:locus",
           "item": "gtcsolo:decaying_star_locus",
-          "nbt": "{Trace:\"cemp_r\"}"
+          "mode": "trace",
+          "trace": "cemp_r"
         },
         "maxChance": 10000,
         "tierChanceBoost": 0

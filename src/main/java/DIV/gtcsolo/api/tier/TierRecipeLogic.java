@@ -54,14 +54,26 @@ public final class TierRecipeLogic {
      *
      * 並列/OC を上乗せしたい場合はこれと別の RecipeModifier を併用する。
      */
+    private static final org.slf4j.Logger LOGGER = com.mojang.logging.LogUtils.getLogger();
+
     public static ModifierFunction tierGate(@Nonnull MetaMachine machine, @Nonnull GTRecipe recipe) {
         if (!(machine instanceof TieredMultiblockMachine tiered)) {
             return ModifierFunction.IDENTITY;
         }
         int required = getRequiredTier(recipe);
         if (required < 0) return ModifierFunction.IDENTITY;
-        if (tiered.getStructureTier() < required) return ModifierFunction.NULL;
+        int actual = tiered.getStructureTier();
+        if (actual < required) {
+            LOGGER.warn("[TierGate] REJECT recipe={} required={} (= V[{}]) actual_structure_tier={} (= V[{}])",
+                    recipe.id, required, tierName(required), actual, tierName(actual));
+            return ModifierFunction.NULL;
+        }
         return ModifierFunction.IDENTITY;
+    }
+
+    private static String tierName(int t) {
+        if (t < 0 || t >= GTValues.VN.length) return "?";
+        return GTValues.VN[t];
     }
 
     /**

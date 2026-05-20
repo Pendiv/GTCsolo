@@ -30,7 +30,6 @@ import java.util.Arrays;
  */
 @Mixin(PatternPreviewWidget.class)
 public abstract class PatternPreviewWidgetMixin {
-
     @Shadow @Final
     public MultiblockMachineDefinition controllerDefinition;
 

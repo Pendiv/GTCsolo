@@ -68,6 +68,22 @@ public class ModMachines {
     public static final java.util.Map<Integer, java.util.Map<Integer, MachineDefinition>> SPACEFORGE_ENERGY_HATCH = new java.util.HashMap<>();
     private static final int[] SEHATCH_AMPERAGES = {16, 64, 256, 2048};
 
+    // OverPower Hatch シリーズ — 電圧 tier 無し、 容量/スループット 2^31 (energy のみ Long.MAX_VALUE)
+    // PartAbility は通常の IMPORT_ITEMS / EXPORT_ITEMS / IMPORT_FLUIDS / EXPORT_FLUIDS / OUTPUT_ENERGY を流用
+    // (= 入手はクリエイティブ限定、 マルチブロック側は通常のハッチ枠として要求する)
+    public static MachineDefinition OVERPOWER_ITEM_IN_HATCH;
+    public static MachineDefinition OVERPOWER_ITEM_OUT_HATCH;
+    public static MachineDefinition OVERPOWER_FLUID_IN_HATCH;
+    public static MachineDefinition OVERPOWER_FLUID_OUT_HATCH;
+    public static MachineDefinition OVERPOWER_ENERGY_OUT_HATCH;
+
+    // Creative Hatch シリーズ — Phantom スロット、 無限供給/sink、 軽量設計
+    // PartAbility は OverPower と同じく標準を流用
+    public static MachineDefinition CREATIVE_ITEM_IN_HATCH;
+    public static MachineDefinition CREATIVE_ITEM_OUT_HATCH;
+    public static MachineDefinition CREATIVE_FLUID_IN_HATCH;
+    public static MachineDefinition CREATIVE_FLUID_OUT_HATCH;
+
     // Upgrade Hatch — 機能拡張用アイテムハッチ (4 tier: LV/EV/LuV/UHV を tier_1..tier_4 として登録)
     public static final PartAbility UPGRADE_HATCH = new PartAbility("upgrade_hatch");
     public static final java.util.Map<Integer, MachineDefinition> UPGRADE_HATCHES = new java.util.HashMap<>();
@@ -837,7 +853,7 @@ public class ModMachines {
                         .where('#', Predicates.any())
                         .build())
                 .workableCasingRenderer(
-                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
+                        new ResourceLocation("gtcsolo", "block/block_12"),
                         new ResourceLocation("gtceu", "block/multiblock/large_material_press"))
                 .register();
 
@@ -960,6 +976,7 @@ public class ModMachines {
                 .recipeType(ModRecipeTypes.LOCUS_SIMULATION_BUILDER)
                 .recipeModifiers(
                         DIV.gtcsolo.api.tier.TierRecipeLogic::tierGate,
+                        GTRecipeModifiers.OC_NON_PERFECT,
                         GTRecipeModifiers.PARALLEL_HATCH)
                 .tooltips(
                         Component.translatable("gtcsolo.machine.locus_simulation_builder.desc.1"),
@@ -982,7 +999,7 @@ public class ModMachines {
                             .build();
                 })
                 .workableCasingRenderer(
-                        new ResourceLocation("gtcsolo", "block/simulation_casing"),
+                        new ResourceLocation("gtcsolo", "block/block_12"),
                         new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
                 .register();
 
@@ -1017,15 +1034,23 @@ public class ModMachines {
                             .where('C', blocks(ModBlocks.AURORALIUM_STARFORGE_CASING.get()))
                             .where('E', blocks(ModBlocks.DEVASTATION_CORE_BLOCK.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
+                                    // OUTPUT_ENERGY: SUN/BH のエネルギー放出用 (OverPower 含め全 OUTPUT_ENERGY ハッチを受付)
+                                    .or(abilities(PartAbility.OUTPUT_ENERGY))
                                     .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                                     .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                             .where('#', any())
                             .build();
                 })
                 .workableCasingRenderer(
-                        new ResourceLocation("gtcsolo", "block/devastation_core_block"),
+                        new ResourceLocation("gtcsolo", "block/auroralium_starforge_casing"),
                         new ResourceLocation("gtceu", "block/multiblock/fusion_reactor"))
                 .register();
+
+        // OverPower hatch シリーズ (5 個、 tier 無し、 容量/スループット 2^31 ・ energy のみ Long.MAX_VALUE)
+        registerOverPowerHatches();
+
+        // Creative hatch シリーズ (4 個、 Phantom スロット、 無限供給/sink)
+        registerCreativeHatches();
 
         // Mekanism chemical IO hatch 群 (GAS/INFUSION/OTHER × IN/OUT × 9tier + creative = 60台)
         DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.init();
@@ -1035,6 +1060,122 @@ public class ModMachines {
 
         // WEN ワイヤレスIOマシン群
         WENMachines.init();
+    }
+
+    private static void registerOverPowerHatches() {
+        // Item Input — 標準 PartAbility.IMPORT_ITEMS で受付
+        OVERPOWER_ITEM_IN_HATCH = REGISTRATE.machine("overpower_item_in_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.OverPowerItemHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.IN))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.IMPORT_ITEMS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.overpower_item_in_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.overpower_item_in_hatch.desc.2"))
+                .overlayTieredHullRenderer("overpower/item_in")
+                .register();
+
+        // Item Output — 標準 PartAbility.EXPORT_ITEMS
+        OVERPOWER_ITEM_OUT_HATCH = REGISTRATE.machine("overpower_item_out_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.OverPowerItemHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.OUT))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.EXPORT_ITEMS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.overpower_item_out_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.overpower_item_out_hatch.desc.2"))
+                .overlayTieredHullRenderer("overpower/item_out")
+                .register();
+
+        // Fluid Input — 標準 PartAbility.IMPORT_FLUIDS
+        OVERPOWER_FLUID_IN_HATCH = REGISTRATE.machine("overpower_fluid_in_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.OverPowerFluidHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.IN))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.IMPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.overpower_fluid_in_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.overpower_fluid_in_hatch.desc.2"))
+                .overlayTieredHullRenderer("overpower/fluid_in")
+                .register();
+
+        // Fluid Output — 標準 PartAbility.EXPORT_FLUIDS
+        OVERPOWER_FLUID_OUT_HATCH = REGISTRATE.machine("overpower_fluid_out_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.OverPowerFluidHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.OUT))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.EXPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.overpower_fluid_out_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.overpower_fluid_out_hatch.desc.2"))
+                .overlayTieredHullRenderer("overpower/fluid_out")
+                .register();
+
+        // Energy Output (only) — 標準 PartAbility.OUTPUT_ENERGY
+        OVERPOWER_ENERGY_OUT_HATCH = REGISTRATE.machine("overpower_energy_out_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.OverPowerEnergyHatchMachine(holder))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.OUTPUT_ENERGY)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.overpower_energy_out_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.overpower_energy_out_hatch.desc.2"))
+                .overlayTieredHullRenderer("overpower/energy_out")
+                .register();
+    }
+
+    private static void registerCreativeHatches() {
+        CREATIVE_ITEM_IN_HATCH = REGISTRATE.machine("creative_item_in_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.CreativeItemHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.IN))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.IMPORT_ITEMS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.creative_item_in_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.creative_item_in_hatch.desc.2"))
+                .overlayTieredHullRenderer("creative/item_in")
+                .register();
+
+        CREATIVE_ITEM_OUT_HATCH = REGISTRATE.machine("creative_item_out_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.CreativeItemHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.OUT))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.EXPORT_ITEMS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.creative_item_out_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.creative_item_out_hatch.desc.2"))
+                .overlayTieredHullRenderer("creative/item_out")
+                .register();
+
+        CREATIVE_FLUID_IN_HATCH = REGISTRATE.machine("creative_fluid_in_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.CreativeFluidHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.IN))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.IMPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.creative_fluid_in_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.creative_fluid_in_hatch.desc.2"))
+                .overlayTieredHullRenderer("creative/fluid_in")
+                .register();
+
+        CREATIVE_FLUID_OUT_HATCH = REGISTRATE.machine("creative_fluid_out_hatch",
+                        holder -> new DIV.gtcsolo.machine.overpower.CreativeFluidHatchMachine(
+                                holder, com.gregtechceu.gtceu.api.capability.recipe.IO.OUT))
+                .rotationState(RotationState.ALL)
+                .tier(GTValues.MAX)
+                .abilities(PartAbility.EXPORT_FLUIDS)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.creative_fluid_out_hatch.desc.1"),
+                        Component.translatable("gtcsolo.machine.creative_fluid_out_hatch.desc.2"))
+                .overlayTieredHullRenderer("creative/fluid_out")
+                .register();
     }
 
     private static void registerUpgradeHatch(int voltageTier, int tierIndex) {

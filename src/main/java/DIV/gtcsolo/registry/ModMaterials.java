@@ -62,6 +62,8 @@ public class ModMaterials {
     public static final MaterialIconSet ICON_TEST_W        = new MaterialIconSet("test_w",        MaterialIconSet.RADIOACTIVE);
     // gtceu:aurum_stellis_gold (KubeJS 登録) 用。 austar.js から getByName で参照させる。
     public static final MaterialIconSet ICON_AURUM_STELLIS_GOLD = new MaterialIconSet("aurum_stellis_gold", MaterialIconSet.SHINY);
+    // gtcsolo:nether_star — Apotheosis Gem 用、 base = GTCEu netherstar + 白寄り cyan mask
+    public static final MaterialIconSet ICON_NETHER_STAR = new MaterialIconSet("nether_star", MaterialIconSet.NETHERSTAR);
 
     // ── 大きなプレート (big_plate) システム ──
     // カスタム MaterialIconType `bigPlate` + TagPrefix `bigPlate` の組合せ。
@@ -78,7 +80,7 @@ public class ModMaterials {
             "test_e", "test_f", "test_g", "test_h",
             "test_i", "test_j", "test_k", "test_l",
             "test_m", "test_n", "test_o", "test_p",
-            "test_q", "test_r", "test_s", "test_t",
+            "test_q", "test_r", "test_s", "test_t", "nether_star",
             "test_u", "test_v", "test_w"
     );
 
@@ -279,6 +281,7 @@ public class ModMaterials {
     // BH 専用シンギュラリティ。 SHINY iconset の通常 GT material として表現
     // (vanilla GTCEu に GENERATE_SINGULARITY 系 flag は無いので、ingot+dust の素材として運用)
     public static Material STAR_SINGULARITY;
+    public static Material NETHER_STAR;
 
     public static void init() {
 
@@ -796,6 +799,17 @@ public class ModMaterials {
                 .ingot().dust()
                 .color(0x6A4A8A)
                 .iconSet(MaterialIconSet.SHINY)
+                .buildAndRegister();
+
+        // ネザースター材質 — Apotheosis Gem 用 (= gtcsolo:nether_star の Apotheosis Gem item が
+        //  これのテクスチャ gtceu:material_sets/nether_star/gem を model JSON 経由で参照する)。
+        //  本 material 自体の prefix item (= dust/gem) は GT-side で自動生成されるが、 ゲーム内では
+        //  Apotheosis Gem が一義のアイテム実体。 GT 側のアイテムはテクスチャ提供のための副産物。
+        //  カスタム iconset 'nether_star' = GTCEu NETHERSTAR base × 白寄り cyan mask の合成。
+        NETHER_STAR = new Material.Builder(id("nether_star"))
+                .dust().gem()
+                .color(0xE0F4FF)
+                .iconSet(ICON_NETHER_STAR)
                 .buildAndRegister();
     }
 

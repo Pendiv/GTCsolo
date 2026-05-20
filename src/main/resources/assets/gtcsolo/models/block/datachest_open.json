@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "particle": "gtcsolo:block/datachest_side",
+    "side":     "gtcsolo:block/datachest_side",
+    "top":      "gtcsolo:block/datachest_monitor_open",
+    "bottom":   "gtcsolo:block/datachest_bottom"
+  }
+}

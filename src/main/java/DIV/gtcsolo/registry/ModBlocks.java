@@ -2,6 +2,7 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlock;
+import DIV.gtcsolo.block.datachest.DataChestBlock;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlock;
 import DIV.gtcsolo.block.wen.WENPortBlock;
 import net.minecraft.world.level.block.Block;
@@ -27,6 +28,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> EXTEND_ENERGY_CUBE =
             BLOCKS.register("extend_energy_cube", ExtendEnergyCubeBlock::new);
+
+    public static final RegistryObject<Block> DATACHEST =
+            BLOCKS.register("datachest", DataChestBlock::new);
 
     public static final RegistryObject<Block> BEDROCKIUM_HE_CASING =
             BLOCKS.register("bedrockium_he_casing",

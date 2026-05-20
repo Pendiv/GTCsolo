@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
-license = "All Rights Reserved"
+license = "${mod_license}"
 
 # Mixin config (gtcsolo.mixins.json をクラスパス直下に配置済)
 [[mixins]]
@@ -73,3 +73,40 @@ mandatory = false
 versionRange = "[11.0,)"
 ordering = "AFTER"
 side = "CLIENT"
+
+# 8. L2Hostility（必須 — 33 個の独自 MobTrait と cap 利用）
+[[dependencies.gtcsolo]]
+modId = "l2hostility"
+mandatory = true
+versionRange = "[2.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 9. L2DamageTracker（必須 — REDUCTION 属性 / AttackCache / L2DamageTypes 経由）
+[[dependencies.gtcsolo]]
+modId = "l2damagetracker"
+mandatory = true
+versionRange = "[0.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 10. L2Library（必須 — MobTraitCap / CapStorageData の基盤）
+[[dependencies.gtcsolo]]
+modId = "l2library"
+mandatory = true
+versionRange = "[2.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# L2Serial は FMLModType=GAMELIBRARY (= mod registry に登録されない library jar)。
+# Forge の dependency 解決対象外なので mods.toml に書くと「missing dep」 で load 拒否される。
+# 実体は mods/ に置けば classpath に乗って dev.xkmc.l2serial.* が import 可能になる。
+# (= L2Hostility 等が必要とするので modpack 環境に必ず同梱されている前提で利用)
+
+# 11. Apotheosis（必須 — Gem (NetherStar) + GemModelMixin）
+[[dependencies.gtcsolo]]
+modId = "apotheosis"
+mandatory = true
+versionRange = "[7.0,)"
+ordering = "AFTER"
+side = "BOTH"

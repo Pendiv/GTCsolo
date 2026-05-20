@@ -217,11 +217,19 @@ public class ModRecipeTypes {
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(LOCUS_SIMULATION_BUILDER);
 
         // StarForge — JEI 表示専用 (実態ロジックは別系統、構築/成熟/崩壊フェイズ管理)
+        //   注意: maxIO 入力 7 は JEI ダミー表示の都合 (= 構築フェイズの進捗テーブル全 item を
+        //   並べるため)。 実態 machine 側は GT recipe processor を使わず自前 tick で別ハッチ
+        //   から item を取るので、 maxIO 値は表示限界のみに作用する。
         STARFORGE = new GTRecipeType(
                 new ResourceLocation("gtcsolo", "starforge"), "multiblock")
-                .setMaxIOSize(1, 15, 0, 12)
+                .setMaxIOSize(6, 16, 0, 8)
                 .setEUIO(IO.IN)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+        // 情報欠落表記 (ver.0.5 §9.5 Phase 2): GT 標準 JEI ページの条件枠の直下に
+        // 「JEI は概要のみ、 詳細は Trace 情報ページ参照」 を 1 行差し込む。
+        // dataInfo は client 側で LabelWidget 化されるので getString() で OK
+        STARFORGE.addDataInfo(tag -> net.minecraft.network.chat.Component
+                .translatable("gtcsolo.jei.starforge.dummy_notice").getString());
         ResourceLocation sfId = new ResourceLocation("gtcsolo", "starforge");
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, sfId, STARFORGE);
         GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, sfId, new GTRecipeSerializer());
@@ -241,7 +249,7 @@ public class ModRecipeTypes {
         // WEN Nexus Assembler
         WEN_NEXUS_ASSEMBLER = new GTRecipeType(
                 new ResourceLocation("gtcsolo", "wen_nexus_assembler"), "multiblock")
-                .setMaxIOSize(9, 2, 3, 2)
+                .setMaxIOSize(9, 2, 3, 0)
                 .setEUIO(IO.IN)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
         ResourceLocation wnaId = new ResourceLocation("gtcsolo", "wen_nexus_assembler");

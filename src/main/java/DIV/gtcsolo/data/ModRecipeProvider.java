@@ -22,6 +22,10 @@ public class ModRecipeProvider extends RecipeProvider {
     protected void buildRecipes(Consumer<FinishedRecipe> writer) {
         // StarForge / locus_simulation_builder 自動生成レシピ (8 軌跡)
         DIV.gtcsolo.data.recipe.LocusSimulationBuilderRecipes.register(writer);
+        // StarForge GT 標準 JEI ダミーレシピ (8 軌跡、 真出力 + 偽入力 + AVG duration/EUt)
+        // 注意: data gen 時に StarForgeTraceData.init() 済みである必要あり
+        DIV.gtcsolo.machine.starforge.StarForgeTraceData.init();
+        DIV.gtcsolo.data.recipe.StarForgeDummyRecipes.register(writer);
 
         // FEC機械レシピは GtcSoloAddon.addRecipes() で登録（ランタイムレシピ）。
         // ここではクラフトテーブルレシピ（runData用JSON生成）のみ定義する。

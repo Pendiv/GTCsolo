@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "open=false": { "model": "gtcsolo:block/datachest" },
+    "open=true":  { "model": "gtcsolo:block/datachest_open" }
+  }
+}

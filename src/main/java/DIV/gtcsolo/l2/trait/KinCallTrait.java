@@ -1,0 +1,46 @@
+package DIV.gtcsolo.l2.trait;
+
+import DIV.gtcsolo.l2.trait.base.TypedMobTrait;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Zombie;
+
+import java.util.UUID;
+
+/**
+ * [34] Kin Call (類は友を呼ぶ) — ゾンビ専用。
+ * バニラの「被弾時に味方を呼ぶ」 確率を強化する。
+ *
+ * <p>仕様: {@code SPAWN_REINFORCEMENTS_CHANCE} attribute に +0.15 × lv の ADDITION modifier。
+ * デフォ値は出現時 random 0..0.1 (= 0~10%)。 lv1 で +15%、 lv5 で +75% 上乗せ。
+ *
+ * <p>派生対応: {@code instanceof Zombie} で Husk / Drowned / ZombieVillager / ZombifiedPiglin
+ * 全てカバー (= 全て Zombie を継承)。
+ */
+public class KinCallTrait extends TypedMobTrait {
+
+    private static final UUID MOD_KIN_CALL = UUID.fromString("3f8a2b1d-1c4e-4a7b-9c0a-7e8f1d2c3b4a");
+    private static final double CHANCE_PER_LEVEL = 0.15;
+
+    public KinCallTrait(ChatFormatting style) {
+        super(style);
+    }
+
+    @Override
+    protected boolean isValidTarget(LivingEntity mob) {
+        return mob instanceof Zombie;
+    }
+
+    @Override
+    protected void onValidPostInit(LivingEntity mob, int lv) {
+        AttributeInstance inst = mob.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
+        if (inst == null) return;
+        if (inst.getModifier(MOD_KIN_CALL) != null) return; // 多重付与防止
+        inst.addPermanentModifier(new AttributeModifier(
+                MOD_KIN_CALL, "gtcsolo.kin_call", CHANCE_PER_LEVEL * lv,
+                AttributeModifier.Operation.ADDITION));
+    }
+}

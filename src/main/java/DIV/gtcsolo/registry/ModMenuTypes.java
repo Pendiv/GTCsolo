@@ -2,6 +2,7 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
 import DIV.gtcsolo.block.ExtendEnergyCubeMenu;
+import DIV.gtcsolo.block.datachest.DataChestMenu;
 import DIV.gtcsolo.block.wen.WENDataMonitorMenu;
 import DIV.gtcsolo.block.wen.WENIdSelectMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -26,4 +27,8 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<WENIdSelectMenu>> WEN_ID_SELECT =
             MENU_TYPES.register("wen_id_select",
                     () -> IForgeMenuType.create(WENIdSelectMenu::new));
+
+    public static final RegistryObject<MenuType<DataChestMenu>> DATACHEST =
+            MENU_TYPES.register("datachest",
+                    () -> IForgeMenuType.create(DataChestMenu::new));
 }

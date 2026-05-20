@@ -58,6 +58,14 @@ ModCreativeTabs {
                                 if (ModMachines.MICRO_PLANET_MINER != null) output.accept(ModMachines.MICRO_PLANET_MINER.asStack());
                                 if (ModMachines.LOCUS_SIMULATION_BUILDER != null) output.accept(ModMachines.LOCUS_SIMULATION_BUILDER.asStack());
                                 if (ModMachines.STARFORGE != null) output.accept(ModMachines.STARFORGE.asStack());
+                                // 8 軌跡 × (star_locus / decaying_star_locus) を NBT 付きで列挙
+                                // (= 取り出しの手間軽減、 ModItems で登録されてる空版に加えて trace 付き 16 件)
+                                for (String trace : DIV.gtcsolo.item.AbstractLocusItem.VALID_TRACES) {
+                                    output.accept(DIV.gtcsolo.item.AbstractLocusItem.of(
+                                            ModItems.STAR_LOCUS.get(), trace));
+                                    output.accept(DIV.gtcsolo.item.AbstractLocusItem.of(
+                                            ModItems.DECAYING_STAR_LOCUS.get(), trace));
+                                }
                             })
                             .build()
             );
@@ -88,6 +96,17 @@ ModCreativeTabs {
                                 // Universal IO hatch 18台
                                 DIV.gtcsolo.integration.mekanism.capability.UniversalHatches.ALL
                                         .forEach(def -> output.accept(def.asStack()));
+                                // OverPower hatch 5台 (Item In/Out, Fluid In/Out, Energy Out)
+                                if (ModMachines.OVERPOWER_ITEM_IN_HATCH != null) output.accept(ModMachines.OVERPOWER_ITEM_IN_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_ITEM_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_ITEM_OUT_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_FLUID_IN_HATCH != null) output.accept(ModMachines.OVERPOWER_FLUID_IN_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_FLUID_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_FLUID_OUT_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_ENERGY_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_ENERGY_OUT_HATCH.asStack());
+                                // Creative hatch 4台 (Item In/Out, Fluid In/Out)
+                                if (ModMachines.CREATIVE_ITEM_IN_HATCH != null) output.accept(ModMachines.CREATIVE_ITEM_IN_HATCH.asStack());
+                                if (ModMachines.CREATIVE_ITEM_OUT_HATCH != null) output.accept(ModMachines.CREATIVE_ITEM_OUT_HATCH.asStack());
+                                if (ModMachines.CREATIVE_FLUID_IN_HATCH != null) output.accept(ModMachines.CREATIVE_FLUID_IN_HATCH.asStack());
+                                if (ModMachines.CREATIVE_FLUID_OUT_HATCH != null) output.accept(ModMachines.CREATIVE_FLUID_OUT_HATCH.asStack());
                             })
                             .build()
             );

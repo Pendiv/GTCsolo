@@ -63,7 +63,7 @@ public class PandemicTrait extends MobTrait {
         super.onHurtTarget(level, attacker, cache, traitCache);
         LivingHurtEvent event = cache.getLivingHurtEvent();
         if (event != null) {
-            double mult = 1.0 + 0.1 * level;
+            double mult = 1.0 + (0.30 + 0.10 * level);  // 攻撃倍率 = 1 + (30 + 10n)%
             event.setAmount(event.getAmount() * (float) mult);
         }
         // ターゲットが mob なら感染試行 (= player ターゲットには感染しない、 mob 限定)

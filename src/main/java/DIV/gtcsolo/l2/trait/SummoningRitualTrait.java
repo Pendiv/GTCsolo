@@ -34,9 +34,11 @@ public class SummoningRitualTrait extends MobTrait {
         if (!MobTraitCap.HOLDER.isProper(summoned)) return;
 
         // L2H の natural init は EntityJoinLevelEvent で既に走っているはず。
-        // その上で level を本特性 rank ぶん底上げ = 「より強大な敵」 を実現。
+        // その上で召喚先 level を「自身 level の 10n%」 ぶん底上げ = 「より強大な敵」 を実現。
         MobTraitCap dstCap = MobTraitCap.HOLDER.get(summoned);
-        int newLevel = dstCap.getLevel() + level;
+        int self = MobTraitCap.HOLDER.get(entity).getLevel();
+        int bonus = (int) Math.round(self * 0.10 * level);
+        int newLevel = dstCap.getLevel() + bonus;
         dstCap.setLevel(summoned, newLevel);
     }
 }

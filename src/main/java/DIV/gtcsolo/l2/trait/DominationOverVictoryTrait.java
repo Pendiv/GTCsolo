@@ -15,14 +15,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  * <p>追い詰められたボスほど苛烈に。 終盤の圧力源。
  *
  * <p>実装: 防御計算後に純粋ダメージを (与ダメ × 追加率) で加算。
- * 追加率 = (1 - hp_ratio) * 0.3 * level
- *   (例: lv1 で hp 0% → +30%、 lv3 で hp 0% → +90%)
+ * 追加率 = (HP を 25% 喪失するごとに 1 段) × 10n%
+ *   (例: lv1 で hp 75% 残 → 1 段 → +10%、 hp 0% → 4 段 → +40%、 lv3 で hp 0% → +120%)
  *
  * <p>仕様上ボス専用 = {@link TypedMobTrait#isValidTarget} で {@link L2EntityUtil#isBoss} を必須化。
  */
 public class DominationOverVictoryTrait extends TypedMobTrait {
 
-    private static final double PIERCE_PER_LEVEL = 0.3;
+    private static final double HP_TIER = 0.25;          // 25% 刻み
+    private static final double PIERCE_PER_TIER = 0.10;  // 1 段につき 10n%
 
     public DominationOverVictoryTrait(ChatFormatting style) {
         super(style);
@@ -41,7 +42,8 @@ public class DominationOverVictoryTrait extends TypedMobTrait {
         float maxHp = attacker.getMaxHealth();
         if (maxHp <= 0) return;
         double hpRatio = attacker.getHealth() / maxHp;
-        double pierce = (1.0 - hpRatio) * PIERCE_PER_LEVEL * level;
+        int tiers = (int) ((1.0 - hpRatio) / HP_TIER);  // 25% 喪失ごとに 1 段 (0〜4)
+        double pierce = tiers * PIERCE_PER_TIER * level;
         event.setAmount(event.getAmount() * (float) (1.0 + pierce));
     }
 }

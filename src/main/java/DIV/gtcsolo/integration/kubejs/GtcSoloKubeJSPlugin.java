@@ -2,6 +2,9 @@ package DIV.gtcsolo.integration.kubejs;
 
 import DIV.gtcsolo.integration.mekanism.capability.ChemicalPartAbilities;
 import DIV.gtcsolo.integration.mekanism.capability.ChemicalRecipeComponents;
+import DIV.gtcsolo.item.AbstractLocusItem;
+import DIV.gtcsolo.machine.starforge.PhaseProgressionTable;
+import DIV.gtcsolo.machine.starforge.StarForgeTraceData;
 import com.mojang.logging.LogUtils;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeComponentFactoryRegistryEvent;
@@ -33,5 +36,15 @@ public class GtcSoloKubeJSPlugin extends KubeJSPlugin {
         LOGGER.info("[ChemCap] KubeJSPlugin.registerBindings invoked");
         event.add("GtcsoloChemicalPartAbilities", ChemicalPartAbilities.class);
         event.add("GtcsoloChemCapHelper", ChemCapKJSHelper.class);
+
+        // StarForge 系 (Phase A 露出)。
+        // 既存軌跡編集は GtcsoloStarForge.get(trace).toBuilder().xxx(...).build() → GtcsoloStarForge.register(info)。
+        // 新規追加は GtcsoloStarLocus.registerTrace(name) + GtcsoloStarForge.register(builder.build())。
+        // Builder / Kind / TraceInfo は nested class 経由 (GtcsoloStarForgeTraceInfo.builder, .Kind)。
+        event.add("GtcsoloStarForge", StarForgeTraceData.class);
+        event.add("GtcsoloStarForgeTraceInfo", StarForgeTraceData.TraceInfo.class);
+        event.add("GtcsoloStarForgeOrdering", StarForgeTraceData.OrderingHint.class);
+        event.add("GtcsoloStarForgePhaseTable", PhaseProgressionTable.class);
+        event.add("GtcsoloStarLocus", AbstractLocusItem.class);
     }
 }

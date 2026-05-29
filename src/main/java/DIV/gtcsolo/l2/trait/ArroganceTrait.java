@@ -17,17 +17,21 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
  *
  * <p>仕様:
  * <ul>
- *   <li>tick: 20 tick おきに maxHP × 2% × level を自己回復</li>
- *   <li>player から被弾すると lastPlayerHit を更新、 100 tick (5秒) は回復停止</li>
+ *   <li>tick: 20 tick (= 1 秒) おきに maxHP × 7% を自己回復 (= level 非依存の固定値)</li>
+ *   <li>player から被弾すると lastPlayerHit を更新、 (7 - level) 秒は回復停止 (= 高 level ほど早く再開)</li>
  *   <li>LivingHealEvent listener (= {@link DIV.gtcsolo.l2.L2EventHandlers}) で cap.hasTrait チェック</li>
  * </ul>
  */
 public class ArroganceTrait extends MobTrait {
 
-    public static final int HEAL_BLOCK_TICKS = 100;
     public static final int HEAL_INTERVAL = 20;
-    /** lv1 で 1 秒あたり maxHP × 5%、 lv5 で 25% (= 4 秒で全回復) */
-    public static final double HEAL_PCT_PER_LEVEL = 0.05;
+    /** 1 秒あたり maxHP × 7% を回復 (= level 非依存の固定値) */
+    public static final double HEAL_PCT = 0.07;
+
+    /** 被弾後の回復停止時間 = (7 - level) 秒、 最低 1 秒 (= 高 level ほど早く再開) */
+    private static int blockTicks(int level) {
+        return Math.max(20, (7 - level) * 20);
+    }
 
     public ArroganceTrait(ChatFormatting style) {
         super(style);
@@ -40,9 +44,9 @@ public class ArroganceTrait extends MobTrait {
         MobTraitCap cap = MobTraitCap.HOLDER.get(mob);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
         long now = mob.level().getGameTime();
-        if (now - data.lastPlayerHitTick < HEAL_BLOCK_TICKS) return;
+        if (now - data.lastPlayerHitTick < blockTicks(level)) return;
         if (mob.getHealth() >= mob.getMaxHealth()) return;
-        float heal = (float) (mob.getMaxHealth() * HEAL_PCT_PER_LEVEL * level);
+        float heal = (float) (mob.getMaxHealth() * HEAL_PCT);
         mob.setHealth(Math.min(mob.getMaxHealth(), mob.getHealth() + heal));
     }
 
@@ -59,10 +63,11 @@ public class ArroganceTrait extends MobTrait {
     public static boolean shouldBlockHeal(LivingEntity entity) {
         if (!MobTraitCap.HOLDER.isProper(entity)) return false;
         MobTraitCap cap = MobTraitCap.HOLDER.get(entity);
-        if (!cap.hasTrait(DIV.gtcsolo.l2.ModL2Traits.ARROGANCE.get())) return false;
+        int lv = cap.getTraitLevel(DIV.gtcsolo.l2.ModL2Traits.ARROGANCE.get());
+        if (lv <= 0) return false;
         Data data = cap.getOrCreateData(DIV.gtcsolo.l2.ModL2Traits.ARROGANCE.get().getRegistryName(), Data::new);
         long now = entity.level().getGameTime();
-        return (now - data.lastPlayerHitTick) < HEAL_BLOCK_TICKS;
+        return (now - data.lastPlayerHitTick) < blockTicks(lv);
     }
 
     @SerialClass

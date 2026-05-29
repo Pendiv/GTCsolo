@@ -33,8 +33,22 @@ public abstract class TypedMobTrait extends MobTrait {
         super(style);
     }
 
-    /** この trait が対象 entity に対し有効か (= 全 hook の前段フィルタ) */
+    /** この trait が対象 entity に対し有効か (= 全 hook の前段フィルタ + 付与可否判定) */
     protected abstract boolean isValidTarget(LivingEntity mob);
+
+    /**
+     * ★ 付与可否判定に isValidTarget を反映する (= 2026-05-28 修正)。
+     *
+     * <p>L2H の {@code allow()} は entity_config / TraitConfig (= 全 mob allow が default) のみで
+     * 判定し、 型を見ない。 これを override しないと 「Creeper 専用」 trait が Zombie 等にも
+     * random 付与され、 isValidTarget gate で全 hook no-op になり 「機能してない」 ように見える。
+     * isValidTarget false の entity を付与候補から外すことで、 該当型 mob にのみ付与される。
+     */
+    @Override
+    public boolean allow(LivingEntity le, int difficulty, int maxModLv) {
+        if (!isValidTarget(le)) return false;
+        return super.allow(le, difficulty, maxModLv);
+    }
 
     // === all hooks: wrapper with isValidTarget guard ===
 

@@ -20,7 +20,8 @@ import java.util.UUID;
 public class CarriedAwayTrait extends MobTrait {
 
     private static final UUID MOD_SPEED = UUID.fromString("ca771ed4-ace4-4f37-9b6a-7d8e1c2a3b4c");
-    private static final double SPEED_PER_LEVEL = 0.5;
+    private static final double SPEED_BASE = 1.25;
+    private static final double SPEED_PER_LEVEL = 0.25;  // 移動速度 +(125 + 25n)%
 
     public CarriedAwayTrait(ChatFormatting style) {
         super(style);
@@ -33,7 +34,7 @@ public class CarriedAwayTrait extends MobTrait {
         if (inst == null) return;
         if (inst.getModifier(MOD_SPEED) != null) return;
         inst.addPermanentModifier(new AttributeModifier(
-                MOD_SPEED, "gtcsolo.carried_away", SPEED_PER_LEVEL * lv,
+                MOD_SPEED, "gtcsolo.carried_away", SPEED_BASE + SPEED_PER_LEVEL * lv,
                 AttributeModifier.Operation.MULTIPLY_BASE));
     }
 

@@ -23,8 +23,8 @@ public class ProximityFuseTrait extends TypedMobTrait {
 
     private static final Map<UUID, Integer> DWELL = new HashMap<>();
     private static final double RADIUS = 8.0;
-    private static final int BASE_DWELL_TICKS = 100;        // 5 秒
-    private static final int DWELL_REDUCTION_PER_LEVEL = 10; // lv 毎 -0.5 秒
+    private static final int BASE_DWELL_TICKS = 120;        // 滞在閾値 = (120 - 20n) tick
+    private static final int DWELL_REDUCTION_PER_LEVEL = 20;
 
     public ProximityFuseTrait(ChatFormatting style) {
         super(style);

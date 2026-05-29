@@ -36,8 +36,7 @@ public class HomingShotTrait extends TypedMobTrait {
     /** dim resource location → marked arrow UUID set */
     private static final Map<String, Set<UUID>> MARKED = new ConcurrentHashMap<>();
     private static final double SEARCH_RADIUS = 48.0;
-    private static final double BASE_CORRECTION = 0.02;
-    private static final double CORRECTION_PER_LEVEL = 0.015;
+    private static final double BASE_CORRECTION = 0.02;  // 弱い追従で固定 (level 非依存)
 
     public HomingShotTrait(ChatFormatting style) {
         super(style);
@@ -99,7 +98,7 @@ public class HomingShotTrait extends TypedMobTrait {
                 .subtract(arrow.position()).normalize();
         Vec3 cur = arrow.getDeltaMovement();
         double speed = cur.length();
-        double correction = BASE_CORRECTION + CORRECTION_PER_LEVEL * lv;
+        double correction = BASE_CORRECTION;
         Vec3 blended = cur.scale(1.0 - correction).add(desired.scale(speed * correction));
         // 合成後 vector を元 speed に正規化 (= 速度維持)
         Vec3 newVel = blended.normalize().scale(speed);

@@ -28,8 +28,6 @@ import java.util.UUID;
 public class BurningPassionTrait extends MobTrait {
 
     private static final UUID MOD_ATK = UUID.fromString("b08a51e2-fa11-4f7b-9c0a-7e8f1d2c3b51");
-    private static final double ATK_PER_LEVEL = 0.4;
-    private static final float REGEN_PER_LEVEL_PER_SEC = 0.5f;
 
     public BurningPassionTrait(ChatFormatting style) {
         super(style);
@@ -71,7 +69,7 @@ public class BurningPassionTrait extends MobTrait {
         }
         // 周期回復 (1 秒に 1 度)
         if (mob.tickCount % 20 == 0) {
-            mob.heal(REGEN_PER_LEVEL_PER_SEC * level);
+            mob.heal(mob.getMaxHealth() * 0.0035f * level);  // 0.35n% /秒 永続回復
         }
         // ATK buff の付け直し保証 (= chunk reload 後に modifier が消える場合の保険)
         AttributeInstance inst = mob.getAttribute(Attributes.ATTACK_DAMAGE);
@@ -85,7 +83,7 @@ public class BurningPassionTrait extends MobTrait {
         if (inst == null) return;
         if (inst.getModifier(MOD_ATK) != null) return;
         inst.addPermanentModifier(new AttributeModifier(
-                MOD_ATK, "gtcsolo.burning_passion", ATK_PER_LEVEL * level,
+                MOD_ATK, "gtcsolo.burning_passion", 0.10 + 0.05 * level,
                 AttributeModifier.Operation.MULTIPLY_BASE));
     }
 

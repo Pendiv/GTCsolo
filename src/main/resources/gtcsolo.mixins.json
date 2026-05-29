@@ -6,11 +6,13 @@
   "refmap": "gtcsolo.refmap.json",
   "mixins": [
     "InstantEatMixin",
-    "PlayerTotemMixin"
+    "PlayerTotemMixin",
+    "TargetingConditionsMixin"
   ],
   "client": [
     "PatternPreviewWidgetMixin",
-    "apoth.GemModelMixin"
+    "apoth.GemModelMixin",
+    "BotaniaSplashConfigMixin"
   ],
   "server": [],
   "injectors": {

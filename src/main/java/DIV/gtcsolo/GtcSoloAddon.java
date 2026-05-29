@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
@@ -46,6 +47,30 @@ public class GtcSoloAddon implements IGTAddon {
     @Override
     public void registerElements() {
         ModElements.init();
+    }
+
+    /**
+     * 既存 GTCEu material に generate flag を後付けする hook。
+     * material registry frozen 前に呼ばれるので addFlags() 可能。
+     * vanilla の Netherite はGTCEuで ingot + tool のみ持つので、
+     * 主要な派生 prefix item (plate / dense / rod / long_rod / gear / small_gear /
+     * foil / ring / spring / rotor) を生やす。
+     * 仕様詰めの経緯は ja_jp トーク 2026-05-25 参照、 「特別視しない中庸案」。
+     */
+    @Override
+    public void registerMaterials() {
+        GTMaterials.Netherite.addFlags(
+                MaterialFlags.GENERATE_PLATE,
+                MaterialFlags.GENERATE_DENSE,
+                MaterialFlags.GENERATE_ROD,
+                MaterialFlags.GENERATE_LONG_ROD,
+                MaterialFlags.GENERATE_GEAR,
+                MaterialFlags.GENERATE_SMALL_GEAR,
+                MaterialFlags.GENERATE_FOIL,
+                MaterialFlags.GENERATE_RING,
+                MaterialFlags.GENERATE_SPRING,
+                MaterialFlags.GENERATE_ROTOR
+        );
     }
 
     @Override

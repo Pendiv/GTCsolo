@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
  * 経由で実行時書き換え。 SRG name = {@code f_25774_}。
  *
  * <p>tick で「最初に発見した時の base 値を state に保存 → 経過 tick に応じて短縮」。
- * 最小値 = 5 tick。 短縮率 = base × (1 - lv × 0.15 × min(1, sustained_tick/200))。
+ * 最小値 = 5 tick。 短縮率 = base × (1 - (0.10 + 0.05 × lv) × min(1, sustained_tick/200))。
  *
  * <p>排他: [46] Burst Fire と排他 (連射機構衝突)、 datapack 側で配布絞り推奨。
  */
@@ -44,7 +44,6 @@ public class RapidFireTrait extends TypedMobTrait {
 
     private static final int MIN_INTERVAL = 5;
     private static final int RAMP_TICKS = 200;
-    private static final double SHORTEN_PER_LEVEL = 0.15;
 
     public RapidFireTrait(ChatFormatting style) {
         super(style);
@@ -81,7 +80,7 @@ public class RapidFireTrait extends TypedMobTrait {
             }
         }
         double ramp = Math.min(1.0, data.sustainedTicks / (double) RAMP_TICKS);
-        double factor = 1.0 - SHORTEN_PER_LEVEL * lv * ramp;
+        double factor = 1.0 - (0.10 + 0.05 * lv) * ramp;  // (10 + 5n)% 短縮
         int newInterval = Math.max(MIN_INTERVAL, (int) Math.round(data.baseInterval * factor));
         try {
             ATTACK_INTERVAL_FIELD.setInt(goal, newInterval);

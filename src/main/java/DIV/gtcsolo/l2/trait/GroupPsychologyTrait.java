@@ -44,7 +44,7 @@ public class GroupPsychologyTrait extends MobTrait {
         if (event == null) return;
         MobTraitCap cap = MobTraitCap.HOLDER.get(attacker);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
-        double mult = 1.0 + data.nearbyCount * 0.1 * level;
+        double mult = 1.0 + data.nearbyCount * 0.06 * level;  // 周囲 1 体につき +6n%
         event.setAmount(event.getAmount() * (float) mult);
     }
 

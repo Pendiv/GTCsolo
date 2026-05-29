@@ -7,16 +7,18 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +105,27 @@ public final class StarForgeTraceData {
             return new Builder(trace, kind);
         }
 
+        /**
+         * 既存 TraceInfo を Builder に復元する (= 一部 field のみ差し替えて再 register する用)。
+         * KubeJS から呼ぶ際の標準パターン: {@code info.toBuilder().outputItems(...).build()} → register。
+         */
+        public Builder toBuilder() {
+            Builder b = new Builder(this.trace, this.kind)
+                    .displayKey(this.displayKey)
+                    .noteKey(this.noteKey)
+                    .starterHints(this.starterItemHints.toArray(new String[0]))
+                    .continuousHints(this.continuousItemHints.toArray(new String[0]))
+                    .requiredAmount(this.requiredAmount)
+                    .maturityDuration(this.maturityDurationTicks)
+                    .maturityEUt(this.maturityEUt)
+                    .outputHints(this.outputHints.toArray(new String[0]));
+            if (this.buildPhaseTable != null) b.buildPhase(this.buildPhaseTable, this.buildRequiredCount);
+            if (this.decayPhaseTable != null) b.decayPhase(this.decayPhaseTable, this.decayRequiredCount);
+            b.outputItems(this.outputItems.toArray(new ItemStack[0]));
+            b.outputFluids(this.outputFluids.toArray(new FluidStack[0]));
+            return b;
+        }
+
         public static final class Builder {
             private final String trace;
             private final Kind kind;
@@ -128,6 +151,8 @@ public final class StarForgeTraceData {
                 this.noteKey = "gtcsolo.starforge.trace." + trace + ".note";
             }
 
+            public Builder displayKey(String key)           { this.displayKey = key; return this; }
+            public Builder noteKey(String key)              { this.noteKey = key; return this; }
             public Builder starterHints(String... hints)    { this.starterItemHints = List.of(hints); return this; }
             public Builder continuousHints(String... hints) { this.continuousItemHints = List.of(hints); return this; }
             public Builder requiredAmount(long n)           { this.requiredAmount = n; return this; }
@@ -161,23 +186,142 @@ public final class StarForgeTraceData {
         }
     }
 
-    private static final Map<String, TraceInfo> TRACES = new LinkedHashMap<>();
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    // 順序保持の list と name→info の lookup を二本立てで保持。
+    // ORDERED.indexOf(info) は O(n) だが trace は最大数十件想定なので問題なし。
+    private static final List<TraceInfo> ORDERED = new ArrayList<>();
+    private static final Map<String, TraceInfo> BY_NAME = new HashMap<>();
 
     /**
-     * 軌跡を登録する。組み込み 8 軌跡は static initializer で登録される。
+     * 軌跡を登録する。 組み込み 8 軌跡は static initializer で登録される。
      * addon が新規軌跡を追加するときもこれを呼ぶ (FMLCommonSetupEvent タイミング推奨)。
+     *
+     * <p>既存 trace 名と一致した場合は **位置を維持したまま** 値だけ差し替える
+     * (= KubeJS で要求アイテム / 出力を上書きする標準パターン)。
+     * 位置も動かしたい場合は {@link #register(TraceInfo, OrderingHint)} を使う。
      */
     public static void register(TraceInfo info) {
-        TRACES.put(info.trace, info);
+        register(info, null);
+    }
+
+    /**
+     * 順序指定付きで登録する。 既存 trace の場合は **元位置から外して** hint の位置に挿入。
+     * hint が null なら既存位置維持 (= {@link #register(TraceInfo)} と同じ)。
+     */
+    public static void register(TraceInfo info, OrderingHint hint) {
+        if (info == null) return;
+        TraceInfo existing = BY_NAME.get(info.trace);
+        if (existing != null) {
+            int idx = ORDERED.indexOf(existing);
+            if (hint == null) {
+                ORDERED.set(idx, info);
+                BY_NAME.put(info.trace, info);
+                return;
+            }
+            ORDERED.remove(idx);
+            BY_NAME.remove(info.trace);
+        }
+        int insertAt = (hint == null) ? ORDERED.size() : hint.resolveIndex(ORDERED, BY_NAME);
+        insertAt = Math.max(0, Math.min(insertAt, ORDERED.size()));
+        ORDERED.add(insertAt, info);
+        BY_NAME.put(info.trace, info);
     }
 
     public static TraceInfo get(String trace) {
-        return TRACES.get(trace);
+        return BY_NAME.get(trace);
+    }
+
+    /**
+     * trace を削除する (= KubeJS で組み込み軌跡を無効化したい時用)。
+     * 関連する {@link DIV.gtcsolo.item.AbstractLocusItem#VALID_TRACES} 側は別途
+     * {@link DIV.gtcsolo.item.AbstractLocusItem#unregisterTrace(String)} で消す。
+     */
+    public static TraceInfo unregister(String trace) {
+        TraceInfo removed = BY_NAME.remove(trace);
+        if (removed != null) ORDERED.remove(removed);
+        return removed;
     }
 
     /** 登録順 (= JEI 表示順) */
     public static List<TraceInfo> all() {
-        return List.copyOf(TRACES.values());
+        return List.copyOf(ORDERED);
+    }
+
+    /**
+     * 登録時の挿入位置を指定する hint。 既存 trace を再 register する際の移動先にも使える。
+     *
+     * <p>用例 (Java):
+     * <pre>{@code
+     * StarForgeTraceData.register(info, OrderingHint.before("brown_dwarf"));
+     * StarForgeTraceData.register(info, OrderingHint.index(3));  // 1-based、 3 番目
+     * }</pre>
+     *
+     * <p>用例 (KubeJS):
+     * <pre>{@code
+     * GtcsoloStarForge.register(info, GtcsoloStarForgeOrdering.before('brown_dwarf'))
+     * }</pre>
+     */
+    public static abstract class OrderingHint {
+        private OrderingHint() {}
+
+        abstract int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName);
+
+        public static OrderingHint first() {
+            return new OrderingHint() {
+                @Override int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName) { return 0; }
+            };
+        }
+
+        public static OrderingHint last() {
+            return new OrderingHint() {
+                @Override int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName) { return ordered.size(); }
+            };
+        }
+
+        /** target の直前 (= target は 1 つ後ろにずれる)。 target 不在なら warn + last() fallback */
+        public static OrderingHint before(String target) {
+            return new OrderingHint() {
+                @Override int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName) {
+                    TraceInfo t = byName.get(target);
+                    if (t == null) {
+                        LOGGER.warn("[StarForge] OrderingHint.before('{}'): trace not found, falling back to last()", target);
+                        return ordered.size();
+                    }
+                    return ordered.indexOf(t);
+                }
+            };
+        }
+
+        /** target の直後。 target 不在なら warn + last() fallback */
+        public static OrderingHint after(String target) {
+            return new OrderingHint() {
+                @Override int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName) {
+                    TraceInfo t = byName.get(target);
+                    if (t == null) {
+                        LOGGER.warn("[StarForge] OrderingHint.after('{}'): trace not found, falling back to last()", target);
+                        return ordered.size();
+                    }
+                    return ordered.indexOf(t) + 1;
+                }
+            };
+        }
+
+        /**
+         * 1-based の絶対位置。 既存 trace を後ろに押し出す形で挿入。
+         * 範囲外 (n &lt; 1 or n &gt; size+1) は warn + clamp。
+         */
+        public static OrderingHint index(int n) {
+            return new OrderingHint() {
+                @Override int resolveIndex(List<TraceInfo> ordered, Map<String, TraceInfo> byName) {
+                    int max = ordered.size() + 1;
+                    if (n < 1 || n > max) {
+                        LOGGER.warn("[StarForge] OrderingHint.index({}): out of range [1, {}], clamping", n, max);
+                    }
+                    return n - 1;  // clamp は呼び出し側でやる
+                }
+            };
+        }
     }
 
     /**

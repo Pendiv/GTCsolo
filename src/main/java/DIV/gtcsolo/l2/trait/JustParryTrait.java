@@ -14,8 +14,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  */
 public class JustParryTrait extends MobTrait {
 
-    private static final double BASE_CHANCE = 0.05;
-    private static final double CHANCE_PER_LEVEL = 0.05;
+    private static final double BASE_CHANCE = 0.30;
+    private static final double CHANCE_PER_LEVEL = 0.07;  // パリィ率 = (30 + 7n)%
 
     public JustParryTrait(ChatFormatting style) {
         super(style);

@@ -16,13 +16,12 @@ import net.minecraftforge.event.level.ExplosionEvent;
  *
  * <p>{@link ExplosionEvent.Start} を listen し、 source が full_tank 持ちクリーパーなら
  * 元爆発を cancel して、 半径拡大 + fire=true で再 trigger。
- * <p>新半径 = {@link #BASE_RADIUS} + {@link #RADIUS_PER_LEVEL} × lv (= lv1 で 5、 lv5 で 13)。
+ * <p>新半径 = BASE_RADIUS × (1.5 + 0.2n) = 爆発範囲 +(50 + 20n)% (ダメージは半径に連動)。
  * <p>無限再帰防止: ThreadLocal の reentry flag。
  */
 public class FullTankTrait extends TypedMobTrait {
 
     private static final float BASE_RADIUS = 3.0f;     // vanilla creeper の標準
-    private static final float RADIUS_PER_LEVEL = 2.0f;
     private static final ThreadLocal<Boolean> REENTRY = ThreadLocal.withInitial(() -> false);
 
     public FullTankTrait(ChatFormatting style) {
@@ -45,7 +44,7 @@ public class FullTankTrait extends TypedMobTrait {
         if (lv <= 0) return;
 
         event.setCanceled(true);
-        float newRadius = BASE_RADIUS + RADIUS_PER_LEVEL * lv;
+        float newRadius = BASE_RADIUS * (1.5f + 0.20f * lv);  // 爆発範囲 +(50 + 20n)% (ダメージは半径に連動)
         REENTRY.set(true);
         try {
             event.getLevel().explode(c, c.getX(), c.getY(), c.getZ(),

@@ -23,7 +23,7 @@ import net.minecraftforge.event.level.ExplosionEvent;
  * 爆心地に {@link AreaEffectCloud} を生成し、 ランクに応じたデバフを乗せる。
  *
  * <p>デバフプール (= 仕様で確定済): SLOWNESS / POISON / WITHER / BLINDNESS の 4 種。
- * 毎回ランダム選出、 amplifier = min(2, lv/2)、 duration = 100t + 40t × lv。
+ * 毎回ランダム選出、 amplifier = N (エフェクトレベル N)、 半径 = (4 + N)、 duration = (7 + 3N²) 秒。
  */
 public class VolatileMixTrait extends TypedMobTrait {
 
@@ -56,14 +56,14 @@ public class VolatileMixTrait extends TypedMobTrait {
         Vec3 pos = ex.getPosition();
         AreaEffectCloud cloud = new AreaEffectCloud(event.getLevel(), pos.x, pos.y, pos.z);
         cloud.setOwner(c);
-        cloud.setRadius(2.0f + lv);
-        cloud.setDuration(100 + 40 * lv);
+        int duration = (7 + 3 * lv * lv) * 20;  // (10 + 3N² - 3) 秒
+        cloud.setRadius(4.0f + lv);             // (4 + N) ブロック
+        cloud.setDuration(duration);
         cloud.setRadiusPerTick(-cloud.getRadius() / (float) cloud.getDuration());
 
         RandomSource rng = c.getRandom();
         MobEffect chosen = DEBUFF_POOL[rng.nextInt(DEBUFF_POOL.length)];
-        int amplifier = Math.min(2, lv / 2);
-        int duration = 100 + 40 * lv;
+        int amplifier = lv - 1;                 // エフェクトレベル N
         cloud.addEffect(new MobEffectInstance(chosen, duration, amplifier));
 
         event.getLevel().addFreshEntity(cloud);

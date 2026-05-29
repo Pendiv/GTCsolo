@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -25,10 +27,42 @@ public abstract class AbstractLocusItem extends Item {
     public static final String NEUTRON_STAR = "neutron_star";
     public static final String BLACK_HOLE   = "black_hole";
 
-    public static final Set<String> VALID_TRACES = Set.of(
-            SUN, BROWN_DWARF, KOI74, R_ANDROMEDAE,
-            HD101065, CEMP_R, NEUTRON_STAR, BLACK_HOLE
-    );
+    // mutable 化 (= KubeJS から軌跡を追加/削除可能にする、 LinkedHashSet で挿入順保持)。
+    // 直接書き換えではなく [[registerTrace]] / [[unregisterTrace]] 経由を推奨。
+    public static final Set<String> VALID_TRACES = new LinkedHashSet<>();
+
+    static {
+        VALID_TRACES.add(SUN);
+        VALID_TRACES.add(BROWN_DWARF);
+        VALID_TRACES.add(KOI74);
+        VALID_TRACES.add(R_ANDROMEDAE);
+        VALID_TRACES.add(HD101065);
+        VALID_TRACES.add(CEMP_R);
+        VALID_TRACES.add(NEUTRON_STAR);
+        VALID_TRACES.add(BLACK_HOLE);
+    }
+
+    /**
+     * 新規 trace を登録する (= KubeJS から星を追加する経路)。
+     * 重複は無害 (LinkedHashSet.add は既存ならスキップ)。 これ単体では StarForge ロジックに登録されない、
+     * 別途 {@code StarForgeTraceData.register} で TraceInfo を入れる必要あり。
+     *
+     * @return 新規追加なら true、 既存なら false
+     */
+    public static boolean registerTrace(String traceKey) {
+        if (traceKey == null || traceKey.isEmpty()) return false;
+        return VALID_TRACES.add(traceKey);
+    }
+
+    /** trace を削除する (= 組み込み軌跡を無効化したい時用)。 */
+    public static boolean unregisterTrace(String traceKey) {
+        return VALID_TRACES.remove(traceKey);
+    }
+
+    /** 外部から読み取り専用で trace 一覧を取りたい場合のビュー。 */
+    public static Set<String> validTracesView() {
+        return Collections.unmodifiableSet(VALID_TRACES);
+    }
 
     public AbstractLocusItem(Properties props) {
         super(props);

@@ -20,15 +20,11 @@ import java.util.UUID;
  * 一定時間ごとに別個体のクリーパーを召喚する (親子関係なし)。
  * 平均 9 割で同特性を継承させる。
  *
- * <p>クールタイム = {@link #BASE_COOLDOWN_TICKS} - lv × {@link #COOLDOWN_REDUCTION_PER_LEVEL}
- * (= lv1 で 30 秒、 lv5 で 14 秒、 最低 5 秒)。
+ * <p>クールタイム = 120 + 480÷n tick (= lv1 で 30 秒、 lv2 で 18 秒、 lv4 で 12 秒)。 max_rank 4。
  */
 public class SummonKinTrait extends TypedMobTrait {
 
     private static final Map<UUID, Long> LAST_SUMMON = new HashMap<>();
-    private static final long BASE_COOLDOWN_TICKS = 600L;
-    private static final long COOLDOWN_REDUCTION_PER_LEVEL = 80L;
-    private static final long MIN_COOLDOWN_TICKS = 100L;
     private static final double INHERIT_CHANCE = 0.9;
     /** 過密抑止: 半径 32 内にこの数の creeper が居たら summon スキップ */
     private static final int MAX_NEARBY_CREEPERS = 8;
@@ -47,8 +43,7 @@ public class SummonKinTrait extends TypedMobTrait {
         if (mob.level().isClientSide()) return;
         if (!(mob.level() instanceof ServerLevel sl)) return;
         long now = sl.getGameTime();
-        long cooldown = Math.max(MIN_COOLDOWN_TICKS,
-                BASE_COOLDOWN_TICKS - COOLDOWN_REDUCTION_PER_LEVEL * lv);
+        long cooldown = 120 + 480 / lv;  // 120 + 480÷n tick
         Long last = LAST_SUMMON.get(mob.getUUID());
         // 新生 mob は CD 未登録 = null。 ここで now を登録して全 mob が初回 CD 経過後に発動するように
         // 揃える (= 旧コードでは null を「即時発動可」 と誤解釈 → 新生 kin が即増殖 → 指数関数的爆発)

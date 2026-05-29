@@ -34,7 +34,7 @@ public class LazinessTrait extends MobTrait {
         if (mob.level().isClientSide()) return;
         if (mob.tickCount % 10 != 0) return; // 10 tick おきに軽量化
 
-        double drop = -0.3 * level;
+        double drop = -(0.30 + 0.10 * level);  // 低下率 = (30 + 10n)% (max_rank 3 想定)
         AABB area = mob.getBoundingBox().inflate(RADIUS);
         List<LivingEntity> nearby = mob.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != mob);
         Set<UUID> inRange = new HashSet<>();

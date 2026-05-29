@@ -171,6 +171,112 @@ public class ModL2Traits {
     public static final RegistryObject<BurstFireTrait> BURST_FIRE =
             TRAITS.register("burst_fire", () -> new BurstFireTrait(ChatFormatting.GOLD));
 
+    // === Phase 9: 10 個追加 (2026-05-28、 求心力 / 割れ窓 / 孤軍 / 2度寝 / 観客 / 腹系 4 + 虚飾 + 地平線) ===
+    public static final RegistryObject<CentripetalForceTrait> CENTRIPETAL_FORCE =
+            TRAITS.register("centripetal_force", () -> new CentripetalForceTrait(ChatFormatting.LIGHT_PURPLE));
+    public static final RegistryObject<BrokenWindowTrait> BROKEN_WINDOW =
+            TRAITS.register("broken_window", () -> new BrokenWindowTrait(ChatFormatting.GRAY));
+    public static final RegistryObject<LoneWolfTrait> LONE_WOLF =
+            TRAITS.register("lone_wolf", () -> new LoneWolfTrait(ChatFormatting.DARK_GRAY));
+    public static final RegistryObject<SecondSleepTrait> SECOND_SLEEP =
+            TRAITS.register("second_sleep", () -> new SecondSleepTrait(ChatFormatting.BLUE));
+    public static final RegistryObject<AudienceEffectTrait> AUDIENCE_EFFECT =
+            TRAITS.register("audience_effect", () -> new AudienceEffectTrait(ChatFormatting.YELLOW));
+    public static final RegistryObject<HungerDrainTrait> HUNGER_DRAIN =
+            TRAITS.register("hunger_drain", () -> new HungerDrainTrait(ChatFormatting.DARK_GREEN));
+    public static final RegistryObject<WellFedDefenseTrait> WELL_FED_DEFENSE =
+            TRAITS.register("well_fed_defense", () -> new WellFedDefenseTrait(ChatFormatting.GREEN));
+    public static final RegistryObject<WellFedStrikeTrait> WELL_FED_STRIKE =
+            TRAITS.register("well_fed_strike", () -> new WellFedStrikeTrait(ChatFormatting.RED));
+    public static final RegistryObject<VainGloryTrait> VAIN_GLORY =
+            TRAITS.register("vain_glory", () -> new VainGloryTrait(ChatFormatting.GOLD));
+    public static final RegistryObject<DistantHorizonTrait> DISTANT_HORIZON =
+            TRAITS.register("distant_horizon", () -> new DistantHorizonTrait(ChatFormatting.DARK_AQUA));
+
+    // === Phase 10: 3 個追加 (2026-05-28、 昼行性 / 超目立ちたがり屋 / 蓄積) ===
+    public static final RegistryObject<DiurnalTrait> DIURNAL =
+            TRAITS.register("diurnal", () -> new DiurnalTrait(ChatFormatting.YELLOW));
+    public static final RegistryObject<ShowstopperTrait> SHOWSTOPPER =
+            TRAITS.register("showstopper", () -> new ShowstopperTrait(ChatFormatting.GOLD));
+    public static final RegistryObject<AccumulationTrait> ACCUMULATION =
+            TRAITS.register("accumulation", () -> new AccumulationTrait(ChatFormatting.RED));
+
+    // === Phase 11: 時空タイプ基盤 (2026-05-28) ===
+    public static final RegistryObject<SpacetimeEntryTrait> SPACETIME_ENTRY =
+            TRAITS.register("spacetime_entry", () -> new SpacetimeEntryTrait(ChatFormatting.DARK_PURPLE));
+
+    // === Phase 11 Batch A: 自己完結 5 (隙 / 跳躍 / 影 / 影襲 / 迎合) ===
+    public static final RegistryObject<SpacetimeGapTrait> SPACETIME_GAP =
+            TRAITS.register("spacetime_gap", () -> new SpacetimeGapTrait(ChatFormatting.LIGHT_PURPLE));
+    public static final RegistryObject<SpacetimeLeapTrait> SPACETIME_LEAP =
+            TRAITS.register("spacetime_leap", () -> new SpacetimeLeapTrait(ChatFormatting.LIGHT_PURPLE));
+    public static final RegistryObject<SpacetimeShadowTrait> SPACETIME_SHADOW =
+            TRAITS.register("spacetime_shadow", () -> new SpacetimeShadowTrait(ChatFormatting.DARK_GRAY));
+    public static final RegistryObject<SpacetimeShadowRaidTrait> SPACETIME_SHADOW_RAID =
+            TRAITS.register("spacetime_shadow_raid", () -> new SpacetimeShadowRaidTrait(ChatFormatting.DARK_PURPLE));
+    public static final RegistryObject<SpacetimeConformityTrait> SPACETIME_CONFORMITY =
+            TRAITS.register("spacetime_conformity", () -> new SpacetimeConformityTrait(ChatFormatting.BLUE));
+
+    // === Phase 11 Batch B: 時空群参照 5 (排斥 / 共鳴 / 潮汐力 / 骨拾い / 均衡) ===
+    public static final RegistryObject<SpacetimeRejectionTrait> SPACETIME_REJECTION =
+            TRAITS.register("spacetime_rejection", () -> new SpacetimeRejectionTrait(ChatFormatting.DARK_RED));
+    public static final RegistryObject<SpacetimeResonanceTrait> SPACETIME_RESONANCE =
+            TRAITS.register("spacetime_resonance", () -> new SpacetimeResonanceTrait(ChatFormatting.AQUA));
+    public static final RegistryObject<SpacetimeTidalForceTrait> SPACETIME_TIDAL_FORCE =
+            TRAITS.register("spacetime_tidal_force", () -> new SpacetimeTidalForceTrait(ChatFormatting.DARK_AQUA));
+    public static final RegistryObject<SpacetimeBonePickerTrait> SPACETIME_BONE_PICKER =
+            TRAITS.register("spacetime_bone_picker", () -> new SpacetimeBonePickerTrait(ChatFormatting.GRAY));
+    public static final RegistryObject<SpacetimeEquilibriumTrait> SPACETIME_EQUILIBRIUM =
+            TRAITS.register("spacetime_equilibrium", () -> new SpacetimeEquilibriumTrait(ChatFormatting.WHITE));
+
+    // === Phase 11 Batch C: 戦闘/対 player 4 (混乱 / 断裂 / 覇者 / 献身) ===
+    public static final RegistryObject<SpacetimeConfusionTrait> SPACETIME_CONFUSION =
+            TRAITS.register("spacetime_confusion", () -> new SpacetimeConfusionTrait(ChatFormatting.LIGHT_PURPLE));
+    public static final RegistryObject<SpacetimeRuptureTrait> SPACETIME_RUPTURE =
+            TRAITS.register("spacetime_rupture", () -> new SpacetimeRuptureTrait(ChatFormatting.DARK_RED));
+    public static final RegistryObject<SpacetimeConquerorTrait> SPACETIME_CONQUEROR =
+            TRAITS.register("spacetime_conqueror", () -> new SpacetimeConquerorTrait(ChatFormatting.GOLD));
+    public static final RegistryObject<SpacetimeDevotionTrait> SPACETIME_DEVOTION =
+            TRAITS.register("spacetime_devotion", () -> new SpacetimeDevotionTrait(ChatFormatting.GREEN));
+
+    // === Phase 11 Batch D: 伝播/移譲 4 (敷衍 / 無限再帰 / 永劫回帰 / 英雄) ===
+    public static final RegistryObject<SpacetimeDiffusionTrait> SPACETIME_DIFFUSION =
+            TRAITS.register("spacetime_diffusion", () -> new SpacetimeDiffusionTrait(ChatFormatting.DARK_PURPLE));
+    public static final RegistryObject<SpacetimeInfiniteRecursionTrait> SPACETIME_INFINITE_RECURSION =
+            TRAITS.register("spacetime_infinite_recursion", () -> new SpacetimeInfiniteRecursionTrait(ChatFormatting.DARK_PURPLE));
+    public static final RegistryObject<SpacetimeEternalReturnTrait> SPACETIME_ETERNAL_RETURN =
+            TRAITS.register("spacetime_eternal_return", () -> new SpacetimeEternalReturnTrait(ChatFormatting.LIGHT_PURPLE));
+    public static final RegistryObject<SpacetimeHeroTrait> SPACETIME_HERO =
+            TRAITS.register("spacetime_hero", () -> new SpacetimeHeroTrait(ChatFormatting.GOLD));
+
+    // === Phase 11 Batch E: 要前提 4 (潜航 / 超越者 / 消滅 / 因果の鎖) ===
+    public static final RegistryObject<SpacetimeDiveTrait> SPACETIME_DIVE =
+            TRAITS.register("spacetime_dive", () -> new SpacetimeDiveTrait(ChatFormatting.DARK_AQUA));
+    public static final RegistryObject<SpacetimeTranscendentTrait> SPACETIME_TRANSCENDENT =
+            TRAITS.register("spacetime_transcendent", () -> new SpacetimeTranscendentTrait(ChatFormatting.GOLD));
+    public static final RegistryObject<SpacetimeAnnihilationTrait> SPACETIME_ANNIHILATION =
+            TRAITS.register("spacetime_annihilation", () -> new SpacetimeAnnihilationTrait(ChatFormatting.DARK_RED));
+    public static final RegistryObject<SpacetimeChainOfCausalityTrait> SPACETIME_CHAIN_OF_CAUSALITY =
+            TRAITS.register("spacetime_chain_of_causality", () -> new SpacetimeChainOfCausalityTrait(ChatFormatting.DARK_PURPLE));
+
+    /**
+     * 「ランダムな時空タイプ特性」 の抽選プール (= 敷衍 / 永劫回帰 が使用)。
+     * 暴走系 (覇者/超越者/無限再帰/英雄/敷衍/永劫回帰自体) と marker (参入) は除外した安全な集合。
+     */
+    private static java.util.List<MobTrait> grantablePool;
+
+    public static MobTrait randomGrantableSpacetime(net.minecraft.util.RandomSource rand) {
+        if (grantablePool == null) {
+            grantablePool = java.util.List.of(
+                    SPACETIME_GAP.get(), SPACETIME_LEAP.get(), SPACETIME_SHADOW.get(),
+                    SPACETIME_SHADOW_RAID.get(), SPACETIME_CONFORMITY.get(),
+                    SPACETIME_REJECTION.get(), SPACETIME_RESONANCE.get(), SPACETIME_TIDAL_FORCE.get(),
+                    SPACETIME_BONE_PICKER.get(), SPACETIME_EQUILIBRIUM.get(),
+                    SPACETIME_CONFUSION.get(), SPACETIME_RUPTURE.get(), SPACETIME_DEVOTION.get());
+        }
+        return grantablePool.get(rand.nextInt(grantablePool.size()));
+    }
+
     public static void register(IEventBus bus) {
         TRAITS.register(bus);
     }

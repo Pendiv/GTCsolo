@@ -12,7 +12,8 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public class PreparedTrait extends MobTrait {
 
-    private static final float ABSORPTION_RATIO_PER_LEVEL = 0.2f;
+    private static final float ABSORPTION_BASE = 0.20f;
+    private static final float ABSORPTION_PER_LEVEL = 0.12f;  // 吸収量 = maxHP × (20 + 12n)%
 
     public PreparedTrait(ChatFormatting style) {
         super(style);
@@ -22,7 +23,7 @@ public class PreparedTrait extends MobTrait {
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
         if (mob.level().isClientSide()) return;
-        float amount = mob.getMaxHealth() * ABSORPTION_RATIO_PER_LEVEL * lv;
+        float amount = mob.getMaxHealth() * (ABSORPTION_BASE + ABSORPTION_PER_LEVEL * lv);
         mob.setAbsorptionAmount(amount);
     }
 }

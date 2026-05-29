@@ -13,10 +13,12 @@ import java.util.HashMap;
 /**
  * [29] Rejection Unknown — 初めて受けるタイプのダメージを 100% 軽減。 以降同タイプを受けるたびに軽減率低下。
  *
- * <p>軽減率 = max(0, 1 - count × step)、 step = 1/level (= lv1 で 1 回毎に -100%、 lv5 で -20%)
- * <p>damage type 別の被弾回数を Map で永続化。
+ * <p>軽減率 = max(0, 1 - count × step)、 step = 24÷(n+1)% (= lv1 で 1 回毎 -12%、 lv3 で -6%)
+ * <p>damage type 別の被弾回数を Map で永続化。 種類を問わず 30 秒被弾が無いと count をリセット。
  */
 public class RejectionUnknownTrait extends MobTrait {
+
+    private static final long RESET_TICKS = 600;  // 30 秒被弾が無いと count リセット
 
     public RejectionUnknownTrait(ChatFormatting style) {
         super(style);
@@ -25,16 +27,18 @@ public class RejectionUnknownTrait extends MobTrait {
     @Override
     public void onHurtByOthers(int level, LivingEntity entity, LivingHurtEvent event) {
         if (entity.level().isClientSide()) return;
-        String id = event.getSource().getMsgId();
         MobTraitCap cap = MobTraitCap.HOLDER.get(entity);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
+        long now = entity.level().getGameTime();
+        // 種類を問わず最後の被弾から 30 秒経過していれば適応をリセット
+        if (now - data.lastHitTick > RESET_TICKS) data.counts.clear();
+        data.lastHitTick = now;
+        String id = event.getSource().getMsgId();
         int prev = data.counts.getOrDefault(id, 0);
-        // 軽減率: 0 回 → 100%、 1 回目以降 step ずつ減少
-        double step = 1.0 / Math.max(1, level);
+        // 軽減率: 0 回 → 100%、 1 回被弾毎に step = 24÷(n+1)% ずつ減少
+        double step = 0.24 / (level + 1);
         double reduction = Math.max(0.0, 1.0 - prev * step);
-        // damage 適用
         event.setAmount(event.getAmount() * (float) (1.0 - reduction));
-        // count 更新 (= 次回はもう少し通る)
         data.counts.put(id, prev + 1);
     }
 
@@ -42,5 +46,7 @@ public class RejectionUnknownTrait extends MobTrait {
     public static class Data extends CapStorageData {
         @SerialClass.SerialField
         public final HashMap<String, Integer> counts = new HashMap<>();
+        @SerialClass.SerialField
+        public long lastHitTick = -100000;
     }
 }

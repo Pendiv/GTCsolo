@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  */
 public class RebirthTrait extends MobTrait {
 
-    private static final double HEAL_RATIO_PER_LEVEL = 0.10;
+    private static final double HEAL_RATIO_PER_LEVEL = 0.12;  // 被ダメの 12n% を回復
 
     public RebirthTrait(ChatFormatting style) {
         super(style);

@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public class WizardryTrait extends MobTrait {
 
-    private static final int BASE_DENOMINATOR = 4800;
+    private static final int BASE_DENOMINATOR = 180;  // 発動確率 = n/180 per tick (= 180÷n の分母)
     private static final double SEARCH_RADIUS = 16.0;
 
     public WizardryTrait(ChatFormatting style) {

@@ -53,7 +53,7 @@ public class ResentmentTrait extends MobTrait {
 
         // デバフ配布: 128 ブロック以内の全 player に
         AABB area = new AABB(entity.blockPosition()).inflate(DEBUFF_RADIUS);
-        int duration = 600 * level; // 30s × level
+        int duration = (40 + 20 * level) * 20; // (40 + 20n) 秒
         for (Player p : entity.level().getEntitiesOfClass(Player.class, area)) {
             p.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 2));
             p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 2));

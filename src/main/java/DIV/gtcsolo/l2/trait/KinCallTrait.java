@@ -23,7 +23,7 @@ import java.util.UUID;
 public class KinCallTrait extends TypedMobTrait {
 
     private static final UUID MOD_KIN_CALL = UUID.fromString("3f8a2b1d-1c4e-4a7b-9c0a-7e8f1d2c3b4a");
-    private static final double CHANCE_PER_LEVEL = 0.15;
+    private static final double MULTIPLIER = 1.0;  // reinforcement chance を固定で 2 倍 (level 非依存)
 
     public KinCallTrait(ChatFormatting style) {
         super(style);
@@ -40,7 +40,7 @@ public class KinCallTrait extends TypedMobTrait {
         if (inst == null) return;
         if (inst.getModifier(MOD_KIN_CALL) != null) return; // 多重付与防止
         inst.addPermanentModifier(new AttributeModifier(
-                MOD_KIN_CALL, "gtcsolo.kin_call", CHANCE_PER_LEVEL * lv,
-                AttributeModifier.Operation.ADDITION));
+                MOD_KIN_CALL, "gtcsolo.kin_call", MULTIPLIER,
+                AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 }

@@ -75,6 +75,7 @@ public class Gtcsolo {
         ModItems.ITEMS.register(modEventBus);
         DIV.gtcsolo.registry.ModEntities.ENTITY_TYPES.register(modEventBus);
         ModEnchantments.ENCHANTMENTS.register(modEventBus);
+        DIV.gtcsolo.registry.ModEffects.MOB_EFFECTS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModCreativeTabs.applyTabOverrides();
         // L2Hostility 独自 MobTrait 群 (= 29 個、 全 trait)

@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 public class AngerTrait extends MobTrait {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    private static final double BONUS_PER_LEVEL = 0.5;
+    private static final double BONUS_PER_LEVEL = 0.2;  // HP 1% 喪失につき 0.2n% (= 全損で +20n%)
 
     public AngerTrait(ChatFormatting style) {
         super(style);

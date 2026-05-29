@@ -11,6 +11,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
@@ -45,6 +48,11 @@ public class DragonicHeartTrait extends MobTrait {
 
     public static final String NBT_PARENT_KEY = "gtcsolo.dragonic_parent";
 
+    /** クリスタル残存中の被ダメ軽減率 (= 0.9 = 90% カット、 残ダメ 10%)。 旧仕様は完全無敵 */
+    private static final float DAMAGE_REDUCTION = 0.9f;
+    /** 攻撃力 buff (= +(25 + 25n)%、 MULTIPLY_BASE)。 常時付与 (= クリスタルと独立) */
+    private static final UUID MOD_DRAGONIC_ATK = UUID.fromString("f4a7c6e5-6f90-91c2-ef54-6f7081920314");
+
     /** 親 UUID → 残存クリスタル UUID 集合 (= サーバ起動中のキャッシュ、 永続は cap.remaining のみ) */
     private static final Map<UUID, Set<UUID>> LIVE_CRYSTALS = new ConcurrentHashMap<>();
     /**
@@ -70,6 +78,13 @@ public class DragonicHeartTrait extends MobTrait {
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
         if (mob.level().isClientSide()) return;
+        // 攻撃力 +50% (= spawned チェック前、 reload でも再付与、 多重は uuid で防ぐ)
+        AttributeInstance atk = mob.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (atk != null && atk.getModifier(MOD_DRAGONIC_ATK) == null) {
+            atk.addPermanentModifier(new AttributeModifier(
+                    MOD_DRAGONIC_ATK, "gtcsolo.dragonic_heart.attack", 0.25 + 0.25 * lv,
+                    AttributeModifier.Operation.MULTIPLY_BASE));
+        }
         if (!MobTraitCap.HOLDER.isProper(mob)) return;
         MobTraitCap cap = MobTraitCap.HOLDER.get(mob);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
@@ -77,7 +92,7 @@ public class DragonicHeartTrait extends MobTrait {
         data.spawned = true;
 
         Level world = mob.level();
-        int count = CRYSTAL_COUNT * lv;
+        int count = CRYSTAL_COUNT;  // level 非依存で固定 4 個
         Set<UUID> ids = new HashSet<>();
         for (int i = 0; i < count; i++) {
             double angle = (2 * Math.PI * i) / count;
@@ -100,10 +115,14 @@ public class DragonicHeartTrait extends MobTrait {
     @Override
     public void tick(LivingEntity mob, int level) {
         if (mob.level().isClientSide()) return;
-        if (mob.level().getGameTime() % REPOSITION_INTERVAL_TICKS != 0) return;
         if (!MobTraitCap.HOLDER.isProper(mob)) return;
         MobTraitCap cap = MobTraitCap.HOLDER.get(mob);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
+        // クリスタルがある限り毎秒 maxHP 0.5% を回復
+        if (data.remaining > 0 && mob.tickCount % 20 == 0 && mob.getHealth() < mob.getMaxHealth()) {
+            mob.heal(mob.getMaxHealth() * 0.005f);
+        }
+        if (mob.level().getGameTime() % REPOSITION_INTERVAL_TICKS != 0) return;
         if (data.remaining <= 0) return;
         if (!(mob.level() instanceof net.minecraft.server.level.ServerLevel sl)) return;
 
@@ -146,7 +165,8 @@ public class DragonicHeartTrait extends MobTrait {
         MobTraitCap cap = MobTraitCap.HOLDER.get(entity);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
         if (data.remaining > 0) {
-            event.setCanceled(true);
+            // 旧: 完全無敵 (setCanceled)。 新: 90% 軽減
+            event.setAmount(event.getAmount() * (1.0f - DAMAGE_REDUCTION));
         }
     }
 

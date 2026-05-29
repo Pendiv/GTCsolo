@@ -13,13 +13,12 @@ import org.slf4j.Logger;
  * [25] Walking Abyss — 奈落落下を検知 → 周囲の地表を探して TP。
  *
  * <p>事前 safe 座標記録は廃止、 落下時に world.getHeight() ベースで近傍の最高地表 y を探索。
- * 半径 = 16 + 4×level、 螺旋状で最初に見つかった固体ブロックの上に着地。
+ * 半径 = {@link #SEARCH_RADIUS} 固定 (= level 非依存)、 螺旋状で最初に見つかった (= 最も近い) 固体ブロックの上に着地。
  */
 public class WalkingAbyssTrait extends MobTrait {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    private static final int BASE_RADIUS = 16;
-    private static final int PER_LEVEL_RADIUS = 4;
+    private static final int SEARCH_RADIUS = 250;  // 固定半径 (level 非依存)
 
     public WalkingAbyssTrait(ChatFormatting style) {
         super(style);
@@ -32,7 +31,7 @@ public class WalkingAbyssTrait extends MobTrait {
         // 奈落判定: y が minBuildHeight 未満
         if (mob.getY() >= world.getMinBuildHeight()) return;
 
-        int radius = BASE_RADIUS + PER_LEVEL_RADIUS * level;
+        int radius = SEARCH_RADIUS;
         BlockPos safe = findNearbyLand(world, mob.blockPosition(), radius);
         if (safe == null) {
             LOGGER.info("[WalkingAbyss] {} fell into abyss but no land found within {}", mob, radius);

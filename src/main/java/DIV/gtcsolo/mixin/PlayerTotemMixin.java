@@ -21,8 +21,17 @@ public abstract class PlayerTotemMixin {
     @Inject(method = "checkTotemDeathProtection", at = @At("HEAD"), cancellable = true)
     private void gtcsolo$skipTotemBySoulDestruction(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         if (!(source.getEntity() instanceof LivingEntity attacker)) return;
-        if (SoulDestructionGate.shouldBypassTotem(attacker)) {
+        if (SoulDestructionGate.shouldBypassTotem(attacker)
+                || DIV.gtcsolo.l2.SpacetimeAnnihilationGate.hasCertainKill(attacker)) {
             cir.setReturnValue(false);
         }
+    }
+
+    /** 消滅 mob が player を totem で取り逃したら確殺を付与する */
+    @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"))
+    private void gtcsolo$grantCertainKill(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+        if (!cir.getReturnValueZ()) return;  // totem 不発なら何もしない
+        if (!(source.getEntity() instanceof LivingEntity attacker)) return;
+        DIV.gtcsolo.l2.SpacetimeAnnihilationGate.onTotemSaved(attacker, (LivingEntity) (Object) this);
     }
 }

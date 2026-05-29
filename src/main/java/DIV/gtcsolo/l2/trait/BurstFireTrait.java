@@ -14,19 +14,17 @@ import java.lang.reflect.Field;
 
 /**
  * [46] Burst Fire (速射) — スケルトン専用。
- * 最初の数発のみ射撃間隔が大幅短縮、 規定回数後は通常に戻る。
+ * (10 + 5N) 発のあいだ射撃間隔を短縮し、 撃ち切ると (75 - 10N) 秒のクールタイムに入る。
  *
- * <p>仕様: 立ち上がり瞬間火力。 {@link #BURST_SHOTS} = 3 + lv 発、 通常の半分以下の間隔。
- * <p>shot count は射撃検出が困難なため、 sustained tick で近似 (= 同じ target 連続戦闘で
- * BURST_SHOTS × 通常 interval ぶんが経過したら通常に戻る)。
+ * <p>仕様: 発射速度 +(75 + 1.3n)% (= interval ÷ rateMult)、 (10 + 5N) 発分継続。
+ * <p>shot count は射撃検出が困難なため、 burstInterval × shots の tick 窓で近似。
+ * クールタイム = (75 - 10N) 秒。
  *
  * <p>排他: [45] Rapid Fire と排他 (連射機構衝突)、 datapack 側で配布絞り推奨。
  */
 public class BurstFireTrait extends TypedMobTrait {
 
     private static final Field ATTACK_INTERVAL_FIELD = RapidFireTrait.getAttackIntervalField();
-    private static final int BURST_INTERVAL = 6;
-    private static final int BURST_SHOTS_BASE = 3;
 
     public BurstFireTrait(ChatFormatting style) {
         super(style);
@@ -60,19 +58,30 @@ public class BurstFireTrait extends TypedMobTrait {
                 return;
             }
         }
-        int burstShots = BURST_SHOTS_BASE + lv;
-        int burstWindow = burstShots * BURST_INTERVAL;
-        if (data.burstActive && data.burstUsedTicks < burstWindow) {
-            data.burstUsedTicks++;
-            try {
-                ATTACK_INTERVAL_FIELD.setInt(goal, BURST_INTERVAL);
-            } catch (IllegalAccessException ignored) {}
-        } else {
-            data.burstActive = false;
-            try {
+        int burstShots = 10 + 5 * lv;                                  // (10 + 5N) 発
+        double rateMult = 1.0 + (0.75 + 0.013 * lv);                   // 発射速度 +(75 + 1.3n)%
+        int burstInterval = Math.max(1, (int) Math.round(data.baseInterval / rateMult));
+        int burstWindow = burstShots * burstInterval;
+        int cooldownTicks = Math.max(20, (75 - 10 * lv) * 20);         // (75 - 10N) 秒
+        try {
+            if (data.burstActive) {
+                if (data.burstUsedTicks < burstWindow) {
+                    data.burstUsedTicks++;
+                    ATTACK_INTERVAL_FIELD.setInt(goal, burstInterval);
+                } else {
+                    data.burstActive = false;          // burst 終了 → cooldown へ
+                    data.burstUsedTicks = 0;
+                    ATTACK_INTERVAL_FIELD.setInt(goal, data.baseInterval);
+                }
+            } else {
+                data.burstUsedTicks++;                 // cooldown 計時
                 ATTACK_INTERVAL_FIELD.setInt(goal, data.baseInterval);
-            } catch (IllegalAccessException ignored) {}
-        }
+                if (data.burstUsedTicks >= cooldownTicks) {  // cooldown 終了 → 再装填
+                    data.burstActive = true;
+                    data.burstUsedTicks = 0;
+                }
+            }
+        } catch (IllegalAccessException ignored) {}
     }
 
     @SerialClass

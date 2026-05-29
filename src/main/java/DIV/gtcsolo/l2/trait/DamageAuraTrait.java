@@ -19,12 +19,8 @@ import net.minecraft.world.phys.AABB;
  */
 public class DamageAuraTrait extends MobTrait {
 
-    private static final double SIDE_BASE = 6.0;
-    private static final double SIDE_PER_LEVEL = 2.0;
     private static final int DAMAGE_INTERVAL_TICKS = 20;
     private static final int PARTICLE_INTERVAL_TICKS = 10;
-    private static final float DAMAGE_BASE = 0.5f;
-    private static final float DAMAGE_PER_LEVEL = 0.5f;
     private static final int EDGE_SAMPLES = 5;
 
     public DamageAuraTrait(ChatFormatting style) {
@@ -36,7 +32,7 @@ public class DamageAuraTrait extends MobTrait {
         if (mob.level().isClientSide()) return;
         if (!(mob.level() instanceof ServerLevel sl)) return;
         int t = mob.tickCount;
-        double half = (SIDE_BASE + SIDE_PER_LEVEL * level) / 2.0;
+        double half = (4.0 + level) / 2.0;  // 1 辺 (4 + N) ブロックの立方体
         if (t % PARTICLE_INTERVAL_TICKS == 0) {
             emitCubeOutline(sl, mob.getX(), mob.getY(), mob.getZ(), half);
         }
@@ -45,7 +41,10 @@ public class DamageAuraTrait extends MobTrait {
                 mob.getX() - half, mob.getY() - half, mob.getZ() - half,
                 mob.getX() + half, mob.getY() + half, mob.getZ() + half);
         DamageSource src = mob.damageSources().magic();
-        float amount = DAMAGE_BASE + DAMAGE_PER_LEVEL * level;
+        net.minecraft.world.entity.ai.attributes.AttributeInstance atkInst =
+                mob.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+        double atk = atkInst != null ? atkInst.getValue() : 0.0;
+        float amount = 3.0f + (float) (atk * 0.25 * level);  // 3 + 攻撃力 × 25N% の魔法ダメージ
         for (LivingEntity victim : sl.getEntitiesOfClass(LivingEntity.class, area, e -> e != mob)) {
             victim.hurt(src, amount);
         }

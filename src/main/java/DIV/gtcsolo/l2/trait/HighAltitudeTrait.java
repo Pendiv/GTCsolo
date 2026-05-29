@@ -22,8 +22,6 @@ import java.util.UUID;
 public class HighAltitudeTrait extends MobTrait {
 
     private static final UUID MOD_HP = UUID.fromString("a1107017-d101-1a13-1110-100110100000");
-    private static final double HP_FACTOR_PER_LEVEL = 3.0;
-    private static final float DAMAGE_TAKEN_MULT = 3.0f;
 
     public HighAltitudeTrait(ChatFormatting style) {
         super(style);
@@ -36,13 +34,13 @@ public class HighAltitudeTrait extends MobTrait {
         if (inst == null) return;
         if (inst.getModifier(MOD_HP) != null) return;
         inst.addPermanentModifier(new AttributeModifier(
-                MOD_HP, "gtcsolo.high_altitude", HP_FACTOR_PER_LEVEL * lv,
+                MOD_HP, "gtcsolo.high_altitude", 3.0 + lv,  // HP 増加 = (3 + N) 倍
                 AttributeModifier.Operation.MULTIPLY_BASE));
         mob.setHealth(mob.getMaxHealth());
     }
 
     @Override
     public void onHurtByOthers(int level, LivingEntity entity, LivingHurtEvent event) {
-        event.setAmount(event.getAmount() * DAMAGE_TAKEN_MULT);
+        event.setAmount(event.getAmount() * (float) (3.0 + 0.5 * level));  // 被ダメ ×(300 + 50n)%
     }
 }

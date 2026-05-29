@@ -52,9 +52,9 @@ public class BushidoSpiritTrait extends TypedMobTrait {
     @Override
     protected void onValidPostInit(LivingEntity mob, int lv) {
         // ステータス強化 (= MAX_HEALTH +200%、 ATTACK_DAMAGE +100%、 ARMOR +20)
-        applyMod(mob, Attributes.MAX_HEALTH, MOD_HP, 2.0 * lv, AttributeModifier.Operation.MULTIPLY_BASE);
-        applyMod(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, 1.0 * lv, AttributeModifier.Operation.MULTIPLY_BASE);
-        applyMod(mob, Attributes.ARMOR, MOD_DEF, 20.0 * lv, AttributeModifier.Operation.ADDITION);
+        applyMod(mob, Attributes.MAX_HEALTH, MOD_HP, 1.25 + 0.25 * lv, AttributeModifier.Operation.MULTIPLY_BASE);   // HP +(125 + 25n)%
+        applyMod(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, 0.25 + 0.25 * lv, AttributeModifier.Operation.MULTIPLY_BASE); // 攻撃 +(25 + 25n)%
+        applyMod(mob, Attributes.ARMOR, MOD_DEF, 10.0 * lv, AttributeModifier.Operation.ADDITION);                    // 防具 +10n (実数)
         mob.setHealth(mob.getMaxHealth());
 
         // Innocence Battle を内部付与

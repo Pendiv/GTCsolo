@@ -1,5 +1,7 @@
 package DIV.gtcsolo.machine.starforge;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -81,6 +83,61 @@ public final class PhaseProgressionTable {
         public Builder addEffective(Predicate<ItemStack> matcher, long value, ItemStack displayStack) {
             effectiveEntries.add(new EffectiveEntry(matcher, value, displayStack));
             return this;
+        }
+
+        /**
+         * ResourceLocation で item を解決して default に追加する。
+         * 未解決 (= 当該 mod 未導入 / item 削除済) なら silent skip。
+         * KubeJS から「開発環境にない item を要求アイテムに含めたい」 用途で使う。
+         */
+        public Builder addDefaultIfPresent(ResourceLocation id) {
+            if (id == null) return this;
+            BuiltInRegistries.ITEM.getOptional(id).ifPresent(defaultItems::add);
+            return this;
+        }
+
+        /** {@code "modid:path"} 文字列を ResourceLocation に parse してから {@link #addDefaultIfPresent(ResourceLocation)}。 */
+        public Builder addDefaultIfPresent(String id) {
+            if (id == null) return this;
+            ResourceLocation rl = ResourceLocation.tryParse(id);
+            return rl == null ? this : addDefaultIfPresent(rl);
+        }
+
+        /**
+         * Predicate 付きで Effective を登録する。 displayId が未解決なら silent skip。
+         * matcher は KubeJS から SAM lambda で渡せる (= {@code (stack) => stack.is(...)} 等)。
+         */
+        public Builder addEffectiveIfPresent(ResourceLocation displayId, Predicate<ItemStack> matcher, long value) {
+            if (displayId == null || matcher == null) return this;
+            BuiltInRegistries.ITEM.getOptional(displayId)
+                    .ifPresent(item -> effectiveEntries.add(
+                            new EffectiveEntry(matcher, value, new ItemStack(item))));
+            return this;
+        }
+
+        public Builder addEffectiveIfPresent(String displayId, Predicate<ItemStack> matcher, long value) {
+            if (displayId == null) return this;
+            ResourceLocation rl = ResourceLocation.tryParse(displayId);
+            return rl == null ? this : addEffectiveIfPresent(rl, matcher, value);
+        }
+
+        /**
+         * 単一 item match の Effective を短く登録する (= predicate を書く必要がない場合)。
+         * matcher は内部で {@code stack.is(item)} = ID 一致 (NBT 無視) のみ。
+         * NBT 条件等が必要なら {@link #addEffectiveIfPresent(ResourceLocation, Predicate, long)} を使う。
+         */
+        public Builder addEffectiveItem(ResourceLocation id, long value) {
+            if (id == null) return this;
+            BuiltInRegistries.ITEM.getOptional(id)
+                    .ifPresent(item -> effectiveEntries.add(new EffectiveEntry(
+                            stack -> stack.is(item), value, new ItemStack(item))));
+            return this;
+        }
+
+        public Builder addEffectiveItem(String id, long value) {
+            if (id == null) return this;
+            ResourceLocation rl = ResourceLocation.tryParse(id);
+            return rl == null ? this : addEffectiveItem(rl, value);
         }
 
         public PhaseProgressionTable build() {

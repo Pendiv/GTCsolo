@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 /**
  * [54] Just Parry (ジャストパリイ) — プレイヤー攻撃を稀に完全無効化する。 確率はレベルで増加。
  *
- * <p>確率 = 5% + 5% × lv (= lv1 で 10%、 lv5 で 30%)。
+ * <p>確率 = (30 + 7n)% (= lv1 で 37%、 lv3 で 51%)。
  * <p>Gambler が「軽減 / 増幅 / 通常」 のテーブルなのに対し、 こちらは「無効化 / 通常」 の二択。
  */
 public class JustParryTrait extends MobTrait {

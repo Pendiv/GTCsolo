@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  *
  * <p>仕様 (確定版):
  * <ul>
- *   <li>攻撃力倍率: 1 + 0.1 × rank</li>
+ *   <li>攻撃力倍率: 1 + (0.30 + 0.10 × rank) (= 1.3 + 0.1n 倍)</li>
  *   <li>感染: tick で近接 mob に setTrait (= ランクは親のまま)</li>
  *   <li>「より強いランク優先」 ルールはこの trait 専用 — 弱いランクは上書きしない</li>
  *   <li>失効ポイント: 毎 tick (感染数 + 1)² 加算、 6000 で失効</li>
@@ -54,7 +54,7 @@ public class PandemicTrait extends MobTrait {
         if (mob.tickCount % INFECTION_INTERVAL != 0) return;
         AABB area = mob.getBoundingBox().inflate(CONTACT_RADIUS);
         for (Mob other : mob.level().getEntitiesOfClass(Mob.class, area, e -> e != mob)) {
-            tryInfect(other, level);
+            if (tryInfect(other, level)) data.infectedCount++;  // 感染数を加算 (= 失効ポイント加速の元)
         }
     }
 
@@ -67,21 +67,22 @@ public class PandemicTrait extends MobTrait {
             event.setAmount(event.getAmount() * (float) mult);
         }
         // ターゲットが mob なら感染試行 (= player ターゲットには感染しない、 mob 限定)
-        if (traitCache.target instanceof Mob m) {
-            tryInfect(m, level);
+        if (traitCache.target instanceof Mob m && tryInfect(m, level)) {
+            MobTraitCap cap = MobTraitCap.HOLDER.get(attacker);
+            cap.getOrCreateData(getRegistryName(), Data::new).infectedCount++;
         }
     }
 
-    /** 「より強いランク優先」 で setTrait。 既に同 trait 持ちで弱いランクなら上書きしない */
-    private void tryInfect(Mob target, int parentRank) {
-        if (!MobTraitCap.HOLDER.isProper(target)) return;
+    /** 「より強いランク優先」 で setTrait。 既に同 trait 持ちで弱いランクなら上書きしない。 新規感染できたら true。 */
+    private boolean tryInfect(Mob target, int parentRank) {
+        if (!MobTraitCap.HOLDER.isProper(target)) return false;
         MobTraitCap cap = MobTraitCap.HOLDER.get(target);
         Integer existing = cap.traits.get(this);
-        if (existing != null && existing >= parentRank) return; // より強い既存ランクを保持
+        if (existing != null && existing >= parentRank) return false; // より強い既存ランクを保持
         cap.setTrait(this, parentRank);
         // 子の感染数カウントは継承時にリセット (= 子は新たに 0 から)
         cap.getOrCreateData(getRegistryName(), Data::new).infectedCount = 0;
-        // 親の感染カウント +1
+        return true;
     }
 
     @SerialClass

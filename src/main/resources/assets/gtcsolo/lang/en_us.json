@@ -1201,6 +1201,25 @@
   "trait.gtcsolo.pure_heart": "Pure Heart",
   "trait.gtcsolo.pure_heart.desc": "Refuses all harmful status effects (debuffs).",
 
+  "trait.gtcsolo.consequentialist": "Consequentialist",
+  "trait.gtcsolo.consequentialist.desc": "Skeletons only. Fires a Consequence arrow that travels to its impact point the instant it is loosed, making it hard to dodge.",
+  "trait.gtcsolo.armor_shredder": "Armor Shredder",
+  "trait.gtcsolo.armor_shredder.desc": "Skeletons only. Fires an Annihilation arrow that pierces armor on hit, dealing bonus damage scaled to the target's defense.",
+  "trait.gtcsolo.explosive_arrow_user": "Explosive Archer",
+  "trait.gtcsolo.explosive_arrow_user.desc": "Skeletons only. Fires an explosive arrow that detonates on impact without breaking blocks.",
+  "trait.gtcsolo.lightning_user": "Lightning Archer",
+  "trait.gtcsolo.lightning_user.desc": "Skeletons only. Fires a lightning arrow; on hitting a player it calls down a bolt at the impact point, scaled to the target's attack damage at the moment of firing.",
+  "trait.gtcsolo.kongo_yasha": "Vajra Yaksha",
+  "trait.gtcsolo.kongo_yasha.desc": "Greatly reduces incoming damage. Against attacks from players, additionally reduces by 0.38%% of max HP.",
+  "trait.gtcsolo.monotone_clone": "Monotone Clone",
+  "trait.gtcsolo.monotone_clone.desc": "Periodically launches weakened clones, equal in number to its level, in random directions. Each hit it takes brings the next launch sooner.",
+  "trait.gtcsolo.crossbowman": "Crossbowman",
+  "trait.gtcsolo.crossbowman.desc": "Skeletons only. Fires an arrow that partially pierces knockback resistance to launch the target. A launched target gains brief immunity to this knockback.",
+  "trait.gtcsolo.floating_arrow": "Floating Arrow",
+  "trait.gtcsolo.floating_arrow.desc": "Skeletons only. When the target is above it, levitates itself and fires arrows that levitate whatever they hit.",
+  "trait.gtcsolo.magic_bullet_marksman": "Magic Bullet Marksman",
+  "trait.gtcsolo.magic_bullet_marksman.desc": "Skeletons only. Gains attack, max HP, and damage reduction. Turns invisible and speeds up when a player draws near. Has a chance to fire a random special arrow; the chance rises the more it misses or is hit, and resets when one is fired.",
+
   "attribute.gtcsolo.lucky_hit_rate": "Lucky Hit Rate",
   "attribute.gtcsolo.lucky_hit_damage": "Lucky Hit Damage"
 }

@@ -12,19 +12,16 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.mojang.logging.LogUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 
 public class CCMachine extends WorkableElectricMultiblockMachine {
 
-    private static final Logger LOGGER = LogUtils.getLogger();
     private static final int AIR_PER_UNIT = 100000; // 10万mb = 1単位
     private static final int BASE_PARALLELS = 4;
 
@@ -33,9 +30,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
 
     /** 初回レシピ稼働済みフラグ（1MC日サイクル内） */
     private boolean consumedThisCycle = false;
-
-    /** 前回ログ出力時の並列数（スパム防止用） */
-    private int lastLoggedParallels = -1;
 
     /** tick カウンター（消費サイクル管理用） */
     private int tickCounter = 0;
@@ -54,8 +48,7 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
         ResourceLocation id = ForgeRegistries.FLUIDS.getKey(fluid.getFluid());
         if (id == null) return false;
         String path = id.getPath();
-        // "air" 完全一致、または末尾が "_air"（他MOD対応）
-        // ただし "liquid_air" 等は除外
+        // "air" 完全一致、または末尾が "_air"（他MOD対応）。 ただし "liquid_air" 等は除外
         return path.equals("air") || (path.endsWith("_air") && !path.contains("liquid"));
     }
 
@@ -120,8 +113,7 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
     // =========================================================================
 
     private void performAirConsumption() {
-        // 1. EV(tier 4)液体搬入バスの個数を数える
-        //    GTMachines.FLUID_IMPORT_HATCH[EV] のブロックと直接比較
+        // 1. EV(tier 4)液体搬入バスの個数を数える (GTMachines.FLUID_IMPORT_HATCH[EV] のブロックと直接比較)
         Block evFluidHatchBlock = GTMachines.FLUID_IMPORT_HATCH[GTValues.EV].getBlock();
         int evHatchCount = 0;
         for (var part : getParts()) {
@@ -134,7 +126,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
 
         if (evHatchCount <= 0) {
             currentParallels = BASE_PARALLELS;
-            LOGGER.info("[CC] No EV fluid import hatches found, parallels = {}", BASE_PARALLELS);
             return;
         }
 
@@ -150,12 +141,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
                 for (int i = 0; i < tank.getTanks(); i++) {
                     FluidStack contained = tank.getFluidInTank(i);
                     if (contained.isEmpty()) continue;
-
-                    // デバッグ: ハッチ内の流体IDを表示
-                    ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(contained.getFluid());
-                    LOGGER.info("[CC] Found fluid in hatch: {} ({}mb), isAir={}",
-                            fluidId, contained.getAmount(), isAirFluid(contained));
-
                     if (!isAirFluid(contained)) continue;
 
                     long stillNeeded = totalAirNeeded - totalAirConsumed;
@@ -166,7 +151,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
                             new FluidStack(contained.getFluid(), canDrain),
                             net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
                     totalAirConsumed += drained.getAmount();
-                    LOGGER.info("[CC] Drained {}mb air from hatch (requested {}mb)", drained.getAmount(), canDrain);
                 }
             }
             if (totalAirConsumed >= totalAirNeeded) break;
@@ -175,9 +159,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
         // 4. 消費した単位数から並列計算: 4 + 8 * floor(1.5^n)
         int n = (int) (totalAirConsumed / AIR_PER_UNIT);
         currentParallels = BASE_PARALLELS + (int) (8 * Math.pow(1.5, n));
-
-        LOGGER.info("[CC] Air consumption: EV hatches={}, needed={}mb, consumed={}mb, units={}, parallels={}",
-                evHatchCount, totalAirNeeded, totalAirConsumed, n, currentParallels);
     }
 
     // =========================================================================
@@ -208,12 +189,6 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
         int actualParallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
         if (actualParallels <= 0) {
             return ModifierFunction.NULL;
-        }
-
-        // ログスパム防止：並列数が変わった時だけ出力
-        if (actualParallels != cc.lastLoggedParallels) {
-            LOGGER.info("[CC] Parallel: max={}, actual={}", maxParallels, actualParallels);
-            cc.lastLoggedParallels = actualParallels;
         }
 
         // 入出力をN倍に + EU/tもN倍に（マルチスメルター方式）

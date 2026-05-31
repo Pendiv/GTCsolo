@@ -3,6 +3,7 @@ package DIV.gtcsolo.l2.trait;
 import DIV.gtcsolo.l2.trait.base.TypedMobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +36,7 @@ public class LovesickTrait extends TypedMobTrait {
         Player p = mob.level().getNearestPlayer(mob, SEARCH_RADIUS);
         if (p == null) return;
         Vec3 dir = p.position().subtract(mob.position()).normalize();
-        double pSpeed = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        double pSpeed = p.getAttributeValue(Attributes.MOVEMENT_SPEED);
         double speed = pSpeed * 0.2 * lv;  // player 移動速度 × 0.2N
         c.setDeltaMovement(c.getDeltaMovement().add(dir.x * speed, 0, dir.z * speed));
     }

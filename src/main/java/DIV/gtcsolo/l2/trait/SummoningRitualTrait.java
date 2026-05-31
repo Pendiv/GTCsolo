@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
  *
  * <p>特性付与は L2H の本来のスポーン時 init に任せる。 ここでは spawn 後に level を底上げするだけ
  * (= HP scale が掛かる、 自然に得た特性も維持される)。
- * <p>level 加算 = 本特性の rank (= lv1 で +1、 lv5 で +5)。
+ * <p>level 加算 = 召喚元 level × 10% × rank (= lv1 で元 level の +10%、 lv5 で +50%)。
  */
 public class SummoningRitualTrait extends MobTrait {
 

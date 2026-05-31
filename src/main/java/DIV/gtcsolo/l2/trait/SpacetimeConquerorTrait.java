@@ -2,12 +2,11 @@ package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
@@ -19,7 +18,7 @@ import java.util.UUID;
  *
  * <p>攻撃力 +(75+25N)% / 防御力(ARMOR) +(225+75N)% / 移動速度 +(25+6.25n)% (MULTIPLY_BASE)、
  * 防具値 +10(N-1) 実数 (ADDITION)、 ダメージ軽減 +20% 固定 (L2DT REDUCTION ADDITION)。
- * <p>「存在できない」 = 範囲内の他時空 mob を毎秒 discard で表現 (= 要確認)。
+ * <p>「存在できない」 = 範囲内の他時空 mob を毎秒 discard で表現。
  */
 public class SpacetimeConquerorTrait extends MobTrait implements ISpacetimeTrait {
 
@@ -38,28 +37,19 @@ public class SpacetimeConquerorTrait extends MobTrait implements ISpacetimeTrait
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        addMult(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.conqueror_atk", 0.75 + 0.25 * lv);
-        addMult(mob, Attributes.ARMOR, MOD_ARMOR_PCT, "gtcsolo.conqueror_armor_pct", 2.25 + 0.75 * lv);
-        addMult(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.conqueror_speed", 0.25 + 0.0625 * lv);
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.conqueror_atk",
+                0.75 + 0.25 * lv, AttributeModifier.Operation.MULTIPLY_BASE);
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.ARMOR, MOD_ARMOR_PCT, "gtcsolo.conqueror_armor_pct",
+                2.25 + 0.75 * lv, AttributeModifier.Operation.MULTIPLY_BASE);
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.conqueror_speed",
+                0.25 + 0.0625 * lv, AttributeModifier.Operation.MULTIPLY_BASE);
         if (lv > 1) {
-            AttributeInstance armor = mob.getAttribute(Attributes.ARMOR);
-            if (armor != null && armor.getModifier(MOD_ARMOR_FLAT) == null) {
-                armor.addPermanentModifier(new AttributeModifier(MOD_ARMOR_FLAT, "gtcsolo.conqueror_armor_flat",
-                        10.0 * (lv - 1), AttributeModifier.Operation.ADDITION));  // 防具値 +10(N-1) 実数
-            }
+            L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.ARMOR, MOD_ARMOR_FLAT, "gtcsolo.conqueror_armor_flat",
+                    10.0 * (lv - 1), AttributeModifier.Operation.ADDITION);  // 防具値 +10(N-1) 実数
         }
-        AttributeInstance red = mob.getAttribute(L2DamageTracker.REDUCTION.get());
-        if (red != null && red.getModifier(MOD_RED) == null) {
-            red.addPermanentModifier(new AttributeModifier(MOD_RED, "gtcsolo.conqueror_reduction",
-                    0.20, AttributeModifier.Operation.ADDITION));  // 固定 20% 軽減
-        }
+        L2TraitAttributes.addPermanentIfAbsent(mob, L2DamageTracker.REDUCTION.get(), MOD_RED, "gtcsolo.conqueror_reduction",
+                0.20, AttributeModifier.Operation.ADDITION);  // 固定 20% 軽減
         mob.setHealth(mob.getMaxHealth());
-    }
-
-    private static void addMult(LivingEntity mob, Attribute attr, UUID id, String name, double amount) {
-        AttributeInstance inst = mob.getAttribute(attr);
-        if (inst == null || inst.getModifier(id) != null) return;
-        inst.addPermanentModifier(new AttributeModifier(id, name, amount, AttributeModifier.Operation.MULTIPLY_BASE));
     }
 
     @Override

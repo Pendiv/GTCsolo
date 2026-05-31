@@ -6,14 +6,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 /**
- * [15] Gambler — 受けるダメージに 20% で大ブレ抽選 (= 軽減 or 増幅)、 ランクで振れ幅増大。
+ * [15] Gambler — 受けるダメージを 20% の確率で大ブレ抽選 (= 軽減 or 増幅)、 ランクで振れ幅増大。
  *
- * <p>確率テーブル (max_rank=3 想定):
- * <ul>
- *   <li>80% 通常 (= 1.0x)</li>
- *   <li>10% 軽減 (= 1/2 → 1/3 → 1/4)</li>
- *   <li>10% 増幅 (= 2x → 3x → 4x)</li>
- * </ul>
+ * <p>1/5 (= 20%) で抽選発火、 当選時 50/50 で軽減 or 増幅。 rank r → 軽減 1/(r+1)・増幅 (r+1) 倍
+ * (= lv1: 1/2 ⇔ 2x)。 残り 80% は素通し。
  */
 public class GamblerTrait extends MobTrait {
 

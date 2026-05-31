@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 /**
  * [49] Prepared (準備万端) — 出現時に「最大 HP × 割合」 の Absorption (黄色体力) を獲得する。
  *
- * <p>割合 = 20% × level (= lv1 で +20%、 lv5 で +100% の黄色体力)。
+ * <p>割合 = (20 + 12 × level)% (= lv1 で +32%、 lv5 で +80% の黄色体力)。
  * <p>Fact Adaptation (= 緩衝体力剥がし) と対をなすテーマ。
  */
 public class PreparedTrait extends MobTrait {

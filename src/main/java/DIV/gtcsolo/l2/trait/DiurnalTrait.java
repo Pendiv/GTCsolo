@@ -1,11 +1,10 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -34,26 +33,14 @@ public class DiurnalTrait extends MobTrait {
         if (mob.tickCount % 20 != 0) return;
         long t = mob.level().getDayTime() % 24000L;
         boolean day = t < 13000 || t >= 23000;
-        toggleMod(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.diurnal_atk",
+        L2TraitAttributes.togglePermanent(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.diurnal_atk",
                 0.25 + 0.25 * level, AttributeModifier.Operation.MULTIPLY_BASE, day);  // (25 + 25n)%
-        toggleMod(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.diurnal_speed",
+        L2TraitAttributes.togglePermanent(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.diurnal_speed",
                 0.25, AttributeModifier.Operation.MULTIPLY_BASE, day);  // 固定 +25%
-        toggleMod(mob, L2DamageTracker.REDUCTION.get(), MOD_RED, "gtcsolo.diurnal_reduction",
+        L2TraitAttributes.togglePermanent(mob, L2DamageTracker.REDUCTION.get(), MOD_RED, "gtcsolo.diurnal_reduction",
                 0.10 + 0.05 * level, AttributeModifier.Operation.ADDITION, day);  // (10 + 5n)%
         if (day && mob.getHealth() < mob.getMaxHealth()) {
             mob.heal((float) level);  // N HP/秒
-        }
-    }
-
-    private static void toggleMod(LivingEntity mob, Attribute attr, UUID id, String name,
-                                   double amount, AttributeModifier.Operation op, boolean on) {
-        AttributeInstance inst = mob.getAttribute(attr);
-        if (inst == null) return;
-        AttributeModifier cur = inst.getModifier(id);
-        if (on && cur == null) {
-            inst.addPermanentModifier(new AttributeModifier(id, name, amount, op));
-        } else if (!on && cur != null) {
-            inst.removeModifier(id);
         }
     }
 }

@@ -1,9 +1,9 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * [60] Carried Away (調子に乗る) — プレイヤーから攻撃を受けるまで、 移動速度が大幅に上昇する。
  *
  * <p>初被弾で除去。 modifier の有無が state を兼ねる (= 別途 cap data 不要)。
- * <p>速度上昇 = +50% × lv (MULTIPLY_BASE、 lv1 +50%、 lv5 +250%)。
+ * <p>速度上昇 = (125 + 25n)% (MULTIPLY_BASE、 lv1 +150%、 lv3 +200%)。
  */
 public class CarriedAwayTrait extends MobTrait {
 
@@ -30,20 +30,13 @@ public class CarriedAwayTrait extends MobTrait {
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        AttributeInstance inst = mob.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (inst == null) return;
-        if (inst.getModifier(MOD_SPEED) != null) return;
-        inst.addPermanentModifier(new AttributeModifier(
-                MOD_SPEED, "gtcsolo.carried_away", SPEED_BASE + SPEED_PER_LEVEL * lv,
-                AttributeModifier.Operation.MULTIPLY_BASE));
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.carried_away",
+                SPEED_BASE + SPEED_PER_LEVEL * lv, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
     @Override
     public void onHurtByOthers(int level, LivingEntity entity, LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof Player)) return;
-        AttributeInstance inst = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (inst == null) return;
-        AttributeModifier old = inst.getModifier(MOD_SPEED);
-        if (old != null) inst.removeModifier(old);
+        L2TraitAttributes.remove(entity, Attributes.MOVEMENT_SPEED, MOD_SPEED);
     }
 }

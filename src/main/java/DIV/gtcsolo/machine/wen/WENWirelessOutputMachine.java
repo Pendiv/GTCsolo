@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +23,6 @@ import java.util.stream.Collectors;
  * リンク先WENメインストレージからEUを引き出し、GTケーブルに放出する。
  */
 public class WENWirelessOutputMachine extends TieredEnergyMachine {
-
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WENWirelessOutputMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
@@ -38,7 +34,6 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
 
     private TickableSubscription transferSub;
     private int transferOffset = 0;
-    private int logThrottle = 0;
 
     public WENWirelessOutputMachine(IMachineBlockEntity holder, int tier, int amperage) {
         super(holder, tier, amperage);
@@ -62,8 +57,6 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
         int amp = args.length > 0 && args[0] instanceof Integer ? (int) args[0] : 1;
         long voltage = GTValues.V[tier];
         long capacity = voltage * amp * 16L;
-        LOGGER.info("[WEN Output] Creating energy container: {}V, {}A, cap={}EU",
-                voltage, amp, capacity);
         var container = NotifiableEnergyContainer.emitterContainer(
                 this, capacity, voltage, amp);
         container.setSideOutputCondition(side -> true); // 全面出力
@@ -80,8 +73,6 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
         if (transferSub == null) {
             transferSub = subscribeServerTick(this::onTransferTick);
         }
-        LOGGER.info("[WEN Output] Loaded at {}: {}V {}A, linked='{}'",
-                getPos(), GTValues.VN[tier], amperage, linkedNetworkId);
     }
 
     @Override
@@ -106,12 +97,6 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
 
         long stored = energyContainer.getEnergyStored();
         long capacity = energyContainer.getEnergyCapacity();
-        boolean shouldLog = (++logThrottle % 10 == 0);
-
-        if (shouldLog) {
-            LOGGER.info("[WEN Output] Tick: buffer={}/{}EU, linked='{}' at {}",
-                    stored, capacity, linkedNetworkId, getPos());
-        }
 
         // バッファが半分以下なら補充
         if (stored > capacity / 2) return;
@@ -121,31 +106,19 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
         WENNetworkData.WENEntry entry = data.getNetwork(linkedNetworkId);
 
         if (entry == null) {
-            if (shouldLog) LOGGER.info("[WEN Output] Network '{}' not found — unlinking", linkedNetworkId);
             linkedNetworkId = "";
             return;
         }
 
-        if (!entry.isFormed()) {
-            if (shouldLog) LOGGER.info("[WEN Output] Network '{}' not formed", linkedNetworkId);
-            return;
-        }
+        if (!entry.isFormed()) return;
 
         String myDim = getLevel().dimension().location().toString();
-        if (!myDim.equals(entry.dimension) && !entry.crossDimensionEnabled) {
-            if (shouldLog) LOGGER.info("[WEN Output] Dim mismatch {} vs {} crossDim={}",
-                    myDim, entry.dimension, entry.crossDimensionEnabled);
-            return;
-        }
+        if (!myDim.equals(entry.dimension) && !entry.crossDimensionEnabled) return;
 
         long need = capacity - stored;
         long withdrawn = data.removeEnergy(linkedNetworkId, need);
         if (withdrawn > 0) {
             energyContainer.addEnergy(withdrawn);
-            if (shouldLog) {
-                LOGGER.info("[WEN Output] Withdrew {}EU from '{}' (wen now: {}EU)",
-                        withdrawn, linkedNetworkId, entry.storedEnergy);
-            }
         }
     }
 
@@ -157,7 +130,6 @@ public class WENWirelessOutputMachine extends TieredEnergyMachine {
 
     public void setLinkedNetworkId(String id) {
         this.linkedNetworkId = id;
-        LOGGER.info("[WEN Output] Linked to: '{}' at {}", id, getPos());
     }
 
     // =========================================================================

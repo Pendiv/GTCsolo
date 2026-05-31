@@ -8,8 +8,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-import java.util.Random;
-
 /**
  * 2 度寝 (Second Sleep) — 倒されたあと、 ランダムな時間後に復活する。 1 回限り。
  *
@@ -41,13 +39,11 @@ public class SecondSleepTrait extends MobTrait {
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
         if (data.revived) return;
 
-        Random rand = new Random();
-        int delay = DELAY_MIN + rand.nextInt(DELAY_MAX - DELAY_MIN + 1);
+        int delay = DELAY_MIN + entity.getRandom().nextInt(DELAY_MAX - DELAY_MIN + 1);
         data.revived = true;
         data.reviveAtTick = entity.tickCount + delay;
         event.setCanceled(true);
         entity.setHealth(entity.getMaxHealth());
-        entity.invulnerableTime = delay;
         entity.setInvulnerable(true);
     }
 

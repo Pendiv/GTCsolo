@@ -17,8 +17,9 @@ import org.slf4j.Logger;
 /**
  * [17] Endure — 1 度のみ。 致死時に体力 1 で耐え、 5 秒間無敵。
  *
- * <p>UndyingTrait 同パターンの実装: heal → isAlive 判定 → event.cancel の順序が重要。
- * cancel から先にやると vanilla 側の死亡処理タイミングがずれる場合がある。
+ * <p>UndyingTrait 同パターン: heal → isAlive 判定 → event.cancel の順序が重要
+ * (cancel を先にやると vanilla 側の死亡処理タイミングがずれる場合がある)。
+ * <p>体力 1 + 無敵付与のため {@code L2EntityUtil.reviveFull} (= フル HP 復活) ではなく専用処理。
  */
 public class EndureTrait extends MobTrait {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -36,10 +37,7 @@ public class EndureTrait extends MobTrait {
 
         MobTraitCap cap = MobTraitCap.HOLDER.get(entity);
         Data data = cap.getOrCreateData(getRegistryName(), Data::new);
-        if (data.triggered) {
-            LOGGER.info("[Endure] already triggered for {}, letting die", entity);
-            return;
-        }
+        if (data.triggered) return;
 
         // heal を先に適用 (= ForgeEventFactory 経由で他 mod も尊重)、 isAlive ならキャンセル
         float allowed = ForgeEventFactory.onLivingHeal(entity, 1.0f);
@@ -52,7 +50,6 @@ public class EndureTrait extends MobTrait {
             event.setCanceled(true);
             entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, INVUL_TICKS, 4, false, false));
             data.triggered = true;
-            LOGGER.info("[Endure] saved {} at HP={}, +Resistance V × {}t", entity, allowed, INVUL_TICKS);
         }
     }
 

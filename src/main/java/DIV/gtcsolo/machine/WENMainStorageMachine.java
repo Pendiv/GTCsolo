@@ -219,9 +219,6 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         int totalH = hDist + 1;      // コントローラー行 + 上
         int totalD = bDist + 1;      // コントローラー面 + 奥行き
 
-        LOGGER.info("[WEN] Scan: L={} R={} H={} B={} → {}x{}x{} (facing={})",
-                lDist, rDist, hDist, bDist, totalW, totalH, totalD, front);
-
         if (totalW < MIN_SIZE || totalH < MIN_SIZE || totalD < MIN_SIZE) {
             LOGGER.info("[WEN] Too small: {}x{}x{} (min {})", totalW, totalH, totalD, MIN_SIZE);
             this.isFormed = false;
@@ -334,9 +331,6 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
                 GTBlocks.BATTERY_LAPOTRONIC_ZPM.get(),
                 GTBlocks.BATTERY_LAPOTRONIC_UV.get(),
                 GTBlocks.BATTERY_ULTIMATE_UHV.get());
-
-        LOGGER.info("[WEN] Pattern: {}x{}x{}, middleLayers={}, C at ({},0)",
-                width, height, bDist + 1, middleLayers, lDist);
 
         return FactoryBlockPattern.start(RIGHT, UP, BACK)
                 .aisle(frontFace)

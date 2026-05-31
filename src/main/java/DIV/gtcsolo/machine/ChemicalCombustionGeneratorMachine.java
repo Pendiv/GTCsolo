@@ -11,13 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraftforge.fluids.FluidStack;
-
-import com.mojang.logging.LogUtils;
-import org.slf4j.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,7 +22,6 @@ public class ChemicalCombustionGeneratorMachine extends WorkableElectricMultiblo
     private static final int SBF5_AMOUNT = 1000;
     private static final double BOOST_MULTIPLIER = 1.5;
     private static final double BREAK_CHANCE = 0.09;
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     private final GTRecipe sbf5Recipe = GTRecipeBuilder.ofRaw()
             .inputFluids(ModMaterials.ANTIMONY_PENTAFLUORIDE.getFluid(SBF5_AMOUNT))
@@ -67,13 +59,6 @@ public class ChemicalCombustionGeneratorMachine extends WorkableElectricMultiblo
         if (!isFormed()) return;
 
         var recipeLogic = getRecipeLogic();
-        boolean working = recipeLogic != null && recipeLogic.isWorking();
-
-        if (getOffsetTimer() % 100 == 0) {
-            LOGGER.info("[CCG] tick: formed={} working={} boosted={} baseEUt={}",
-                    isFormed(), working, isBoosted, baseOutputEUt);
-        }
-
         if (recipeLogic == null || !recipeLogic.isWorking()) {
             if (baseOutputEUt != 0) {
                 baseOutputEUt = 0;
@@ -98,9 +83,6 @@ public class ChemicalCombustionGeneratorMachine extends WorkableElectricMultiblo
             if (!isBoosted) {
                 if (tryConsumeSbF5()) {
                     isBoosted = true;
-                    LOGGER.info("[CCG] SbF5 consumed, boost ACTIVE");
-                } else {
-                    LOGGER.debug("[CCG] SbF5 not found in fluid hatches");
                 }
             }
         }

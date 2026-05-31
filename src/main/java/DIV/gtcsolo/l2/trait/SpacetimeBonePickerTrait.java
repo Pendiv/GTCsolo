@@ -3,11 +3,11 @@ package DIV.gtcsolo.l2.trait;
 import DIV.gtcsolo.l2.ModL2Traits;
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
@@ -53,20 +53,11 @@ public class SpacetimeBonePickerTrait extends MobTrait implements ISpacetimeTrai
         var pdata = mob.getPersistentData();
         int count = Math.min(pdata.getInt(COUNT_KEY) + 1, COUNT_CAP);
         pdata.putInt(COUNT_KEY, count);
-        AttributeInstance atk = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (atk != null) {
-            atk.removeModifier(MOD_ATK);
-            atk.addPermanentModifier(new AttributeModifier(MOD_ATK, "gtcsolo.spacetime_bone_picker_atk",
-                    count * ATK_PER_STACK_PER_LEVEL * level, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-        AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
-        if (hp != null) {
-            float ratio = mob.getMaxHealth() > 0 ? mob.getHealth() / mob.getMaxHealth() : 1f;
-            hp.removeModifier(MOD_HP);
-            hp.addPermanentModifier(new AttributeModifier(MOD_HP, "gtcsolo.spacetime_bone_picker_hp",
-                    count * HP_PER_STACK, AttributeModifier.Operation.MULTIPLY_BASE));
-            mob.setHealth(ratio * mob.getMaxHealth());  // 割合維持
-        }
+        L2TraitAttributes.setPermanent(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.spacetime_bone_picker_atk",
+                count * ATK_PER_STACK_PER_LEVEL * level, AttributeModifier.Operation.MULTIPLY_BASE);
+        // 最大 HP は HP 割合を保存して更新
+        L2TraitAttributes.setMaxHealthMultPreservingRatio(mob, MOD_HP, "gtcsolo.spacetime_bone_picker_hp",
+                count * HP_PER_STACK);
         mob.heal(mob.getMaxHealth() * HEAL_PCT);
     }
 }

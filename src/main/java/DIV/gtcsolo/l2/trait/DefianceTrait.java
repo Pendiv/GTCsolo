@@ -1,5 +1,6 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +14,7 @@ import java.util.UUID;
 /**
  * [47] Defiance (反発精神) — 攻撃を受けるたびに ATTACK_DAMAGE が増加。 lv で増加量と max stack 増大。
  *
- * <p>1 stack = +1.0 ATK (ADDITION)、 max stack = 5 × lv (= lv1 で +5、 lv5 で +25 ATK 上限)。
+ * <p>1 stack = 0.1×(2 + N)% (MULTIPLY_BASE)、 最大 (200 + 100n) stack (= 攻撃を受ける度 1 stack 累積)。
  * <p>State は AttributeModifier の amount に埋め込み、 別途 cap data 不要。
  */
 public class DefianceTrait extends MobTrait {
@@ -35,8 +36,7 @@ public class DefianceTrait extends MobTrait {
         double cur = old == null ? 0 : old.getAmount();
         double next = Math.min(cur + perStack, max);
         if (next == cur) return; // 上限到達
-        if (old != null) inst.removeModifier(old);
-        inst.addPermanentModifier(new AttributeModifier(
-                MOD_ATK, "gtcsolo.defiance", next, AttributeModifier.Operation.MULTIPLY_BASE));
+        L2TraitAttributes.setPermanent(entity, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.defiance",
+                next, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "tree": "stat",
+  "title": "progression.gtcsolo.armor_base",
+  "icon": "minecraft:iron_chestplate",
+  "pos": { "x": 0, "y": 1 },
+  "max_level": 5,
+  "effect": {
+    "attribute": "minecraft:generic.armor",
+    "operation": "addition",
+    "per_level": 1.0
+  }
+}

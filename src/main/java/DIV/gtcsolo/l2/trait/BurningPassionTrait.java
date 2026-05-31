@@ -1,5 +1,6 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.CapStorageData;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
@@ -8,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -71,20 +71,13 @@ public class BurningPassionTrait extends MobTrait {
         if (mob.tickCount % 20 == 0) {
             mob.heal(mob.getMaxHealth() * 0.0035f * level);  // 0.35n% /秒 永続回復
         }
-        // ATK buff の付け直し保証 (= chunk reload 後に modifier が消える場合の保険)
-        AttributeInstance inst = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (inst != null && inst.getModifier(MOD_ATK) == null) {
-            applyAtkBuff(mob, level);
-        }
+        // ATK buff の付け直し保証 (= chunk reload 後に modifier が消える場合の保険。 冪等)
+        applyAtkBuff(mob, level);
     }
 
     private static void applyAtkBuff(LivingEntity mob, int level) {
-        AttributeInstance inst = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (inst == null) return;
-        if (inst.getModifier(MOD_ATK) != null) return;
-        inst.addPermanentModifier(new AttributeModifier(
-                MOD_ATK, "gtcsolo.burning_passion", 0.10 + 0.05 * level,
-                AttributeModifier.Operation.MULTIPLY_BASE));
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.burning_passion",
+                0.10 + 0.05 * level, AttributeModifier.Operation.MULTIPLY_BASE);  // +(10 + 5n)%
     }
 
     @SerialClass

@@ -1,13 +1,12 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.CapStorageData;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -66,30 +65,12 @@ public class AudienceEffectTrait extends MobTrait {
 
     private void applyStacks(LivingEntity mob, int level, int stacks) {
         double amount = stacks * (0.10 + 0.02 * level);  // stack 数 × (10 + 2n)%
-        setMod(mob, Attributes.ATTACK_DAMAGE, MOD_ATTACK, "gtcsolo.audience_effect.attack", amount);
-        setMod(mob, Attributes.JUMP_STRENGTH, MOD_JUMP, "gtcsolo.audience_effect.jump", amount);
-        setHealthMod(mob, amount);  // MAX_HEALTH は HP 割合保存
-    }
-
-    private static void setMod(LivingEntity mob, Attribute attr, UUID id, String name, double amount) {
-        AttributeInstance inst = mob.getAttribute(attr);
-        if (inst == null) return;
-        if (inst.getModifier(id) != null) inst.removeModifier(id);
-        if (amount > 0) {
-            inst.addPermanentModifier(new AttributeModifier(id, name, amount, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-    }
-
-    private static void setHealthMod(LivingEntity mob, double amount) {
-        AttributeInstance inst = mob.getAttribute(Attributes.MAX_HEALTH);
-        if (inst == null) return;
-        float ratio = mob.getMaxHealth() > 0 ? mob.getHealth() / mob.getMaxHealth() : 1f;
-        if (inst.getModifier(MOD_HEALTH) != null) inst.removeModifier(MOD_HEALTH);
-        if (amount > 0) {
-            inst.addPermanentModifier(new AttributeModifier(MOD_HEALTH, "gtcsolo.audience_effect.health",
-                    amount, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-        mob.setHealth(ratio * mob.getMaxHealth());
+        L2TraitAttributes.setPermanent(mob, Attributes.ATTACK_DAMAGE, MOD_ATTACK,
+                "gtcsolo.audience_effect.attack", amount, AttributeModifier.Operation.MULTIPLY_BASE);
+        L2TraitAttributes.setPermanent(mob, Attributes.JUMP_STRENGTH, MOD_JUMP,
+                "gtcsolo.audience_effect.jump", amount, AttributeModifier.Operation.MULTIPLY_BASE);
+        L2TraitAttributes.setMaxHealthMultPreservingRatio(mob, MOD_HEALTH,
+                "gtcsolo.audience_effect.health", amount);  // MAX_HEALTH は HP 割合保存
     }
 
     @SerialClass

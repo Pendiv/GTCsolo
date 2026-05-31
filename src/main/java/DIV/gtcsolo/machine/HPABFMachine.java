@@ -83,7 +83,7 @@ public class HPABFMachine extends CoilWorkableElectricMultiblockMachine {
         // OC段数 = マシンtier - レシピtier
         int totalOC = Math.max(0, machineTier - recipeTier);
 
-        // 実効温度: recipeTemp × 1.15^OC、コイル上限でキャップ
+        // 実効温度: (T + 100) × 1.3 を OC 段ごとに累積、 コイル上限でキャップ
         int actualTemp = hpabf.computeActualTemp(recipeTemp, totalOC);
         int excess = Math.max(0, actualTemp - recipeTemp);
 

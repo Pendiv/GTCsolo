@@ -1,0 +1,7 @@
+{
+  "tree": "skill",
+  "title": "progression.gtcsolo.skill_dash",
+  "icon": "minecraft:feather",
+  "pos": { "x": 0, "y": 3 },
+  "max_level": 1
+}

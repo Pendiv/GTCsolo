@@ -2,10 +2,10 @@ package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -37,11 +37,8 @@ public class SpacetimeDevotionTrait extends MobTrait implements ISpacetimeTrait 
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
-        if (hp != null && hp.getModifier(MOD_HP) == null) {
-            hp.addPermanentModifier(new AttributeModifier(MOD_HP, "gtcsolo.spacetime_devotion_hp",
-                    0.5, AttributeModifier.Operation.MULTIPLY_BASE));  // 最大 HP +50%
-        }
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MAX_HEALTH, MOD_HP, "gtcsolo.spacetime_devotion_hp",
+                0.5, AttributeModifier.Operation.MULTIPLY_BASE);  // 最大 HP +50%
     }
 
     @Override

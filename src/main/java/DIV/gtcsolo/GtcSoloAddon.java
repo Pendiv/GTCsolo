@@ -154,27 +154,6 @@ public class GtcSoloAddon implements IGTAddon {
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
 
-        // EEBF fissile_fuel テストレシピ: 鉄dust + 核分裂燃料ガス 100mb → ウラン dust
-        //   新 chemical capability (GAS) 経由の end-to-end 動作確認用
-        //   EEBF 側の INPUT_GAS hatch から fissile_fuel を供給することで発動する...はず
-        Gtcsolo.LOGGER.info("[ChemCap] registering test_iron_to_uranium recipe (BLAST + GAS input)");
-        try {
-            GTRecipeTypes.BLAST_RECIPES.recipeBuilder(new ResourceLocation("gtcsolo", "test_iron_to_uranium"))
-                    .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Iron, 1))
-                    .input(DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS,
-                            DIV.gtcsolo.integration.mekanism.capability.ChemicalIngredient
-                                    .gas("mekanism:fissile_fuel", 100))
-                    .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Uranium238, 1))
-                    .blastFurnaceTemp(3000)
-                    .duration(400)
-                    .EUt(GTValues.VA[GTValues.EV])
-                    .save(provider);
-            Gtcsolo.LOGGER.info("[ChemCap] test_iron_to_uranium recipe saved OK");
-        } catch (Exception e) {
-            Gtcsolo.LOGGER.error("[ChemCap] test_iron_to_uranium recipe FAILED: {}", e.toString(), e);
-        }
-
-
         Material refinedGlowstone = GTCEuAPI.materialManager.getMaterial("gtcsolo:refined_glowstone");
         Material tinPlasma = GTCEuAPI.materialManager.getMaterial("gtcsolo:tin_plasma");
         Material jupitatePlasma = GTCEuAPI.materialManager.getMaterial("gtcsolo:jupitate_plasma");

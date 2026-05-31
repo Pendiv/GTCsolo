@@ -88,7 +88,7 @@ public class WENNetworkData extends SavedData {
         BigInteger toAdd = BigInteger.valueOf(amount);
         BigInteger added = toAdd.min(space);
         entry.storedEnergy = entry.storedEnergy.add(added);
-        entry.inputThisTick += added.longValueExact() <= Long.MAX_VALUE ? added.longValue() : Long.MAX_VALUE;
+        entry.inputThisTick += added.longValue();  // added は amount(long) 由来で常に long 範囲内
         entry.totalInput = entry.totalInput.add(added);
         setDirty();
         return added.min(BigInteger.valueOf(Long.MAX_VALUE)).longValue();

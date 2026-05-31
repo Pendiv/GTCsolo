@@ -2,12 +2,12 @@ package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.ModL2Traits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -35,12 +35,10 @@ public class SpacetimeInfiniteRecursionTrait extends MobTrait implements ISpacet
     /** 最大 HP +(30+5n)% を付与し、 増えた分を回復する (重複付与は guard)。 */
     private static void applyBuff(LivingEntity e, int level) {
         if (level <= 0) return;
-        AttributeInstance hp = e.getAttribute(Attributes.MAX_HEALTH);
-        if (hp == null || hp.getModifier(MOD_HP) != null) return;
         float before = e.getMaxHealth();
-        hp.addPermanentModifier(new AttributeModifier(MOD_HP, "gtcsolo.spacetime_infinite_recursion",
-                0.30 + 0.05 * level, AttributeModifier.Operation.MULTIPLY_BASE));  // +(30+5n)%
-        e.heal(e.getMaxHealth() - before);  // 増えた分を回復
+        L2TraitAttributes.addPermanentIfAbsent(e, Attributes.MAX_HEALTH, MOD_HP, "gtcsolo.spacetime_infinite_recursion",
+                0.30 + 0.05 * level, AttributeModifier.Operation.MULTIPLY_BASE);  // +(30+5n)%
+        e.heal(e.getMaxHealth() - before);  // 増えた分を回復 (= 既付与なら delta 0)
     }
 
     @Override

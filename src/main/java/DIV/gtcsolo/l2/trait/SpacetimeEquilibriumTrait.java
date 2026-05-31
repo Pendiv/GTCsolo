@@ -2,10 +2,10 @@ package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -49,11 +49,8 @@ public class SpacetimeEquilibriumTrait extends MobTrait implements ISpacetimeTra
         for (LivingEntity t : mob.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != mob)) {
             boolean target = (t instanceof Player) || SpacetimeTraits.isSpacetimeMob(t);
             if (!target) continue;
-            AttributeInstance atk = t.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (atk == null) continue;
-            atk.removeModifier(MOD_WEAKEN);
-            atk.addTransientModifier(new AttributeModifier(MOD_WEAKEN, "gtcsolo.spacetime_equilibrium",
-                    -reduction, AttributeModifier.Operation.MULTIPLY_BASE));
+            L2TraitAttributes.setTransient(t, Attributes.ATTACK_DAMAGE, MOD_WEAKEN, "gtcsolo.spacetime_equilibrium",
+                    -reduction, AttributeModifier.Operation.MULTIPLY_BASE);
         }
     }
 }

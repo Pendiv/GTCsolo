@@ -115,6 +115,12 @@ public class SpaceforgeMachine extends CoilWorkableElectricMultiblockMachine {
         if (tickSub != null) { unsubscribe(tickSub); tickSub = null; }
     }
 
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (tickSub != null) { unsubscribe(tickSub); tickSub = null; }
+    }
+
     private void validateHatches() {
         SpaceforgeEnergyHatchMachine main = null;
         List<EnergyHatchPartMachine> normals = new java.util.ArrayList<>();

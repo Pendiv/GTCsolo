@@ -1,9 +1,9 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -11,13 +11,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.UUID;
 
 /**
- * [30] High Altitude (超高度) — 体力 4 倍 + 受けるダメージ 3 倍。
+ * [30] High Altitude (超高度) — 体力大幅増 + 受けるダメージ増。
  *
- * <p>HP: MAX_HEALTH に +3.0 ×lv (MULTIPLY_BASE) を加算 (= lv1 で +300%、 全レベル等倍ではない)。
- * <p>仕様文に「4 倍」 とある単純解釈で lv 関係なく一律 4 倍にしてもよいが、 ここでは lv で
- * スケールさせる安全側設計。
- *
- * <p>被ダメ倍率: onHurtByOthers で event.amount を 3.0 倍 (= lv 不変)。
+ * <p>HP: MAX_HEALTH に (3 + N) の MULTIPLY_BASE modifier (= base × (1 + 3 + N) = 実質 (4 + N) 倍)。
+ * <p>被ダメ倍率: onHurtByOthers で event.amount を (300 + 50n)% 倍 (= lv でスケール)。
  */
 public class HighAltitudeTrait extends MobTrait {
 
@@ -30,12 +27,8 @@ public class HighAltitudeTrait extends MobTrait {
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        AttributeInstance inst = mob.getAttribute(Attributes.MAX_HEALTH);
-        if (inst == null) return;
-        if (inst.getModifier(MOD_HP) != null) return;
-        inst.addPermanentModifier(new AttributeModifier(
-                MOD_HP, "gtcsolo.high_altitude", 3.0 + lv,  // HP 増加 = (3 + N) 倍
-                AttributeModifier.Operation.MULTIPLY_BASE));
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MAX_HEALTH, MOD_HP, "gtcsolo.high_altitude",
+                3.0 + lv, AttributeModifier.Operation.MULTIPLY_BASE);  // MULTIPLY_BASE (3 + N) → 実質 (4 + N) 倍
         mob.setHealth(mob.getMaxHealth());
     }
 

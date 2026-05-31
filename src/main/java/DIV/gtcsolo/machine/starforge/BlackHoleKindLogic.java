@@ -99,8 +99,6 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
                 int consumed = machine.consumeInputItems(stack -> stack.is(nb), maxBlocks);
                 if (consumed > 0) {
                     machine.addBhEmissionTicks(consumed * BH_EMISSION_TICKS_PER_BLOCK);
-                    LOGGER.info("[StarForge:BH:{}] consumed {} Neutronium Block(s), emission queue: {}",
-                            info.trace, consumed, machine.getBhEmissionTicks());
                 }
             }
         }

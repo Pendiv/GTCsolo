@@ -29,8 +29,6 @@ public final class NormalKindLogic implements StarForgeKindLogic {
         long gain = machine.consumeAndProgressFromTable(info.decayPhaseTable, /*budget=*/64);
         if (gain > 0) {
             machine.addDecayProgress(gain);
-            LOGGER.info("[StarForge:Normal:{}] decay tick: +{} progress (total {}/{})",
-                    info.trace, gain, machine.getDecayProgress(), info.decayRequiredCount);
         }
         if (machine.getDecayProgress() >= info.decayRequiredCount) {
             LOGGER.info("[StarForge:Normal:{}] DECAY complete (success)", info.trace);

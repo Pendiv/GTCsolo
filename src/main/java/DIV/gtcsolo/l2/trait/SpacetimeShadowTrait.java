@@ -1,13 +1,12 @@
 package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -41,20 +40,12 @@ public class SpacetimeShadowTrait extends MobTrait implements ISpacetimeTrait {
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        addMod(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.spacetime_shadow_speed",
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.spacetime_shadow_speed",
                 SPEED_BONUS, AttributeModifier.Operation.MULTIPLY_BASE);
-        addMod(mob, Attributes.FOLLOW_RANGE, MOD_RANGE, "gtcsolo.spacetime_shadow_range",
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.FOLLOW_RANGE, MOD_RANGE, "gtcsolo.spacetime_shadow_range",
                 RANGE_MULT, AttributeModifier.Operation.MULTIPLY_BASE);
-        addMod(mob, ForgeMod.STEP_HEIGHT_ADDITION.get(), MOD_STEP, "gtcsolo.spacetime_shadow_step",
+        L2TraitAttributes.addPermanentIfAbsent(mob, ForgeMod.STEP_HEIGHT_ADDITION.get(), MOD_STEP, "gtcsolo.spacetime_shadow_step",
                 STEP_BONUS, AttributeModifier.Operation.ADDITION);
-    }
-
-    private static void addMod(LivingEntity mob, Attribute attr, UUID id, String name,
-                               double amount, AttributeModifier.Operation op) {
-        AttributeInstance inst = mob.getAttribute(attr);
-        if (inst != null && inst.getModifier(id) == null) {
-            inst.addPermanentModifier(new AttributeModifier(id, name, amount, op));
-        }
     }
 
     @Override
@@ -65,17 +56,15 @@ public class SpacetimeShadowTrait extends MobTrait implements ISpacetimeTrait {
         // ジャンプ力 +1 = 跳躍力上昇 I を維持 (跳躍 attribute は馬等限定のため effect で表現)
         mob.addEffect(new MobEffectInstance(MobEffects.JUMP, 40, 0, false, false));
         Player near = mob.level().getNearestPlayer(mob, REVEAL_DIST);
-        boolean revealed = near != null;
-        AttributeInstance atk = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (revealed) {
+        if (near != null) {
+            // 露見: 透明解除 + 攻撃力復帰
             if (mob.isInvisible()) mob.setInvisible(false);
-            if (atk != null && atk.getModifier(MOD_ATK_ZERO) != null) atk.removeModifier(MOD_ATK_ZERO);
+            L2TraitAttributes.remove(mob, Attributes.ATTACK_DAMAGE, MOD_ATK_ZERO);
         } else {
+            // 潜伏: 透明化 + 攻撃力 0
             if (!mob.isInvisible()) mob.setInvisible(true);
-            if (atk != null && atk.getModifier(MOD_ATK_ZERO) == null) {
-                atk.addTransientModifier(new AttributeModifier(MOD_ATK_ZERO, "gtcsolo.spacetime_shadow_atkzero",
-                        -1.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
+            L2TraitAttributes.setTransient(mob, Attributes.ATTACK_DAMAGE, MOD_ATK_ZERO, "gtcsolo.spacetime_shadow_atkzero",
+                    -1.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
         }
     }
 }

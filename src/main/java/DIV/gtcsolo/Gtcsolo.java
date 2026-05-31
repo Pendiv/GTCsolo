@@ -89,6 +89,12 @@ public class Gtcsolo {
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.curtaincall.CurtainCallHandler());
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.AbsoluteKillHandler());
         MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.framealtar.FrameAltarHandler());
+        // 特殊な矢システム (combat.arrow) — 組み込み behavior 登録 + spawn/impact/hurt/flight 配線
+        DIV.gtcsolo.combat.arrow.SpecialArrow.bootstrap();
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.arrow.ArrowEventHandlers());
+        // プレイヤー恒久強化 (progression) — capability 登録 + XP積算/データ引き継ぎ配線
+        modEventBus.addListener(DIV.gtcsolo.progression.ProgressionCapability::register);
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.progression.ProgressionEvents());
         MinecraftForge.EVENT_BUS.addListener(commandHandler::onRegisterCommands);
         MinecraftForge.EVENT_BUS.addListener(tooltipDisplayEvents::onItemTooltip);
         // AE2統合: WENワイヤレスエネルギーカードのポーリングハンドラ

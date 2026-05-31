@@ -33,7 +33,7 @@ public final class SpacetimeAnnihilationGate {
         if (!MobTraitCap.HOLDER.isProper(attacker)) return;
         if (MobTraitCap.HOLDER.get(attacker).getTraitLevel(ModL2Traits.SPACETIME_ANNIHILATION.get()) <= 0) return;
         if (attacker.hasEffect(ModEffects.CERTAIN_KILL.get())) return;
-        attacker.addEffect(new MobEffectInstance(ModEffects.CERTAIN_KILL.get(), -1, 0, false, true));
-        attacker.addEffect(new MobEffectInstance(MobEffects.GLOWING, -1, 0, false, true));
+        attacker.addEffect(new MobEffectInstance(ModEffects.CERTAIN_KILL.get(), PERSIST_DURATION, 0, false, true));
+        attacker.addEffect(new MobEffectInstance(MobEffects.GLOWING, PERSIST_DURATION, 0, false, true));
     }
 }

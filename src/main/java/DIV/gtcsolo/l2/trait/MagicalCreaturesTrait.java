@@ -4,7 +4,6 @@ import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 /**
@@ -23,7 +22,6 @@ public class MagicalCreaturesTrait extends MobTrait {
         if (!event.getSource().is(DamageTypeTags.WITCH_RESISTANT_TO)) return;
         float heal = event.getAmount();
         event.setCanceled(true);
-        float allowed = ForgeEventFactory.onLivingHeal(entity, heal);
-        if (allowed > 0) entity.setHealth(Math.min(entity.getMaxHealth(), entity.getHealth() + allowed));
+        entity.heal(heal);  // heal() は内部で ForgeEventFactory.onLivingHeal を尊重し maxHP で cap
     }
 }

@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 /**
  * [08] Group Psychology — 周囲の敵 mob の数に応じて攻撃力が増加。
  *
- * <p>倍率 = 1 + (周囲 mob 数) × 0.1 × level
+ * <p>倍率 = 1 + (周囲 mob 数) × 0.06 × level (= 周囲 1 体につき +6n%)
  * <p>周囲 mob 数は 20 tick おきにキャッシュ更新 (= 毎 tick AABB クエリは重い)。
  */
 public class GroupPsychologyTrait extends MobTrait {

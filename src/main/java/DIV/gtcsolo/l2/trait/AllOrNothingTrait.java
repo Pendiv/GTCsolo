@@ -1,11 +1,11 @@
 package DIV.gtcsolo.l2.trait;
 
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2hostility.content.logic.TraitEffectCache;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -33,12 +33,8 @@ public class AllOrNothingTrait extends MobTrait {
     @Override
     public void postInit(LivingEntity mob, int lv) {
         super.postInit(mob, lv);
-        AttributeInstance inst = mob.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (inst == null) return;
-        if (inst.getModifier(MOD_SPEED) != null) return;
-        inst.addPermanentModifier(new AttributeModifier(
-                MOD_SPEED, "gtcsolo.all_or_nothing", SPEED_REDUCTION,
-                AttributeModifier.Operation.MULTIPLY_TOTAL));
+        L2TraitAttributes.addPermanentIfAbsent(mob, Attributes.MOVEMENT_SPEED, MOD_SPEED, "gtcsolo.all_or_nothing",
+                SPEED_REDUCTION, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override

@@ -1199,6 +1199,25 @@
   "trait.gtcsolo.pure_heart": "純情",
   "trait.gtcsolo.pure_heart.desc": "デバフを免疫する",
 
+  "trait.gtcsolo.consequentialist": "結果論者",
+  "trait.gtcsolo.consequentialist.desc": "スケルトン専用。 放った瞬間に着弾位置まで進む、 回避困難な帰結の矢を放つ。",
+  "trait.gtcsolo.armor_shredder": "鎧削り",
+  "trait.gtcsolo.armor_shredder.desc": "スケルトン専用。 命中時、 対象の防御を貫通し その防御値に応じた追加ダメージを与える撃滅の矢を放つ。",
+  "trait.gtcsolo.explosive_arrow_user": "爆裂矢使い",
+  "trait.gtcsolo.explosive_arrow_user.desc": "スケルトン専用。 着弾時、 ブロックを破壊しない爆発を起こす爆裂矢を放つ。",
+  "trait.gtcsolo.lightning_user": "雷使い",
+  "trait.gtcsolo.lightning_user.desc": "スケルトン専用。 プレイヤーに着弾すると、 放った時点の対象の攻撃力を参照した落雷を着弾地点へ落とす雷矢を放つ。",
+  "trait.gtcsolo.kongo_yasha": "金剛夜叉",
+  "trait.gtcsolo.kongo_yasha.desc": "受けるダメージを大幅に軽減する。 プレイヤーからの攻撃には、 加えて最大 HP の 0.38%% 分を軽減する。",
+  "trait.gtcsolo.monotone_clone": "モノトーンクローン",
+  "trait.gtcsolo.monotone_clone.desc": "一定間隔で、 レベルと同数の弱体化したクローンをランダムな方向へ射出する。 攻撃を受けるたびに次の射出が早まる。",
+  "trait.gtcsolo.crossbowman": "弩使い",
+  "trait.gtcsolo.crossbowman.desc": "スケルトン専用。 ノックバック耐性を部分的に貫通して対象を吹き飛ばす矢を放つ。 吹き飛ばされた対象は一定時間 この吹き飛ばしに耐性を得る。",
+  "trait.gtcsolo.floating_arrow": "浮ついた矢",
+  "trait.gtcsolo.floating_arrow.desc": "スケルトン専用。 対象が自身より高所にいると自ら浮遊し、 命中した対象を浮遊させる矢を放つ。",
+  "trait.gtcsolo.magic_bullet_marksman": "魔弾の射手",
+  "trait.gtcsolo.magic_bullet_marksman.desc": "スケルトン専用。 攻撃力・最大 HP・ダメージ軽減を獲得する。 プレイヤーが接近すると透明化し加速する。 一定確率で特殊な矢をランダムに放ち、 外すほど・被弾するほど確率が上がり、 放つと確率は元に戻る。",
+
   "attribute.gtcsolo.lucky_hit_rate": "ラッキーヒット率",
   "attribute.gtcsolo.lucky_hit_damage": "ラッキーヒットダメージ"
 }

@@ -3,11 +3,11 @@ package DIV.gtcsolo.l2.trait;
 import DIV.gtcsolo.l2.ModL2Traits;
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -72,11 +72,7 @@ public class SpacetimeChainOfCausalityTrait extends MobTrait implements ISpaceti
         var pd = mob.getPersistentData();
         int count = Math.min(pd.getInt(COUNT_KEY) + add, COUNT_CAP);
         pd.putInt(COUNT_KEY, count);
-        AttributeInstance atk = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (atk != null) {
-            atk.removeModifier(MOD_ATK);
-            atk.addPermanentModifier(new AttributeModifier(MOD_ATK, "gtcsolo.spacetime_chain",
-                    count * ATK_PER_STACK, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
+        L2TraitAttributes.setPermanent(mob, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.spacetime_chain",
+                count * ATK_PER_STACK, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 }

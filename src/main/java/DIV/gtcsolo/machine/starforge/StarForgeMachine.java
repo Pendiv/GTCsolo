@@ -168,8 +168,6 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
         long gain = consumeAndProgressFromTable(info.buildPhaseTable, /*budget=*/64);
         if (gain > 0) {
             buildProgress += gain;
-            LOGGER.info("[StarForge:{}] BUILD: +{} progress (total {}/{})",
-                    info.trace, gain, buildProgress, info.buildRequiredCount);
         }
         if (buildProgress >= info.buildRequiredCount) {
             LOGGER.info("[StarForge:{}] BUILD complete at progress={}", info.trace, buildProgress);

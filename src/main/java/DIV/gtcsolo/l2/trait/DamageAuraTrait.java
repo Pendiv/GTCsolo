@@ -6,15 +6,17 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
 
 /**
  * [53] Damage Aura (ダメージオーラ) — 自身を中心とする 1 辺 A の立方体内に持続的小ダメージ (壁貫通)。
  * 範囲は立方体輪郭パーティクルで描画 → プレイヤーが境界を視認できる。
  *
- * <p>1 辺 A = {@link #SIDE_BASE} + {@link #SIDE_PER_LEVEL} × lv (= lv1 で 8、 lv5 で 16 ブロック)。
+ * <p>1 辺 = (4 + N) ブロックの立方体 (= level で拡大)。
  * <p>ダメージ: {@link #DAMAGE_INTERVAL_TICKS} (= 20t) ごとに範囲内全 LivingEntity に
- * {@link #DAMAGE_BASE} + {@link #DAMAGE_PER_LEVEL} × lv (= magic、 壁貫通)。
+ * (3 + 攻撃力 × 25N%) の magic ダメージ (= 壁貫通)。
  * <p>パーティクル: {@link #PARTICLE_INTERVAL_TICKS} (= 10t) ごとに 12 辺をサンプル描画。
  */
 public class DamageAuraTrait extends MobTrait {
@@ -41,8 +43,7 @@ public class DamageAuraTrait extends MobTrait {
                 mob.getX() - half, mob.getY() - half, mob.getZ() - half,
                 mob.getX() + half, mob.getY() + half, mob.getZ() + half);
         DamageSource src = mob.damageSources().magic();
-        net.minecraft.world.entity.ai.attributes.AttributeInstance atkInst =
-                mob.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+        AttributeInstance atkInst = mob.getAttribute(Attributes.ATTACK_DAMAGE);
         double atk = atkInst != null ? atkInst.getValue() : 0.0;
         float amount = 3.0f + (float) (atk * 0.25 * level);  // 3 + 攻撃力 × 25N% の魔法ダメージ
         for (LivingEntity victim : sl.getEntitiesOfClass(LivingEntity.class, area, e -> e != mob)) {

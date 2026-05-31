@@ -65,8 +65,6 @@ public final class SunKindLogic implements StarForgeKindLogic {
                 int consumed = machine.consumeInputItems(stack -> stack.is(solar), need);
                 if (consumed > 0) {
                     machine.addSolarPanelCount(consumed);
-                    LOGGER.info("[StarForge:Sun:{}] consumed {} UV Solar Panels ({}/{})",
-                            info.trace, consumed, machine.getSolarPanelCount(), SOLAR_REQUIREMENT);
                 }
             }
         } else {

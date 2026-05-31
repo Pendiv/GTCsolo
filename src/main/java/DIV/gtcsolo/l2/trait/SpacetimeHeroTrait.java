@@ -3,11 +3,11 @@ package DIV.gtcsolo.l2.trait;
 import DIV.gtcsolo.l2.ModL2Traits;
 import DIV.gtcsolo.l2.SpacetimeTraits;
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
@@ -57,8 +57,7 @@ public class SpacetimeHeroTrait extends MobTrait implements ISpacetimeTrait {
             // 10 秒経過で攻撃力 buff を解除
             long until = pd.getLong(BUFF_UNTIL_KEY);
             if (until > 0 && now >= until) {
-                AttributeInstance atk = mob.getAttribute(Attributes.ATTACK_DAMAGE);
-                if (atk != null) atk.removeModifier(MOD_ATK);
+                L2TraitAttributes.remove(mob, Attributes.ATTACK_DAMAGE, MOD_ATK);
                 pd.putLong(BUFF_UNTIL_KEY, 0L);
             }
             return;
@@ -93,12 +92,8 @@ public class SpacetimeHeroTrait extends MobTrait implements ISpacetimeTrait {
         var pd = hero.getPersistentData();
         pd.putBoolean(ENABLED_KEY, true);
         hero.setHealth(hero.getMaxHealth());
-        AttributeInstance atk = hero.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (atk != null) {
-            atk.removeModifier(MOD_ATK);
-            atk.addPermanentModifier(new AttributeModifier(MOD_ATK, "gtcsolo.spacetime_hero",
-                    1.25 + 0.25 * level, AttributeModifier.Operation.MULTIPLY_BASE));  // +(125+25N)%
-            pd.putLong(BUFF_UNTIL_KEY, hero.level().getGameTime() + BUFF_TICKS);
-        }
+        L2TraitAttributes.setPermanent(hero, Attributes.ATTACK_DAMAGE, MOD_ATK, "gtcsolo.spacetime_hero",
+                1.25 + 0.25 * level, AttributeModifier.Operation.MULTIPLY_BASE);  // +(125+25N)%
+        pd.putLong(BUFF_UNTIL_KEY, hero.level().getGameTime() + BUFF_TICKS);
     }
 }

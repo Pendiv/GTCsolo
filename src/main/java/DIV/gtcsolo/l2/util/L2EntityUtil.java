@@ -7,6 +7,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Set;
@@ -45,5 +47,30 @@ public final class L2EntityUtil {
         if (type.is(LH_SEMIBOSS)) return true;
         ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(type);
         return id != null && CATACLYSM_BOSSES.contains(id.toString());
+    }
+
+    /** Cataclysm のボス階級 (= 倒すべきギミック持ちボス) か。 */
+    public static boolean isCataclysmBoss(EntityType<?> type) {
+        ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(type);
+        return id != null && CATACLYSM_BOSSES.contains(id.toString());
+    }
+
+    /**
+     * {@link LivingDeathEvent} 中に「フル HP 復活」 を試みる復活系 trait の共通処理。
+     *
+     * <p>死亡時 HP は 0 のため {@link LivingEntity#heal} は使えない (= heal は HP&gt;0 を要求)。
+     * よって {@link ForgeEventFactory#onLivingHeal} で他 mod の阻害を尊重しつつ {@code setHealth} で直接戻す。
+     * 生き返れた場合のみ event を cancel して {@code true} を返す。
+     * 呼び出し側は戻り値で追加処理 (無敵付与・確率減衰等) を分岐する。
+     *
+     * @return 復活に成功し event を cancel したら true
+     */
+    public static boolean reviveFull(LivingEntity entity, LivingDeathEvent event) {
+        float allowed = ForgeEventFactory.onLivingHeal(entity, entity.getMaxHealth());
+        if (allowed <= 0f) return false;
+        entity.setHealth(allowed);
+        if (!entity.isAlive()) return false;
+        event.setCanceled(true);
+        return true;
     }
 }

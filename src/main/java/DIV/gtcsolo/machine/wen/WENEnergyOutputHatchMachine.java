@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.logging.LogUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +32,6 @@ import java.util.stream.Collectors;
  */
 public class WENEnergyOutputHatchMachine extends EnergyHatchPartMachine implements IInteractedMachine {
 
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WENEnergyOutputHatchMachine.class, EnergyHatchPartMachine.MANAGED_FIELD_HOLDER);
 
@@ -44,7 +40,6 @@ public class WENEnergyOutputHatchMachine extends EnergyHatchPartMachine implemen
 
     private TickableSubscription wenTickSub;
     private int tickOffset = 0;
-    private int logThrottle = 0;
 
     public WENEnergyOutputHatchMachine(IMachineBlockEntity holder, int tier, int amperage) {
         super(holder, tier, IO.OUT, amperage);

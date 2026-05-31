@@ -6,11 +6,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.logging.LogUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,8 +33,6 @@ import java.util.stream.Collectors;
  */
 public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IInteractedMachine {
 
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WENEnergyHatchMachine.class, EnergyHatchPartMachine.MANAGED_FIELD_HOLDER);
 
@@ -46,7 +41,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
 
     private TickableSubscription wenTickSub;
     private int tickOffset = 0;
-    private int logThrottle = 0;
 
     public WENEnergyHatchMachine(IMachineBlockEntity holder, int tier, int amperage) {
         super(holder, tier, IO.IN, amperage);
@@ -63,8 +57,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
     public void onLoad() {
         super.onLoad();
         if (wenTickSub == null) wenTickSub = subscribeServerTick(this::onWenTick);
-        LOGGER.info("[WEN Hatch] Loaded at {}: {} {}A linked='{}'",
-                getPos(), GTValues.VN[tier], getAmperage(), linkedNetworkId);
     }
 
     @Override
@@ -86,12 +78,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
 
         long stored = energyContainer.getEnergyStored();
         long capacity = energyContainer.getEnergyCapacity();
-        boolean shouldLog = (++logThrottle % 10 == 0);
-
-        if (shouldLog) {
-            LOGGER.info("[WEN Hatch] buffer={}/{}EU linked='{}' at {}",
-                    stored, capacity, linkedNetworkId, getPos());
-        }
 
         // バッファが半分以下なら補充
         if (stored > capacity / 2) return;
@@ -101,7 +87,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
         WENNetworkData.WENEntry entry = data.getNetwork(linkedNetworkId);
 
         if (entry == null) {
-            if (shouldLog) LOGGER.info("[WEN Hatch] Network '{}' not found — unlinking", linkedNetworkId);
             linkedNetworkId = "";
             return;
         }
@@ -115,7 +100,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
         long withdrawn = data.removeEnergy(linkedNetworkId, need);
         if (withdrawn > 0) {
             energyContainer.addEnergy(withdrawn);
-            if (shouldLog) LOGGER.info("[WEN Hatch] Withdrew {}EU from '{}'", withdrawn, linkedNetworkId);
         }
     }
 
@@ -127,7 +111,6 @@ public class WENEnergyHatchMachine extends EnergyHatchPartMachine implements IIn
 
     public void setLinkedNetworkId(String id) {
         this.linkedNetworkId = id;
-        LOGGER.info("[WEN Hatch] Linked to '{}' at {}", id, getPos());
     }
 
     @Override

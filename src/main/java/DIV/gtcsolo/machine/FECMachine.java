@@ -8,12 +8,10 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.mojang.logging.LogUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -21,8 +19,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class FECMachine extends CoilWorkableElectricMultiblockMachine {
-
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     /** 内部プラズマストレージ: fluidId -> 残量(mb) */
     private final Map<String, Long> plasmaStorage = new HashMap<>();
@@ -105,9 +101,6 @@ public class FECMachine extends CoilWorkableElectricMultiblockMachine {
                     tank.drain(new FluidStack(contained.getFluid(), intakeAmount),
                             net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
                     plasmaStorage.merge(fluidId, (long) intakeAmount, Long::sum);
-
-                    LOGGER.info("[FEC] Plasma intake: {} {}mb (stored: {}mb)",
-                            fluidId, intakeAmount, plasmaStorage.get(fluidId));
                 }
             }
         }
@@ -134,14 +127,11 @@ public class FECMachine extends CoilWorkableElectricMultiblockMachine {
             Map.Entry<String, Long> entry = it.next();
             long remaining = entry.getValue() - consumePerType;
             if (remaining <= 0) {
-                LOGGER.info("[FEC] Plasma depleted: {}", entry.getKey());
                 it.remove();
             } else {
                 entry.setValue(remaining);
             }
         }
-        LOGGER.info("[FEC] Plasma consumed: {}mb/type, {} types remaining",
-                consumePerType, plasmaStorage.size());
     }
 
     // =========================================================================
@@ -156,8 +146,7 @@ public class FECMachine extends CoilWorkableElectricMultiblockMachine {
 
     // =========================================================================
     //  レシピモディファイア
-    //  signature: (MetaMachine, GTRecipe) -> ModifierFunction
-    //  = RecipeModifier functional interface
+    //  signature: (MetaMachine, GTRecipe) -> ModifierFunction = RecipeModifier functional interface
     // =========================================================================
 
     public static ModifierFunction fecOverclock(MetaMachine machine, @Nonnull GTRecipe recipe) {
@@ -165,8 +154,7 @@ public class FECMachine extends CoilWorkableElectricMultiblockMachine {
             return ModifierFunction.IDENTITY;
         }
 
-        // プラズマ取り込みはティック駆動（onPlasmaCheck）で行う。
-        // ここでは現在のストレージ状態のみ参照する（副作用なし）。
+        // プラズマ取り込みはティック駆動（onPlasmaCheck）で行う。 ここでは現在のストレージ状態のみ参照する。
         int plasmaTypes = fec.getPlasmaTypeCount();
 
         int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
@@ -183,9 +171,6 @@ public class FECMachine extends CoilWorkableElectricMultiblockMachine {
         // OC倍率計算
         double eutMultiplier = Math.pow(4.0, totalOcLevels);
         double durationMultiplier = Math.pow(0.25, perfectLevels) * Math.pow(0.5, nonPerfectLevels);
-
-        LOGGER.info("[FEC] OC applied: {} total ({} PERFECT, {} NON_PERFECT), plasma types: {}",
-                totalOcLevels, perfectLevels, nonPerfectLevels, plasmaTypes);
 
         return ModifierFunction.builder()
                 .eutMultiplier(eutMultiplier)

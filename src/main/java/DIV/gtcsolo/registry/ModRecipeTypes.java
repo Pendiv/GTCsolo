@@ -58,6 +58,22 @@ public class ModRecipeTypes {
     // ここに登録するレシピは JEI 表示専用のダミー (8 軌跡分)、実稼働は別ロジック。
     public static GTRecipeType STARFORGE;
 
+    /**
+     * GTCEu 標準 {@code GTRecipeTypes.register()} と同じく RECIPE_TYPE / RECIPE_SERIALIZER /
+     * RECIPE_TYPES の 3 レジストリへ登録する。 id は type の registryName から取得。
+     */
+    private static GTRecipeType reg(GTRecipeType type) {
+        ResourceLocation id = type.registryName;
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, id, type);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, id, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(id, type);
+        return type;
+    }
+
+    private static GTRecipeType type(String name) {
+        return new GTRecipeType(new ResourceLocation("gtcsolo", name), "multiblock");
+    }
+
     public static void init() {
         // GTCEu 標準 BLAST_RECIPES に GAS capability 最大1入力 を後付け (EEBF でfissile_fuel等を受ける)
         com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES
@@ -71,105 +87,58 @@ public class ModRecipeTypes {
                 .setMaxSize(IO.OUT,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.GAS, 2);
 
-        FEC = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "fec"), "multiblock")
-                // アイテム入力6, アイテム出力1, 液体入力1, 液体出力0
+        // アイテム入力6, アイテム出力1, 液体入力1, 液体出力0
+        FEC = reg(type("fec")
                 .setMaxIOSize(6, 1, 1, 1)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
         // WEN Storage ダミー
-        WEN_STORAGE = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "wen_storage"), "multiblock")
+        WEN_STORAGE = reg(type("wen_storage")
                 .setMaxIOSize(0, 0, 0, 0)
-                .setEUIO(IO.IN);
-        ResourceLocation wenId = new ResourceLocation("gtcsolo", "wen_storage");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, wenId, WEN_STORAGE);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, wenId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(wenId, WEN_STORAGE);
+                .setEUIO(IO.IN));
 
-        ResourceLocation fecId = new ResourceLocation("gtcsolo", "fec");
-        // GTCEu自身のGTRecipeTypes.register()と同様に、3つ全てに登録する
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, fecId, FEC);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, fecId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(fecId, FEC);
-
-        // Space Forge
-        SPACEFORGE = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "spaceforge"), "multiblock")
+        SPACEFORGE = reg(type("spaceforge")
                 .setMaxIOSize(16, 3, 3, 3)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation spaceforgeId = new ResourceLocation("gtcsolo", "spaceforge");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, spaceforgeId, SPACEFORGE);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, spaceforgeId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(spaceforgeId, SPACEFORGE);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
-        // Chemical Combustion Generator
-        CHEMICAL_COMBUSTION_GENERATOR = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "chemical_combustion_generator"), "multiblock")
+        CHEMICAL_COMBUSTION_GENERATOR = reg(type("chemical_combustion_generator")
                 .setMaxIOSize(0, 0, 3, 3)
                 .setEUIO(IO.OUT)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT);
-        ResourceLocation ccgId = new ResourceLocation("gtcsolo", "chemical_combustion_generator");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, ccgId, CHEMICAL_COMBUSTION_GENERATOR);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, ccgId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(ccgId, CHEMICAL_COMBUSTION_GENERATOR);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT));
 
-        // Fantasia Forge
-        FANTASIA_FORGE = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "fantasia_forge"), "multiblock")
+        FANTASIA_FORGE = reg(type("fantasia_forge")
                 .setMaxIOSize(3, 3, 1, 1)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation ffId = new ResourceLocation("gtcsolo", "fantasia_forge");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, ffId, FANTASIA_FORGE);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, ffId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(ffId, FANTASIA_FORGE);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
-        // Mekanism Infuser
-        MEKANISM_INFUSER = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "mekanism_infuser"), "multiblock")
+        MEKANISM_INFUSER = reg(type("mekanism_infuser")
                 .setMaxIOSize(3, 3, 2, 2)
                 .setEUIO(IO.IN)
                 // chemical capability (INFUSION 最大2入力) — 新方式migration
                 .setMaxSize(IO.IN,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 2)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation miId = new ResourceLocation("gtcsolo", "mekanism_infuser");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, miId, MEKANISM_INFUSER);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, miId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(miId, MEKANISM_INFUSER);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
         // Conversion — infusion_conversion 模倣 (1.5倍 output)
-        CONVERSION = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "conversion"), "multiblock")
+        CONVERSION = reg(type("conversion")
                 .setMaxIOSize(3, 3, 0, 0)
                 .setEUIO(IO.IN)
                 .setMaxSize(IO.IN,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
                 .setMaxSize(IO.OUT,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation convId = new ResourceLocation("gtcsolo", "conversion");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, convId, CONVERSION);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, convId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(convId, CONVERSION);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
-        // Industrial Infusion Conversion
-        INDUSTRIAL_INFUSION_CONVERSION = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "industrial_infusion_conversion"), "multiblock")
+        INDUSTRIAL_INFUSION_CONVERSION = reg(type("industrial_infusion_conversion")
                 .setMaxIOSize(3, 3, 0, 0)
                 .setEUIO(IO.IN)
                 .setMaxSize(IO.IN,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
                 .setMaxSize(IO.OUT,
                         DIV.gtcsolo.integration.mekanism.capability.ChemicalCapabilities.INFUSION, 1)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation iicId = new ResourceLocation("gtcsolo", "industrial_infusion_conversion");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, iicId, INDUSTRIAL_INFUSION_CONVERSION);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, iicId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(iicId, INDUSTRIAL_INFUSION_CONVERSION);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
         // Conversion 系: レシピ EUt から構造tier 要求を自動で data に焼き、JEI に "Required Tier" 行を追加
         CONVERSION.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
@@ -177,84 +146,45 @@ public class ModRecipeTypes {
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(CONVERSION);
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(INDUSTRIAL_INFUSION_CONVERSION);
 
-        // Singularity Maker
-        SINGULARITY_MAKER = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "singularity_maker"), "multiblock")
+        SINGULARITY_MAKER = reg(type("singularity_maker")
                 .setMaxIOSize(16, 1, 0, 0)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation smId = new ResourceLocation("gtcsolo", "singularity_maker");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, smId, SINGULARITY_MAKER);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, smId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(smId, SINGULARITY_MAKER);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
         SINGULARITY_MAKER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(SINGULARITY_MAKER);
 
-        // Singularity Compresser
-        SINGULARITY_COMPRESSER = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "singularity_compresser"), "multiblock")
+        SINGULARITY_COMPRESSER = reg(type("singularity_compresser")
                 .setMaxIOSize(1, 1, 0, 0)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation scId = new ResourceLocation("gtcsolo", "singularity_compresser");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, scId, SINGULARITY_COMPRESSER);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, scId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(scId, SINGULARITY_COMPRESSER);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
         SINGULARITY_COMPRESSER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(SINGULARITY_COMPRESSER);
 
-        // Locus Simulation Builder
-        LOCUS_SIMULATION_BUILDER = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "locus_simulation_builder"), "multiblock")
+        LOCUS_SIMULATION_BUILDER = reg(type("locus_simulation_builder")
                 .setMaxIOSize(3, 1, 0, 0)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation lsbId = new ResourceLocation("gtcsolo", "locus_simulation_builder");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, lsbId, LOCUS_SIMULATION_BUILDER);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, lsbId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(lsbId, LOCUS_SIMULATION_BUILDER);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
         LOCUS_SIMULATION_BUILDER.onRecipeBuild(DIV.gtcsolo.api.tier.TierRecipeLogic.stampRequiredTierFromEUt());
         DIV.gtcsolo.api.tier.TierRecipeLogic.addRequiredTierDisplay(LOCUS_SIMULATION_BUILDER);
 
         // StarForge — JEI 表示専用 (実態ロジックは別系統、構築/成熟/崩壊フェイズ管理)
-        //   注意: maxIO 入力 7 は JEI ダミー表示の都合 (= 構築フェイズの進捗テーブル全 item を
-        //   並べるため)。 実態 machine 側は GT recipe processor を使わず自前 tick で別ハッチ
-        //   から item を取るので、 maxIO 値は表示限界のみに作用する。
-        STARFORGE = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "starforge"), "multiblock")
+        //   注意: maxIO はJEIダミー表示の都合。 実態 machine は自前 tick で別ハッチから取るので表示限界のみに作用。
+        STARFORGE = reg(type("starforge")
                 .setMaxIOSize(6, 16, 0, 8)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        // 情報欠落表記 (ver.0.5 §9.5 Phase 2): GT 標準 JEI ページの条件枠の直下に
-        // 「JEI は概要のみ、 詳細は Trace 情報ページ参照」 を 1 行差し込む。
-        // dataInfo は client 側で LabelWidget 化されるので getString() で OK
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
+        // 情報欠落表記 (ver.0.5 §9.5 Phase 2): JEI ページに「詳細は Trace 情報ページ参照」 を 1 行差し込む。
         STARFORGE.addDataInfo(tag -> net.minecraft.network.chat.Component
                 .translatable("gtcsolo.jei.starforge.dummy_notice").getString());
-        ResourceLocation sfId = new ResourceLocation("gtcsolo", "starforge");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, sfId, STARFORGE);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, sfId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(sfId, STARFORGE);
 
-        // WEN Integration
-        WEN_INTEGRATION = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "wen_integration"), "multiblock")
+        WEN_INTEGRATION = reg(type("wen_integration")
                 .setMaxIOSize(9, 32, 3, 0)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation wiId = new ResourceLocation("gtcsolo", "wen_integration");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, wiId, WEN_INTEGRATION);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, wiId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(wiId, WEN_INTEGRATION);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
 
-        // WEN Nexus Assembler
-        WEN_NEXUS_ASSEMBLER = new GTRecipeType(
-                new ResourceLocation("gtcsolo", "wen_nexus_assembler"), "multiblock")
+        WEN_NEXUS_ASSEMBLER = reg(type("wen_nexus_assembler")
                 .setMaxIOSize(9, 2, 3, 0)
                 .setEUIO(IO.IN)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT);
-        ResourceLocation wnaId = new ResourceLocation("gtcsolo", "wen_nexus_assembler");
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, wnaId, WEN_NEXUS_ASSEMBLER);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, wnaId, new GTRecipeSerializer());
-        GTRegistries.RECIPE_TYPES.register(wnaId, WEN_NEXUS_ASSEMBLER);
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
     }
 }

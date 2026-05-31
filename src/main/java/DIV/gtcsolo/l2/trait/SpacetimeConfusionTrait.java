@@ -1,10 +1,10 @@
 package DIV.gtcsolo.l2.trait;
 
 import DIV.gtcsolo.l2.trait.base.ISpacetimeTrait;
+import DIV.gtcsolo.l2.util.L2TraitAttributes;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
@@ -37,12 +37,9 @@ public class SpacetimeConfusionTrait extends MobTrait implements ISpacetimeTrait
         if (mob.tickCount % INTERVAL != 0) return;
         AABB area = mob.getBoundingBox().inflate(RADIUS);
         for (LivingEntity t : mob.level().getEntitiesOfClass(LivingEntity.class, area, e -> e != mob)) {
-            AttributeInstance atk = t.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (atk == null) continue;
             double factor = MIN_FACTOR + t.getRandom().nextDouble() * (MAX_FACTOR - MIN_FACTOR);
-            atk.removeModifier(MOD_CONFUSION);
-            atk.addTransientModifier(new AttributeModifier(MOD_CONFUSION, "gtcsolo.spacetime_confusion",
-                    factor - 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            L2TraitAttributes.setTransient(t, Attributes.ATTACK_DAMAGE, MOD_CONFUSION, "gtcsolo.spacetime_confusion",
+                    factor - 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
         }
     }
 }

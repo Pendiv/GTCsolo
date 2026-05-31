@@ -259,6 +259,28 @@ public class ModL2Traits {
     public static final RegistryObject<SpacetimeChainOfCausalityTrait> SPACETIME_CHAIN_OF_CAUSALITY =
             TRAITS.register("spacetime_chain_of_causality", () -> new SpacetimeChainOfCausalityTrait(ChatFormatting.DARK_PURPLE));
 
+    // === Phase 12: 特殊矢系 (DIV.gtcsolo.combat.arrow を使う射撃系) ===
+    public static final RegistryObject<ConsequentialistTrait> CONSEQUENTIALIST =
+            TRAITS.register("consequentialist", () -> new ConsequentialistTrait(ChatFormatting.WHITE));
+    public static final RegistryObject<ArmorShredderTrait> ARMOR_SHREDDER =
+            TRAITS.register("armor_shredder", () -> new ArmorShredderTrait(ChatFormatting.GRAY));
+    public static final RegistryObject<ExplosiveArrowUserTrait> EXPLOSIVE_ARROW_USER =
+            TRAITS.register("explosive_arrow_user", () -> new ExplosiveArrowUserTrait(ChatFormatting.RED));
+    public static final RegistryObject<LightningUserTrait> LIGHTNING_USER =
+            TRAITS.register("lightning_user", () -> new LightningUserTrait(ChatFormatting.AQUA));
+    public static final RegistryObject<CrossbowmanTrait> CROSSBOWMAN =
+            TRAITS.register("crossbowman", () -> new CrossbowmanTrait(ChatFormatting.DARK_GRAY));
+    public static final RegistryObject<FloatingArrowTrait> FLOATING_ARROW =
+            TRAITS.register("floating_arrow", () -> new FloatingArrowTrait(ChatFormatting.BLUE));
+    public static final RegistryObject<MagicBulletMarksmanTrait> MAGIC_BULLET_MARKSMAN =
+            TRAITS.register("magic_bullet_marksman", () -> new MagicBulletMarksmanTrait(ChatFormatting.DARK_PURPLE));
+
+    // === Phase 12: 非射撃の新規 (金剛夜叉 / モノトーンクローン) ===
+    public static final RegistryObject<KongoYashaTrait> KONGO_YASHA =
+            TRAITS.register("kongo_yasha", () -> new KongoYashaTrait(ChatFormatting.GOLD));
+    public static final RegistryObject<MonotoneCloneTrait> MONOTONE_CLONE =
+            TRAITS.register("monotone_clone", () -> new MonotoneCloneTrait(ChatFormatting.GRAY));
+
     /**
      * 「ランダムな時空タイプ特性」 の抽選プール (= 敷衍 / 永劫回帰 が使用)。
      * 暴走系 (覇者/超越者/無限再帰/英雄/敷衍/永劫回帰自体) と marker (参入) は除外した安全な集合。

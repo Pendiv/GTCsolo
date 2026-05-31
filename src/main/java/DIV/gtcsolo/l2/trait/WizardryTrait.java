@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 /**
  * [28] Wizardry — 低確率 (= tick あたり) で最寄り player と座標スワップ。
  *
- * <p>確率 = 1/4800 per tick × level (= lv1 で平均 4 分に 1 回、 lv3 で約 80 秒に 1 回)。
+ * <p>確率 = n/180 per tick (= 分母 180÷n。 lv1 で約 9 秒に 1 回、 lv3 で約 3 秒に 1 回)。
  * 落下中の player を空中へ飛ばさないよう、 双方の足元が固体ブロックの時のみ発火。
  */
 public class WizardryTrait extends MobTrait {

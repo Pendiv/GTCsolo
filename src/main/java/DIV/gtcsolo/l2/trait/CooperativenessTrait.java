@@ -16,7 +16,11 @@ import java.util.List;
  * [12] Cooperativeness — 周囲の敵にこの特性を配り、 同特性持ち敵と体力を合算 → 均等再配分。
  *
  * <p>耐久型と攻撃特化型を均す。 結果: 硬い敵は脆く、 脆い敵は硬くなる。
- * <p>初期化時に 1 回だけ合算・再配分、 以降は独立 (= 常時同期なし)。
+ * <p>初回 tick で 1 回だけ合算・再配分し、 以降は独立 (= 常時同期なし)。
+ *
+ * <p>注: postInit ではなく初回 tick で行う。 L2H は postInit 直後に {@code setHealth(maxHealth)} で
+ * HP を巻き戻すため ({@code MobTraitCap.tick})、 postInit での HP 再配分は無効化されてしまう。
+ * tick はその巻き戻しの後に走るので再配分が定着する。
  */
 public class CooperativenessTrait extends MobTrait {
 
@@ -27,12 +31,13 @@ public class CooperativenessTrait extends MobTrait {
     }
 
     @Override
-    public void postInit(LivingEntity mob, int lv) {
-        super.postInit(mob, lv);
+    public void tick(LivingEntity mob, int level) {
+        super.tick(mob, level);
         if (mob.level().isClientSide()) return;
         MobTraitCap srcCap = MobTraitCap.HOLDER.get(mob);
         Data srcData = srcCap.getOrCreateData(getRegistryName(), Data::new);
         if (srcData.merged) return;
+        srcData.merged = true;  // 初回 tick で 1 度だけ試行 (= 旧 postInit の one-shot semantics を維持)
 
         // 周囲の同類 mob を探して trait 付与 + 合算リスト構築
         AABB area = mob.getBoundingBox().inflate(RADIUS);
@@ -41,14 +46,14 @@ public class CooperativenessTrait extends MobTrait {
         for (Mob other : mob.level().getEntitiesOfClass(Mob.class, area, e -> e != mob)) {
             if (!MobTraitCap.HOLDER.isProper(other)) continue;
             MobTraitCap oc = MobTraitCap.HOLDER.get(other);
-            if (!oc.hasTrait(this)) oc.setTrait(this, lv);
+            if (!oc.hasTrait(this)) oc.setTrait(this, level);
             Data od = oc.getOrCreateData(getRegistryName(), Data::new);
             if (!od.merged) group.add(other);
         }
 
         if (group.size() < 2) return; // 自分だけなら何もしない
 
-        // 合算 → 均等再配分
+        // 合算 → 均等再配分 (= 全員を共通の HP 割合に揃える)
         double totalHp = 0, totalMaxHp = 0;
         for (LivingEntity e : group) {
             totalHp += e.getHealth();

@@ -1,10 +1,9 @@
 package DIV.gtcsolo.l2.trait;
 
-import dev.xkmc.l2hostility.content.capability.mob.CapStorageData;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.ChatFormatting;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
@@ -12,21 +11,19 @@ import net.minecraft.world.phys.AABB;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
- * 割れ窓理論 (Broken Window) — 周囲の最もレベルの高く、 特性を 1 つ以上所持している MOB の
- * 特性をランダムに 1 つ参照し、 それらを自身と周囲にばら撒く。
+ * 割れ窓理論 (Broken Window) — 周囲の最もレベルが高く、 特性を 1 つ以上所持している MOB の
+ * 特性をランダムに 1 つ参照し、 それを自身と周囲にばら撒く。
  *
  * <p>仕様:
  * <ul>
- *   <li>{@link #INTERVAL_TICKS} = 100 tick (= 5 秒) ごとに伝播試行</li>
+ *   <li>{@link #INTERVAL_TICKS} = 100 tick (= 5 秒) ごとに伝播試行 (= tickCount で周期管理)</li>
  *   <li>radius {@link #RADIUS} = 12 ブロック内の mob を scan</li>
- *   <li>候補 = trait 1 個以上持ち、 MobTraitCap.lv が自身以上の mob</li>
- *   <li>最高 lv の mob を選定、 trait set から 1 個ランダム抽出 (= broken_window 自体は除外)</li>
- *   <li>ばら撒く対象 = 自身 + 周囲 mob (= 最大 5 体)</li>
+ *   <li>候補 = trait 1 個以上持ち、 MobTraitCap.lv が最も高い mob</li>
+ *   <li>その trait set から 1 個ランダム抽出 (= broken_window 自体は除外)</li>
+ *   <li>ばら撒く対象 = 自身 + 周囲 mob (= 最大 {@link #SPREAD_TARGET_LIMIT} 体)</li>
  *   <li>付与 rank = 1〜参照元 rank のランダム (= 参照元以下)</li>
- *   <li>state: lastTriggerTick (= cooldown)</li>
  * </ul>
  */
 public class BrokenWindowTrait extends MobTrait {
@@ -71,7 +68,7 @@ public class BrokenWindowTrait extends MobTrait {
         }
         if (candidates.isEmpty()) return;
 
-        Random rand = new Random();
+        RandomSource rand = mob.getRandom();
         Map.Entry<MobTrait, Integer> picked = candidates.get(rand.nextInt(candidates.size()));
         MobTrait targetTrait = picked.getKey();
         int sourceRank = picked.getValue();
@@ -86,17 +83,11 @@ public class BrokenWindowTrait extends MobTrait {
         }
     }
 
-    private void applyTrait(LivingEntity target, MobTrait trait, int sourceRank, Random rand) {
+    private void applyTrait(LivingEntity target, MobTrait trait, int sourceRank, RandomSource rand) {
         MobTraitCap cap = MobTraitCap.HOLDER.get(target);
         Integer existing = cap.traits.get(trait);
         int newRank = 1 + rand.nextInt(Math.max(1, sourceRank));
         if (existing != null && existing >= newRank) return;
         cap.setTrait(trait, newRank);
-    }
-
-    @SerialClass
-    public static class Data extends CapStorageData {
-        @SerialClass.SerialField
-        public int lastTriggerTick = 0;
     }
 }

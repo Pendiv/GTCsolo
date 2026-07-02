@@ -8,14 +8,12 @@ import DIV.gtcsolo.network.ModNetwork;
 import DIV.gtcsolo.common.TooltipDisplayEvents;
 import DIV.gtcsolo.data.ModRecipeProvider;
 import DIV.gtcsolo.dump.RecipeDumpService;
-import DIV.gtcsolo.registry.ModAttributes;
 import DIV.gtcsolo.registry.ModBlockEntities;
 import DIV.gtcsolo.registry.ModBlocks;
 import DIV.gtcsolo.registry.ModCreativeTabs;
 import DIV.gtcsolo.registry.ModItems;
 import DIV.gtcsolo.registry.ModMachines;
 import DIV.gtcsolo.registry.ModMaterials;
-import DIV.gtcsolo.registry.ModEnchantments;
 import DIV.gtcsolo.registry.ModMenuTypes;
 import DIV.gtcsolo.registry.ModRecipeTypes;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -73,28 +71,12 @@ public class Gtcsolo {
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
-        DIV.gtcsolo.registry.ModEntities.ENTITY_TYPES.register(modEventBus);
-        ModEnchantments.ENCHANTMENTS.register(modEventBus);
-        DIV.gtcsolo.registry.ModEffects.MOB_EFFECTS.register(modEventBus);
+        DIV.gtcsolo.registry.ModRecipeSerializers.SERIALIZERS.register(modEventBus);
+        // マニュアルUI (LDLib ModularUI) のファクトリ — アイテム右クリック / /gtcsolo manual 共通経路
+        com.lowdragmc.lowdraglib.gui.factory.UIFactory.register(DIV.gtcsolo.manual.ManualUIFactory.INSTANCE);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModCreativeTabs.applyTabOverrides();
-        // L2Hostility 独自 MobTrait 群 (= 29 個、 全 trait)
-        DIV.gtcsolo.l2.ModL2Traits.register(modEventBus);
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.l2.L2EventHandlers());
-        // ラッキーヒット attribute (= lucky_hit_rate / lucky_hit_damage)
-        ModAttributes.register(modEventBus);
-        modEventBus.register(new DIV.gtcsolo.combat.LuckyHitAttribute());      // EntityAttributeModificationEvent
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.LuckyHitHandler()); // LivingDamageEvent
-        // 激戦の幕引き — 戦闘膠着で player ↔ hostile mob 双方に段階的補正
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.curtaincall.CurtainCallHandler());
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.AbsoluteKillHandler());
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.framealtar.FrameAltarHandler());
-        // 特殊な矢システム (combat.arrow) — 組み込み behavior 登録 + spawn/impact/hurt/flight 配線
-        DIV.gtcsolo.combat.arrow.SpecialArrow.bootstrap();
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.combat.arrow.ArrowEventHandlers());
-        // プレイヤー恒久強化 (progression) — capability 登録 + XP積算/データ引き継ぎ配線
-        modEventBus.addListener(DIV.gtcsolo.progression.ProgressionCapability::register);
-        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.progression.ProgressionEvents());
+        MinecraftForge.EVENT_BUS.register(new DIV.gtcsolo.common.SleepTimeHandler());   // 就寝を夕方→夜(13000t)に繰り下げ
         MinecraftForge.EVENT_BUS.addListener(commandHandler::onRegisterCommands);
         MinecraftForge.EVENT_BUS.addListener(tooltipDisplayEvents::onItemTooltip);
         // AE2統合: WENワイヤレスエネルギーカードのポーリングハンドラ
@@ -114,42 +96,25 @@ public class Gtcsolo {
             MenuScreens.register(ModMenuTypes.WEN_DATA_MONITOR.get(), WENDataMonitorScreen::new);
             MenuScreens.register(ModMenuTypes.WEN_ID_SELECT.get(), WENIdSelectScreen::new);
             MenuScreens.register(ModMenuTypes.DATACHEST.get(), DIV.gtcsolo.block.datachest.DataChestScreen::new);
-
-            // 投擲体エンティティのレンダラ
-            net.minecraft.client.renderer.entity.EntityRenderers.register(
-                    DIV.gtcsolo.registry.ModEntities.ORANGE_PROJECTILE.get(),
-                    net.minecraft.client.renderer.entity.ThrownItemRenderer::new
-            );
-            // IceProjectile は専用 renderer (氷ブロックを描画)
-            net.minecraft.client.renderer.entity.EntityRenderers.register(
-                    DIV.gtcsolo.registry.ModEntities.ICE_PROJECTILE.get(),
-                    DIV.gtcsolo.client.IceProjectileRenderer::new
-            );
-            // AmethystProjectile は粒子 trail のみ = no-op renderer
-            net.minecraft.client.renderer.entity.EntityRenderers.register(
-                    DIV.gtcsolo.registry.ModEntities.AMETHYST_PROJECTILE.get(),
-                    DIV.gtcsolo.client.NoOpEntityRenderer::new
-            );
-
-            // SecretSword の mode → texture override 用のモデルプロパティ
-            // mode 1..8 を 0.1..0.8 にマップして JSON override の predicate と一致させる
-            net.minecraft.client.renderer.item.ItemProperties.register(
-                    DIV.gtcsolo.registry.ModItems.SECRET_SWORD.get(),
-                    new net.minecraft.resources.ResourceLocation(MODID, "mode"),
-                    (stack, level, entity, seed) ->
-                            DIV.gtcsolo.item.SecretSwordItem.getMode(stack) / 10.0f
-            );
         });
     }
 
     // CommonSetup
     private void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            DIV.gtcsolo.common.framealtar.FrameAltarRecipes.init();
             // AE2 アップグレードカード登録 (対象AE2マシンへの互換登録)
             DIV.gtcsolo.integration.ae2.WENAe2Integration.registerUpgrades();
             // StarForge 軌跡データ初期化 (全 material/fluid 登録完了後タイミング)
             DIV.gtcsolo.machine.starforge.StarForgeTraceData.init();
+            // バニラ (minecraft 名前空間) の全 RangedAttribute の上限を Integer 最大へ拡張。
+            // HP1024・攻撃力2048・防御30 等のバニラ上限を撤廃する。 mod 独自 attribute のレンジは保護のため対象外。
+            final double cap = 2_147_483_647.0D;
+            for (var entry : net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES.getEntries()) {
+                if (!entry.getKey().location().getNamespace().equals("minecraft")) continue;
+                if (entry.getValue() instanceof net.minecraft.world.entity.ai.attributes.RangedAttribute) {
+                    ((DIV.gtcsolo.mixin.RangedAttributeAccessor) (Object) entry.getValue()).gtcsolo$setMaxValue(cap);
+                }
+            }
         });
     }
 

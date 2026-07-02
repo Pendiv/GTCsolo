@@ -1,7 +1,6 @@
 package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,21 +15,6 @@ public class ModItems {
     public static final RegistryObject<Item> XCRYSTAL =
             ITEMS.register("xcrystal",
                     () -> new Item(new Item.Properties())
-            );
-
-    public static final RegistryObject<Item> TROPICAL_CANDY =
-            ITEMS.register("tropical_candy",
-                    () -> new DIV.gtcsolo.item.TropicalCandyItem(new Item.Properties())
-            );
-
-    public static final RegistryObject<Item> ORANGE =
-            ITEMS.register("orange",
-                    () -> new DIV.gtcsolo.item.OrangeItem(new Item.Properties())
-            );
-
-    public static final RegistryObject<Item> SECRET_SWORD =
-            ITEMS.register("secret_sword",
-                    () -> new DIV.gtcsolo.item.SecretSwordItem(new Item.Properties())
             );
 
     public static final RegistryObject<Item> FGEAR =
@@ -63,13 +47,6 @@ public class ModItems {
                     () -> new BlockItem(ModBlocks.BEDROCKIUM_HE_CASING.get(), new Item.Properties())
             );
 
-    public static final RegistryObject<Item> PRIEST_AXE =
-            ITEMS.register("priest_axe",
-                    () -> new PriestAxeItem(
-                            PriestAxeItem.CUSTOM_TIER,
-                            new Item.Properties()
-                    )
-            );
     // =========================================================================
     //  新規アイテム (仮名: item1~item5)
     // =========================================================================
@@ -85,10 +62,6 @@ public class ModItems {
     /** item3 — テクスチャ: refined_netherstar_ingot.png */
     public static final RegistryObject<Item> ITEM3 =
             ITEMS.register("item3", () -> new Item(new Item.Properties()));
-
-    /** item4 — テクスチャ: refined_netherstar_sword.png */
-    public static final RegistryObject<Item> ITEM4 =
-            ITEMS.register("item4", () -> new Item(new Item.Properties()));
 
     /** item5 — テクスチャ: refined_netherstar_pickaxe.png */
     public static final RegistryObject<Item> ITEM5 =
@@ -228,27 +201,6 @@ public class ModItems {
                             new Item.Properties().stacksTo(16)));
 
     // =========================================================================
-    //  新規防具 (仮名: armor1 helmet/chestplate/leggings/boots)
-    //  テクスチャ: refined_netherstar_*.png, layer_1/layer_2
-    // =========================================================================
-
-    public static final RegistryObject<Item> ARMOR1_HELMET =
-            ITEMS.register("armor1_helmet", () -> new ArmorItem(
-                    ModArmorMaterial.PLACEHOLDER, ArmorItem.Type.HELMET, new Item.Properties()));
-
-    public static final RegistryObject<Item> ARMOR1_CHESTPLATE =
-            ITEMS.register("armor1_chestplate", () -> new ArmorItem(
-                    ModArmorMaterial.PLACEHOLDER, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-
-    public static final RegistryObject<Item> ARMOR1_LEGGINGS =
-            ITEMS.register("armor1_leggings", () -> new ArmorItem(
-                    ModArmorMaterial.PLACEHOLDER, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-
-    public static final RegistryObject<Item> ARMOR1_BOOTS =
-            ITEMS.register("armor1_boots", () -> new ArmorItem(
-                    ModArmorMaterial.PLACEHOLDER, ArmorItem.Type.BOOTS, new Item.Properties()));
-
-    // =========================================================================
     //  exclamation/ 系仮素材
     // =========================================================================
 
@@ -294,5 +246,10 @@ public class ModItems {
             ITEMS.register("decaying_star_locus",
                     () -> new DIV.gtcsolo.item.DecayingStarLocusItem(
                             new Item.Properties()));
+
+    /** マニュアル (解説書) — 右クリックで解説UIを開く。 テクスチャ: item/manual.png。 レシピ: 本+レンチ(耐久-1)。 */
+    public static final RegistryObject<Item> MANUAL =
+            ITEMS.register("manual",
+                    () -> new DIV.gtcsolo.item.ManualItem(new Item.Properties().stacksTo(1)));
 
 }

@@ -51,13 +51,5 @@ public class ModNetwork {
                 WENSelectIdPacket::encode,
                 WENSelectIdPacket::decode,
                 WENSelectIdPacket::handle);
-        CHANNEL.registerMessage(id++, OrangeThrowPacket.class,
-                OrangeThrowPacket::encode,
-                OrangeThrowPacket::decode,
-                OrangeThrowPacket::handle);
-        CHANNEL.registerMessage(id++, SecretSwordActionPacket.class,
-                SecretSwordActionPacket::encode,
-                SecretSwordActionPacket::decode,
-                SecretSwordActionPacket::handle);
     }
 }

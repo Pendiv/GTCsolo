@@ -47,6 +47,7 @@ ModCreativeTabs {
                                         .forEach(item -> output.accept(item.get()));
                                 // GTRegistrate経由で登録したマルチブロックコントローラー
                                 if (ModMachines.FEC != null) output.accept(ModMachines.FEC.asStack());
+                                if (ModMachines.FANTASY_BUILDER != null) output.accept(ModMachines.FANTASY_BUILDER.asStack());
                                 if (ModMachines.EEBF != null) output.accept(ModMachines.EEBF.asStack());
                                 if (ModMachines.CC != null) output.accept(ModMachines.CC.asStack());
                                 if (ModMachines.SPACEFORGE != null) output.accept(ModMachines.SPACEFORGE.asStack());

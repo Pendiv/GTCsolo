@@ -58,6 +58,12 @@ public class ModRecipeTypes {
     // ここに登録するレシピは JEI 表示専用のダミー (8 軌跡分)、実稼働は別ロジック。
     public static GTRecipeType STARFORGE;
 
+    // Armor Build — items 1/4, no fluid, EU IN。素材から防具一式をひねり無く生成 (例: 鉄26 → 鉄装備4点)。
+    public static GTRecipeType ARMOR_BUILD;
+
+    // Fantasy Armor Build — items 15/4, no fluid, EU IN。Fantasy 装備の構築。
+    public static GTRecipeType FANTASY_ARMOR_BUILD;
+
     /**
      * GTCEu 標準 {@code GTRecipeTypes.register()} と同じく RECIPE_TYPE / RECIPE_SERIALIZER /
      * RECIPE_TYPES の 3 レジストリへ登録する。 id は type の registryName から取得。
@@ -184,6 +190,17 @@ public class ModRecipeTypes {
 
         WEN_NEXUS_ASSEMBLER = reg(type("wen_nexus_assembler")
                 .setMaxIOSize(9, 2, 3, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
+
+        // Fantasy Builder の 2 系統レシピ
+        ARMOR_BUILD = reg(type("armor_build")
+                .setMaxIOSize(1, 4, 0, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
+
+        FANTASY_ARMOR_BUILD = reg(type("fantasy_armor_build")
+                .setMaxIOSize(15, 4, 0, 0)
                 .setEUIO(IO.IN)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
     }

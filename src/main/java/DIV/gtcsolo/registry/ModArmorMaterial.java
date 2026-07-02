@@ -13,10 +13,11 @@ import java.util.function.Supplier;
 public enum ModArmorMaterial implements ArmorMaterial {
 
     PLACEHOLDER("gtcsolo:refined_netherstar",
-            new int[]{3, 6, 8, 3}, 15, SoundEvents.ARMOR_EQUIP_NETHERITE,
+            new int[]{520, 600, 640, 440}, new int[]{3, 6, 8, 3}, 15, SoundEvents.ARMOR_EQUIP_NETHERITE,
             3.0f, 0.1f, () -> Ingredient.EMPTY);
 
     private final String name;
+    private final int[] durability;
     private final int[] defense;
     private final int enchantability;
     private final SoundEvent equipSound;
@@ -24,10 +25,11 @@ public enum ModArmorMaterial implements ArmorMaterial {
     private final float knockbackResistance;
     private final Supplier<Ingredient> repairIngredient;
 
-    ModArmorMaterial(String name, int[] defense, int enchantability,
+    ModArmorMaterial(String name, int[] durability, int[] defense, int enchantability,
                      SoundEvent equipSound, float toughness, float knockbackResistance,
                      Supplier<Ingredient> repairIngredient) {
         this.name = name;
+        this.durability = durability;
         this.defense = defense;
         this.enchantability = enchantability;
         this.equipSound = equipSound;
@@ -37,7 +39,7 @@ public enum ModArmorMaterial implements ArmorMaterial {
     }
 
     @Override public int getDurabilityForType(ArmorItem.@NotNull Type type) {
-        return new int[]{13, 15, 16, 11}[type.ordinal()] * 40;
+        return durability[type.ordinal()];
     }
 
     @Override public int getDefenseForType(ArmorItem.@NotNull Type type) {

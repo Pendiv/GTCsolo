@@ -8,6 +8,8 @@ plugins {
 // Ensure subprojects are evaluated before we reference their sourceSets below.
 evaluationDependsOn(':cmdex')
 evaluationDependsOn(':credit')
+// :battle は gtcsolo cleanup 完了後に再接続済 (2026-06-24)。gtcsolo(工業)+battle(戦闘) を合体ロード。
+evaluationDependsOn(':battle')
 
 group = mod_group_id
 version = mod_version
@@ -38,9 +40,18 @@ minecraft {
                 cmdex {
                     source project(':cmdex').sourceSets.main
                 }
-                credit {
-                    source project(':credit').sourceSets.main
+                // battle 相乗り = battle の implementation 依存 (EF/weapon-leveling/L2/fantasy 等) も
+                // dev run にロードされる。戦闘 compat の実機検証に必要な構成が dev で揃う。
+                battle {
+                    source project(':battle').sourceSets.main
                 }
+                // credit は sourceSet 相乗りを止め、 dev jar (official 名) を run/mods に置いて読み込む。
+                // 理由: 相乗りだと credit の implementation 依存 (EMI) も dev run に乗ってしまうため。
+                // EMI は credit に jarJar されておらず外部依存のみなので、 jar 化すれば EMI は付いてこない。
+                // include ':credit' は :credit:devJar を作るため残す。 相乗り (この block) のみ撤去。
+                // credit {
+                //     source project(':credit').sourceSets.main
+                // }
             }
         }
 
@@ -160,14 +171,14 @@ dependencies {
     implementation fg.deobf("curse.maven:create-328085:7178761")
 
     implementation fg.deobf("local:Registrate-MC1.20:1.3.3")
-    // Re-Avaritia (Singularity 90 個 KubeJS 登録の runtime 依存。modpack 専用なので runtimeOnly で十分)
+    // Re-Avaritia (Singularity 90 個 KubeJS 登録の runtime 依存)
     runtimeOnly fg.deobf("local:Re-Avaritia-forge-1.20.1:1.3.9.8-release")
     // KubeJS + dependencies (fg.deobf経由でSRG→officialリマッピング)
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
 
-    // Apotheosis suite (型解決つき開発用 — runtime にも乗る)
+    // Apotheosis suite
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
     implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
@@ -196,6 +207,22 @@ dependencies {
     // L2H の hard dep: curios + patchouli (= mods.toml で mandatory 指定)
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4636277")
+
+    // Fantasy 装備系 + Iron's Spells 'n Spellbooks (コード依存の可能性ありのため implementation)
+    implementation fg.deobf("curse.maven:fantasy-armor-1083998:7850802")
+    implementation fg.deobf("curse.maven:fantasy-weapons-medieval-series-1090102:6761136")
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:7907340")
+    // 上記の前提MOD (Iron's Spells のハード依存 / Fantasy 系の geo レンダリング)。
+    // geckolib は FAArmorItem が implements GeoItem のため、 FA のメソッド呼び出し解決にコンパイル時も必要 (implementation)。
+    implementation fg.deobf("curse.maven:geckolib-388172:7553267")         // 4.8.3
+    runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")      // 1.0.2-rc1+1.20
+    runtimeOnly fg.deobf("curse.maven:irons-lib-1492763:7907335")          // 1.0.2
+
+    // Lukas' Weapon Leveling (武器強化システムの土台。コード依存のため implementation)
+    implementation fg.deobf("curse.maven:weapon-leveling-644704:8044642")
+    // ↑が JarJar する MidnightLib(1.4.2) は dev で refmap が remap されず OptionsScreen で
+    //   NoSuchFieldError クラッシュ。libs/ の同一 jar を fg.deobf 経由で正規 remap し上書きして回避。
+    runtimeOnly fg.deobf("local:midnightlib:1.4.2-forge")
 
     // Mixin annotation processor (gtceu.refmap 生成用)
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"

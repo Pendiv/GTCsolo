@@ -24,3 +24,6 @@ project(':cmdex').projectDir = file('MODs/CmdExtra')
 
 include ':credit'
 project(':credit').projectDir = file('MODs/credit')
+
+include ':battle'
+project(':battle').projectDir = file('MODs/allthegregtechbattle')

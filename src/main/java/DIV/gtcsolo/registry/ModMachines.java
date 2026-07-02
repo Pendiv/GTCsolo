@@ -62,6 +62,22 @@ public class ModMachines {
     public static DIV.gtcsolo.api.tier.TieredBlockSet LOCUS_SIMULATION_BUILDER_TIERS;
     /** StarForge — 27×27×28 球状の恒星鍛造炉。仕様: docs/StarForge_spec.md */
     public static MultiblockMachineDefinition STARFORGE;
+    /** Fantasy Builder — 7×7×7、 armor_build / fantasy_armor_build の 2 系統。パターン: run/cmdex/export/fantasy_builder.txt */
+    public static MultiblockMachineDefinition FANTASY_BUILDER;
+    /** Fantasy Builder の B ケーシングを tier 化 (LV=heatproof / MV=frostproof / HV=clean)。 export 定義どおり。 init() で構築。 */
+    public static DIV.gtcsolo.api.tier.TieredBlockSet FANTASY_BUILDER_TIERS;
+
+    /** 外部 mod ブロックを id 解決 (見つからなければ fallback + 警告)。 GTBlocks 定数名当てを回避する用途。 */
+    private static net.minecraft.world.level.block.Block extBlock(String ns, String path,
+                                                                  net.minecraft.world.level.block.Block fallback) {
+        net.minecraft.world.level.block.Block b =
+                net.minecraftforge.registries.ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ns, path));
+        if (b == null || b == Blocks.AIR) {
+            DIV.gtcsolo.Gtcsolo.LOGGER.warn("[fantasy_builder] block {}:{} not found, using fallback", ns, path);
+            return fallback;
+        }
+        return b;
+    }
 
     // SpaceForge Energy Hatch (SEHatch) — UV ～ MAX × 16/64/256/2048 A
     public static final PartAbility SPACEFORGE_MAIN_ENERGY = new PartAbility("spaceforge_main_energy");
@@ -468,6 +484,93 @@ public class ModMachines {
                         .build())
                 .workableCasingRenderer(
                         new ResourceLocation("gtcsolo", "block/casingblock_3"),
+                        new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
+                .register();
+
+        // =========================================================================
+        //  Fantasy Builder — 7x7x7 防具/Fantasy装備 構築マルチブロック
+        //  パターン: run/cmdex/export/fantasy_builder.txt 由来
+        //  A=研磨大理石(外殻+ハッチ), B=tier別ケーシング(heatproof/frostproof/clean いずれも可),
+        //  C=強化ガラス, D=加熱コイル, E=ブロンズパイプケーシング, F=トーテミックゴールドブロック
+        //  2系統レシピ: armor_build (item 1/4) / fantasy_armor_build (item 12/4)
+        // =========================================================================
+        // B ケーシングを tier 化 (export: LV=heatproof / MV=frostproof / HV=clean)。 CONVERSION_TIERS と同パターン。
+        FANTASY_BUILDER_TIERS = DIV.gtcsolo.api.tier.TieredBlockSet.builder("fantasy_builder_tier")
+                .errorKey("gtcsolo.multiblock.error.tier_block_mismatch")
+                .tier(GTValues.LV, GTBlocks.CASING_INVAR_HEATPROOF)
+                .tier(GTValues.MV, GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
+                .tier(GTValues.HV, GTBlocks.CASING_STAINLESS_CLEAN)
+                .build();
+        // NOTE: ブロック解決は全て pattern lambda / appearanceBlock supplier 内で行う (= 遅延)。
+        // GTBlocks/外部ブロックを init() で即時 .get() すると、 GTCEu 登録完了前のため
+        // 「Registry entry not present」 で死ぬ (= 他マシンが全部 lambda 内で解決しているのと同じ理由)。
+        FANTASY_BUILDER = REGISTRATE.multiblock("fantasy_builder",
+                        holder -> new DIV.gtcsolo.api.tier.TieredMultiblockMachine(holder, FANTASY_BUILDER_TIERS))
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeTypes(ModRecipeTypes.ARMOR_BUILD, ModRecipeTypes.FANTASY_ARMOR_BUILD)
+                .recipeModifiers(DIV.gtcsolo.api.tier.TierRecipeLogic::tierGate, GTRecipeModifiers.PARALLEL_HATCH)
+                .tooltips(
+                        Component.translatable("gtcsolo.machine.fantasy_builder.desc.1"),
+                        Component.translatable("gtcsolo.machine.fantasy_builder.desc.2"))
+                .appearanceBlock(() -> extBlock("gtceu", "polished_marble", GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                // パターンは run/cmdex/export/fantasy_builder.txt の各グループを aisle へ verbatim 転記
+                // (cmdex export は既に aisle 形式。 HPABF 等の既存マシンと同じ写し方)。
+                // コントローラ印は export に無いので、 箱型の前例 (FANTASIA_FORGE/FEC = 最終 aisle・最上段中央) に倣い Y を置く。
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("AAAAAAA", "##BBB##", "##CCC##", "##CCC##", "##CCC##", "##BBB##", "AAAAAAA")
+                        .aisle("AAAAAAA", "#BDDDB#", "#C###C#", "#C###C#", "#C###C#", "#BDDDB#", "AAAAAAA")
+                        .aisle("AAAAAAA", "BD###DB", "C#####C", "C#####C", "C#####C", "BD###DB", "AAAAAAA")
+                        .aisle("AAAAAAA", "BD#E#DB", "C##E##C", "C##F##C", "C##E##C", "BD#E#DB", "AAAAAAA")
+                        .aisle("AAAAAAA", "BD###DB", "C#####C", "C#####C", "C#####C", "BD###DB", "AAAAAAA")
+                        .aisle("AAAAAAA", "#BDDDB#", "#C###C#", "#C###C#", "#C###C#", "#BDDDB#", "AAAAAAA")
+                        .aisle("AAAYAAA", "##BBB##", "##CCC##", "##CCC##", "##CCC##", "##BBB##", "AAAAAAA")
+                        .where('Y', controller(blocks(definition.getBlock())))
+                        .where('A', blocks(extBlock("gtceu", "polished_marble", GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                                .or(autoAbilities(definition.getRecipeTypes()))
+                                .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        // B = tier 別ケーシング (LV=heatproof / MV=frostproof / HV=clean)。 全 B が同一 tier で統一必須。
+                        .where('B', FANTASY_BUILDER_TIERS.predicate())
+                        .where('C', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                        .where('D', heatingCoils())
+                        .where('E', blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
+                        .where('F', blocks(extBlock("l2complements", "totemic_gold_block", Blocks.GOLD_BLOCK)))
+                        .where('#', any())
+                        .build())
+                // tier 機なので JEI/プレビュー用 shapeInfo を tier 別生成 (= 全 TieredMultiblockMachine が持つ。 SINGULARITY 同型)。
+                // shape の aisle は pattern と逆順 (controller を front 側に)。 controller 行 (pattern aisle6 string0) の A を hatch に置換。
+                // tier char 'B' は generateShapeInfos が tier 別ケーシングで自動充填するので builder では定義しない。
+                .shapeInfos(definition -> FANTASY_BUILDER_TIERS.generateShapeInfos(
+                        tier -> {
+                            int hatchTier = Math.min(tier, GTValues.UHV);
+                            return com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo.builder()
+                                    .aisle("ANI@OMA", "##BBB##", "##CCC##", "##CCC##", "##CCC##", "##BBB##", "AAAAAAA") // = pattern aisle6 (controller)
+                                    .aisle("AAAAAAA", "#BDDDB#", "#C###C#", "#C###C#", "#C###C#", "#BDDDB#", "AAAAAAA") // = pattern aisle5
+                                    .aisle("AAAAAAA", "BD###DB", "C#####C", "C#####C", "C#####C", "BD###DB", "AAAAAAA") // = pattern aisle4
+                                    .aisle("AAAAAAA", "BD#E#DB", "C##E##C", "C##F##C", "C##E##C", "BD#E#DB", "AAAAAAA") // = pattern aisle3 (中央F)
+                                    .aisle("AAAAAAA", "BD###DB", "C#####C", "C#####C", "C#####C", "BD###DB", "AAAAAAA") // = pattern aisle2
+                                    .aisle("AAAAAAA", "#BDDDB#", "#C###C#", "#C###C#", "#C###C#", "#BDDDB#", "AAAAAAA") // = pattern aisle1
+                                    .aisle("AAAAAAA", "##BBB##", "##CCC##", "##CCC##", "##CCC##", "##BBB##", "AAAAAAA") // = pattern aisle0
+                                    .where('@', definition, net.minecraft.core.Direction.NORTH)
+                                    .where('A', extBlock("gtceu", "polished_marble", GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                                    .where('C', GTBlocks.CASING_TEMPERED_GLASS.get())
+                                    .where('D', GTBlocks.COIL_CUPRONICKEL.get())
+                                    .where('E', GTBlocks.CASING_BRONZE_PIPE.get())
+                                    .where('F', net.minecraftforge.registries.ForgeRegistries.BLOCKS
+                                            .getValue(new ResourceLocation("l2complements", "totemic_gold_block")))
+                                    .where('I', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_IMPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('O', com.gregtechceu.gtceu.common.data.GTMachines.ITEM_EXPORT_BUS[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('N', com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH[hatchTier],
+                                            net.minecraft.core.Direction.NORTH)
+                                    .where('M', com.gregtechceu.gtceu.common.data.GTMachines.MAINTENANCE_HATCH,
+                                            net.minecraft.core.Direction.NORTH);
+                        },
+                        'B'))
+                .workableCasingRenderer(
+                        new ResourceLocation("gtceu", "block/polished_marble"),
                         new ResourceLocation("gtceu", "block/multiblock/assembly_line"))
                 .register();
 

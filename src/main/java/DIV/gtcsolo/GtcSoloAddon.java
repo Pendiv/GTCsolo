@@ -142,6 +142,85 @@ public class GtcSoloAddon implements IGTAddon {
         return Gtcsolo.MODID;
     }
 
+    private static final String[] FA_PIECES = {"helmet", "chestplate", "leggings", "boots"};
+
+    private static net.minecraft.world.item.Item faItem(String path) {
+        return net.minecraftforge.registries.ForgeRegistries.ITEMS.getValue(
+                new ResourceLocation("fantasy_armor", path));
+    }
+
+    /**
+     * Fantasy Builder の防具アップグレード群 (credit /craftpattern 由来を Java 移植)。
+     * 入力順は正準順 (教主指定): 触媒 (moon_crystal / arcane_ingot) → 装備一式4点 → fgear → fcore
+     * (= rtui の item_in_0.. と対応)。 同一入力で分岐する段は {@code circuitMeta(n)} で区別する。
+     */
+    private void addFantasyArmorBuildRecipes(Consumer<FinishedRecipe> provider) {
+        net.minecraft.world.item.Item moon = faItem("moon_crystal");
+        net.minecraft.world.item.Item arcane = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("irons_spellbooks", "arcane_ingot"));
+        if (moon == null || arcane == null) {
+            Gtcsolo.LOGGER.warn("[fantasy_builder] moon_crystal / arcane_ingot 未解決 → 防具レシピをスキップ");
+            return;
+        }
+        // 入口 (moon_crystal)
+        fab(provider, moon, 4, "hero", 2, 1, "chess_board_knight");
+        fab(provider, moon, 1, "chess_board_knight", 1, 1, "redeemer");
+        // chess 分岐 (circuit 1/2)
+        fab(provider, arcane, 1, "chess_board_knight", 1, 1, "gilded_hunt");
+        fab(provider, arcane, 1, "chess_board_knight", 1, 2, "flesh_of_the_feaster");
+        fab(provider, arcane, 1, "gilded_hunt", 1, 1, "dark_cover");
+        // dark_cover 分岐 (circuit 1/2/3)
+        fab(provider, arcane, 1, "dark_cover", 1, 1, "crucible_knight");
+        fab(provider, arcane, 1, "dark_cover", 1, 2, "lady_maria");
+        fab(provider, arcane, 1, "dark_cover", 1, 3, "dragonslayer");
+        // crucible_knight 分岐 (circuit 1/2/3)
+        fab(provider, arcane, 1, "crucible_knight", 1, 1, "golden_execution");
+        fab(provider, arcane, 1, "crucible_knight", 1, 2, "wandering_wizard");
+        fab(provider, arcane, 1, "crucible_knight", 1, 3, "old_knight");
+        fab(provider, arcane, 1, "dragonslayer", 1, 1, "golden_horns");
+        fab(provider, arcane, 1, "golden_horns", 1, 1, "ornstein");
+        fab(provider, arcane, 1, "flesh_of_the_feaster", 1, 1, "grave_sentinel");
+        fab(provider, arcane, 1, "grave_sentinel", 1, 1, "dark_lord");
+        fab(provider, arcane, 1, "dark_lord", 1, 1, "sunset_wings");
+        // golden_execution 分岐 (circuit 1/2)
+        fab(provider, arcane, 1, "golden_execution", 1, 1, "spark_of_dawn");
+        fab(provider, arcane, 1, "golden_execution", 1, 2, "ronin");
+        fab(provider, arcane, 1, "spark_of_dawn", 1, 1, "malenia");
+        fab(provider, arcane, 1, "ronin", 1, 1, "wind_worshipper");
+        fab(provider, arcane, 1, "wandering_wizard", 1, 1, "fog_guard");
+        fab(provider, arcane, 1, "old_knight", 1, 1, "twinned");
+        fab(provider, arcane, 1, "twinned", 1, 1, "forgotten_trace");
+    }
+
+    /** 1 段分: 触媒 + 元防具一式 + fgear + fcore (circuit 分岐) → 次防具一式。 装備未解決ならスキップ。 */
+    private void fab(Consumer<FinishedRecipe> provider, net.minecraft.world.item.Item catalyst,
+                     int catalystCount, String fromSet, int fgearCount, int circuit, String toSet) {
+        net.minecraft.world.item.Item[] from = new net.minecraft.world.item.Item[FA_PIECES.length];
+        net.minecraft.world.item.Item[] to = new net.minecraft.world.item.Item[FA_PIECES.length];
+        for (int i = 0; i < FA_PIECES.length; i++) {
+            from[i] = faItem(fromSet + "_" + FA_PIECES[i]);
+            to[i] = faItem(toSet + "_" + FA_PIECES[i]);
+            if (from[i] == null || to[i] == null) {
+                Gtcsolo.LOGGER.warn("[fantasy_builder] 防具未解決 {} -> {} → skip", fromSet, toSet);
+                return;
+            }
+        }
+        var b = ModRecipeTypes.FANTASY_ARMOR_BUILD.recipeBuilder(
+                new ResourceLocation("gtcsolo", "fab_" + fromSet + "_to_" + toSet));
+        // 正準順: 触媒 → 装備一式 → fgear → fcore (rtui スロットと対応)
+        b.inputItems(catalyst, catalystCount);
+        // Fantasy 装備は new ItemStack 時点で初期 NBT({Damage:0}) を持つため、inputItems(Item) 経由だと
+        // SizedIngredient が NBTIngredient(forge:nbt) 厳密一致に化け、実物の装備(ダメージ有り/別 NBT)と
+        // 一切マッチしなくなる。Ingredient.of でアイテム単位一致に固定する (credit の KubeJS と同じ挙動)。
+        for (net.minecraft.world.item.Item piece : from)
+            b.inputItems(net.minecraft.world.item.crafting.Ingredient.of(piece));
+        b.inputItems(ModItems.FGEAR.get(), fgearCount);
+        b.inputItems(ModItems.FCORE.get(), 1);
+        b.circuitMeta(circuit);
+        for (net.minecraft.world.item.Item piece : to) b.outputItems(piece, 1);
+        b.duration(200).EUt(480).save(provider);
+    }
+
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         // FEC レシピ1: fgear×2 + エンチャ本(種類不問) + 現世液体空気1000mb → fcore×1
@@ -153,6 +232,21 @@ public class GtcSoloAddon implements IGTAddon {
                 .duration(200)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save(provider);
+
+        // Fantasy Builder (fantasy_armor_build): トーテミックゴールドインゴット3 → fcore
+        net.minecraft.world.item.Item totemicGold = net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getValue(new ResourceLocation("l2complements", "totemic_gold_ingot"));
+        if (totemicGold != null) {
+            ModRecipeTypes.FANTASY_ARMOR_BUILD.recipeBuilder(new ResourceLocation("gtcsolo", "fcore_from_totemic_gold"))
+                    .inputItems(totemicGold, 3)
+                    .outputItems(ModItems.FCORE.get(), 1)
+                    .duration(200)
+                    .EUt(GTValues.VA[GTValues.HV])
+                    .save(provider);
+        }
+
+        // Fantasy Builder: 防具アップグレード・ツリー (credit /craftpattern → Java 移植、 入力正準順 + circuit 分岐)
+        addFantasyArmorBuildRecipes(provider);
 
         Material refinedGlowstone = GTCEuAPI.materialManager.getMaterial("gtcsolo:refined_glowstone");
         Material tinPlasma = GTCEuAPI.materialManager.getMaterial("gtcsolo:tin_plasma");

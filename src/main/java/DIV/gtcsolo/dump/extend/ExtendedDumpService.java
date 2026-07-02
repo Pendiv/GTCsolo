@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class ExtendedDumpService {
-    private final OreVeinJeiDumpService oreVeinJeiDumpService = new OreVeinJeiDumpService();
+    private final OreVeinDumpService oreVeinDumpService = new OreVeinDumpService();
 
-    public ExtendedDumpResult dumpOreVeinsFromJei(MinecraftServer server) throws IOException {
-        OreVeinJeiDumpService.OreVeinJeiDumpResult result = oreVeinJeiDumpService.dump(server);
-        return new ExtendedDumpResult("ore_vein_jei", result.outputPath(), result.count());
+    public ExtendedDumpResult dumpOreVeins(MinecraftServer server) throws IOException {
+        OreVeinDumpService.OreVeinDumpResult result = oreVeinDumpService.dump(server);
+        return new ExtendedDumpResult("ore_vein", result.outputPath(), result.count());
     }
 
     public record ExtendedDumpResult(

@@ -231,3 +231,27 @@ children.append(item_slot(row_left + 20, cy - 9, "item_out_0"))  # x = 122
 children.append(item_slot(row_left + 20 + 18, cy - 9, "item_out_1"))  # x = 140
 save(build_data(children, 220, 165, "gtcsolo:wen_nexus_assembler"),
      "wen_nexus_assembler")
+
+
+# fantasy_armor_build: 15 in / 4 out items, 0 fluid
+# item_in_0/1 = progress の上、 item_in_2..5 = 矢印の左に4つ縦、
+# item_in_6..14 = 3x3 (さらに左)、 item_out_0..3 = 縦隣接 (右)。 横長窓。
+children = []
+# 3x3 入力 (item_in_6..14), 左
+for i in range(9):
+    row = i // 3
+    col = i % 3
+    children.append(item_slot(7 + col * 18, 22 + row * 18, f"item_in_{i + 6}"))
+# 矢印の左に 4 つ 縦 (item_in_2..5)
+for i in range(4):
+    children.append(item_slot(70, 13 + i * 18, f"item_in_{i + 2}"))
+# progress の上の 2 入力 (item_in_0/1)
+children.append(item_slot(88, 4, "item_in_0"))
+children.append(item_slot(106, 4, "item_in_1"))
+# progress (→ arrow)
+children.append(progress_widget(96, 39))
+# 出力 4 つ 縦隣接 (右、 0.5 スロット下げ)
+for i in range(4):
+    children.append(item_slot(148, 13 + i * 18, f"item_out_{i}"))
+save(build_data(children, 174, 92, "gtcsolo:fantasy_armor_build"),
+     "fantasy_armor_build")

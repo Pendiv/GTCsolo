@@ -29,13 +29,6 @@ public class ModBlockEntities {
                             .of(DataChestBlockEntity::new, ModBlocks.DATACHEST.get())
                             .build(null));
 
-    /** 媒介野 (= unknown ブロック転用): 元ブロック/デバフ/CT を保持 */
-    public static final RegistryObject<BlockEntityType<DIV.gtcsolo.block.MediatorFieldBlockEntity>> MEDIATOR_FIELD =
-            BLOCK_ENTITIES.register("mediator_field",
-                    () -> BlockEntityType.Builder
-                            .of(DIV.gtcsolo.block.MediatorFieldBlockEntity::new, ModBlocks.UNKNOWN.get())
-                            .build(null));
-
     public static final RegistryObject<BlockEntityType<WENDataMonitorBlockEntity>> WEN_DATA_MONITOR =
             BLOCK_ENTITIES.register("wen_data_monitor",
                     () -> BlockEntityType.Builder

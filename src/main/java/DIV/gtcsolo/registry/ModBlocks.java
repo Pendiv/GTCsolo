@@ -156,9 +156,12 @@ public class ModBlocks {
 
     /** old_glass — テクスチャ: exclamation/old_glass.png */
     public static final RegistryObject<Block> OLD_GLASS = transparentBlock("old_glass", 0.3f, SoundType.GLASS);
-    /** unknown — テクスチャ: exclamation/unknown.png。 特性「媒介野」の罠ブロックとして転用 (BE 付き、 鍬適正)。 */
+    /**
+     * unknown — テクスチャ: exclamation/unknown.png。 SINGULARITY_MAKER の構造材に使用。
+     * 罠 (媒介野) 機能は battle 側 `allthegregtechbattle:unknown` に分離済み — こちらは無害な通常ブロック。
+     */
     public static final RegistryObject<Block> UNKNOWN = BLOCKS.register("unknown",
-            () -> new DIV.gtcsolo.block.MediatorFieldBlock(BlockBehaviour.Properties.of()
+            () -> new Block(BlockBehaviour.Properties.of()
                     .strength(1.5f, 4.5f)
                     .sound(SoundType.STONE)
                     .noOcclusion()

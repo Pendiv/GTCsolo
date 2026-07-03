@@ -37,3 +37,4 @@
 - 戦闘分離 cleanup コミット `3fb5442` (373 files)。credit 並行作業終了・編集禁止解除
 - カスタム元素 56 種が陽子110/中性子160 で同一 → GT 自動生成レシピの加工時間が均一になるだけ (実害なし、調整は教主判断待ち)
 - refs/ 区画整理: `code/` (GT_/ST_/fec_/decompiled/Tier) と `ops/` (運用台帳) 新設。本 knowledge/ フォルダと CLAUDE.md も同日新設
+- **`knowledge/PITFALLS.md` (地雷原) 新設** — 不測の事態はまずそこを一巡、新しい地雷は解決したら追記 (教主指示)

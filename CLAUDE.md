@@ -9,6 +9,11 @@ GTCEu 1.6.4 (MC 1.20.1 Forge) の大型アドオン **gtcsolo (工業)** + 親Gr
 2. **`refs/WORKSPACE_MAP.md`** — ワークスペース全域の「どこに何があるか」
 3. **`refs/REFS_MAP.md`** — refs/ 配下の参考資料の内容索引
 
+## 不測の事態が起きたら
+
+**変なエラー・原因不明の挙動・クラッシュ → 調査の前に `knowledge/PITFALLS.md` (地雷原) を一巡**。
+既知の地雷なら対処が書いてある。載っていなければ、憶測で直す前にユーザーへ一言確認し、解決後に追記する。
+
 ## 最低限の掟
 
 - GTCEu API は **1.6.4** で確認 (`MODsUnComplessed/old/GregTech-Modern` / `libs/gtceu-1.20.1-1.6.4.jar`)

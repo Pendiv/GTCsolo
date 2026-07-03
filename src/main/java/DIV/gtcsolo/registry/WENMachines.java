@@ -64,7 +64,7 @@ public class WENMachines {
         int tierCount = MAX_TIER - MIN_TIER + 1;
         int ioCount = tierCount * AMPERAGES.length;
         int hatchCount = tierCount * (AMPERAGES.length + HATCH_EXTRA_AMPS.length);
-        LOGGER.info("[WEN] Registered {} input + {} output + {} energy hatch = {} machines",
+        LOGGER.debug("[WEN] Registered {} input + {} output + {} energy hatch = {} machines",
                 ioCount, ioCount, hatchCount, ioCount * 2 + hatchCount);
     }
 

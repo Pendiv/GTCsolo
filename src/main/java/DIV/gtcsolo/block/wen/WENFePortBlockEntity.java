@@ -121,7 +121,7 @@ public class WENFePortBlockEntity extends BlockEntity {
     public void setLinkedNetworkId(String id) {
         this.linkedNetworkId = (id == null) ? "" : id;
         setChanged();
-        LOGGER.info("[WEN-FE-Port] {} at {} linked to '{}'",
+        LOGGER.debug("[WEN-FE-Port] {} at {} linked to '{}'",
                 isInput ? "INPUT" : "OUTPUT", worldPosition, linkedNetworkId);
     }
 

@@ -71,26 +71,13 @@ public class LocusIngredient extends AbstractIngredient {
 
     @Override
     public boolean test(@Nullable ItemStack input) {
-        boolean result = doTest(input);
-        LOGGER.info("[LocusIngredient] test mode={} item={} trace={} input={} -> {}",
-                mode, item == null ? "null" : ForgeRegistries.ITEMS.getKey(item),
-                trace, describe(input), result);
-        return result;
-    }
-
-    private boolean doTest(@Nullable ItemStack input) {
+        // レシピ照合のホットパスなのでログは置かない
         if (input == null || input.isEmpty()) return false;
         if (!input.is(item)) return false;
         return switch (mode) {
             case EMPTY -> AbstractLocusItem.isEmpty(input);
             case TRACE -> trace != null && trace.equals(AbstractLocusItem.getTrace(input));
         };
-    }
-
-    private static String describe(ItemStack input) {
-        if (input == null) return "null";
-        if (input.isEmpty()) return "empty";
-        return input.getItem() + "{tag=" + input.getTag() + "}";
     }
 
     @Override
@@ -131,7 +118,7 @@ public class LocusIngredient extends AbstractIngredient {
             Item item = ForgeRegistries.ITEMS.getValue(itemId);
             String trace = json.has("trace") ? json.get("trace").getAsString() : null;
             LocusIngredient ing = new LocusIngredient(mode, item, trace);
-            LOGGER.info("[LocusIngredient] parsed JSON: mode={} item={} trace={}", mode, itemId, trace);
+            LOGGER.debug("[LocusIngredient] parsed JSON: mode={} item={} trace={}", mode, itemId, trace);
             return ing;
         }
 

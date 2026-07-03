@@ -64,7 +64,8 @@ public final class TierRecipeLogic {
         if (required < 0) return ModifierFunction.IDENTITY;
         int actual = tiered.getStructureTier();
         if (actual < required) {
-            LOGGER.warn("[TierGate] REJECT recipe={} required={} (= V[{}]) actual_structure_tier={} (= V[{}])",
+            // レシピ照合パスで頻繁に通るため warn にしない
+            LOGGER.debug("[TierGate] REJECT recipe={} required={} (= V[{}]) actual_structure_tier={} (= V[{}])",
                     recipe.id, required, tierName(required), actual, tierName(actual));
             return ModifierFunction.NULL;
         }

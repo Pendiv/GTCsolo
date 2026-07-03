@@ -48,7 +48,7 @@ public final class ChemicalHatches {
     private ChemicalHatches() {}
 
     public static void init() {
-        LOGGER.info("[ChemCap] === Registering chemical IO hatches (3 variants × 2 IO × {} tiers + creative) ===", TIERS.length);
+        LOGGER.debug("[ChemCap] === Registering chemical IO hatches (3 variants × 2 IO × {} tiers + creative) ===", TIERS.length);
         int count = 0;
         for (ChemicalHatchVariant variant : ChemicalHatchVariant.values()) {
             Map<IO, Map<Integer, MachineDefinition>> ioMap = new EnumMap<>(IO.class);
@@ -69,10 +69,10 @@ public final class ChemicalHatches {
             }
             LOOKUP.put(variant, ioMap);
             CREATIVE_LOOKUP.put(variant, creativeIoMap);
-            LOGGER.info("[ChemCap]   variant={} registered {} machines ({} tiers + creative × 2 IO)",
+            LOGGER.debug("[ChemCap]   variant={} registered {} machines ({} tiers + creative × 2 IO)",
                     variant, (TIERS.length + 1) * 2, TIERS.length);
         }
-        LOGGER.info("[ChemCap] === Hatches registered: {} machines total ===", count);
+        LOGGER.debug("[ChemCap] === Hatches registered: {} machines total ===", count);
     }
 
     private static MachineDefinition registerSingle(ChemicalHatchVariant variant, IO io, int tier) {

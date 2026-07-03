@@ -30,15 +30,15 @@ public final class ChemicalCapabilities {
      * MapIngredient への変換は各 capability の convertToMapIngredient() で対応済み.
      */
     public static void init() {
-        LOGGER.info("[ChemCap] === Registering ChemicalRecipeCapabilities ===");
+        LOGGER.debug("[ChemCap] === Registering ChemicalRecipeCapabilities ===");
         GTRegistries.RECIPE_CAPABILITIES.register(GAS.name, GAS);
-        LOGGER.info("[ChemCap]   registered {} (color=0x{})", GAS.name, Integer.toHexString(GAS.color));
+        LOGGER.debug("[ChemCap]   registered {} (color=0x{})", GAS.name, Integer.toHexString(GAS.color));
         GTRegistries.RECIPE_CAPABILITIES.register(INFUSION.name, INFUSION);
-        LOGGER.info("[ChemCap]   registered {} (color=0x{})", INFUSION.name, Integer.toHexString(INFUSION.color));
+        LOGGER.debug("[ChemCap]   registered {} (color=0x{})", INFUSION.name, Integer.toHexString(INFUSION.color));
         GTRegistries.RECIPE_CAPABILITIES.register(PIGMENT.name, PIGMENT);
-        LOGGER.info("[ChemCap]   registered {} (color=0x{})", PIGMENT.name, Integer.toHexString(PIGMENT.color));
+        LOGGER.debug("[ChemCap]   registered {} (color=0x{})", PIGMENT.name, Integer.toHexString(PIGMENT.color));
         GTRegistries.RECIPE_CAPABILITIES.register(SLURRY.name, SLURRY);
-        LOGGER.info("[ChemCap]   registered {} (color=0x{})", SLURRY.name, Integer.toHexString(SLURRY.color));
-        LOGGER.info("[ChemCap] === Capabilities registered (4 total) ===");
+        LOGGER.debug("[ChemCap]   registered {} (color=0x{})", SLURRY.name, Integer.toHexString(SLURRY.color));
+        LOGGER.debug("[ChemCap] === Capabilities registered (4 total) ===");
     }
 }

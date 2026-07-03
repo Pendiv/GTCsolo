@@ -41,7 +41,7 @@ public final class MaskedTextureProvider {
 
     public static void register(String iconSetName, String baseIconSetName, ResourceLocation maskPath) {
         ENTRIES.add(new Entry(iconSetName, baseIconSetName, maskPath));
-        LOGGER.info("[MaskedTex] Entry registered: iconset='{}', base='{}', mask={}",
+        LOGGER.debug("[MaskedTex] Entry registered: iconset='{}', base='{}', mask={}",
                 iconSetName, baseIconSetName, maskPath);
     }
 
@@ -51,7 +51,7 @@ public final class MaskedTextureProvider {
     }
 
     public static void bootstrap() {
-        LOGGER.info("[MaskedTex] bootstrap() — registering masked iconset entries");
+        LOGGER.debug("[MaskedTex] bootstrap() — registering masked iconset entries");
         register("paleblue_star", "metallic", maskLoc("masked_1"));
         register("red_star",      "bright",   maskLoc("masked_2"));
         // test_a..w : 全 iconset 網羅検証 (fluid のみ skip)
@@ -84,7 +84,7 @@ public final class MaskedTextureProvider {
         register("aurum_stellis_gold", "shiny", maskLoc("masked_7"));
         // gtcsolo:nether_star — Apotheosis Gem 用、 GTCEu netherstar base × 白寄り cyan mask
         register("nether_star", "netherstar", maskLoc("nether_star"));
-        LOGGER.info("[MaskedTex] bootstrap() done — {} entries registered", ENTRIES.size());
+        LOGGER.debug("[MaskedTex] bootstrap() done — {} entries registered", ENTRIES.size());
     }
 
     /**
@@ -95,13 +95,13 @@ public final class MaskedTextureProvider {
      * → reload listener タイミング遅延問題を回避。
      */
     public static void generateAll() {
-        LOGGER.info("[MaskedTex] generateAll() start — entries={}, iconTypes={}",
+        LOGGER.debug("[MaskedTex] generateAll() start — entries={}, iconTypes={}",
                 ENTRIES.size(), MaterialIconType.ICON_TYPES.size());
         for (Entry entry : ENTRIES) {
             generateForEntry(entry);
         }
         injectBigPlateModel();
-        LOGGER.info("[MaskedTex] generateAll() done");
+        LOGGER.debug("[MaskedTex] generateAll() done");
     }
 
     /**
@@ -120,12 +120,12 @@ public final class MaskedTextureProvider {
         modelJson.add("textures", textures);
         ResourceLocation loc = new ResourceLocation("gtceu", "material_sets/dull/big_plate");
         GTDynamicResourcePack.addItemModel(loc, modelJson);
-        LOGGER.info("[MaskedTex] injected big_plate model at gtceu:material_sets/dull/big_plate (= rough/plate_dense base + secondary)");
+        LOGGER.debug("[MaskedTex] injected big_plate model at gtceu:material_sets/dull/big_plate (= rough/plate_dense base + secondary)");
     }
 
     private static void generateForEntry(Entry entry) {
         ResourceLocation maskTexPath = toTexturePath(entry.maskPath());
-        LOGGER.info("[MaskedTex] === processing entry: iconset='{}', base='{}', mask={} ===",
+        LOGGER.debug("[MaskedTex] === processing entry: iconset='{}', base='{}', mask={} ===",
                 entry.iconSetName(), entry.baseIconSetName(), maskTexPath);
 
         NativeImage mask = loadPng(maskTexPath);
@@ -134,7 +134,7 @@ public final class MaskedTextureProvider {
                     entry.iconSetName(), maskTexPath.getNamespace(), maskTexPath.getPath());
             return;
         }
-        LOGGER.info("[MaskedTex] mask loaded: {}x{} from {}",
+        LOGGER.debug("[MaskedTex] mask loaded: {}x{} from {}",
                 mask.getWidth(), mask.getHeight(), maskTexPath);
 
         // baseIconSetName 文字列 → MaterialIconSet instance 解決 (parent chain 走査用)
@@ -213,12 +213,12 @@ public final class MaskedTextureProvider {
             modelJson.add("textures", textures);
             GTDynamicResourcePack.addItemModel(injectLoc, modelJson);
 
-            LOGGER.info("[MaskedTex] injected: png({} bytes) + model JSON for gtceu:material_sets/{}/{} (base={})",
+            LOGGER.debug("[MaskedTex] injected: png({} bytes) + model JSON for gtceu:material_sets/{}/{} (base={})",
                     pngBytes.length, entry.iconSetName(), type.name(), usedBaseSetName);
             processed++;
         }
         mask.close();
-        LOGGER.info("[MaskedTex] entry '{}' summary: processed={}, skipped(no base)={}, failed={}",
+        LOGGER.debug("[MaskedTex] entry '{}' summary: processed={}, skipped(no base)={}, failed={}",
                 entry.iconSetName(), processed, skipped, failed);
     }
 

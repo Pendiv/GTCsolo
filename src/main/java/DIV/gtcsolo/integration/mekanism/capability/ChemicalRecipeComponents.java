@@ -42,20 +42,20 @@ public final class ChemicalRecipeComponents {
     /** IGTAddon.registerRecipeKeys() から呼ぶ. 各 capability に対応する IN/OUT ContentJS を登録. */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void registerRecipeKeys(KJSRecipeKeyEvent event) {
-        LOGGER.info("[ChemCap] === Registering KJS recipe keys (4 capabilities) ===");
+        LOGGER.debug("[ChemCap] === Registering KJS recipe keys (4 capabilities) ===");
         event.registerKey(ChemicalCapabilities.GAS,      (Pair) Pair.of(GAS_IN, GAS_OUT));
-        LOGGER.info("[ChemCap]   key: GAS <-> (GAS_IN, GAS_OUT)");
+        LOGGER.debug("[ChemCap]   key: GAS <-> (GAS_IN, GAS_OUT)");
         event.registerKey(ChemicalCapabilities.INFUSION, (Pair) Pair.of(INFUSION_IN, INFUSION_OUT));
-        LOGGER.info("[ChemCap]   key: INFUSION <-> (INFUSION_IN, INFUSION_OUT)");
+        LOGGER.debug("[ChemCap]   key: INFUSION <-> (INFUSION_IN, INFUSION_OUT)");
         event.registerKey(ChemicalCapabilities.PIGMENT,  (Pair) Pair.of(PIGMENT_IN, PIGMENT_OUT));
-        LOGGER.info("[ChemCap]   key: PIGMENT <-> (PIGMENT_IN, PIGMENT_OUT)");
+        LOGGER.debug("[ChemCap]   key: PIGMENT <-> (PIGMENT_IN, PIGMENT_OUT)");
         event.registerKey(ChemicalCapabilities.SLURRY,   (Pair) Pair.of(SLURRY_IN, SLURRY_OUT));
-        LOGGER.info("[ChemCap]   key: SLURRY <-> (SLURRY_IN, SLURRY_OUT)");
+        LOGGER.debug("[ChemCap]   key: SLURRY <-> (SLURRY_IN, SLURRY_OUT)");
     }
 
     /** KubeJSPlugin.registerRecipeComponents() から呼ぶ. */
     public static void registerRecipeComponents(RecipeComponentFactoryRegistryEvent event) {
-        LOGGER.info("[ChemCap] === Registering KJS recipe components ===");
+        LOGGER.debug("[ChemCap] === Registering KJS recipe components ===");
         event.register("gtcsoloChemicalGasIn",      GAS_IN);
         event.register("gtcsoloChemicalGasOut",     GAS_OUT);
         event.register("gtcsoloChemicalInfusionIn",  INFUSION_IN);
@@ -70,6 +70,6 @@ public final class ChemicalRecipeComponents {
         event.register("gtcsoloChemicalInfusion", ChemicalIngredientComponent.INFUSION);
         event.register("gtcsoloChemicalPigment",  ChemicalIngredientComponent.PIGMENT);
         event.register("gtcsoloChemicalSlurry",   ChemicalIngredientComponent.SLURRY);
-        LOGGER.info("[ChemCap]   components: 8 ContentJS + 4 base components registered");
+        LOGGER.debug("[ChemCap]   components: 8 ContentJS + 4 base components registered");
     }
 }

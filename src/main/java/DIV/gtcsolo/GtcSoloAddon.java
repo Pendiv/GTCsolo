@@ -75,7 +75,7 @@ public class GtcSoloAddon implements IGTAddon {
 
     @Override
     public void registerRecipeCapabilities() {
-        Gtcsolo.LOGGER.info("[ChemCap] Addon.registerRecipeCapabilities called");
+        Gtcsolo.LOGGER.debug("[ChemCap] Addon.registerRecipeCapabilities called");
         ChemicalCapabilities.init();
         disableCustomUIForChemicalCompatibleTypes();
     }
@@ -107,7 +107,7 @@ public class GtcSoloAddon implements IGTAddon {
             }
             try {
                 com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI ui = type.getRecipeUI();
-                Gtcsolo.LOGGER.info("[ChemCap] BEFORE reflection: {} hasCustomUI()={}",
+                Gtcsolo.LOGGER.debug("[ChemCap] BEFORE reflection: {} hasCustomUI()={}",
                         type.registryName, ui.hasCustomUI());
                 // xeiSize も null にして再計算させる
                 java.lang.reflect.Field cacheField =
@@ -122,7 +122,7 @@ public class GtcSoloAddon implements IGTAddon {
                     xeiSizeField.setAccessible(true);
                     xeiSizeField.set(ui, null);
                 } catch (NoSuchFieldException ignored) {}
-                Gtcsolo.LOGGER.info("[ChemCap] AFTER reflection: {} hasCustomUI()={}",
+                Gtcsolo.LOGGER.debug("[ChemCap] AFTER reflection: {} hasCustomUI()={}",
                         type.registryName, ui.hasCustomUI());
             } catch (Throwable t) {
                 Gtcsolo.LOGGER.error("[ChemCap] Failed to disable custom UI for {}",
@@ -133,7 +133,7 @@ public class GtcSoloAddon implements IGTAddon {
 
     @Override
     public void registerRecipeKeys(com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent event) {
-        Gtcsolo.LOGGER.info("[ChemCap] Addon.registerRecipeKeys called");
+        Gtcsolo.LOGGER.debug("[ChemCap] Addon.registerRecipeKeys called");
         ChemicalRecipeComponents.registerRecipeKeys(event);
     }
 

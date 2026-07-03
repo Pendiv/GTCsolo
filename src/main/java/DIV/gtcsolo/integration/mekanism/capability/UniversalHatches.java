@@ -39,7 +39,7 @@ public final class UniversalHatches {
     private UniversalHatches() {}
 
     public static void init() {
-        LOGGER.info("[ChemCap] === Registering universal IO hatches (2 IO × {} tiers) ===", TIERS.length);
+        LOGGER.debug("[ChemCap] === Registering universal IO hatches (2 IO × {} tiers) ===", TIERS.length);
         int count = 0;
         for (IO io : new IO[]{IO.IN, IO.OUT}) {
             Map<Integer, MachineDefinition> tierMap = new HashMap<>();
@@ -51,7 +51,7 @@ public final class UniversalHatches {
             }
             LOOKUP.put(io, tierMap);
         }
-        LOGGER.info("[ChemCap] === Universal hatches registered: {} machines total ===", count);
+        LOGGER.debug("[ChemCap] === Universal hatches registered: {} machines total ===", count);
     }
 
     private static MachineDefinition registerSingle(IO io, int tier) {

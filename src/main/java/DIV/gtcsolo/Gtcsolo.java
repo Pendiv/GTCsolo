@@ -125,7 +125,7 @@ public class Gtcsolo {
 
     // 素材登録
     private void addMaterials(MaterialEvent event) {
-        LOGGER.info("[gtcsolo] addMaterials: registering materials...");
+        LOGGER.debug("[gtcsolo] addMaterials: registering materials...");
         ModMaterials.init();
     }
 

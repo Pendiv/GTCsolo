@@ -30,7 +30,7 @@ public final class MaskedTextureClient {
         if (event.getPackType() != PackType.CLIENT_RESOURCES) {
             return;
         }
-        LOGGER.info("[MaskedTex] AddPackFindersEvent CLIENT_RESOURCES @LOWEST — re-injecting after GTCEu clearClient()");
+        LOGGER.debug("[MaskedTex] AddPackFindersEvent CLIENT_RESOURCES @LOWEST — re-injecting after GTCEu clearClient()");
         MaskedTextureProvider.generateAll();
     }
 }

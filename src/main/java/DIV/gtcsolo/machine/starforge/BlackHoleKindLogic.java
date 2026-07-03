@@ -56,20 +56,20 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
     private static Item getNeutroniumBlock() {
         if (neutroniumBlockItem == null) {
             neutroniumBlockItem = BuiltInRegistries.ITEM.get(new ResourceLocation("gtceu", "neutronium_block"));
-            LOGGER.info("[StarForge:BH] resolved Neutronium Block item: {}", neutroniumBlockItem);
+            LOGGER.debug("[StarForge:BH] resolved Neutronium Block item: {}", neutroniumBlockItem);
         }
         return neutroniumBlockItem;
     }
 
     @Override
     public StarForgeMachine.Phase nextPhaseAfterBuild() {
-        LOGGER.info("[StarForge:BH] BUILD complete -> MATURITY (1200 tick)");
+        LOGGER.debug("[StarForge:BH] BUILD complete -> MATURITY (1200 tick)");
         return StarForgeMachine.Phase.MATURITY;
     }
 
     @Override
     public void onMaturityStart(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:BH:{}] MATURITY started, accept Neutronium Block (1200 tick window)",
+        LOGGER.debug("[StarForge:BH:{}] MATURITY started, accept Neutronium Block (1200 tick window)",
                 info.trace);
     }
 
@@ -81,7 +81,7 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
         machine.setBhSurgeThreshold(threshold);
         machine.setBhSurgeTicksRemaining(0);
         machine.setBhSurgeStarted(false);
-        LOGGER.info("[StarForge:BH:{}] DECAY started, threshold = {}%, decay = 100.00%",
+        LOGGER.debug("[StarForge:BH:{}] DECAY started, threshold = {}%, decay = 100.00%",
                 info.trace, threshold);
     }
 
@@ -108,14 +108,14 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
             machine.emitEnergyToOutput(BH_EMISSION_EUT);
             machine.addBhEmissionTicks(-1);
             if (machine.getMaturityElapsed() % 20 == 0) {
-                LOGGER.info("[StarForge:BH:{}] emitting {} EU/t (queue {}, elapsed {}/{})",
+                LOGGER.debug("[StarForge:BH:{}] emitting {} EU/t (queue {}, elapsed {}/{})",
                         info.trace, BH_EMISSION_EUT, machine.getBhEmissionTicks(),
                         machine.getMaturityElapsed(), MATURITY_DURATION);
             }
         }
 
         if (machine.getMaturityElapsed() >= MATURITY_DURATION) {
-            LOGGER.info("[StarForge:BH:{}] MATURITY complete -> DECAY", info.trace);
+            LOGGER.debug("[StarForge:BH:{}] MATURITY complete -> DECAY", info.trace);
             return true;
         }
         return false;
@@ -138,7 +138,7 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
                     ? SURGE_PHASE1_EUT : SURGE_PHASE2_EUT;
             consumeEnergyForSurge(machine, requiredEut);
             if (surgeRemain % 20 == 0) {
-                LOGGER.info("[StarForge:BH:{}] SURGE tick {}/{}, EUt required = {}, decay = {}%",
+                LOGGER.debug("[StarForge:BH:{}] SURGE tick {}/{}, EUt required = {}, decay = {}%",
                         info.trace, elapsedInSurge, SURGE_TOTAL_TICKS,
                         requiredEut, String.format("%.2f", decayPercent));
             }
@@ -153,14 +153,14 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
         if (!machine.isBhSurgeStarted() && newDecay <= threshold) {
             machine.setBhSurgeTicksRemaining(SURGE_TOTAL_TICKS);
             machine.setBhSurgeStarted(true);
-            LOGGER.info("[StarForge:BH:{}] SURGE triggered at decay={}% (threshold={}%)",
+            LOGGER.debug("[StarForge:BH:{}] SURGE triggered at decay={}% (threshold={}%)",
                     info.trace, String.format("%.2f", newDecay), threshold);
         }
 
         // 崩壊度ログ (10 秒おき = 200 tick おき)
         long elapsedDecayTicks = (long) ((100.0 - newDecay) * DECAY_TICKS_PER_PERCENT);
         if (elapsedDecayTicks % 200 == 0 && elapsedDecayTicks > 0) {
-            LOGGER.info("[StarForge:BH:{}] decay = {}%, threshold = {}%, surge_started = {}",
+            LOGGER.debug("[StarForge:BH:{}] decay = {}%, threshold = {}%, surge_started = {}",
                     info.trace, String.format("%.2f", newDecay), threshold, machine.isBhSurgeStarted());
         }
 
@@ -179,7 +179,7 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
      */
     public boolean handlePowerOffDuringSurge(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
         if (machine.getBhSurgeTicksRemaining() <= 0) return false;
-        LOGGER.info("[StarForge:BH:{}] Power OFF during surge -> SUCCESS (singularity granted)",
+        LOGGER.debug("[StarForge:BH:{}] Power OFF during surge -> SUCCESS (singularity granted)",
                 info.trace);
         return true;
     }
@@ -194,7 +194,7 @@ public final class BlackHoleKindLogic implements StarForgeKindLogic {
         // BH 成功時は star_singularity のみ。 既存 outputItems / outputFluids は出さない
         ItemStack singularity = ChemicalHelper.get(TagPrefix.ingot, ModMaterials.STAR_SINGULARITY, 1);
         machine.outputItem(singularity);
-        LOGGER.info("[StarForge:BH:{}] emit star_singularity (success path)", info.trace);
+        LOGGER.debug("[StarForge:BH:{}] emit star_singularity (success path)", info.trace);
     }
 
     /**

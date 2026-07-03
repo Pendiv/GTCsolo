@@ -14,13 +14,13 @@ public final class NormalKindLogic implements StarForgeKindLogic {
 
     @Override
     public StarForgeMachine.Phase nextPhaseAfterBuild() {
-        LOGGER.info("[StarForge:Normal] BUILD complete -> DECAY");
+        LOGGER.debug("[StarForge:Normal] BUILD complete -> DECAY");
         return StarForgeMachine.Phase.DECAY;
     }
 
     @Override
     public void onDecayStart(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:Normal:{}] DECAY started, required count = {}",
+        LOGGER.debug("[StarForge:Normal:{}] DECAY started, required count = {}",
                 info.trace, info.decayRequiredCount);
     }
 
@@ -31,7 +31,7 @@ public final class NormalKindLogic implements StarForgeKindLogic {
             machine.addDecayProgress(gain);
         }
         if (machine.getDecayProgress() >= info.decayRequiredCount) {
-            LOGGER.info("[StarForge:Normal:{}] DECAY complete (success)", info.trace);
+            LOGGER.debug("[StarForge:Normal:{}] DECAY complete (success)", info.trace);
             return DecayResult.SUCCESS;
         }
         return DecayResult.CONTINUE;

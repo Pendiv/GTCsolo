@@ -69,7 +69,7 @@ public class GtcSoloJeiPlugin implements IModPlugin {
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
         runtime = jeiRuntime;
-        Gtcsolo.LOGGER.info("Captured JEI runtime in GtcSoloJeiPlugin");
+        Gtcsolo.LOGGER.debug("Captured JEI runtime in GtcSoloJeiPlugin");
     }
 
     @Override

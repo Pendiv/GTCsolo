@@ -136,7 +136,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         networkId = id;
         syncNetworkData();
         applyUpgrades(); // アップグレード済みなら新ネットワークにも反映
-        LOGGER.info("[WEN] Network ID set: {}", id);
+        LOGGER.debug("[WEN] Network ID set: {}", id);
         return true;
     }
 
@@ -150,7 +150,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
             WENNetworkData.WENEntry entry = data.getNetwork(networkId);
             if (entry != null && entry.storedEnergy.signum() == 0) {
                 entry.storedEnergy = java.math.BigInteger.valueOf(savedEnergyBackup).min(maxCapacity);
-                LOGGER.info("[WEN] Restored energy from backup: {}EU", entry.storedEnergy);
+                LOGGER.debug("[WEN] Restored energy from backup: {}EU", entry.storedEnergy);
             }
             savedEnergyBackup = 0;
         }
@@ -220,17 +220,17 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         int totalD = bDist + 1;      // コントローラー面 + 奥行き
 
         if (totalW < MIN_SIZE || totalH < MIN_SIZE || totalD < MIN_SIZE) {
-            LOGGER.info("[WEN] Too small: {}x{}x{} (min {})", totalW, totalH, totalD, MIN_SIZE);
+            LOGGER.debug("[WEN] Too small: {}x{}x{} (min {})", totalW, totalH, totalD, MIN_SIZE);
             this.isFormed = false;
             return;
         }
         if (totalW > MAX_SIZE || totalH > MAX_SIZE || totalD > MAX_SIZE) {
-            LOGGER.info("[WEN] Too large: {}x{}x{} (max {})", totalW, totalH, totalD, MAX_SIZE);
+            LOGGER.debug("[WEN] Too large: {}x{}x{} (max {})", totalW, totalH, totalD, MAX_SIZE);
             this.isFormed = false;
             return;
         }
         if (bDist < 2) {
-            LOGGER.info("[WEN] Depth too shallow: bDist={}", bDist);
+            LOGGER.debug("[WEN] Depth too shallow: bDist={}", bDist);
             this.isFormed = false;
             return;
         }
@@ -382,7 +382,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         syncNetworkData();
         applyUpgrades();
 
-        LOGGER.info("[WEN] === FORMED === size={}x{}x{}, cells={}, cap={}EU, stored={}EU, id={}",
+        LOGGER.debug("[WEN] === FORMED === size={}x{}x{}, cells={}, cap={}EU, stored={}EU, id={}",
                 lDist + rDist + 1, hDist + 1, bDist + 1,
                 energyCellCount, maxCapacity.toString(), getStoredEnergy(), networkId);
     }
@@ -397,7 +397,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
             WENNetworkData data = WENNetworkData.get(getLevel().getServer().overworld());
             data.updateCapacity(networkId, 0);
         }
-        LOGGER.info("[WEN] Structure invalid.");
+        LOGGER.debug("[WEN] Structure invalid.");
     }
 
     @Override
@@ -454,7 +454,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
                 }
             }
         }
-        LOGGER.info("[WEN] Ports: {} in, {} out", inputPortPositions.size(), outputPortPositions.size());
+        LOGGER.debug("[WEN] Ports: {} in, {} out", inputPortPositions.size(), outputPortPositions.size());
     }
 
     // =========================================================================
@@ -504,7 +504,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         long eu = (long) (extracted / AE_PER_EU);
         if (eu >= 1) {
             data.addEnergy(networkId, eu);
-            if (log) LOGGER.info("[WEN Port] Pulled {}AE ({}EU)", extracted, eu);
+            if (log) LOGGER.debug("[WEN Port] Pulled {}AE ({}EU)", extracted, eu);
         }
     }
 
@@ -525,7 +525,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         long euSent = (long) ((actualAE - finalLeftover) / AE_PER_EU);
         if (euSent >= 1) {
             data.removeEnergy(networkId, euSent);
-            if (log) LOGGER.info("[WEN Port] Pushed {}AE ({}EU)", actualAE - finalLeftover, euSent);
+            if (log) LOGGER.debug("[WEN Port] Pushed {}AE ({}EU)", actualAE - finalLeftover, euSent);
         }
     }
 
@@ -545,7 +545,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
                 if (extracted >= FE_PER_EU) {
                     long eu = extracted / FE_PER_EU;
                     data.addEnergy(networkId, eu);
-                    if (log) LOGGER.info("[WEN Port] Pulled {}FE ({}EU)", extracted, eu);
+                    if (log) LOGGER.debug("[WEN Port] Pulled {}FE ({}EU)", extracted, eu);
                 }
             });
         }
@@ -567,7 +567,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
                 if (accepted >= FE_PER_EU) {
                     long eu = accepted / FE_PER_EU;
                     data.removeEnergy(networkId, eu);
-                    if (log) LOGGER.info("[WEN Port] Pushed {}FE ({}EU)", accepted, eu);
+                    if (log) LOGGER.debug("[WEN Port] Pushed {}FE ({}EU)", accepted, eu);
                 }
             });
         }
@@ -646,7 +646,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         consumeFcore(player, cost);
         storageUpgradeLevel++;
         applyUpgrades();
-        LOGGER.info("[WEN] Upgrade: lv={}, cost={}", storageUpgradeLevel, cost);
+        LOGGER.debug("[WEN] Upgrade: lv={}, cost={}", storageUpgradeLevel, cost);
         return true;
     }
 
@@ -662,7 +662,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         }
         if (upgraded > 0) {
             applyUpgrades();
-            LOGGER.info("[WEN] Bulk: lv={}, count={}", storageUpgradeLevel, upgraded);
+            LOGGER.debug("[WEN] Bulk: lv={}, count={}", storageUpgradeLevel, upgraded);
         }
         return upgraded;
     }
@@ -672,7 +672,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         if (storageUpgradeLevel <= 0) return false;
         storageUpgradeLevel--;
         applyUpgrades();
-        LOGGER.info("[WEN] Downgrade: lv={}", storageUpgradeLevel);
+        LOGGER.debug("[WEN] Downgrade: lv={}", storageUpgradeLevel);
         return true;
     }
 
@@ -731,7 +731,7 @@ public class WENMainStorageMachine extends WorkableElectricMultiblockMachine imp
         data.updateCapacity(networkId, effectiveCapacity);
         data.setDirty();
 
-        LOGGER.info("[WEN] Applied: crossDim={}, n={}, cap={}",
+        LOGGER.debug("[WEN] Applied: crossDim={}, n={}, cap={}",
                 hasCrossDimCrystal, n, DIV.gtcsolo.util.EnergyFormat.format(effectiveCapacity));
     }
 

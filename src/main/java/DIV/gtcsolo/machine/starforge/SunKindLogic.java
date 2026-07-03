@@ -32,26 +32,26 @@ public final class SunKindLogic implements StarForgeKindLogic {
     private static Item getSolarPanel() {
         if (solarPanelItem == null) {
             solarPanelItem = BuiltInRegistries.ITEM.get(new ResourceLocation("gtceu", "uv_solar_panel"));
-            LOGGER.info("[StarForge:Sun] resolved UV Solar Panel item: {}", solarPanelItem);
+            LOGGER.debug("[StarForge:Sun] resolved UV Solar Panel item: {}", solarPanelItem);
         }
         return solarPanelItem;
     }
 
     @Override
     public StarForgeMachine.Phase nextPhaseAfterBuild() {
-        LOGGER.info("[StarForge:Sun] BUILD complete -> MATURITY (1200s timer)");
+        LOGGER.debug("[StarForge:Sun] BUILD complete -> MATURITY (1200s timer)");
         return StarForgeMachine.Phase.MATURITY;
     }
 
     @Override
     public void onMaturityStart(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:Sun:{}] MATURITY started, awaiting {} UV Solar Panels",
+        LOGGER.debug("[StarForge:Sun:{}] MATURITY started, awaiting {} UV Solar Panels",
                 info.trace, SOLAR_REQUIREMENT);
     }
 
     @Override
     public void onDecayStart(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:Sun:{}] DECAY started (single tick)", info.trace);
+        LOGGER.debug("[StarForge:Sun:{}] DECAY started (single tick)", info.trace);
     }
 
     @Override
@@ -71,13 +71,13 @@ public final class SunKindLogic implements StarForgeKindLogic {
             machine.emitEnergyToOutput(SUN_OUTPUT_EUT);
             // 細かいログ抑制: 200 tick (= 10 秒) おきにのみ
             if (machine.getMaturityElapsed() % 200 == 0) {
-                LOGGER.info("[StarForge:Sun:{}] emitting {} EU/t (elapsed {}/{})",
+                LOGGER.debug("[StarForge:Sun:{}] emitting {} EU/t (elapsed {}/{})",
                         info.trace, SUN_OUTPUT_EUT,
                         machine.getMaturityElapsed(), MATURITY_DURATION);
             }
         }
         if (machine.getMaturityElapsed() >= MATURITY_DURATION) {
-            LOGGER.info("[StarForge:Sun:{}] MATURITY complete -> DECAY", info.trace);
+            LOGGER.debug("[StarForge:Sun:{}] MATURITY complete -> DECAY", info.trace);
             return true;
         }
         return false;
@@ -85,7 +85,7 @@ public final class SunKindLogic implements StarForgeKindLogic {
 
     @Override
     public DecayResult tickDecay(StarForgeMachine machine, StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:Sun:{}] DECAY tick (single, immediate success)", info.trace);
+        LOGGER.debug("[StarForge:Sun:{}] DECAY tick (single, immediate success)", info.trace);
         return DecayResult.SUCCESS;
     }
 
@@ -97,7 +97,7 @@ public final class SunKindLogic implements StarForgeKindLogic {
         Item solar = getSolarPanel();
         if (solar != null) {
             machine.outputItem(new ItemStack(solar, SOLAR_REFUND));
-            LOGGER.info("[StarForge:Sun:{}] emit refund: {} x UV Solar Panel",
+            LOGGER.debug("[StarForge:Sun:{}] emit refund: {} x UV Solar Panel",
                     info.trace, SOLAR_REFUND);
         }
     }

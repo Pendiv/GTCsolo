@@ -85,7 +85,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
         if (tickSub == null) {
             tickSub = subscribeServerTick(this::onServerTick);
-            LOGGER.info("[StarForge] structure formed, tick subscribed");
+            LOGGER.debug("[StarForge] structure formed, tick subscribed");
         }
     }
 
@@ -94,7 +94,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
         super.onStructureInvalid();
         if (tickSub != null) { unsubscribe(tickSub); tickSub = null; }
         // 進捗は保持 (= @Persisted フィールドは NBT 保存)、 構造再形成で tick 再開 → 進捗自動継続
-        LOGGER.info("[StarForge] structure invalid, tick paused (phase={}, trace={}, build={}, decay={}, maturity={})",
+        LOGGER.debug("[StarForge] structure invalid, tick paused (phase={}, trace={}, build={}, decay={}, maturity={})",
                 phase, currentTrace, buildProgress, decayProgress, maturityElapsed);
     }
 
@@ -113,7 +113,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
                 if (BlackHoleKindLogic.INSTANCE.handlePowerOffDuringSurge(this, info)) {
                     BlackHoleKindLogic.INSTANCE.emitOutputsOnSuccess(this, info);
                     resetPhase();
-                    LOGGER.info("[StarForge] BH success: returning to IDLE (working_enabled stays OFF, player must re-enable)");
+                    LOGGER.debug("[StarForge] BH success: returning to IDLE (working_enabled stays OFF, player must re-enable)");
                     return;
                 }
             }
@@ -149,7 +149,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
                 solarPanelCount = 0;
                 bhEmissionTicks = 0;
                 StarForgeKindLogic.forKind(info.kind).onReset(this, info);
-                LOGGER.info("[StarForge] IDLE -> BUILD: trace={}, kind={}, buildRequired={}",
+                LOGGER.debug("[StarForge] IDLE -> BUILD: trace={}, kind={}, buildRequired={}",
                         trace, info.kind, info.buildRequiredCount);
                 return;
             }
@@ -170,7 +170,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
             buildProgress += gain;
         }
         if (buildProgress >= info.buildRequiredCount) {
-            LOGGER.info("[StarForge:{}] BUILD complete at progress={}", info.trace, buildProgress);
+            LOGGER.debug("[StarForge:{}] BUILD complete at progress={}", info.trace, buildProgress);
             transitionAfterBuild(info);
         }
     }
@@ -206,7 +206,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
         StarForgeKindLogic.DecayResult result = logic.tickDecay(this, info);
         switch (result) {
             case SUCCESS -> {
-                LOGGER.info("[StarForge:{}] DECAY SUCCESS -> emit decaying_locus first, then outputs", info.trace);
+                LOGGER.debug("[StarForge:{}] DECAY SUCCESS -> emit decaying_locus first, then outputs", info.trace);
                 logic.emitDecayingLocus(this, info);
                 logic.emitOutputsOnSuccess(this, info);
                 resetPhase();
@@ -419,7 +419,7 @@ public class StarForgeMachine extends WorkableElectricMultiblockMachine {
     // =========================================================================
 
     public void emitCommonOutputs(StarForgeTraceData.TraceInfo info) {
-        LOGGER.info("[StarForge:{}] emit common outputs: {} items + {} fluids",
+        LOGGER.debug("[StarForge:{}] emit common outputs: {} items + {} fluids",
                 info.trace, info.outputItems.size(), info.outputFluids.size());
         for (ItemStack s : info.outputItems) {
             if (s != null && !s.isEmpty()) outputItem(s.copy());

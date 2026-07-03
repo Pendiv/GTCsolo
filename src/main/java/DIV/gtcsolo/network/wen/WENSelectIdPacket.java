@@ -66,7 +66,7 @@ public class WENSelectIdPacket {
             }
 
             player.sendSystemMessage(Component.literal("§aLinked to: " + pkt.networkId));
-            LOGGER.info("[WEN] {} selected ID '{}' at {}",
+            LOGGER.debug("[WEN] {} selected ID '{}' at {}",
                     player.getName().getString(), pkt.networkId, pkt.machinePos);
         });
         ctx.get().setPacketHandled(true);

@@ -22,18 +22,18 @@ public class GtcSoloKubeJSPlugin extends KubeJSPlugin {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public GtcSoloKubeJSPlugin() {
-        LOGGER.info("[ChemCap] KubeJSPlugin constructed");
+        LOGGER.debug("[ChemCap] KubeJSPlugin constructed");
     }
 
     @Override
     public void registerRecipeComponents(RecipeComponentFactoryRegistryEvent event) {
-        LOGGER.info("[ChemCap] KubeJSPlugin.registerRecipeComponents invoked");
+        LOGGER.debug("[ChemCap] KubeJSPlugin.registerRecipeComponents invoked");
         ChemicalRecipeComponents.registerRecipeComponents(event);
     }
 
     @Override
     public void registerBindings(BindingsEvent event) {
-        LOGGER.info("[ChemCap] KubeJSPlugin.registerBindings invoked");
+        LOGGER.debug("[ChemCap] KubeJSPlugin.registerBindings invoked");
         event.add("GtcsoloChemicalPartAbilities", ChemicalPartAbilities.class);
         event.add("GtcsoloChemCapHelper", ChemCapKJSHelper.class);
 

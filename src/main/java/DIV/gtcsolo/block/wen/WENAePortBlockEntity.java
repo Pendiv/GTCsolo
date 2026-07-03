@@ -202,7 +202,7 @@ public class WENAePortBlockEntity extends BlockEntity implements IInWorldGridNod
     public void setLinkedNetworkId(String id) {
         this.linkedNetworkId = (id == null) ? "" : id;
         setChanged();
-        LOGGER.info("[WEN-AE-Port] {} at {} linked to '{}'",
+        LOGGER.debug("[WEN-AE-Port] {} at {} linked to '{}'",
                 isInput ? "INPUT" : "OUTPUT", worldPosition, linkedNetworkId);
     }
 

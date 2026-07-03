@@ -375,14 +375,41 @@ public class GtcSoloAddon implements IGTAddon {
                 .save(provider);
     }
 
+    // =====================================================================
+    //  WEN レシピ生成の共通定義 (以前は各メソッドに同じマップが複製されていた)
+    // =====================================================================
+
+    /** WENハッチ種別ごとのアンペア段階列。 */
+    private static final java.util.Map<String, int[]> WEN_AMP_SEQUENCES = buildWenAmpSequences();
+
+    private static java.util.Map<String, int[]> buildWenAmpSequences() {
+        java.util.Map<String, int[]> m = new java.util.LinkedHashMap<>();
+        m.put("wireless_input", new int[]{1, 4, 16, 64, 256});
+        m.put("wireless_output", new int[]{1, 4, 16, 64, 256});
+        m.put("energy_hatch", new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384});
+        m.put("energy_output_hatch", new int[]{1, 4, 16, 64, 256, 1024, 2048});
+        return m;
+    }
+
+    /** WENハッチが存在する全電圧 (LV..MAX の14段)。 */
+    private static final int[] WEN_ALL_TIERS = {GTValues.LV, GTValues.MV, GTValues.HV, GTValues.EV, GTValues.IV,
+            GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV,
+            GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX};
+
+    /** アンペア→ワイヤー prefix (1A=single, 4A=quadruple, 16A=hex)。 */
+    private static java.util.Map<Integer, TagPrefix> wireSizesByAmp() {
+        java.util.Map<Integer, TagPrefix> m = new java.util.HashMap<>();
+        m.put(1, TagPrefix.wireGtSingle);
+        m.put(4, TagPrefix.wireGtQuadruple);
+        m.put(16, TagPrefix.wireGtHex);
+        return m;
+    }
+
     /**
-     * WENハッチ4種(wireless_input/output, energy_hatch, energy_output_hatch)の
-     * クラフト + 組立機レシピを各電圧×amp(1/4/16)で生成。
-     * UIV/MAXは超電導素材不在でskip。
-     * クラフト配置: 1278=超電導wire, 4=レンチ('w'記号), 5=同電圧の機能ハッチ, 6=マシンケーシング
-     * 組立機: 同素材だがレンチ無し、duration=20ticks(1秒)、EUt=各電圧
+     * 電圧→超電導ワイヤー素材 (UIV/MAX は素材不在で対象外)。
+     * Material の解決を registry 凍結後に行うため、static 初期化でなく呼び出し時に構築する。
      */
-    private void addWENHatchRecipes(Consumer<FinishedRecipe> provider) {
+    private static java.util.Map<Integer, Material> wenWireMaterials() {
         java.util.Map<Integer, Material> wires = new java.util.LinkedHashMap<>();
         wires.put(GTValues.LV, ModMaterials.TARITON);
         wires.put(GTValues.MV, ModMaterials.REFINED_GLOWSTONE);
@@ -396,26 +423,20 @@ public class GtcSoloAddon implements IGTAddon {
         wires.put(GTValues.UEV, ModMaterials.JUPITATE);
         wires.put(GTValues.UXV, ModMaterials.HYPERX_NEUTRONIUM);
         wires.put(GTValues.OpV, ModMaterials.FRACTALINE);
+        return wires;
+    }
 
-        java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> casings =
-                new java.util.HashMap<>();
-        casings.put(GTValues.LV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LV);
-        casings.put(GTValues.MV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_MV);
-        casings.put(GTValues.HV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_HV);
-        casings.put(GTValues.EV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_EV);
-        casings.put(GTValues.IV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_IV);
-        casings.put(GTValues.LuV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_LuV);
-        casings.put(GTValues.ZPM, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_ZPM);
-        casings.put(GTValues.UV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UV);
-        casings.put(GTValues.UHV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UHV);
-        casings.put(GTValues.UEV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UEV);
-        casings.put(GTValues.UXV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_UXV);
-        casings.put(GTValues.OpV, com.gregtechceu.gtceu.common.data.GTBlocks.MACHINE_CASING_OpV);
-
-        java.util.Map<Integer, TagPrefix> wireSizes = new java.util.HashMap<>();
-        wireSizes.put(1, TagPrefix.wireGtSingle);
-        wireSizes.put(4, TagPrefix.wireGtQuadruple);
-        wireSizes.put(16, TagPrefix.wireGtHex);
+    /**
+     * WENハッチ4種(wireless_input/output, energy_hatch, energy_output_hatch)の
+     * クラフト + 組立機レシピを各電圧×amp(1/4/16)で生成。
+     * UIV/MAXは超電導素材不在でskip。
+     * クラフト配置: 1278=超電導wire, 4=レンチ('w'記号), 5=同電圧の機能ハッチ, 6=マシンケーシング
+     * 組立機: 同素材だがレンチ無し、duration=20ticks(1秒)、EUt=各電圧
+     */
+    private void addWENHatchRecipes(Consumer<FinishedRecipe> provider) {
+        java.util.Map<Integer, Material> wires = wenWireMaterials();
+        var casings = buildAllMachineCasings();
+        java.util.Map<Integer, TagPrefix> wireSizes = wireSizesByAmp();
 
         for (var e : wires.entrySet()) {
             int tier = e.getKey();
@@ -495,22 +516,12 @@ public class GtcSoloAddon implements IGTAddon {
         java.util.Map<Integer, com.tterrag.registrate.util.entry.BlockEntry<net.minecraft.world.level.block.Block>> casings =
                 buildAllMachineCasings();
 
-        java.util.Map<String, int[]> ampSequences = new java.util.LinkedHashMap<>();
-        ampSequences.put("wireless_input", new int[]{1, 4, 16, 64, 256});
-        ampSequences.put("wireless_output", new int[]{1, 4, 16, 64, 256});
-        ampSequences.put("energy_hatch", new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384});
-        ampSequences.put("energy_output_hatch", new int[]{1, 4, 16, 64, 256, 1024, 2048});
-
-        int[] allTiers = {GTValues.LV, GTValues.MV, GTValues.HV, GTValues.EV, GTValues.IV,
-                          GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV,
-                          GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX};
-
-        for (int tier : allTiers) {
+        for (int tier : WEN_ALL_TIERS) {
             var casingBlock = casings.get(tier);
             if (casingBlock == null) continue;
             String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
 
-            for (var e : ampSequences.entrySet()) {
+            for (var e : WEN_AMP_SEQUENCES.entrySet()) {
                 String typeKey = e.getKey();
                 int[] amps = e.getValue();
                 for (int i = 3; i < amps.length; i++) {
@@ -587,26 +598,9 @@ public class GtcSoloAddon implements IGTAddon {
      * duration=20ticks、EUt=各電圧、duration/EUt は元の組立機と同じ。
      */
     private void addWENIntegrationRecipes(Consumer<FinishedRecipe> provider) {
-        java.util.Map<Integer, Material> wires = new java.util.LinkedHashMap<>();
-        wires.put(GTValues.LV, ModMaterials.TARITON);
-        wires.put(GTValues.MV, ModMaterials.REFINED_GLOWSTONE);
-        wires.put(GTValues.HV, ModMaterials.INFUSED_STAINLESS_STEEL);
-        wires.put(GTValues.EV, ModMaterials.REFINED_OBSIDIAN);
-        wires.put(GTValues.IV, ModMaterials.OBLIVION);
-        wires.put(GTValues.LuV, ModMaterials.HSSX);
-        wires.put(GTValues.ZPM, ModMaterials.PURE_NAQUADAH);
-        wires.put(GTValues.UV, ModMaterials.ORIGINALIUM);
-        wires.put(GTValues.UHV, GTMaterials.RutheniumTriniumAmericiumNeutronate);
-        wires.put(GTValues.UEV, ModMaterials.JUPITATE);
-        wires.put(GTValues.UXV, ModMaterials.HYPERX_NEUTRONIUM);
-        wires.put(GTValues.OpV, ModMaterials.FRACTALINE);
-
+        java.util.Map<Integer, Material> wires = wenWireMaterials();
         var allCasings = buildAllMachineCasings();
-
-        java.util.Map<Integer, TagPrefix> wireSizes = new java.util.HashMap<>();
-        wireSizes.put(1, TagPrefix.wireGtSingle);
-        wireSizes.put(4, TagPrefix.wireGtQuadruple);
-        wireSizes.put(16, TagPrefix.wireGtHex);
+        java.util.Map<Integer, TagPrefix> wireSizes = wireSizesByAmp();
 
         // tier1-3: wire-based 易化
         for (var e : wires.entrySet()) {
@@ -634,21 +628,11 @@ public class GtcSoloAddon implements IGTAddon {
         }
 
         // tier4+: cascade 易化 (前tier hatch×3 + casing)
-        java.util.Map<String, int[]> ampSequences = new java.util.LinkedHashMap<>();
-        ampSequences.put("wireless_input", new int[]{1, 4, 16, 64, 256});
-        ampSequences.put("wireless_output", new int[]{1, 4, 16, 64, 256});
-        ampSequences.put("energy_hatch", new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384});
-        ampSequences.put("energy_output_hatch", new int[]{1, 4, 16, 64, 256, 1024, 2048});
-
-        int[] allTiers = {GTValues.LV, GTValues.MV, GTValues.HV, GTValues.EV, GTValues.IV,
-                          GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV,
-                          GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV, GTValues.MAX};
-
-        for (int tier : allTiers) {
+        for (int tier : WEN_ALL_TIERS) {
             var casingBlock = allCasings.get(tier);
             if (casingBlock == null) continue;
             String tierName = GTValues.VN[tier].toLowerCase(java.util.Locale.ROOT);
-            for (var entry : ampSequences.entrySet()) {
+            for (var entry : WEN_AMP_SEQUENCES.entrySet()) {
                 String typeKey = entry.getKey();
                 int[] amps = entry.getValue();
                 for (int i = 3; i < amps.length; i++) {

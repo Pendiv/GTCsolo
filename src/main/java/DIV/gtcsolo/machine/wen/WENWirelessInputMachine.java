@@ -8,15 +8,11 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class WENWirelessInputMachine extends TieredEnergyMachine {
 
@@ -106,36 +102,8 @@ public class WENWirelessInputMachine extends TieredEnergyMachine {
     @Override
     protected InteractionResult onWrenchClick(Player player, InteractionHand hand,
                                                Direction gridSide, BlockHitResult hit) {
-        if (getLevel() == null || getLevel().isClientSide) return InteractionResult.SUCCESS;
-
-        ServerLevel overworld = getLevel().getServer().overworld();
-        WENNetworkData data = WENNetworkData.get(overworld);
-        List<String> validIds = getValidNetworkIds(data);
-
-        if (validIds.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("gui.gtcsolo.wen_input.no_local_networks"));
-            return InteractionResult.SUCCESS;
-        }
-
-        int idx = validIds.indexOf(linkedNetworkId);
-        String newId = validIds.get((idx + 1) % validIds.size());
-        setLinkedNetworkId(newId);
-        player.sendSystemMessage(Component.translatable("gui.gtcsolo.wen_input.linked",
-                newId, GTValues.VNF[tier], String.valueOf(amperage)));
-        return InteractionResult.SUCCESS;
-    }
-
-    /** 利用可能なネットワークIDリストを取得 */
-    private List<String> getValidNetworkIds(WENNetworkData data) {
-        String myDim = getLevel().dimension().location().toString();
-        return data.getAllNetworkIds().stream()
-                .filter(id -> {
-                    WENNetworkData.WENEntry e = data.getNetwork(id);
-                    if (e == null || !e.isFormed()) return false;
-                    return myDim.equals(e.dimension) || e.crossDimensionEnabled;
-                })
-                .sorted()
-                .collect(Collectors.toList());
+        return WENLinking.cycleId(player, getLevel(), linkedNetworkId, this::setLinkedNetworkId,
+                "gui.gtcsolo.wen_input.linked", tier, amperage);
     }
 
     public static WENWirelessInputMachine create(IMachineBlockEntity holder, int tier, int amperage) {

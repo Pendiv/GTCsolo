@@ -49,7 +49,7 @@ public class WENDataMonitorBlockEntity extends BlockEntity implements MenuProvid
     public void setControllerPos(@Nullable BlockPos pos) {
         this.controllerPos = pos;
         setChanged();
-        LOGGER.info("[WEN Monitor] Controller linked at {}", pos);
+        LOGGER.debug("[WEN Monitor] Controller linked at {}", pos);
     }
 
     @Nullable
@@ -154,8 +154,8 @@ public class WENDataMonitorBlockEntity extends BlockEntity implements MenuProvid
         }
         allNets.sort(java.util.Comparator.comparing(WENDataMonitorMenu.NetworkInfo::id));
 
-        // 履歴記録 (1秒ごと)
-        data.recordHistory();
+        // 履歴記録 (ネットワーク全体で1秒1回 — WENNetworkData 側で多重呼び出しをガード)
+        data.recordHistory(serverLevel.getGameTime());
 
         for (ServerPlayer player : serverLevel.getServer().getPlayerList().getPlayers()) {
             if (player.containerMenu instanceof WENDataMonitorMenu menu

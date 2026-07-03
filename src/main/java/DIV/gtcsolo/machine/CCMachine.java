@@ -156,9 +156,10 @@ public class CCMachine extends WorkableElectricMultiblockMachine {
             if (totalAirConsumed >= totalAirNeeded) break;
         }
 
-        // 4. 消費した単位数から並列計算: 4 + 8 * floor(1.5^n)
+        // 4. 消費した単位数から並列計算: 4 + 8 * 1.5^n (int オーバーフロー防止で飽和)
         int n = (int) (totalAirConsumed / AIR_PER_UNIT);
-        currentParallels = BASE_PARALLELS + (int) (8 * Math.pow(1.5, n));
+        double bonus = 8 * Math.pow(1.5, n);
+        currentParallels = (int) Math.min((double) BASE_PARALLELS + bonus, Integer.MAX_VALUE);
     }
 
     // =========================================================================

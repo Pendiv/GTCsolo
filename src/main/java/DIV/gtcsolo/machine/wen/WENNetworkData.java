@@ -140,7 +140,17 @@ public class WENNetworkData extends SavedData {
     //  履歴記録
     // =========================================================================
 
-    public void recordHistory() {
+    /** 直近に履歴を記録した gameTime。モニタが複数あっても 1 秒 1 回に抑えるためのガード (揮発)。 */
+    private long lastHistoryGameTime = Long.MIN_VALUE;
+
+    /**
+     * 全ネットワークの蓄電履歴を 1 点記録し、毎秒カウンタをリセットする。
+     * 呼び出し元 (各モニタ BE) が複数あっても、20tick 未満の再呼び出しは無視する
+     * — でないとモニタ台数×毎秒で履歴が進みグラフの時間軸が歪む。
+     */
+    public void recordHistory(long gameTime) {
+        if (gameTime - lastHistoryGameTime < 20) return;
+        lastHistoryGameTime = gameTime;
         for (WENEntry entry : networks.values()) {
             entry.energyHistory.addLast(entry.storedEnergy);
             if (entry.energyHistory.size() > HISTORY_SIZE) {

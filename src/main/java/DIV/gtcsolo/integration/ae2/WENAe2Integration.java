@@ -66,7 +66,7 @@ public class WENAe2Integration {
 
     public static void registerUpgrades() {
         var card = ModItems.WEN_WIRELESS_ENERGYCARD.get();
-        LOGGER.info("[WEN-AE2] registerUpgrades: card item = {}", card);
+        LOGGER.debug("[WEN-AE2] registerUpgrades: card item = {}", card);
         // ブロック型マシン
         Upgrades.add(card, AEBlocks.INTERFACE, 1, TOOLTIP_GROUP);
         Upgrades.add(card, AEBlocks.PATTERN_PROVIDER, 1, TOOLTIP_GROUP);
@@ -143,12 +143,7 @@ public class WENAe2Integration {
             return;
         }
 
-        int totalScanned = 0;
-        int withCard = 0;
-        int boundCards = 0;
-        int gridResolved = 0;
-        String lastNetworkId = null;
-        BlockPos lastCardPos = null;
+        ScanStats stats = new ScanStats();
 
         // grid → networkId (first-wins で重複整理)
         Map<IGrid, String> gridToNetwork = new HashMap<>();
@@ -156,81 +151,31 @@ public class WENAe2Integration {
         for (BlockPos pos : candidates) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be == null) continue;
-            totalScanned++;
+            stats.scanned++;
 
             // (1) BE 自身がIUpgradeableObject
             if (be instanceof IUpgradeableObject upgradeable) {
-                ItemStack card = findCard(upgradeable.getUpgrades());
-                if (!card.isEmpty()) {
-                    withCard++;
-                    lastCardPos = pos;
-                    String networkId = WENEnergyCardItem.getBoundNetworkId(card);
-                    LOGGER.debug("[WEN-AE2] Card in BE@{} ({}), networkId='{}'",
-                            pos, be.getClass().getSimpleName(), networkId);
-                    if (!networkId.isEmpty()) {
-                        boundCards++;
-                        lastNetworkId = networkId;
-                        IGrid grid = resolveGrid(be);
-                        if (grid != null) {
-                            gridResolved++;
-                            gridToNetwork.putIfAbsent(grid, networkId);
-                            WARNED_NO_GRID.remove(pos);
-                        } else if (WARNED_NO_GRID.add(pos)) {
-                            LOGGER.warn("[WEN-AE2] BE@{} ({}) has bound card but NO grid — not connected to ME network?",
-                                    pos, be.getClass().getSimpleName());
-                        }
-                    }
-                }
+                scanHolder(upgradeable, () -> resolveGrid(be),
+                        pos, be.getClass().getSimpleName(), gridToNetwork, stats);
             }
 
-            // (2) BE が IPartHost なら各パートもチェック
+            // (2) BE が IPartHost なら各パート (6方向 + 中央) もチェック
             if (be instanceof IPartHost partHost) {
                 for (Direction d : Direction.values()) {
-                    IPart part = partHost.getPart(d);
-                    if (!(part instanceof IUpgradeableObject upPart)) continue;
-                    ItemStack card = findCard(upPart.getUpgrades());
-                    if (card.isEmpty()) continue;
-                    withCard++;
-                    lastCardPos = pos;
-                    String networkId = WENEnergyCardItem.getBoundNetworkId(card);
-                    LOGGER.debug("[WEN-AE2] Card in PART@{} dir={} ({}), networkId='{}'",
-                            pos, d, part.getClass().getSimpleName(), networkId);
-                    if (networkId.isEmpty()) continue;
-                    boundCards++;
-                    lastNetworkId = networkId;
-                    IGrid grid = resolveGrid(be);
-                    if (grid != null) {
-                        gridResolved++;
-                        gridToNetwork.putIfAbsent(grid, networkId);
-                    }
+                    scanPart(partHost.getPart(d), be, pos, gridToNetwork, stats);
                 }
-                IPart centerPart = partHost.getPart((Direction) null);
-                if (centerPart instanceof IUpgradeableObject upPart) {
-                    ItemStack card = findCard(upPart.getUpgrades());
-                    if (!card.isEmpty()) {
-                        withCard++;
-                        lastCardPos = pos;
-                        String networkId = WENEnergyCardItem.getBoundNetworkId(card);
-                        if (!networkId.isEmpty()) {
-                            boundCards++;
-                            lastNetworkId = networkId;
-                            IGrid grid = resolveGrid(be);
-                            if (grid != null) {
-                                gridResolved++;
-                                gridToNetwork.putIfAbsent(grid, networkId);
-                            }
-                        }
-                    }
-                }
+                scanPart(partHost.getPart((Direction) null), be, pos, gridToNetwork, stats);
             }
         }
 
-        // 統計: verbose (10秒毎) 時のみINFO、それ以外の間もカード変化あればDEBUG
+        // 統計: verbose (10秒毎)、それ以外の間もカードがあればDEBUG
         if (verbose) {
-            LOGGER.info("[WEN-AE2] {}: candidates={}, scanned={}, withCard={}, bound={}, gridResolved={}, uniqueGrids={}",
-                    level.dimension().location(), candidateCount, totalScanned, withCard, boundCards, gridResolved, gridToNetwork.size());
-        } else if (withCard > 0) {
-            LOGGER.debug("[WEN-AE2] {}: bound={}, gridResolved={}", level.dimension().location(), boundCards, gridResolved);
+            LOGGER.debug("[WEN-AE2] {}: candidates={}, scanned={}, withCard={}, bound={}, gridResolved={}, uniqueGrids={}",
+                    level.dimension().location(), candidateCount, stats.scanned, stats.withCard,
+                    stats.boundCards, stats.gridResolved, gridToNetwork.size());
+        } else if (stats.withCard > 0) {
+            LOGGER.debug("[WEN-AE2] {}: bound={}, gridResolved={}",
+                    level.dimension().location(), stats.boundCards, stats.gridResolved);
         }
 
         if (gridToNetwork.isEmpty()) return;
@@ -238,6 +183,46 @@ public class WENAe2Integration {
 
         for (var entry : gridToNetwork.entrySet()) {
             supplyGrid(entry.getKey(), entry.getValue(), data, verbose);
+        }
+    }
+
+    private static final class ScanStats {
+        int scanned;
+        int withCard;
+        int boundCards;
+        int gridResolved;
+    }
+
+    /** パート1つ分: 自身の grid node を優先し、無ければホストBE経由で解決する。 */
+    private static void scanPart(IPart part, BlockEntity hostBe, BlockPos pos,
+                                 Map<IGrid, String> gridToNetwork, ScanStats stats) {
+        if (!(part instanceof IUpgradeableObject upPart)) return;
+        scanHolder(upPart, () -> resolvePartGrid(part, hostBe),
+                pos, part.getClass().getSimpleName(), gridToNetwork, stats);
+    }
+
+    /**
+     * カード保持オブジェクト (BE またはパート) 1つ分の共通処理:
+     * カード検出 → networkId 取得 → grid 解決 → gridToNetwork へ記録。
+     * grid 未解決は pos 毎に1回だけ WARN (解決したら抑制を解除)。
+     */
+    private static void scanHolder(IUpgradeableObject holder, java.util.function.Supplier<IGrid> gridResolver,
+                                   BlockPos pos, String what,
+                                   Map<IGrid, String> gridToNetwork, ScanStats stats) {
+        ItemStack card = findCard(holder.getUpgrades());
+        if (card.isEmpty()) return;
+        stats.withCard++;
+        String networkId = WENEnergyCardItem.getBoundNetworkId(card);
+        LOGGER.debug("[WEN-AE2] Card in {}@{}, networkId='{}'", what, pos, networkId);
+        if (networkId.isEmpty()) return;
+        stats.boundCards++;
+        IGrid grid = gridResolver.get();
+        if (grid != null) {
+            stats.gridResolved++;
+            gridToNetwork.putIfAbsent(grid, networkId);
+            WARNED_NO_GRID.remove(pos);
+        } else if (WARNED_NO_GRID.add(pos)) {
+            LOGGER.warn("[WEN-AE2] {}@{} has bound card but NO grid — not connected to ME network?", what, pos);
         }
     }
 
@@ -255,6 +240,16 @@ public class WENAe2Integration {
             if (node != null) return node.getGrid();
         }
         return null;
+    }
+
+    /**
+     * パートの grid 解決。cable bus の {@code getGridNode(null)} は構成によって null を
+     * 返すため、まずパート自身の {@link IPart#getGridNode()} を使う (バグ修正 2026-07-02)。
+     */
+    private static IGrid resolvePartGrid(IPart part, BlockEntity hostBe) {
+        IGridNode node = part.getGridNode();
+        if (node != null) return node.getGrid();
+        return resolveGrid(hostBe);
     }
 
     // =========================================================================
@@ -284,7 +279,7 @@ public class WENAe2Integration {
         long euInjected = (long) ((aeToSend - finalLeftover) / AE_PER_EU);
         if (euInjected > 0) {
             data.removeEnergy(networkId, euInjected);
-            if (verbose) LOGGER.info("[WEN-AE2] Supplied '{}': {} AE ({} EU), WEN remaining={}",
+            if (verbose) LOGGER.debug("[WEN-AE2] Supplied '{}': {} AE ({} EU), WEN remaining={}",
                     networkId, (aeToSend - finalLeftover), euInjected, entry.storedEnergy);
         }
     }

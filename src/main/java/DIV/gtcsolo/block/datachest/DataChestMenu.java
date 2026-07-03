@@ -44,7 +44,8 @@ public class DataChestMenu extends AbstractContainerMenu {
         super(ModMenuTypes.DATACHEST.get(), id);
         this.be = be;
         this.bePos = be != null ? be.getBlockPos() : null;
-        DataChestItemHandler items = be.getItems();
+        // client でチャンク未同期等により BE が引けない場合はダミーで開く (stillValid=false で即閉じる)
+        DataChestItemHandler items = be != null ? be.getItems() : new DataChestItemHandler(null);
 
         // 9×9 chest slots
         for (int row = 0; row < CHEST_ROWS; row++) {

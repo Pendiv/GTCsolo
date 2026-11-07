@@ -64,6 +64,10 @@ refs/
 /docs/
 /scripts/
 /AGENTS.md
+/CLAUDE.md
+/knowledge/
+/MultiGregged/
+/mapaccel/
 
 # Only the extension bundled in the main JAR belongs in this repository.
 /extensions/*

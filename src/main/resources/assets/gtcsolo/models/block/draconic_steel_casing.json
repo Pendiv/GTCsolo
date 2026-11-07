@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube/all",
+  "textures": {
+    "all": "gtcsolo:block/casings/solid/machine_casing_extreme_temperature_draconic_steel"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

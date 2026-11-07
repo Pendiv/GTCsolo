@@ -1,0 +1,263 @@
+{
+  "entries": [
+    {
+      "id": "overclocking",
+      "title": "gtcsolo.glossary.overclocking.title",
+      "paragraphs": [
+        "gtcsolo.glossary.overclocking.text.1",
+        "gtcsolo.glossary.overclocking.text.2",
+        "gtcsolo.glossary.overclocking.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.overclocking.term.1",
+        "gtcsolo.glossary.overclocking.term.2"
+      ],
+      "links": [
+        {
+          "target": "glossary:perfect_overclocking",
+          "label": "gtcsolo.glossary.perfect_overclocking.title"
+        },
+        {
+          "target": "glossary:industrial_overclocking",
+          "label": "gtcsolo.glossary.industrial_overclocking.title"
+        },
+        {
+          "target": "glossary:voltage_current",
+          "label": "gtcsolo.glossary.voltage_current.title"
+        }
+      ]
+    },
+    {
+      "id": "perfect_overclocking",
+      "title": "gtcsolo.glossary.perfect_overclocking.title",
+      "paragraphs": [
+        "gtcsolo.glossary.perfect_overclocking.text.1",
+        "gtcsolo.glossary.perfect_overclocking.text.2"
+      ],
+      "terms": [
+        "gtcsolo.glossary.perfect_overclocking.term.1",
+        "gtcsolo.glossary.perfect_overclocking.term.2"
+      ],
+      "links": [
+        {
+          "target": "glossary:overclocking",
+          "label": "gtcsolo.glossary.overclocking.title"
+        },
+        {
+          "target": "glossary:subtick_parallel",
+          "label": "gtcsolo.glossary.subtick_parallel.title"
+        }
+      ]
+    },
+    {
+      "id": "efficient_overclocking",
+      "title": "gtcsolo.glossary.efficient_overclocking.title",
+      "paragraphs": [
+        "gtcsolo.glossary.efficient_overclocking.text.1",
+        "gtcsolo.glossary.efficient_overclocking.text.2"
+      ],
+      "terms": [
+        "gtcsolo.glossary.efficient_overclocking.term.1",
+        "gtcsolo.glossary.efficient_overclocking.term.2"
+      ],
+      "links": [
+        {
+          "target": "glossary:overclocking",
+          "label": "gtcsolo.glossary.overclocking.title"
+        },
+        {
+          "target": "glossary:perfect_overclocking",
+          "label": "gtcsolo.glossary.perfect_overclocking.title"
+        }
+      ]
+    },
+    {
+      "id": "industrial_overclocking",
+      "title": "gtcsolo.glossary.industrial_overclocking.title",
+      "paragraphs": [
+        "gtcsolo.glossary.industrial_overclocking.text.1",
+        "gtcsolo.glossary.industrial_overclocking.text.2",
+        "gtcsolo.glossary.industrial_overclocking.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.industrial_overclocking.term.1",
+        "gtcsolo.glossary.industrial_overclocking.term.2",
+        "gtcsolo.glossary.industrial_overclocking.term.3"
+      ],
+      "links": [
+        {
+          "target": "glossary:io_bonus",
+          "label": "gtcsolo.glossary.io_bonus.title"
+        },
+        {
+          "target": "glossary:parallel",
+          "label": "gtcsolo.glossary.parallel.title"
+        },
+        {
+          "target": "glossary:overclocking",
+          "label": "gtcsolo.glossary.overclocking.title"
+        }
+      ]
+    },
+    {
+      "id": "io_bonus",
+      "title": "gtcsolo.glossary.io_bonus.title",
+      "paragraphs": [
+        "gtcsolo.glossary.io_bonus.text.1",
+        "gtcsolo.glossary.io_bonus.text.2",
+        "gtcsolo.glossary.io_bonus.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.io_bonus.term.1",
+        "gtcsolo.glossary.io_bonus.term.2",
+        "gtcsolo.glossary.io_bonus.term.3",
+        "gtcsolo.glossary.io_bonus.term.4"
+      ],
+      "links": [
+        {
+          "target": "glossary:parallel",
+          "label": "gtcsolo.glossary.parallel.title"
+        },
+        {
+          "target": "glossary:industrial_overclocking",
+          "label": "gtcsolo.glossary.industrial_overclocking.title"
+        }
+      ]
+    },
+    {
+      "id": "parallel",
+      "title": "gtcsolo.glossary.parallel.title",
+      "paragraphs": [
+        "gtcsolo.glossary.parallel.text.1",
+        "gtcsolo.glossary.parallel.text.2",
+        "gtcsolo.glossary.parallel.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.parallel.term.1",
+        "gtcsolo.glossary.parallel.term.2",
+        "gtcsolo.glossary.parallel.term.3",
+        "gtcsolo.glossary.parallel.term.4"
+      ],
+      "links": [
+        {
+          "target": "glossary:io_bonus",
+          "label": "gtcsolo.glossary.io_bonus.title"
+        },
+        {
+          "target": "glossary:subtick_parallel",
+          "label": "gtcsolo.glossary.subtick_parallel.title"
+        }
+      ]
+    },
+    {
+      "id": "subtick_parallel",
+      "title": "gtcsolo.glossary.subtick_parallel.title",
+      "paragraphs": [
+        "gtcsolo.glossary.subtick_parallel.text.1",
+        "gtcsolo.glossary.subtick_parallel.text.2",
+        "gtcsolo.glossary.subtick_parallel.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.subtick_parallel.term.1",
+        "gtcsolo.glossary.subtick_parallel.term.2",
+        "gtcsolo.glossary.subtick_parallel.term.3"
+      ],
+      "links": [
+        {
+          "target": "glossary:overclocking",
+          "label": "gtcsolo.glossary.overclocking.title"
+        },
+        {
+          "target": "glossary:parallel",
+          "label": "gtcsolo.glossary.parallel.title"
+        }
+      ]
+    },
+    {
+      "id": "voltage_current",
+      "title": "gtcsolo.glossary.voltage_current.title",
+      "paragraphs": [
+        "gtcsolo.glossary.voltage_current.text.1",
+        "gtcsolo.glossary.voltage_current.text.2",
+        "gtcsolo.glossary.voltage_current.text.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.voltage_current.term.1",
+        "gtcsolo.glossary.voltage_current.term.2",
+        "gtcsolo.glossary.voltage_current.term.3",
+        "gtcsolo.glossary.voltage_current.term.4"
+      ],
+      "links": [
+        {
+          "target": "glossary:overclocking",
+          "label": "gtcsolo.glossary.overclocking.title"
+        },
+        {
+          "target": "glossary:parallel",
+          "label": "gtcsolo.glossary.parallel.title"
+        }
+      ]
+    },
+    {
+      "id": "computation",
+      "title": "gtcsolo.computation.introduction.0",
+      "paragraphs": [
+        "gtcsolo.computation.introduction.1",
+        "gtcsolo.computation.introduction.2",
+        "gtcsolo.computation.introduction.3"
+      ],
+      "terms": [
+        "gtcsolo.glossary.computation.term.1",
+        "gtcsolo.glossary.computation.term.2",
+        "gtcsolo.glossary.computation.term.3"
+      ],
+      "links": [
+        {
+          "target": "hpca",
+          "label": "gtcsolo.jei.introduction.link.hpca"
+        },
+        {
+          "target": "research_station",
+          "label": "gtcsolo.jei.introduction.link.research_station"
+        },
+        {
+          "target": "network_switch",
+          "label": "gtcsolo.jei.introduction.link.network_switch"
+        },
+        {
+          "target": "glossary:hpca_components",
+          "label": "gtcsolo.hpca_components.introduction.0"
+        }
+      ]
+    },
+    {
+      "id": "hpca_components",
+      "title": "gtcsolo.hpca_components.introduction.0",
+      "paragraphs": [
+        "gtcsolo.hpca_components.introduction.1",
+        "gtcsolo.hpca_components.introduction.2",
+        "gtcsolo.hpca_components.introduction.3",
+        "gtcsolo.hpca_components.introduction.4"
+      ],
+      "terms": [
+        "gtcsolo.glossary.hpca_components.term.1",
+        "block.gtceu.hpca_computation_component",
+        "block.gtceu.hpca_advanced_computation_component",
+        "block.gtceu.hpca_heat_sink_component",
+        "block.gtceu.hpca_active_cooler_component",
+        "block.gtceu.hpca_bridge_component",
+        "block.gtceu.hpca_empty_component"
+      ],
+      "links": [
+        {
+          "target": "hpca",
+          "label": "gtcsolo.jei.introduction.link.hpca"
+        },
+        {
+          "target": "glossary:computation",
+          "label": "gtcsolo.computation.introduction.0"
+        }
+      ]
+    }
+  ]
+}

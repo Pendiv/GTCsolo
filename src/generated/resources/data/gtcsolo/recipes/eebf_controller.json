@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "X": {
+      "item": "gtcsolo:xcrystal"
+    }
+  },
+  "pattern": [
+    "I",
+    "X"
+  ],
+  "result": {
+    "item": "gtcsolo:extended_electric_blast_furnace"
+  },
+  "show_notification": true
+}

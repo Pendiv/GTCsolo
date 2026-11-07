@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtcsolo:block/mithrilite_extreme_engine_intake_casing"
+    },
+    "active=true": {
+      "model": "gtcsolo:block/mithrilite_extreme_engine_intake_casing_active"
+    }
+  }
+}

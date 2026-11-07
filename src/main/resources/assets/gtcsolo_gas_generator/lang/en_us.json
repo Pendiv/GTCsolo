@@ -1,0 +1,21 @@
+{
+  "gtcsolo.gas_generator.gas_slot": "Gas Slot",
+  "gtcsolo.gas_generator.fluid_slot": "Fluid Slot",
+  "gtcsolo.gas_generator.rotor_slot": "Turbine Rotor Slot",
+  "gtcsolo.gas_generator.upgrade.speed": "Maximum Fuel Consumption and Generation: %sx",
+  "gtcsolo.gas_generator.upgrade.capacity": "Energy Capacity: %sx",
+  "gtcsolo.gas_generator.liquid_fuel": "Fluid Fuel / Combustion Support",
+  "gtcsolo.gas_generator.burn_rate": "Burn Rate: %s mB/t",
+  "gtcsolo.gas_generator.rotor_missing": "Install a Turbine Rotor",
+  "gtcsolo.gas_generator.support_requirement": "Speed upgrades require a combustion support material",
+  "gtcsolo.gas_generator.introduction.1": "Burns supported gaseous and fluid fuels to generate power. A turbine rotor is required; its material affects fuel throughput, efficiency, and durability.",
+  "gtcsolo.gas_generator.introduction.2": "The existing gas and fluid tanks can hold fluid fuel with gaseous support, or gaseous fuel with fluid support. A tank cannot hold fuel and support together. Gas fuel takes priority when both tanks contain fuel. Support materials alone generate no power.",
+  "gtcsolo.gas_generator.introduction.3": "Speed upgrades increase fuel consumption and generation speed up to 10 times. Insufficient support supply limits the speed bonus; without support, the generator runs at normal speed.",
+  "gtcsolo.gas_generator.introduction.4": "Rotor power affects fuel throughput, while rotor efficiency affects energy produced per unit of fuel. The machine's 48%% base generation is multiplied by rotor efficiency. Rotors wear during operation; a broken rotor stops combustion. Stopped generators cause no wear.",
+  "gtcsolo.gas_generator.introduction.5": "Each energy upgrade multiplies storage by √3 without changing fuel efficiency. Falling fuel levels reduce generation speed. Maintain fuel and support supplies, sufficient power extraction, and enough energy storage for upgraded operation.",
+  "gtcsolo.gas_generator.introduction.6": "§lCombustion Support§r\nSupport is consumed according to total energy generated during boosted operation. Normal-speed, full-buffer, and stopped operation consume none; fractional credit is saved. Oxygen requires a much larger supply than the mixed gas. Currently registered supports are listed below.",
+  "gtcsolo.gas_generator.introduction.support_entry": "• %s [%s]: 1 mB supports %s EU of boosted generation",
+  "gtcsolo.gas_generator.introduction.support_none": "No combustion support materials are currently registered.",
+  "gtcsolo.gas_generator.introduction.gas_slot": "Gas Tank",
+  "gtcsolo.gas_generator.introduction.fluid_slot": "Fluid Tank"
+}

@@ -1,0 +1,16 @@
+{
+  "block.gtceu.chaos_void_absorber": "虚空抽出器",
+  "gtceu.ocean_fluid_extraction": "海洋採掘",
+  "gtceu.bedrock_fluid_extraction": "液体脈採掘",
+  "gtceu.void_absorber": "MA源流採掘",
+  "gtcsolo.void_absorber.foundation": "底面には岩盤または深層岩を使用し、岩盤を5個以上含める。",
+  "gtcsolo.void_absorber.no_ocean": "採掘軸の直上に海洋バイオームがありません",
+  "gtcsolo.void_absorber.ma_voltage": "MA源流の採掘にはUV電圧が必要です",
+  "gtcsolo.void_absorber.introduction.1": "概要:\n岩盤層から上質かつ大量の埋蔵資源を採掘できる、非常に高度な機械。3つのモードで、それぞれ異なる流体を採掘できる。",
+  "gtcsolo.void_absorber.introduction.2": "―詳細―\nマシン性能:\n吸い込み部分は可変長であり、設置場所に合わせて高さを調整できる。長さによって採掘性能は変わらない。",
+  "gtcsolo.void_absorber.introduction.3": "すべてのモードで工業的なオーバークロックを行える。液体脈を傷付けにくく、大量の流体を継続して採掘する運用に適している。",
+  "gtcsolo.void_absorber.introduction.4": "液体採掘モード:\n採掘軸の直上に海洋バイオームがある場合に稼働する。昇圧なしのMV電圧では、塩水を毎秒4,000mB採掘できる。",
+  "gtcsolo.void_absorber.introduction.5": "液体脈採掘モード:\n液体脈が残存するチャンクでのみ稼働する。昇圧なしのEV電圧では、通常のEV掘削機と同程度の産出が見込める。液体脈の残量が多いほど産出量が増加し、枯渇すると採掘を停止する。残量はほかの掘削機と共有する。",
+  "gtcsolo.void_absorber.introduction.6": "源流脈採掘モード:\nMA源流を採掘するため、初期電圧としてUVを要求する。緻密な採掘を求められ、昇圧なしでは10秒ごとに100mBを採掘する。採掘によって源流脈は傷付かず、継続して利用できる。",
+  "gtcsolo.void_absorber.introduction.7": "注意事項:\n・底面は岩盤または深層岩で構成し、岩盤を5個以上含める必要がある。\n・採掘モードを切り替えると、進行中の採掘は中断される。"
+}

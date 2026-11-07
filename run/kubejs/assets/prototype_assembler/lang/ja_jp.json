@@ -1,0 +1,13 @@
+{
+  "block.gtceu.prototype_assembler": "試作品組立機",
+  "block.gtceu.prototype_assembler.tooltip.voltage": "エネルギーハッチの最高Tier＋2までの組立機レシピに対応。必要なEUはそのまま消費する。",
+  "block.gtceu.prototype_assembler.tooltip.retry": "失敗したレシピを記録し、成功するまで材料消費なしで再試行。EUは毎回消費し、成功時だけ出力する。",
+  "block.gtceu.prototype_assembler.tooltip.chance": "成功率0%から開始。同Tierは失敗ごと＋33%、＋1は＋7.4%、＋2は＋4.4%。下位Tierは初回から必ず成功する。",
+  "block.gtceu.prototype_assembler.tooltip.oc": "OCごとにEU/t×4、処理時間×0.67。成功すると記録・失敗回数・成功率をリセットする。",
+  "gtcsolo.prototype.success_chance": "成功率：%s%%",
+  "gtcsolo.prototype.failures": "失敗回数：%s回",
+  "gtcsolo.prototype.output": "完成予定：%s × %s",
+  "gtcsolo.prototype.locked": "記録したレシピを再試行中。成功するまで変更不可。",
+  "gtcsolo.prototype.output_wait": "試作成功。出力先の空きを待っています。",
+  "gtcsolo.prototype.voltage_required": "記録したレシピに対応する電圧のハッチが必要です。"
+}

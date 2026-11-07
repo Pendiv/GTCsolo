@@ -1,0 +1,171 @@
+{
+  "type": "gtcsolo:starforge",
+  "category": "gtcsolo:starforge",
+  "duration": 65536,
+  "inputChanceLogics": {},
+  "inputs": {
+    "item": [
+      {
+        "chance": 0,
+        "content": {
+          "type": "forge:nbt",
+          "count": 1,
+          "item": "gtcsolo:star_locus",
+          "nbt": "{Trace:\"hd101065\"}"
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "item": "minecraft:stone"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "item": "minecraft:cobblestone"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "item": "minecraft:dirt"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "item": "gtceu:stone_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1,
+          "ingredient": {
+            "item": "gtcsolo:star_locus"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "outputChanceLogics": {},
+  "outputs": {
+    "item": [
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 960,
+          "ingredient": {
+            "item": "gtcsolo:przybylski_essence_ingot"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1920,
+          "ingredient": {
+            "item": "gtceu:cerium_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1920,
+          "ingredient": {
+            "item": "gtceu:lanthanum_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 1440,
+          "ingredient": {
+            "item": "gtceu:neodymium_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 960,
+          "ingredient": {
+            "item": "gtceu:europium_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      },
+      {
+        "chance": 10000,
+        "content": {
+          "type": "gtceu:sized",
+          "count": 960,
+          "ingredient": {
+            "item": "gtceu:samarium_dust"
+          }
+        },
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickInputChanceLogics": {},
+  "tickInputs": {
+    "eu": [
+      {
+        "chance": 10000,
+        "content": 30,
+        "maxChance": 10000,
+        "tierChanceBoost": 0
+      }
+    ]
+  },
+  "tickOutputChanceLogics": {},
+  "tickOutputs": {}
+}

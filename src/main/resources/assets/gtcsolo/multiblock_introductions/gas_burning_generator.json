@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {
+      "block": "mekanismgenerators:gas_burning_generator",
+      "prefix": "gtcsolo.gas_generator.introduction.",
+      "paragraphs": 6,
+      "combustion_support": true
+    }
+  ]
+}

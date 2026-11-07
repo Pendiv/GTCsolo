@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_torch_wall",
+  "textures": {
+    "torch": "gtcsolo_torcherino:block/voltage_torch/uv"
+  },
+  "render_type": "minecraft:cutout"
+}

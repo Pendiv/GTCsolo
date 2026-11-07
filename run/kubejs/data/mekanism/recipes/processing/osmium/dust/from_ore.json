@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:enriching",
+  "input": {
+    "ingredient": {
+      "tag": "forge:ores/osmium"
+    }
+  },
+  "output": {
+    "count": 2,
+    "item": "gtcsolo:impure_osmium_dust"
+  }
+}

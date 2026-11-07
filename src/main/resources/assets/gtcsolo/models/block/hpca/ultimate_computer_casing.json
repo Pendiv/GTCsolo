@@ -1,0 +1,53 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "particle": "gtcsolo:block/casings/hpca/ultimate_computer_casing/side",
+    "down": "gtcsolo:block/casings/hpca/ultimate_computer_casing/bottom",
+    "up": "gtcsolo:block/casings/hpca/ultimate_computer_casing/top",
+    "north": "gtcsolo:block/casings/hpca/ultimate_computer_casing/front",
+    "east": "gtcsolo:block/casings/hpca/ultimate_computer_casing/side",
+    "south": "gtcsolo:block/casings/hpca/ultimate_computer_casing/back",
+    "west": "gtcsolo:block/casings/hpca/ultimate_computer_casing/side"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#down",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#up",
+          "cullface": "up"
+        },
+        "north": {
+          "texture": "#north",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#south",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#west",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#east",
+          "cullface": "east"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:furnace"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "O": [
+      { "tag": "forge:ingots/osmium" },
+      { "item": "gtcsolo:impure_osmium_ingot" }
+    ],
+    "R": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "pattern": [
+    "I#I",
+    "ROR",
+    "I#I"
+  ],
+  "result": {
+    "item": "mekanism:metallurgic_infuser"
+  }
+}

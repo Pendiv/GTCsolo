@@ -1,0 +1,9 @@
+{
+  "block.gtceu.mek_gt_fusion_reactor": "核融合炉（GT）",
+  "block.gtceu.mek_gt_industrial_turbine": "工業用タービン（GT）",
+  "block.gtceu.mek_gt_induction_matrix": "蓄電マトリックス（GT）",
+  "block.gtceu.mek_gt_thermal_evaporation": "熱蒸発プラント（GT）",
+  "gtceu.mek_gt_fusion": "核融合",
+  "gtceu.mek_gt_turbine": "蒸気発電",
+  "gtceu.mek_gt_evaporation": "熱蒸発"
+}

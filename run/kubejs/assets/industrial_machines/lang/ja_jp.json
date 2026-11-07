@@ -1,0 +1,10 @@
+{
+  "block.gtceu.industrial_macerator": "工業用粉砕機",
+  "block.gtceu.industrial_sifter": "工業用選別機",
+  "block.gtceu.industrial_material_press": "工業用鍛圧機",
+  "block.gtceu.industrial_cutter": "工業用裁断鋸",
+  "block.gtceu.industrial_mixer": "工業用混合機",
+  "block.gtceu.industrial_centrifuge": "工業用遠心分離機",
+  "block.gtceu.industrial_electrolyzer": "工業用電解槽",
+  "gtcsolo.industrial_machines.overclock": "工業的オーバークロック：1段ごとに消費電力4倍、加工時間0.9倍、入出力2倍。"
+}

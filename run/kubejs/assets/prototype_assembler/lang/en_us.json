@@ -1,0 +1,13 @@
+{
+  "block.gtceu.prototype_assembler": "Prototype Assembler",
+  "block.gtceu.prototype_assembler.tooltip.voltage": "Runs assembler recipes up to two tiers above the highest energy hatch. Required EU is still consumed.",
+  "block.gtceu.prototype_assembler.tooltip.retry": "Locks a failed recipe and retries without consuming more materials. Every attempt consumes EU; only a successful attempt produces outputs.",
+  "block.gtceu.prototype_assembler.tooltip.chance": "Starts at 0%. Each failure adds 33 percentage points at the same tier, 7.4 at +1, or 4.4 at +2. Lower-tier recipes always succeed immediately.",
+  "block.gtceu.prototype_assembler.tooltip.oc": "Each overclock uses 4x EU/t and 0.67x duration. Success resets the recorded recipe, failures and chance.",
+  "gtcsolo.prototype.success_chance": "Success chance: %s%%",
+  "gtcsolo.prototype.failures": "Failed attempts: %s",
+  "gtcsolo.prototype.output": "Expected product: %s x %s",
+  "gtcsolo.prototype.locked": "Retrying the recorded recipe. Locked until successful.",
+  "gtcsolo.prototype.output_wait": "Prototype succeeded. Waiting for output space.",
+  "gtcsolo.prototype.voltage_required": "The recorded recipe requires a suitable energy hatch tier."
+}

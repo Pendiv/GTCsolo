@@ -1,0 +1,81 @@
+# IDE and build output
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.gradle/
+build/
+*.class
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+**/src/generated/resources/.cache/
+
+# Minecraft instances and local diagnostics
+run/
+!/run/
+/run/*
+!/run/kubejs/
+/run/kubejs/*
+!/run/kubejs/README.md
+!/run/kubejs/startup_scripts/
+!/run/kubejs/server_scripts/
+!/run/kubejs/client_scripts/
+!/run/kubejs/assets/
+!/run/kubejs/data/
+/run/kubejs/*_scripts/example.js
+/run/kubejs/*_scripts/universal_output_probe.js
+/run/kubejs/client_scripts/test.js
+/run/kubejs/server_scripts/Pendiv's_Server_code/test.js
+/run/kubejs/server_scripts/generated/
+/run/kubejs/*_scripts/**/*.txt
+/run/kubejs/*_scripts/*.txt
+run-data/
+saves/
+logs/
+crash-reports/
+*.log
+*.log.txt
+*.jfr
+*.hprof
+*.sparkprofile
+
+# Local dependencies, references and separately managed mods
+libs/
+info/
+MODs/
+MODsUnComplessed/
+Re-Avaritia/
+refs/
+/net/minecraft/
+
+# Build packages, backups and experiment output
+/dist/
+/backups/
+/audit/
+/.codex-audit/
+*.zip
+*.bak
+*.tmp
+
+# Local projects and workspace notes
+/tools/
+/ports/
+/docs/
+/scripts/
+/AGENTS.md
+
+# Only the extension bundled in the main JAR belongs in this repository.
+/extensions/*
+!/extensions/tiered-torcherino/
+
+# Tool caches and desktop metadata
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+node_modules/
+.claude/
+.DS_Store
+Thumbs.db

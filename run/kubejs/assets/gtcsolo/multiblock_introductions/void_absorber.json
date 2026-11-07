@@ -1,0 +1,30 @@
+{
+  "entries": [
+    {
+      "machine": "gtceu:chaos_void_absorber",
+      "prefix": "gtcsolo.void_absorber.introduction.",
+      "paragraphs": 7,
+      "fluid_outputs": {
+        "after_paragraph": 2,
+        "groups": [
+          {
+            "label": "gtceu.ocean_fluid_extraction",
+            "fluids": [
+              "gtceu:salt_water"
+            ]
+          },
+          {
+            "label": "gtceu.bedrock_fluid_extraction",
+            "source": "bedrock_veins"
+          },
+          {
+            "label": "gtceu.void_absorber",
+            "fluids": [
+              "kubejs:unrefined_ma_fluid"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

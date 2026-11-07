@@ -1,0 +1,7 @@
+{
+  "block.gtceu.multiprocess_chemical_reactor": "マルチプロセス化学反応炉",
+  "gtceu.multiprocess_chemical_reactor": "マルチプロセス化学反応",
+  "gtcsolo.multiprocess_chemical.introduction.1": "反応・混合・分離などの複数工程をまとめて処理する化学設備。大型化学反応炉の通常レシピと、工程を統合した専用レシピを扱える。",
+  "gtcsolo.multiprocess_chemical.introduction.2": "完璧なオーバークロック、サブティック並列化、並列化ハッチに対応する。コイルの種類が消費電力に影響し、上位のコイルほど省電力になる。低位のコイルでは通常より多くの電力を必要とする。",
+  "gtcsolo.multiprocess_chemical.introduction.3": "下部が原料の搬入、上部が製品の搬出を担当する。入出力ハッチとバスは構造表示で指定された位置へ設置する。複数の原料と回収液を同時に扱えるよう、搬入出の系統を用意する。"
+}

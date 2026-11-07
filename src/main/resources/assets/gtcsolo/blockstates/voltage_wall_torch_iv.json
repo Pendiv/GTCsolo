@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gtcsolo:block/voltage_wall_torch_iv"
+    },
+    "facing=north": {
+      "model": "gtcsolo:block/voltage_wall_torch_iv",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "gtcsolo:block/voltage_wall_torch_iv",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "gtcsolo:block/voltage_wall_torch_iv",
+      "y": 180
+    }
+  }
+}

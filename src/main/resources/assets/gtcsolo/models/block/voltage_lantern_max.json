@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_lantern",
+  "textures": {
+    "lantern": "gtcsolo:block/voltage_lantern/max"
+  },
+  "render_type": "minecraft:cutout"
+}

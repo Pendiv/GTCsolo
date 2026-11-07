@@ -1,0 +1,12 @@
+{
+  "block.gtcsolo.cultivation_formation_room": "培養形成室",
+  "gtcsolo.cultivation_formation": "種子形成",
+  "gtcsolo.cultivation.essences_required": "風・地・水・火のエッセンスを各10個必要とする",
+  "gtcsolo.cultivation.output_wait": "元素のエッセンスの搬送待ち",
+  "gtcsolo.cultivation.introduction.1": "素材と培養に用いる液体から種を形成する機械。育成室での資源生産に必要な種を作成する。四つの元素のエッセンスを用いて種の形成を行い、使用したエッセンスは繰り返し利用できる。",
+  "gtcsolo.cultivation.introduction.2": "構造：\n電圧外装とガラスは同じTierのものを使用する。実行可能電圧もこれらのTierを上限として制限される。インバー製耐熱マシン外装の位置に搬入出・電源・並列・メンテナンス用のハッチやバスを配置できる。",
+  "gtcsolo.cultivation.introduction.3": "性能：\n工業的OCを持ち、並列ハッチとサブティック並列化に対応する。入出力ボーナスは並列数と掛け合わされる。",
+  "gtcsolo.cultivation.introduction.4": "元素のエッセンス：\n稼働には風・地・水・火のエッセンスを入力バスへ各10個用意する。加工開始前に1～3種類と、それぞれ0～10個の移動数が定まり、完了時に入力から出力へ移る。並列数が増えても、必要な個数と一度に移る個数は変わらない。製品と移動するエッセンスの両方が出力へ収まる場合だけ稼働する。",
+  "gtcsolo.cultivation.introduction.5": "天使の取り分：\n移動数が2個以上の種類には、25％の確率で1個の取り分が生じる。この1個は消費され、残りが出力へ移る。移動数が0～1個の場合は取り分が生じない。",
+  "gtcsolo.cultivation.introduction.6": "連続稼働には、出力されたエッセンスを入力へ戻し、取り分で失われた分を補充する必要がある。途中で必要なエッセンスが不足すると加工を待機し、補充されると再開する。稼働中に出力が詰まった場合も、空きができるまで待機する。"
+}

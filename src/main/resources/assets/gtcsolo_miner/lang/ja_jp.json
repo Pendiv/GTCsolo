@@ -1,0 +1,15 @@
+{
+  "gtcsolo.miner.vein": "採掘先：%s",
+  "gtcsolo.miner.select_vein": "回路を搬入",
+  "gtcsolo.miner.pause": "一時停止",
+  "gtcsolo.miner.resume": "再開",
+  "gtcsolo.miner.fuel_hatch": "燃料用搬入ハッチ",
+  "gtcsolo.miner.drilling_hatch": "掘削油用搬入ハッチ",
+  "gtcsolo.miner.energy_hatch": "本体と同じ電圧の通常2Aエネルギーハッチ",
+  "gtcsolo.miner.introduction.1": "搬入バスにプログラム回路を入れ、番号で鉱脈を選ぶ。鉱石と母岩をまとめて搬出する。IV機の対象は現世の深層岩層とネザーの鉱脈。",
+  "gtcsolo.miner.introduction.2": "正面から2列目、底から3段目の左側に、通常2AのIVエネルギーハッチを1個設置する。掘削油は底部の背面中央、補助燃料は底部右側から搬入する。",
+  "gtcsolo.miner.introduction.3": "掘削油は採掘開始時に一括消費する。電力だけで稼働でき、液体燃料を供給すると燃焼で得たEUが加わって採掘が速くなる。",
+  "gtcsolo.miner.hv_introduction.1": "搬入バスにプログラム回路を入れ、番号で鉱脈を選ぶ。現世の石層から、鉱石と母岩をまとめて採掘する。",
+  "gtcsolo.miner.hv_introduction.2": "通常2AのHVエネルギーハッチを1個設置する。掘削油と補助燃料はそれぞれ専用の搬入ハッチから搬入する。",
+  "gtcsolo.miner.hv_introduction.3": "掘削油は採掘開始時に一括消費する。電力だけで稼働でき、液体燃料を供給すると燃焼で得たEUが加わって採掘が速くなる。"
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "gtcsolo:block/ameijia/deepslate",
+    "end": "gtcsolo:block/ameijia/deepslate_top"
+  }
+}

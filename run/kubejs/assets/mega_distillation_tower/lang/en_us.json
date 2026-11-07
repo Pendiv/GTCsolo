@@ -1,0 +1,8 @@
+{
+  "block.gtceu.mega_distillation_tower": "Industrial Distillation Tower",
+  "block.gtceu.mega_distillation_tower.tooltip.bonus": "Up to 64 recipe copies per paid parallel, without charging extra EU/t for the bonus copies.",
+  "block.gtceu.mega_distillation_tower.tooltip.parallel": "Accepts one parallel hatch in the base. Each group of up to 64 copies costs one parallel's EU/t; partial groups round up.",
+  "block.gtceu.mega_distillation_tower.tooltip.duration": "Twice the recipe duration. Uses standard distillation tower overclocking.",
+  "block.gtceu.mega_distillation_tower.tooltip.height": "1 to 11 middle layers; total height 3 to 13 blocks including the base and roof.",
+  "block.gtceu.mega_distillation_tower.tooltip.outputs": "Fluids are assigned from bottom to top. Each middle layer and the roof require an output hatch at the marked position."
+}

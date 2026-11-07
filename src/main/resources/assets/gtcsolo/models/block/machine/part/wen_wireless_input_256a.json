@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/overlay/tinted/front_2",
+  "textures": {
+    "overlay": "gtcsolo:block/overlay/machine/wen_input_256a",
+    "overlay_tinted": "gtcsolo:block/overlay/machine/wen_input_256a"
+  }
+}

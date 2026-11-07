@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_torch",
+  "textures": {
+    "torch": "gtcsolo_torcherino:block/voltage_torch/luv"
+  },
+  "render_type": "minecraft:cutout"
+}

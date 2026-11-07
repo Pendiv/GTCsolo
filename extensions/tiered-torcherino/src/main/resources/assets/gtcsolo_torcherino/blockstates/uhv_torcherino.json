@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtcsolo_torcherino:block/uhv_torcherino"
+    }
+  }
+}

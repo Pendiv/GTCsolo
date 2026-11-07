@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "gtcsolo:block/casings/voltage/mithrilite/bottom",
+    "side": "gtcsolo:block/casings/voltage/mithrilite/side",
+    "top": "gtcsolo:block/casings/voltage/mithrilite/top"
+  }
+}

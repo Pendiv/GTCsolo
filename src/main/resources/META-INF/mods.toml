@@ -1,0 +1,120 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "${mod_license}"
+
+# Mixin config (gtcsolo.mixins.json をクラスパス直下に配置済)
+[[mixins]]
+config="gtcsolo.mixins.json"
+
+# issueTrackerURL = ""
+
+[[mods]]
+modId = "gtcsolo"
+version = "${mod_version}"
+displayName = "GTCsoloEU"
+authors = "Author"
+description = '''GTCsoloEU Mod'''
+
+# --- 依存関係設定 (ここが最重要) ---
+
+# 1. Minecraft本体
+[[dependencies.gtcsolo]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,1.21)"
+ordering = "NONE"
+side = "BOTH"
+
+# 2. Forge
+[[dependencies.gtcsolo]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+# 3. GregTechCEu Modern
+# ordering="AFTER" により、必ずGTCEuの後に読み込まれるよう強制します
+[[dependencies.gtcsolo]]
+modId = "gtceu"
+mandatory = true
+versionRange = "[1.6.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 4. Mekanism（必須 — ChemicalCapability 経由で chemical を recipe input として扱う）
+[[dependencies.gtcsolo]]
+modId = "mekanism"
+mandatory = true
+versionRange = "[10.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 5. EvolvedMekanism（任意 — あれば追加素材を登録）
+[[dependencies.gtcsolo]]
+modId = "evolvedmekanism"
+mandatory = false
+versionRange = "[1.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 6. AE2（必須 — GTCEu前提環境のため）
+[[dependencies.gtcsolo]]
+modId = "ae2"
+mandatory = true
+versionRange = "[15.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 7. Jade（任意 — カスタムプロバイダを統合する場合）
+[[dependencies.gtcsolo]]
+modId = "jade"
+mandatory = false
+versionRange = "[11.0,)"
+ordering = "AFTER"
+side = "CLIENT"
+
+# 8. L2Hostility（必須 — 33 個の独自 MobTrait と cap 利用）
+[[dependencies.gtcsolo]]
+modId = "l2hostility"
+mandatory = true
+versionRange = "[2.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 9. L2DamageTracker（必須 — REDUCTION 属性 / AttackCache / L2DamageTypes 経由）
+[[dependencies.gtcsolo]]
+modId = "l2damagetracker"
+mandatory = true
+versionRange = "[0.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# 10. L2Library（必須 — MobTraitCap / CapStorageData の基盤）
+[[dependencies.gtcsolo]]
+modId = "l2library"
+mandatory = true
+versionRange = "[2.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# L2Serial は FMLModType=GAMELIBRARY (= mod registry に登録されない library jar)。
+# Forge の dependency 解決対象外なので mods.toml に書くと「missing dep」 で load 拒否される。
+# 実体は mods/ に置けば classpath に乗って dev.xkmc.l2serial.* が import 可能になる。
+# (= L2Hostility 等が必要とするので modpack 環境に必ず同梱されている前提で利用)
+
+# 11. Apotheosis（必須 — Gem (NetherStar) + GemModelMixin）
+[[dependencies.gtcsolo]]
+modId = "apotheosis"
+mandatory = true
+versionRange = "[7.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# DE metals use DE's existing item forms when the mod is installed.
+[[dependencies.gtcsolo]]
+modId = "draconicevolution"
+mandatory = false
+versionRange = "[3.1.2,)"
+ordering = "AFTER"
+side = "BOTH"

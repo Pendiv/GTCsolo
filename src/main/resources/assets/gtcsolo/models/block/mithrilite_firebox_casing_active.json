@@ -1,0 +1,10 @@
+{
+  "parent": "gtceu:block/fire_box_active",
+  "textures": {
+    "bottom": "gtcsolo:block/casings/solid/machine_casing_robust_mithrilite",
+    "top": "gtcsolo:block/casings/solid/machine_casing_robust_mithrilite",
+    "side": "gtcsolo:block/casings/firebox/machine_casing_firebox_mithrilite",
+    "active_side": "gtcsolo:block/casings/firebox/machine_casing_firebox_mithrilite_bloom"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

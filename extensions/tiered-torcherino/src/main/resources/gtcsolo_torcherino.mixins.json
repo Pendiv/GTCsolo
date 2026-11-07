@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "DIV.gtcsolo.torcherino.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "gtcsolo_torcherino.refmap.json",
+  "mixins": ["BlockEntityTypeAccess", "TorcherinoBlockEntityMixin"],
+  "client": ["TorcherinoScreenMixin", "SliderMixin", "GradatedSliderMixin"],
+  "injectors": {"defaultRequire": 1}
+}

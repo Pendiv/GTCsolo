@@ -1,0 +1,33 @@
+{
+  "has_precipitation": false,
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 11749038,
+    "fog_color": 10500645,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "spawners": {
+    "monster": [
+      { "type": "minecraft:zombie", "weight": 95, "minCount": 4, "maxCount": 4 },
+      { "type": "minecraft:skeleton", "weight": 100, "minCount": 4, "maxCount": 4 },
+      { "type": "minecraft:spider", "weight": 100, "minCount": 4, "maxCount": 4 },
+      { "type": "minecraft:creeper", "weight": 100, "minCount": 4, "maxCount": 4 },
+      { "type": "minecraft:enderman", "weight": 10, "minCount": 1, "maxCount": 4 },
+      { "type": "minecraft:witch", "weight": 5, "minCount": 1, "maxCount": 1 }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ],
+    "liquid": []
+  },
+  "features": [
+    [], [], [], [], [], [], [], [], [], [], []
+  ]
+}

@@ -1,0 +1,6388 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/lv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/lv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/mv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/mv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/hv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/hv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/ev",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/ev_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/iv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/iv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/luv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/luv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/zpm",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/zpm_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/uv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/uhv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uhv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/uev",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uev_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/uiv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uiv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/uxv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/uxv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/opv",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/opv_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "gtcsolo:clock/voltage/max",
+      "divisor_x": 1,
+      "divisor_y": 64,
+      "regions": [
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_00",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_01",
+          "x": 0,
+          "y": 1,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_02",
+          "x": 0,
+          "y": 2,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_03",
+          "x": 0,
+          "y": 3,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_04",
+          "x": 0,
+          "y": 4,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_05",
+          "x": 0,
+          "y": 5,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_06",
+          "x": 0,
+          "y": 6,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_07",
+          "x": 0,
+          "y": 7,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_08",
+          "x": 0,
+          "y": 8,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_09",
+          "x": 0,
+          "y": 9,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_10",
+          "x": 0,
+          "y": 10,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_11",
+          "x": 0,
+          "y": 11,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_12",
+          "x": 0,
+          "y": 12,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_13",
+          "x": 0,
+          "y": 13,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_14",
+          "x": 0,
+          "y": 14,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_15",
+          "x": 0,
+          "y": 15,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_16",
+          "x": 0,
+          "y": 16,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_17",
+          "x": 0,
+          "y": 17,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_18",
+          "x": 0,
+          "y": 18,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_19",
+          "x": 0,
+          "y": 19,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_20",
+          "x": 0,
+          "y": 20,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_21",
+          "x": 0,
+          "y": 21,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_22",
+          "x": 0,
+          "y": 22,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_23",
+          "x": 0,
+          "y": 23,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_24",
+          "x": 0,
+          "y": 24,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_25",
+          "x": 0,
+          "y": 25,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_26",
+          "x": 0,
+          "y": 26,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_27",
+          "x": 0,
+          "y": 27,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_28",
+          "x": 0,
+          "y": 28,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_29",
+          "x": 0,
+          "y": 29,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_30",
+          "x": 0,
+          "y": 30,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_31",
+          "x": 0,
+          "y": 31,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_32",
+          "x": 0,
+          "y": 32,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_33",
+          "x": 0,
+          "y": 33,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_34",
+          "x": 0,
+          "y": 34,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_35",
+          "x": 0,
+          "y": 35,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_36",
+          "x": 0,
+          "y": 36,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_37",
+          "x": 0,
+          "y": 37,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_38",
+          "x": 0,
+          "y": 38,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_39",
+          "x": 0,
+          "y": 39,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_40",
+          "x": 0,
+          "y": 40,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_41",
+          "x": 0,
+          "y": 41,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_42",
+          "x": 0,
+          "y": 42,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_43",
+          "x": 0,
+          "y": 43,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_44",
+          "x": 0,
+          "y": 44,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_45",
+          "x": 0,
+          "y": 45,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_46",
+          "x": 0,
+          "y": 46,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_47",
+          "x": 0,
+          "y": 47,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_48",
+          "x": 0,
+          "y": 48,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_49",
+          "x": 0,
+          "y": 49,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_50",
+          "x": 0,
+          "y": 50,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_51",
+          "x": 0,
+          "y": 51,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_52",
+          "x": 0,
+          "y": 52,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_53",
+          "x": 0,
+          "y": 53,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_54",
+          "x": 0,
+          "y": 54,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_55",
+          "x": 0,
+          "y": 55,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_56",
+          "x": 0,
+          "y": 56,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_57",
+          "x": 0,
+          "y": 57,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_58",
+          "x": 0,
+          "y": 58,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_59",
+          "x": 0,
+          "y": 59,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_60",
+          "x": 0,
+          "y": 60,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_61",
+          "x": 0,
+          "y": 61,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_62",
+          "x": 0,
+          "y": 62,
+          "width": 1,
+          "height": 1
+        },
+        {
+          "sprite": "gtcsolo:item/voltage_clock/max_63",
+          "x": 0,
+          "y": 63,
+          "width": 1,
+          "height": 1
+        }
+      ]
+    }
+  ]
+}

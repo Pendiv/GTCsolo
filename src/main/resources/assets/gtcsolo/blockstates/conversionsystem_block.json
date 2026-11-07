@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "gtcsolo:block/conversionsystem_block" },
+    "facing=south": { "model": "gtcsolo:block/conversionsystem_block", "y": 180 },
+    "facing=west":  { "model": "gtcsolo:block/conversionsystem_block", "y": 270 },
+    "facing=east":  { "model": "gtcsolo:block/conversionsystem_block", "y": 90 }
+  }
+}

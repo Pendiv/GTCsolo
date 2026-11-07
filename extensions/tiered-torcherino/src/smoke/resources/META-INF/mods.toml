@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+[[mods]]
+modId="tiered_torch_smoke"
+version="1"
+displayName="Tiered Torcherino isolated smoke fixture"

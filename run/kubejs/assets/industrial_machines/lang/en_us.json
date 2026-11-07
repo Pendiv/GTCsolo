@@ -1,0 +1,10 @@
+{
+  "block.gtceu.industrial_macerator": "Industrial Macerator",
+  "block.gtceu.industrial_sifter": "Industrial Sifter",
+  "block.gtceu.industrial_material_press": "Industrial Material Press",
+  "block.gtceu.industrial_cutter": "Industrial Cutting Machine",
+  "block.gtceu.industrial_mixer": "Industrial Mixer",
+  "block.gtceu.industrial_centrifuge": "Industrial Centrifuge",
+  "block.gtceu.industrial_electrolyzer": "Industrial Electrolyzer",
+  "gtcsolo.industrial_machines.overclock": "Industrial overclocking: each tier multiplies EU/t by 4, duration by 0.9, and inputs and outputs by 2."
+}

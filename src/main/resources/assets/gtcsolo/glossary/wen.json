@@ -1,0 +1,23 @@
+{
+  "entries": [
+    {
+      "id": "wen_cells",
+      "title": "gtcsolo.glossary.wen_cells.title",
+      "paragraphs": [
+        "gtcsolo.glossary.wen_cells.overview",
+        "gtcsolo.glossary.wen_cells.basic",
+        "gtcsolo.glossary.wen_cells.ev",
+        "gtcsolo.glossary.wen_cells.iv",
+        "gtcsolo.glossary.wen_cells.luv",
+        "gtcsolo.glossary.wen_cells.zpm",
+        "gtcsolo.glossary.wen_cells.uv",
+        "gtcsolo.glossary.wen_cells.uhv",
+        "gtcsolo.glossary.wen_cells.note"
+      ],
+      "terms": ["gtcsolo.glossary.wen_cells.term"],
+      "links": [
+        {"target": "wen", "label": "gtcsolo.jei.introduction.link.wen"}
+      ]
+    }
+  ]
+}

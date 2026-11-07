@@ -1,0 +1,6 @@
+{
+  "block.gtceu.multi_ebf": "多連電気高炉",
+  "block.gtceu.multi_ebf.tooltip.parallel": "最大4並列。消費電力と入出力量も並列数に応じて増加する。",
+  "block.gtceu.multi_ebf.tooltip.energy": "エネルギーハッチは1〜4台。",
+  "block.gtceu.multi_ebf.tooltip.hatches": "耐熱機械ケーシングを各種入出力・メンテナンスハッチに置換可能。マフラーは天面中央に1台。"
+}

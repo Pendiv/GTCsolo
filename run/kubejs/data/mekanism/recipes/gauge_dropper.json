@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "O": [
+      { "tag": "forge:ingots/osmium" },
+      { "item": "gtcsolo:impure_osmium_ingot" }
+    ]
+  },
+  "pattern": [
+    " O ",
+    "G G",
+    "GGG"
+  ],
+  "result": {
+    "item": "mekanism:gauge_dropper"
+  }
+}

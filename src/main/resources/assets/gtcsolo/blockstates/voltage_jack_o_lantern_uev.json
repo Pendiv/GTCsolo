@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gtcsolo:block/voltage_jack_o_lantern_uev",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtcsolo:block/voltage_jack_o_lantern_uev"
+    },
+    "facing=south": {
+      "model": "gtcsolo:block/voltage_jack_o_lantern_uev",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gtcsolo:block/voltage_jack_o_lantern_uev",
+      "y": 270
+    }
+  }
+}

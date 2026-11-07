@@ -1,0 +1,16 @@
+{
+  "material.gtcsolo.zinc_70_depleted_oxide": "酸化亜鉛",
+  "gtcsolo.fluid.description.gtcsolo.diethylzinc.1": "濃縮工程へ送る亜鉛原料。後段の戻り分もここへ合流する。",
+  "gtcsolo.fluid.description.gtcsolo.diethylzinc.2": "亜鉛70含有率：約0.61%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_low_enriched_diethylzinc.1": "亜鉛70を集め始めた画分。さらに分離してから用いる。",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_low_enriched_diethylzinc.2": "亜鉛70含有率：5%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_enriched_diethylzinc.1": "濃縮が進んだ画分。金属回収の前に、仕上げの分離を行う。",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_enriched_diethylzinc.2": "亜鉛70含有率：25%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_high_enriched_diethylzinc.1": "亜鉛70を集めた原料。熱分解して金属を回収できる。",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_high_enriched_diethylzinc.2": "亜鉛70含有率：99%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_depleted_diethylzinc.1": "亜鉛70を分離したあとの画分。",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_depleted_diethylzinc.2": "亜鉛を回収し、酸化してゴムの加硫へ利用できる。",
+  "gtcsolo.nihonium.depleted_zinc.description": "亜鉛70を分離したあとの亜鉛。酸化して加硫促進材にする。",
+  "gtcsolo.nihonium.zinc_oxide.description": "回収した亜鉛の酸化物。ゴムの加硫を促進する。",
+  "gtcsolo.nihonium.iodine.description": "塩水処理で回収できる。高電圧なら乾燥昆布からも取り出せる。"
+}

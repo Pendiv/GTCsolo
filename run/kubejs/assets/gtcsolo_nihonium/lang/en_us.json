@@ -1,0 +1,16 @@
+{
+  "material.gtcsolo.zinc_70_depleted_oxide": "Zinc Oxide",
+  "gtcsolo.fluid.description.gtcsolo.diethylzinc.1": "Feedstock for zinc enrichment. Recycled material from later stages rejoins this feed.",
+  "gtcsolo.fluid.description.gtcsolo.diethylzinc.2": "Zinc-70 content: approximately 0.61%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_low_enriched_diethylzinc.1": "A partially enriched fraction. Further separation is required before use.",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_low_enriched_diethylzinc.2": "Zinc-70 content: 5%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_enriched_diethylzinc.1": "An enriched fraction awaiting its final separation before metal recovery.",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_enriched_diethylzinc.2": "Zinc-70 content: 25%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_high_enriched_diethylzinc.1": "Feedstock rich in zinc-70. Thermal decomposition recovers the metal.",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_high_enriched_diethylzinc.2": "Zinc-70 content: 99%",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_depleted_diethylzinc.1": "The fraction remaining after zinc-70 separation.",
+  "gtcsolo.fluid.description.gtcsolo.zinc_70_depleted_diethylzinc.2": "Recover its zinc and oxidize it for use in rubber vulcanization.",
+  "gtcsolo.nihonium.depleted_zinc.description": "Zinc remaining after zinc-70 separation. Oxidize it to make a vulcanization activator.",
+  "gtcsolo.nihonium.zinc_oxide.description": "An oxide of recovered zinc that accelerates rubber vulcanization.",
+  "gtcsolo.nihonium.iodine.description": "Recovered from brine processing, or directly from dried kelp at high voltage."
+}

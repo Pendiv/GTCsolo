@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "gtcsolo:block/voltage_jack_o_lantern/hv/front",
+    "side": "gtcsolo:block/voltage_jack_o_lantern/hv/side",
+    "top": "gtcsolo:block/voltage_jack_o_lantern/hv/top"
+  }
+}

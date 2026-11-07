@@ -1,0 +1,21 @@
+{
+  "gtcsolo.gas_generator.gas_slot": "気体スロット",
+  "gtcsolo.gas_generator.fluid_slot": "液体スロット",
+  "gtcsolo.gas_generator.rotor_slot": "タービンロータースロット",
+  "gtcsolo.gas_generator.upgrade.speed": "最大燃料消費量・発電量: %s倍",
+  "gtcsolo.gas_generator.upgrade.capacity": "エネルギー容量: %s倍",
+  "gtcsolo.gas_generator.liquid_fuel": "液体燃料・助燃材",
+  "gtcsolo.gas_generator.burn_rate": "燃料消費量: %s mB/t",
+  "gtcsolo.gas_generator.rotor_missing": "タービンローターを装着してください",
+  "gtcsolo.gas_generator.support_requirement": "速度強化には助燃材の供給が必要です",
+  "gtcsolo.gas_generator.introduction.1": "対応する気体・液体燃料を燃やして発電する機械。タービンローターを装着すると稼働し、その材質によって燃料処理速度・燃費・耐久が変化する。",
+  "gtcsolo.gas_generator.introduction.2": "気体槽と液体槽を使い分け、液体燃料と気体助燃材、または気体燃料と液体助燃材を組み合わせられる。同じ槽には燃料と助燃材を一緒に入れられない。両方が燃料なら気体を優先し、助燃材だけでは発電しない。",
+  "gtcsolo.gas_generator.introduction.3": "速度アップグレードは燃料消費と発電速度を最大10倍にする。助燃材の供給が足りなければ速度強化が制限され、供給がない場合は通常速度で運転する。",
+  "gtcsolo.gas_generator.introduction.4": "タービンパワーは燃料処理速度、タービン効率は燃料あたりの発電量に影響する。本体の基礎発電量は48%%で、ローターの効率を掛け合わせて燃費が決まる。ローターは稼働中に消耗し、破損すると燃焼が止まる。停止中は消耗しない。",
+  "gtcsolo.gas_generator.introduction.5": "エネルギーアップグレードは1個ごとに蓄電容量を√3倍にし、燃費は変えない。燃料の残量が減ると発電速度も落ちる。燃料・助燃材の補給と十分な電力搬出を確保し、強化時は蓄電容量にも余裕を持たせる。",
+  "gtcsolo.gas_generator.introduction.6": "§l助燃材§r\n助燃材は強化運転した際の総発電量に応じて消費する。通常速度・満充電・停止中は消費せず、端数は保存される。酸素は混合ガスより大量の供給を必要とする。以下は現在登録されている助燃材。",
+  "gtcsolo.gas_generator.introduction.support_entry": "・%s〔%s〕：1mBで%s EU分の強化運転を支える",
+  "gtcsolo.gas_generator.introduction.support_none": "現在使用できる助燃材は登録されていない。",
+  "gtcsolo.gas_generator.introduction.gas_slot": "気体槽",
+  "gtcsolo.gas_generator.introduction.fluid_slot": "液体槽"
+}

@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {"all": "gtcsolo:block/casings/pipe/machine_casing_pipe_draconic_steel"}
+}

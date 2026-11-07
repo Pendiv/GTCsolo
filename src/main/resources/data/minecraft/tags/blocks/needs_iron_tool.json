@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo:draconic_steel_pipe_casing",
+    "gtcsolo:draconic_steel_gearbox",
+    "gtcsolo:draconic_steel_casing",
+    "gtcsolo:high_strength_steel_casing",
+    "gtcsolo:mithrilite_machine_casing"
+  ]
+}

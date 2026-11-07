@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gtcsolo:block/machine/fec",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtcsolo:block/machine/fec"
+    },
+    "facing=south": {
+      "model": "gtcsolo:block/machine/fec",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gtcsolo:block/machine/fec",
+      "y": 270
+    }
+  }
+}

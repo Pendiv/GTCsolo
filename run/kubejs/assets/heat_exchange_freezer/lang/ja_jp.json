@@ -1,0 +1,6 @@
+{
+  "block.gtceu.heat_exchange_industrial_vacuum_freezer": "熱交換型工業的真空冷却機",
+  "gtcsolo.heat_exchange_freezer.introduction.1": "真空冷却室と熱交換部を配管で結び、素材をまとめて冷却する工業的な設備。通常の真空冷却機のレシピを扱える。",
+  "gtcsolo.heat_exchange_freezer.introduction.2": "一回の稼働で8回分の材料を加工する。基本加工時間は通常の1.75倍になるが、消費電力は元のレシピと同じ。まとまった原料と十分な搬出先を用意することで、大量生産に向く。",
+  "gtcsolo.heat_exchange_freezer.introduction.3": "工業的オーバークロックに対応する。"
+}

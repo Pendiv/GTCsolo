@@ -1,0 +1,10 @@
+{
+  "block.gtceu.industrial_rock_breaker": "工業的破砕機",
+  "gtceu.advanced_rock_breaker": "発展型破砕",
+  "gtcsolo.rock_breaker.environment_missing": "必要な環境流体が不足しています",
+  "gtcsolo.rock_breaker.environment_fluids": "環境流体: %s ＋ %s（消費しない）",
+  "gtcsolo.rock_breaker.introduction.1": "流体が接する環境を内部に整え、岩石を継続して生産する工業的な機械。破砕機と発展型破砕のレシピを扱える。",
+  "gtcsolo.rock_breaker.introduction.2": "環境用の搬入ハッチはULVのものを最大2個設置できる。レシピが要求する2種類の流体をそれぞれ1,000mB蓄えるごとに1並列となり、最大8並列まで稼働できる。環境流体は消費しない。",
+  "gtcsolo.rock_breaker.introduction.3": "工業的なオーバークロックに対応し、その入出力ボーナスは環境流体による並列数と掛け合わせられる。内部にはレシピに応じた流体と生産する岩石が表示される。",
+  "gtcsolo.rock_breaker.introduction.4": "発展型破砕では、溶岩とネザーの液体空気からネザーラックを、溶岩とエンドの液体空気からエンドストーンを生産できる。通常の破砕機と同じく、作りたい岩石の見本を搬入バスへ置く。"
+}

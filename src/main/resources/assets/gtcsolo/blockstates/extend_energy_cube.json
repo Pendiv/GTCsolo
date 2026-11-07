@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "gtcsolo:block/extend_energy_cube" }
+  }
+}

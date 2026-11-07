@@ -1,0 +1,22 @@
+{
+  "gtcsolo.jei.introduction.details_hint": "：詳細は説明ページを確認",
+  "gtcsolo.industrial_macerator.introduction.1": "粉砕を連続して行う工業用機械。",
+  "gtcsolo.industrial_macerator.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_sifter.introduction.1": "鉱石などの選別をまとめて行う工業用機械。大量の原料を受け入れるため、搬入と搬出の両方に余裕を持たせたい。",
+  "gtcsolo.industrial_sifter.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_material_press.introduction.1": "金属加工・圧縮・鍛造・圧縮成型を一台で行う工業用機械。必要な加工工程へ切り替えて使える。",
+  "gtcsolo.industrial_material_press.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_cutter.introduction.1": "裁断と旋盤加工を扱う工業用機械。加工に液体を使うレシピには、液体搬入ハッチから供給する。",
+  "gtcsolo.industrial_cutter.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_mixer.introduction.1": "粉体と液体の混合を大量に行う工業用機械。通常のミキサーと同じレシピを扱える。",
+  "gtcsolo.industrial_mixer.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_centrifuge.introduction.1": "遠心分離と熱遠心分離を扱う工業用機械。鉱石や混合物を分離し、複数の成分をまとめて回収できる。",
+  "gtcsolo.industrial_centrifuge.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.industrial_electrolyzer.introduction.1": "電解による素材の分解を大量に行う工業用機械。液体や気体を扱う工程では、対応する搬入出を用意する。",
+  "gtcsolo.industrial_electrolyzer.introduction.2": "工業的オーバークロックに対応する。",
+  "gtcsolo.precision_blast.introduction.1": "産業用合金を正確に生成するための工業用機械。高炉と電気炉の性質を持ち、発展的な構造とコイルによる高温で、通常の機械より効率的にオーバークロックできる。",
+  "gtcsolo.precision_blast.introduction.2": "精密な加工を行うため、工業的な大量生産には向かない。液体出力144 mBまでは時間加算なしで扱えるが、許容量を超えると144 mBごとに基本加工時間が10%ずつ増える。",
+  "gtcsolo.precision_blast.introduction.3": "コイル温度が1800 Kを超えた後は、900 K上昇するごとに、時間加算なしで扱える出力量が144 mB増える。",
+  "gtcsolo.precision_blast.introduction.4": "レシピの要求温度を1800 K上回るごとに、オーバークロック1段が完璧なオーバークロックへ置き換わる。",
+  "gtcsolo.precision_blast.introduction.5": "構造上、合金高炉との類似点が多く、合金高炉のレシピも扱える。こちらにも出力量に応じた加工時間の制約が適用される。"
+}

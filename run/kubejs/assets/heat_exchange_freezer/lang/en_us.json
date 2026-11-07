@@ -1,0 +1,6 @@
+{
+  "block.gtceu.heat_exchange_industrial_vacuum_freezer": "Heat Exchange Industrial Vacuum Freezer",
+  "gtcsolo.heat_exchange_freezer.introduction.1": "An industrial vacuum cooling chamber connected by pipes to a heat exchange section. It processes standard Vacuum Freezer recipes.",
+  "gtcsolo.heat_exchange_freezer.introduction.2": "Each operation processes eight batches of materials in 1.75 times the normal duration, without increasing the base EU/t. A steady supply of materials and sufficient output capacity make it suitable for mass production.",
+  "gtcsolo.heat_exchange_freezer.introduction.3": "Supports industrial overclocking."
+}

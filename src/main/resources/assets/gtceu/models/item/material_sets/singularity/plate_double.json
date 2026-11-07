@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtceu:item/material_sets/singularity/plate_double",
+    "layer2": "gtceu:item/material_sets/singularity/plate_double_overlay"
+  }
+}

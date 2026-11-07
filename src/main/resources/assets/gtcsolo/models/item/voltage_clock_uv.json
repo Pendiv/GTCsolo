@@ -1,0 +1,398 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtcsolo:item/voltage_clock/uv_00"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "time": 0.0
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_00"
+    },
+    {
+      "predicate": {
+        "time": 0.0078125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_01"
+    },
+    {
+      "predicate": {
+        "time": 0.0234375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_02"
+    },
+    {
+      "predicate": {
+        "time": 0.0390625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_03"
+    },
+    {
+      "predicate": {
+        "time": 0.0546875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_04"
+    },
+    {
+      "predicate": {
+        "time": 0.0703125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_05"
+    },
+    {
+      "predicate": {
+        "time": 0.0859375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_06"
+    },
+    {
+      "predicate": {
+        "time": 0.1015625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_07"
+    },
+    {
+      "predicate": {
+        "time": 0.1171875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_08"
+    },
+    {
+      "predicate": {
+        "time": 0.1328125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_09"
+    },
+    {
+      "predicate": {
+        "time": 0.1484375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_10"
+    },
+    {
+      "predicate": {
+        "time": 0.1640625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_11"
+    },
+    {
+      "predicate": {
+        "time": 0.1796875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_12"
+    },
+    {
+      "predicate": {
+        "time": 0.1953125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_13"
+    },
+    {
+      "predicate": {
+        "time": 0.2109375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_14"
+    },
+    {
+      "predicate": {
+        "time": 0.2265625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_15"
+    },
+    {
+      "predicate": {
+        "time": 0.2421875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_16"
+    },
+    {
+      "predicate": {
+        "time": 0.2578125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_17"
+    },
+    {
+      "predicate": {
+        "time": 0.2734375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_18"
+    },
+    {
+      "predicate": {
+        "time": 0.2890625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_19"
+    },
+    {
+      "predicate": {
+        "time": 0.3046875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_20"
+    },
+    {
+      "predicate": {
+        "time": 0.3203125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_21"
+    },
+    {
+      "predicate": {
+        "time": 0.3359375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_22"
+    },
+    {
+      "predicate": {
+        "time": 0.3515625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_23"
+    },
+    {
+      "predicate": {
+        "time": 0.3671875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_24"
+    },
+    {
+      "predicate": {
+        "time": 0.3828125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_25"
+    },
+    {
+      "predicate": {
+        "time": 0.3984375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_26"
+    },
+    {
+      "predicate": {
+        "time": 0.4140625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_27"
+    },
+    {
+      "predicate": {
+        "time": 0.4296875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_28"
+    },
+    {
+      "predicate": {
+        "time": 0.4453125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_29"
+    },
+    {
+      "predicate": {
+        "time": 0.4609375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_30"
+    },
+    {
+      "predicate": {
+        "time": 0.4765625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_31"
+    },
+    {
+      "predicate": {
+        "time": 0.4921875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_32"
+    },
+    {
+      "predicate": {
+        "time": 0.5078125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_33"
+    },
+    {
+      "predicate": {
+        "time": 0.5234375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_34"
+    },
+    {
+      "predicate": {
+        "time": 0.5390625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_35"
+    },
+    {
+      "predicate": {
+        "time": 0.5546875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_36"
+    },
+    {
+      "predicate": {
+        "time": 0.5703125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_37"
+    },
+    {
+      "predicate": {
+        "time": 0.5859375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_38"
+    },
+    {
+      "predicate": {
+        "time": 0.6015625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_39"
+    },
+    {
+      "predicate": {
+        "time": 0.6171875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_40"
+    },
+    {
+      "predicate": {
+        "time": 0.6328125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_41"
+    },
+    {
+      "predicate": {
+        "time": 0.6484375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_42"
+    },
+    {
+      "predicate": {
+        "time": 0.6640625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_43"
+    },
+    {
+      "predicate": {
+        "time": 0.6796875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_44"
+    },
+    {
+      "predicate": {
+        "time": 0.6953125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_45"
+    },
+    {
+      "predicate": {
+        "time": 0.7109375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_46"
+    },
+    {
+      "predicate": {
+        "time": 0.7265625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_47"
+    },
+    {
+      "predicate": {
+        "time": 0.7421875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_48"
+    },
+    {
+      "predicate": {
+        "time": 0.7578125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_49"
+    },
+    {
+      "predicate": {
+        "time": 0.7734375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_50"
+    },
+    {
+      "predicate": {
+        "time": 0.7890625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_51"
+    },
+    {
+      "predicate": {
+        "time": 0.8046875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_52"
+    },
+    {
+      "predicate": {
+        "time": 0.8203125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_53"
+    },
+    {
+      "predicate": {
+        "time": 0.8359375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_54"
+    },
+    {
+      "predicate": {
+        "time": 0.8515625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_55"
+    },
+    {
+      "predicate": {
+        "time": 0.8671875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_56"
+    },
+    {
+      "predicate": {
+        "time": 0.8828125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_57"
+    },
+    {
+      "predicate": {
+        "time": 0.8984375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_58"
+    },
+    {
+      "predicate": {
+        "time": 0.9140625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_59"
+    },
+    {
+      "predicate": {
+        "time": 0.9296875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_60"
+    },
+    {
+      "predicate": {
+        "time": 0.9453125
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_61"
+    },
+    {
+      "predicate": {
+        "time": 0.9609375
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_62"
+    },
+    {
+      "predicate": {
+        "time": 0.9765625
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_63"
+    },
+    {
+      "predicate": {
+        "time": 0.9921875
+      },
+      "model": "gtcsolo:item/voltage_clock/uv_00"
+    }
+  ]
+}

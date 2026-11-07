@@ -1,0 +1,15 @@
+{
+  "gtcsolo.miner.vein": "Mining target: %s",
+  "gtcsolo.miner.select_vein": "Insert a programmed circuit",
+  "gtcsolo.miner.pause": "Pause",
+  "gtcsolo.miner.resume": "Resume",
+  "gtcsolo.miner.fuel_hatch": "Fuel Input Hatch",
+  "gtcsolo.miner.drilling_hatch": "Drilling Fluid Input Hatch",
+  "gtcsolo.miner.energy_hatch": "Standard 2 A Energy Hatch of the machine's tier",
+  "gtcsolo.miner.introduction.1": "Place a Programmed Circuit in an Input Bus to select a vein by number. The miner extracts ore and host rock together. The IV miner handles Overworld deepslate veins and Nether veins.",
+  "gtcsolo.miner.introduction.2": "Install one standard IV Energy Hatch (2 A) on the left, one block back and two blocks up from the controller. Feed Drilling Fluid at the rear center of the base and optional fuel at the bottom right hatch.",
+  "gtcsolo.miner.introduction.3": "The miner consumes the full batch of Drilling Fluid at startup. It can run on electricity alone. Liquid fuel adds EU through combustion to speed up mining.",
+  "gtcsolo.miner.hv_introduction.1": "Place a Programmed Circuit in an Input Bus to select a vein by number. The miner extracts ore and host rock together from the stone layers of the Overworld.",
+  "gtcsolo.miner.hv_introduction.2": "Install one standard HV Energy Hatch (2 A). Feed Drilling Fluid and optional fuel through their respective Input Hatches.",
+  "gtcsolo.miner.hv_introduction.3": "The miner consumes the full batch of Drilling Fluid at startup. It can run on electricity alone. Liquid fuel adds EU through combustion to speed up mining."
+}

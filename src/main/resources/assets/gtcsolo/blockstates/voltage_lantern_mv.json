@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "gtcsolo:block/voltage_lantern_mv"
+    },
+    "hanging=true": {
+      "model": "gtcsolo:block/voltage_lantern_mv_hanging"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "gtceu:block/casings/solid/machine_casing_clean_stainless_steel",
+    "top": "gtceu:block/casings/solid/machine_casing_clean_stainless_steel",
+    "side": "gtcsolo:block/casings/firebox/machine_casing_firebox_stainless_steel"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

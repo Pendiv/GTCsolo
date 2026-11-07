@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo_torcherino:lv_jack_o_lanterino",
+    "gtcsolo_torcherino:mv_jack_o_lanterino",
+    "gtcsolo_torcherino:hv_jack_o_lanterino",
+    "gtcsolo_torcherino:ev_jack_o_lanterino",
+    "gtcsolo_torcherino:iv_jack_o_lanterino",
+    "gtcsolo_torcherino:luv_jack_o_lanterino",
+    "gtcsolo_torcherino:zpm_jack_o_lanterino",
+    "gtcsolo_torcherino:uv_jack_o_lanterino",
+    "gtcsolo_torcherino:uhv_jack_o_lanterino",
+    "gtcsolo_torcherino:uev_jack_o_lanterino",
+    "gtcsolo_torcherino:uiv_jack_o_lanterino",
+    "gtcsolo_torcherino:uxv_jack_o_lanterino",
+    "gtcsolo_torcherino:opv_jack_o_lanterino",
+    "gtcsolo_torcherino:max_jack_o_lanterino"
+  ]
+}

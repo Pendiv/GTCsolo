@@ -1,0 +1,7 @@
+{
+  "block.gtceu.multiprocess_chemical_reactor": "Multiprocess Chemical Reactor",
+  "gtceu.multiprocess_chemical_reactor": "Multiprocess Chemical Processing",
+  "gtcsolo.multiprocess_chemical.introduction.1": "A chemical plant that combines reaction, mixing and separation steps. Processes standard Large Chemical Reactor recipes and dedicated recipes that integrate several operations.",
+  "gtcsolo.multiprocess_chemical.introduction.2": "Supports perfect overclocking, subtick parallel processing and Parallel Control Hatches. Coil quality affects power consumption: higher tiers reduce it, while low tiers require more power than normal.",
+  "gtcsolo.multiprocess_chemical.introduction.3": "Supply materials through the lower section and collect products from the upper section. Input and output hatches and buses fit only at the marked positions. Provide separate lines for the materials and recovered fluids."
+}

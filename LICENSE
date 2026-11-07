@@ -1,0 +1,38 @@
+MIT License
+
+Copyright (c) 2026 DIV
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+Exception: third-party assets
+
+The following asset files are NOT covered by the MIT license above. They are
+licensed separately by their original authors. See LICENSE-ASSETS.md and
+CREDITS.md for full terms and attribution.
+
+  - src/main/resources/assets/gtcsolo/textures/item/secret_sword*.png
+  - src/main/resources/assets/gtcsolo/models/item/secret_sword*.json
+
+Note: many other textures under `src/main/resources/assets/gtcsolo/textures/`
+are contributed by an external author under CC0 (public domain dedication).
+Because CC0 imposes no conditions, those assets are redistributable under
+this MIT license without conflict; attribution is preserved as courtesy in
+CREDITS.md and LICENSE-ASSETS.md.

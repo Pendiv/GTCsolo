@@ -1,0 +1,69 @@
+buildscript {
+    repositories { maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }; mavenCentral() }
+    dependencies { classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT' }
+}
+plugins { id 'net.minecraftforge.gradle' version '[6.0.16,6.2)' }
+apply plugin: 'org.spongepowered.mixin'
+group = 'DIV.gtcsolo'
+version = '0.1.0'
+base { archivesName = 'gtcsolo-tiered-torcherino' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(17) }
+sourceSets {
+    smoke {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += output + compileClasspath + sourceSets.main.runtimeClasspath
+    }
+}
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'info'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', layout.buildDirectory.file('createSrgToMcp/output.srg').get().asFile.absolutePath
+            mods { gtcsolo_torcherino { source sourceSets.main } }
+        }
+        client {
+            jvmArgs '-Xmx2G'
+            if (providers.gradleProperty('smokeClient').isPresent()) {
+                property 'tieredTorch.clientSmoke', 'true'
+                mods { tiered_torch_smoke { source sourceSets.smoke } }
+            }
+        }
+        server {
+            args '--nogui'; jvmArgs '-Xmx2G'
+            mods { tiered_torch_smoke { source sourceSets.smoke } }
+        }
+    }
+}
+mixin { add sourceSets.main, 'gtcsolo_torcherino.refmap.json'; config 'gtcsolo_torcherino.mixins.json' }
+repositories { flatDir { dirs 'libs' }; mavenCentral() }
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.15'
+    implementation(fg.deobf('local:Torcherino-forge-1.20.1:20.0.0')) { transitive = false }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    if (providers.gradleProperty('smokeClient').isPresent()) implementation(fg.deobf('local:test-synapse:1')) { transitive = false }
+}
+configurations.configureEach { if (name == '__obfuscated') transitive = false }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('jar', Jar).configure {
+    manifest { attributes('MixinConfigs': 'gtcsolo_torcherino.mixins.json') }
+    finalizedBy 'reobfJar'
+}
+tasks.register('budgetTest', JavaExec) {
+    dependsOn 'testClasses'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.torcherino.BudgetTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn 'budgetTest' }
+tasks.register('devJar', Jar) {
+    dependsOn 'classes'
+    archiveClassifier = 'dev'
+    from sourceSets.main.output
+    manifest { attributes('MixinConfigs': 'gtcsolo_torcherino.mixins.json') }
+}
+tasks.configureEach {
+    if (name == 'runServer' || (name == 'runClient' && providers.gradleProperty('smokeClient').isPresent())) dependsOn 'smokeClasses'
+}

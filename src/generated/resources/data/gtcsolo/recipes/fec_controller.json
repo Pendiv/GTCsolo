@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "X": {
+      "item": "gtcsolo:xcrystal"
+    }
+  },
+  "pattern": [
+    "I ",
+    " X"
+  ],
+  "result": {
+    "item": "gtcsolo:fec"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bot_all": "gtcsolo:block/casings/coils/machine_coil_draconium",
+    "top_all": "gtcsolo:block/casings/coils/machine_coil_draconium_bloom"
+  }
+}

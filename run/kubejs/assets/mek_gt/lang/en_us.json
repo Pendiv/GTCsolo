@@ -1,0 +1,9 @@
+{
+  "block.gtceu.mek_gt_fusion_reactor": "Fusion Reactor (GT)",
+  "block.gtceu.mek_gt_industrial_turbine": "Industrial Turbine (GT)",
+  "block.gtceu.mek_gt_induction_matrix": "Induction Matrix (GT)",
+  "block.gtceu.mek_gt_thermal_evaporation": "Thermal Evaporation Plant (GT)",
+  "gtceu.mek_gt_fusion": "Fusion",
+  "gtceu.mek_gt_turbine": "Steam Power Generation",
+  "gtceu.mek_gt_evaporation": "Thermal Evaporation"
+}

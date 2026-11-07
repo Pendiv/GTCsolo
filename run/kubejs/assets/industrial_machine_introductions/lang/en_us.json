@@ -1,0 +1,22 @@
+{
+  "gtcsolo.jei.introduction.details_hint": ": See the introduction page for details.",
+  "gtcsolo.industrial_macerator.introduction.1": "An industrial machine for continuous maceration.",
+  "gtcsolo.industrial_macerator.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_sifter.introduction.1": "An industrial machine for sifting large batches of material. Allow enough capacity for both incoming feedstock and separated products.",
+  "gtcsolo.industrial_sifter.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_material_press.introduction.1": "An industrial machine for bending, compressing, forging and forming. Switch between its recipe types for the required process.",
+  "gtcsolo.industrial_material_press.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_cutter.introduction.1": "An industrial machine for cutting and lathe work. Supply fluids through an input hatch for recipes that require them.",
+  "gtcsolo.industrial_cutter.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_mixer.introduction.1": "An industrial machine for mixing powders and fluids in large batches. It uses standard mixer recipes.",
+  "gtcsolo.industrial_mixer.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_centrifuge.introduction.1": "An industrial machine for centrifuging and thermal centrifuging. It separates ores and mixtures into their constituent products.",
+  "gtcsolo.industrial_centrifuge.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.industrial_electrolyzer.introduction.1": "An industrial machine for decomposing materials by electrolysis. Provide suitable input and output hatches for processes involving liquids or gases.",
+  "gtcsolo.industrial_electrolyzer.introduction.2": "Supports industrial overclocking.",
+  "gtcsolo.precision_blast.introduction.1": "An industrial furnace for precisely producing engineering alloys. Its advanced construction and heated coils provide more efficient overclocking than ordinary machines.",
+  "gtcsolo.precision_blast.introduction.2": "Its precision makes it less suitable for mass production. Up to 144 mB of fluid output incurs no time penalty; each additional 144 mB band adds 10% of the base processing time.",
+  "gtcsolo.precision_blast.introduction.3": "Above a coil temperature of 1800 K, each further 900 K raises the output allowance by 144 mB.",
+  "gtcsolo.precision_blast.introduction.4": "Every 1800 K above the recipe temperature requirement replaces one overclock with a perfect overclock.",
+  "gtcsolo.precision_blast.introduction.5": "Its construction resembles an Alloy Blast Smelter, allowing it to run those recipes as well. The same output-volume time penalty applies."
+}

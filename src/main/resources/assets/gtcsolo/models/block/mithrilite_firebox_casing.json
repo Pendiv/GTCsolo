@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "gtcsolo:block/casings/solid/machine_casing_robust_mithrilite",
+    "top": "gtcsolo:block/casings/solid/machine_casing_robust_mithrilite",
+    "side": "gtcsolo:block/casings/firebox/machine_casing_firebox_mithrilite"
+  },
+  "render_type": "minecraft:cutout_mipped"
+}

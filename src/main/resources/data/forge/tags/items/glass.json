@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo:voltage_glass_lv",
+    "gtcsolo:voltage_glass_mv",
+    "gtcsolo:voltage_glass_hv",
+    "gtcsolo:voltage_glass_ev",
+    "gtcsolo:voltage_glass_iv",
+    "gtcsolo:voltage_glass_luv",
+    "gtcsolo:voltage_glass_zpm",
+    "gtcsolo:voltage_glass_uv",
+    "gtcsolo:voltage_glass_uhv",
+    "gtcsolo:voltage_glass_uev",
+    "gtcsolo:voltage_glass_uiv",
+    "gtcsolo:voltage_glass_uxv",
+    "gtcsolo:voltage_glass_opv"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_lantern",
+  "textures": {
+    "lantern": "gtcsolo:block/voltage_lantern/uv"
+  },
+  "render_type": "minecraft:cutout"
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "gtcsolo:block/high_strength_steel_casing"
+  }
+}

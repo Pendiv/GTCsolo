@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "gtcsolo_torcherino:block/iv_lanterino"
+    },
+    "hanging=true": {
+      "model": "gtcsolo_torcherino:block/iv_lanterino_hanging"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo_torcherino:lv_lanterino",
+    "gtcsolo_torcherino:mv_lanterino",
+    "gtcsolo_torcherino:hv_lanterino",
+    "gtcsolo_torcherino:ev_lanterino",
+    "gtcsolo_torcherino:iv_lanterino",
+    "gtcsolo_torcherino:luv_lanterino",
+    "gtcsolo_torcherino:zpm_lanterino",
+    "gtcsolo_torcherino:uv_lanterino",
+    "gtcsolo_torcherino:uhv_lanterino",
+    "gtcsolo_torcherino:uev_lanterino",
+    "gtcsolo_torcherino:uiv_lanterino",
+    "gtcsolo_torcherino:uxv_lanterino",
+    "gtcsolo_torcherino:opv_lanterino",
+    "gtcsolo_torcherino:max_lanterino"
+  ]
+}

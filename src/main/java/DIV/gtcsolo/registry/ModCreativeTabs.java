@@ -1,0 +1,292 @@
+package DIV.gtcsolo.registry;
+
+import DIV.gtcsolo.Gtcsolo;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+public class
+ModCreativeTabs {
+
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Gtcsolo.MODID);
+
+    // 指定なしのアイテムはすべて GTCSOLO_TAB に自動で入る
+    // 別タブに入れたいアイテムは assignTab() で登録する
+    private static final Map<RegistryObject<? extends ItemLike>, RegistryObject<CreativeModeTab>> TAB_OVERRIDES
+            = new HashMap<>();
+
+    /**
+     * デフォルトタブ以外に入れたいアイテムを登録する。
+     * 使い方は ModItems.java のコメントを参照。
+     */
+    public static void assignTab(RegistryObject<? extends ItemLike> item,
+                                  RegistryObject<CreativeModeTab> tab) {
+        TAB_OVERRIDES.put(item, tab);
+    }
+
+    public static final RegistryObject<CreativeModeTab> GTCSOLO_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_tab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> new ItemStack(ModItems.XCRYSTAL.get()))
+                            .title(Component.translatable("itemGroup.gtcsolo"))
+                            .displayItems((params, output) -> {
+                                // TAB_OVERRIDES に登録されていないアイテムをすべて追加
+                                ModItems.ITEMS.getEntries().stream()
+                                        .filter(item -> !TAB_OVERRIDES.containsKey(item))
+                                        .forEach(item -> output.accept(item.get()));
+                                // GTRegistrate経由で登録したマルチブロックコントローラー
+                                if (ModMachines.FEC != null) output.accept(ModMachines.FEC.asStack());
+                                if (ModMachines.FANTASY_BUILDER != null) output.accept(ModMachines.FANTASY_BUILDER.asStack());
+                                if (ModMachines.EEBF != null) output.accept(ModMachines.EEBF.asStack());
+                                if (ModMachines.CC != null) output.accept(ModMachines.CC.asStack());
+                                if (ModMachines.SPACEFORGE != null) output.accept(ModMachines.SPACEFORGE.asStack());
+                                if (ModMachines.CHEMICAL_COMBUSTION_GENERATOR != null) output.accept(ModMachines.CHEMICAL_COMBUSTION_GENERATOR.asStack());
+                                if (CombustionMinerMachines.HV != null) output.accept(CombustionMinerMachines.HV.asStack());
+                                if (CombustionMinerMachines.IV != null) output.accept(CombustionMinerMachines.IV.asStack());
+                                if (ModMachines.HIGHPRESSURE_ALLOY_BLAST_FURNACE != null) output.accept(ModMachines.HIGHPRESSURE_ALLOY_BLAST_FURNACE.asStack());
+                                if (ModMachines.WIRE_MANUFACTURING_FACTORY != null) output.accept(ModMachines.WIRE_MANUFACTURING_FACTORY.asStack());
+                                if (ModMachines.MATERIAL_PRESS_FACTORY != null) output.accept(ModMachines.MATERIAL_PRESS_FACTORY.asStack());
+                                if (ModMachines.MEKANISM_INFUSER != null) output.accept(ModMachines.MEKANISM_INFUSER.asStack());
+                                if (ModMachines.MICRO_PLANET_MINER != null) output.accept(ModMachines.MICRO_PLANET_MINER.asStack());
+                                if (ModMachines.LOCUS_SIMULATION_BUILDER != null) output.accept(ModMachines.LOCUS_SIMULATION_BUILDER.asStack());
+                                if (ModMachines.STARFORGE != null) output.accept(ModMachines.STARFORGE.asStack());
+                                if (IndustrialCircuitAssemblyLines.CORE != null)
+                                    output.accept(IndustrialCircuitAssemblyLines.CORE.asStack());
+                                if (IndustrialSuperheatedMegaBlastFurnaces.CORE != null)
+                                    output.accept(IndustrialSuperheatedMegaBlastFurnaces.CORE.asStack());
+                                if (IterativeAssemblyLines.CORE != null)
+                                    output.accept(IterativeAssemblyLines.CORE.asStack());
+                                if (ForgeOfSunMachines.CORE != null)
+                                    output.accept(ForgeOfSunMachines.CORE.asStack());
+                                if (MegaMixerMachines.CORE != null)
+                                    output.accept(MegaMixerMachines.CORE.asStack());
+                                if (OreProcessingFactoryMachines.CORE != null)
+                                    output.accept(OreProcessingFactoryMachines.CORE.asStack());
+                                if (MegaAlloyBlastFurnaceMachines.CORE != null)
+                                    output.accept(MegaAlloyBlastFurnaceMachines.CORE.asStack());
+                                if (FusionMk4Machines.FUSION_REACTOR_MK4 != null)
+                                    output.accept(FusionMk4Machines.FUSION_REACTOR_MK4.asStack());
+                                FusionVariantMachines.DEFINITIONS.values().forEach(definition -> output.accept(definition.asStack()));
+                                DIV.gtcsolo.registry.tool.fullcustom.FullCustomGtTools.addToCreativeTab(output);
+                                IronCastingMolds.addToCreativeTab(output);
+                                VoltageTorches.addToCreativeTab(output);
+                                VoltageClocks.addToCreativeTab(output);
+                                VoltageGlass.addToCreativeTab(output);
+                                // 8 軌跡 × (star_locus / decaying_star_locus) を NBT 付きで列挙
+                                // (= 取り出しの手間軽減、 ModItems で登録されてる空版に加えて trace 付き 16 件)
+                                for (String trace : DIV.gtcsolo.item.AbstractLocusItem.VALID_TRACES) {
+                                    output.accept(DIV.gtcsolo.item.AbstractLocusItem.of(
+                                            ModItems.STAR_LOCUS.get(), trace));
+                                    output.accept(DIV.gtcsolo.item.AbstractLocusItem.of(
+                                            ModItems.DECAYING_STAR_LOCUS.get(), trace));
+                                }
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> HATCH_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_hatch_tab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> {
+                                var creativeGas = DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.CREATIVE_LOOKUP
+                                        .getOrDefault(
+                                                DIV.gtcsolo.integration.mekanism.capability.ChemicalHatchVariant.GAS,
+                                                java.util.Collections.emptyMap())
+                                        .get(com.gregtechceu.gtceu.api.capability.recipe.IO.IN);
+                                return creativeGas != null ? creativeGas.asStack() : new ItemStack(ModItems.XCRYSTAL.get());
+                            })
+                            .title(Component.translatable("itemGroup.gtcsolo.hatch"))
+                            .displayItems((params, output) -> {
+                                // Upgrade Hatch
+                                ModMachines.UPGRADE_HATCHES.values()
+                                        .forEach(def -> output.accept(def.asStack()));
+                                // SpaceForge Energy Hatch
+                                ModMachines.SPACEFORGE_ENERGY_HATCH.values()
+                                        .forEach(ampMap -> ampMap.values()
+                                                .forEach(def -> output.accept(def.asStack())));
+                                // Mek chemical IO hatch 60台
+                                DIV.gtcsolo.integration.mekanism.capability.ChemicalHatches.ALL
+                                        .forEach(def -> output.accept(def.asStack()));
+                                // Universal IO hatch 18台
+                                DIV.gtcsolo.integration.mekanism.capability.UniversalHatches.ALL
+                                        .forEach(def -> output.accept(def.asStack()));
+                                DIV.gtcsolo.integration.mekanism.capability.MultiChemicalBuses.ALL
+                                        .forEach(def -> output.accept(def.asStack()));
+                                if (IndustrialCircuitAssemblyLines.DATA_HATCH != null)
+                                    output.accept(IndustrialCircuitAssemblyLines.DATA_HATCH.asStack());
+                                for (var component : TieredHpcaComponents.all()) output.accept(component.asStack());
+                                // OverPower hatch 5台 (Item In/Out, Fluid In/Out, Energy Out)
+                                if (ModMachines.OVERPOWER_ITEM_IN_HATCH != null) output.accept(ModMachines.OVERPOWER_ITEM_IN_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_ITEM_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_ITEM_OUT_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_FLUID_IN_HATCH != null) output.accept(ModMachines.OVERPOWER_FLUID_IN_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_FLUID_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_FLUID_OUT_HATCH.asStack());
+                                if (ModMachines.OVERPOWER_ENERGY_OUT_HATCH != null) output.accept(ModMachines.OVERPOWER_ENERGY_OUT_HATCH.asStack());
+                                // Creative hatch 4台 (Item In/Out, Fluid In/Out)
+                                if (ModMachines.CREATIVE_ITEM_IN_HATCH != null) output.accept(ModMachines.CREATIVE_ITEM_IN_HATCH.asStack());
+                                if (ModMachines.CREATIVE_ITEM_OUT_HATCH != null) output.accept(ModMachines.CREATIVE_ITEM_OUT_HATCH.asStack());
+                                if (ModMachines.CREATIVE_FLUID_IN_HATCH != null) output.accept(ModMachines.CREATIVE_FLUID_IN_HATCH.asStack());
+                                if (ModMachines.CREATIVE_FLUID_OUT_HATCH != null) output.accept(ModMachines.CREATIVE_FLUID_OUT_HATCH.asStack());
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> MATERIAL_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_material", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> new ItemStack(ModItems.FCORE.get()))
+                            .title(Component.translatable("itemGroup.gtcsolo.material"))
+                            .displayItems((params, output) -> {
+                                ModMaterials.addToCreativeTab(output);
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> CABLE_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_cable", () ->
+                    CreativeModeTab.builder()
+                            // アイコン: Fractaline 2倍ワイヤー (超電導は絶縁cableGt*が生成されないため wireGt* を採用)
+                            .icon(() -> ChemicalHelper.get(TagPrefix.wireGtDouble, ModMaterials.FRACTALINE))
+                            .title(Component.translatable("itemGroup.gtcsolo.cable"))
+                            .displayItems((params, output) -> {
+                                ModMaterials.addCablesToCreativeTab(output);
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> MATERIAL_TOOL_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_material_tools", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> {
+                                ItemStack stack = DIV.gtcsolo.registry.tool.GtcToolMaterialFlags.iconStack();
+                                return stack.isEmpty() ? new ItemStack(ModItems.FCORE.get()) : stack;
+                            })
+                            .title(Component.translatable("itemGroup.gtcsolo.material_tools"))
+                            .displayItems((params, output) ->
+                                    DIV.gtcsolo.registry.tool.GtcToolMaterialFlags.addToCreativeTab(output))
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> ICONSET_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_iconset_lab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() ->
+                                    DIV.gtcsolo.registry.freeform.FreeformMaterialIcons.TEST_INGOT.asStack())
+                            .title(Component.translatable("itemGroup.gtcsolo.iconset_lab"))
+                            .displayItems((params, output) -> {
+                                output.accept(DIV.gtcsolo.registry.freeform.FreeformMaterialIcons.TEST_INGOT.asStack());
+                                output.accept(DIV.gtcsolo.registry.freeform.FreeformMaterialIcons.TEST_BLOCK.asStack());
+                            })
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> ITEM_INJECTION_PROTOTYPE_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_item_injection_prototypes", () ->
+                    CreativeModeTab.builder()
+                            .icon(DIV.gtcsolo.registry.iteminjection.KnownItemInjections::prototypeIcon)
+                            .title(Component.translatable("itemGroup.gtcsolo.item_injection_prototypes"))
+                            .displayItems((params, output) ->
+                                    DIV.gtcsolo.registry.iteminjection.KnownItemInjections
+                                            .addPrototypesToCreativeTab(output))
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> ITEM_INJECTION_FINISHED_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_item_injection_finished", () ->
+                    CreativeModeTab.builder()
+                            .icon(DIV.gtcsolo.registry.iteminjection.KnownItemInjections::finishedIcon)
+                            .title(Component.translatable("itemGroup.gtcsolo.item_injection_finished"))
+                            .displayItems((params, output) ->
+                                    DIV.gtcsolo.registry.iteminjection.KnownItemInjections
+                                            .addFinishedToCreativeTab(output))
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> GENERIC_ITEM_INJECTION_PROTOTYPE_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_generic_item_injection_prototypes", () ->
+                    CreativeModeTab.builder()
+                            .icon(DIV.gtcsolo.registry.genericiteminjection.GenericItemInjections::prototypeIcon)
+                            .title(Component.translatable(
+                                    "itemGroup.gtcsolo.generic_item_injection_prototypes"))
+                            .displayItems((params, output) ->
+                                    DIV.gtcsolo.registry.genericiteminjection.GenericItemInjections
+                                            .addPrototypesToCreativeTab(output))
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> GENERIC_ITEM_INJECTION_FINISHED_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_generic_item_injection_finished", () ->
+                    CreativeModeTab.builder()
+                            .icon(DIV.gtcsolo.registry.genericiteminjection.GenericItemInjections::finishedIcon)
+                            .title(Component.translatable(
+                                    "itemGroup.gtcsolo.generic_item_injection_finished"))
+                            .displayItems((params, output) ->
+                                    DIV.gtcsolo.registry.genericiteminjection.GenericItemInjections
+                                            .addFinishedToCreativeTab(output))
+                            .build()
+            );
+
+    public static final RegistryObject<CreativeModeTab> WIRELESS_TAB =
+            CREATIVE_MODE_TABS.register("gtcsolo_wireless_tab", () ->
+                    CreativeModeTab.builder()
+                            .icon(() -> new ItemStack(ModItems.WEN_MAINSTORAGE_CASING_ITEM.get()))
+                            .title(Component.translatable("itemGroup.gtcsolo.wireless"))
+                            .displayItems((params, output) -> {
+                                // WENブロック群
+                                output.accept(ModItems.WEN_MAINSTORAGE_CASING_ITEM.get());
+                                output.accept(ModItems.WEN_MAINSTORAGE_OUTPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_MAINSTORAGE_INPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_DATA_MONITOR_ITEM.get());
+                                output.accept(ModItems.WEN_BASIC_ENERGY_CELL_ITEM.get());
+                                // AE2版ポート群
+                                output.accept(ModItems.WEN_AE_INPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_AE_OUTPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_WIRELESS_ENERGYCARD.get());
+                                // FEワイヤレスポート群
+                                output.accept(ModItems.WEN_FE_INPUT_PORT_ITEM.get());
+                                output.accept(ModItems.WEN_FE_OUTPUT_PORT_ITEM.get());
+                                // WENコントローラー
+                                if (ModMachines.WEN_MAIN_STORAGE != null)
+                                    output.accept(ModMachines.WEN_MAIN_STORAGE.asStack());
+                                if (ModMachines.WEN_NEXUS_ASSEMBLER != null)
+                                    output.accept(ModMachines.WEN_NEXUS_ASSEMBLER.asStack());
+                                // ワイヤレスIOマシン全種
+                                WENMachines.WIRELESS_INPUT.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                                WENMachines.WIRELESS_OUTPUT.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                                WENMachines.ENERGY_HATCH.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                                WENMachines.ENERGY_OUTPUT_HATCH.values().forEach(ampMap ->
+                                        ampMap.values().forEach(def -> output.accept(def.asStack())));
+                            })
+                            .build()
+            );
+
+    /**
+     * WEN 系アイテムを GTCSOLO_TAB から除外して WIRELESS_TAB のみに表示させる.
+     * ModBlocks/ModItems の登録完了後に呼ぶ.
+     */
+    public static void applyTabOverrides() {
+        assignTab(ModItems.WEN_MAINSTORAGE_CASING_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_MAINSTORAGE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_MAINSTORAGE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_DATA_MONITOR_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_BASIC_ENERGY_CELL_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_AE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_AE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_WIRELESS_ENERGYCARD, WIRELESS_TAB);
+        assignTab(ModItems.WEN_FE_INPUT_PORT_ITEM, WIRELESS_TAB);
+        assignTab(ModItems.WEN_FE_OUTPUT_PORT_ITEM, WIRELESS_TAB);
+    }
+}

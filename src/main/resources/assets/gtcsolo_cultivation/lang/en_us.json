@@ -1,0 +1,12 @@
+{
+  "block.gtcsolo.cultivation_formation_room": "Cultivation Formation Chamber",
+  "gtcsolo.cultivation_formation": "Seed Formation",
+  "gtcsolo.cultivation.essences_required": "Requires 10 each of Air, Earth, Water and Fire Essence",
+  "gtcsolo.cultivation.output_wait": "Waiting to transfer elemental essences",
+  "gtcsolo.cultivation.introduction.1": "Forms seeds from materials and cultivation fluids, supplying seeds for resource production in the Farming Room. Four elemental essences support formation and can be reused.",
+  "gtcsolo.cultivation.introduction.2": "Structure:\nVoltage casings and glass must share the same tier. That tier also limits the operating voltage. Heatproof Machine Casing positions accept input, output, energy, parallel and maintenance parts.",
+  "gtcsolo.cultivation.introduction.3": "Performance:\nSupports industrial overclocking, parallel control hatches and sub-tick parallelism. Input/output bonuses multiply with the parallel count.",
+  "gtcsolo.cultivation.introduction.4": "Elemental essences:\nPlace 10 each of Air, Earth, Water and Fire Essence in the input buses. Before processing starts, one to three types and zero to ten of each are selected to move from input to output on completion. Parallel processing does not increase these requirements or transfer amounts. Both the products and selected essences must fit in the outputs before processing can begin.",
+  "gtcsolo.cultivation.introduction.5": "Angel's share:\nEach selected type moving at least two essences has a 25% chance to lose one as the angel's share. The remainder goes to the outputs. Transfers of zero or one essence incur no loss.",
+  "gtcsolo.cultivation.introduction.6": "Return output essences to the inputs and replenish the angel's share for continuous operation. Processing waits if a required essence is missing and resumes when replenished. If the outputs fill during processing, the machine waits for space."
+}

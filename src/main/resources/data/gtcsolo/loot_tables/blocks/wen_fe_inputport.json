@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "gtcsolo:wen_fe_inputport",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "wen_linked_id",
+                  "target": "BlockEntityTag.wen_linked_id",
+                  "op": "replace"
+                },
+                {
+                  "source": "wen_prepaid_fe",
+                  "target": "BlockEntityTag.wen_prepaid_fe",
+                  "op": "replace"
+                },
+                {
+                  "source": "wen_pending_fe",
+                  "target": "BlockEntityTag.wen_pending_fe",
+                  "op": "replace"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

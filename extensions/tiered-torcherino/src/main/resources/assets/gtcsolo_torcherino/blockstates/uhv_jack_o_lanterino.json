@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gtcsolo_torcherino:block/uhv_jack_o_lanterino",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtcsolo_torcherino:block/uhv_jack_o_lanterino"
+    },
+    "facing=south": {
+      "model": "gtcsolo_torcherino:block/uhv_jack_o_lanterino",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gtcsolo_torcherino:block/uhv_jack_o_lanterino",
+      "y": 270
+    }
+  }
+}

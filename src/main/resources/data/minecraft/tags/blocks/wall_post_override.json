@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo:voltage_torch_lv",
+    "gtcsolo:voltage_torch_mv",
+    "gtcsolo:voltage_torch_hv",
+    "gtcsolo:voltage_torch_ev",
+    "gtcsolo:voltage_torch_iv",
+    "gtcsolo:voltage_torch_luv",
+    "gtcsolo:voltage_torch_zpm",
+    "gtcsolo:voltage_torch_uv",
+    "gtcsolo:voltage_torch_uhv",
+    "gtcsolo:voltage_torch_uev",
+    "gtcsolo:voltage_torch_uiv",
+    "gtcsolo:voltage_torch_uxv",
+    "gtcsolo:voltage_torch_opv",
+    "gtcsolo:voltage_torch_max"
+  ]
+}

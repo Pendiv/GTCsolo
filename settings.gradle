@@ -1,0 +1,32 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        // SpongePowered (Mixin gradle plugin)
+        maven {
+            name = 'SpongePowered'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+}
+
+rootProject.name = 'gtcsoloeu'
+
+include ':cmdex'
+project(':cmdex').projectDir = file('MODs/CmdExtra')
+
+include ':credit'
+project(':credit').projectDir = file('MODs/credit')
+
+include ':battle'
+project(':battle').projectDir = file('MODs/allthegregtechbattle')
+
+include ':tieredTorcherino'
+project(':tieredTorcherino').projectDir = file('extensions/tiered-torcherino')

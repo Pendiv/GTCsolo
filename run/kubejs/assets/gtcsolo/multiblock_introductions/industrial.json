@@ -1,0 +1,44 @@
+{
+  "entries": [
+    {
+      "machine": "gtceu:industrial_macerator",
+      "prefix": "gtcsolo.industrial_macerator.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_sifter",
+      "prefix": "gtcsolo.industrial_sifter.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_material_press",
+      "prefix": "gtcsolo.industrial_material_press.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_cutter",
+      "prefix": "gtcsolo.industrial_cutter.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_mixer",
+      "prefix": "gtcsolo.industrial_mixer.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_centrifuge",
+      "prefix": "gtcsolo.industrial_centrifuge.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:industrial_electrolyzer",
+      "prefix": "gtcsolo.industrial_electrolyzer.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:precision_blast_furnace",
+      "prefix": "gtcsolo.precision_blast.introduction.",
+      "paragraphs": 5
+    }
+  ]
+}

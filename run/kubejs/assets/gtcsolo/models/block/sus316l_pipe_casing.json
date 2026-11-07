@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "all": "gtcsolo:block/casings/industrial/sus316l_pipe_casing"
+  }
+}

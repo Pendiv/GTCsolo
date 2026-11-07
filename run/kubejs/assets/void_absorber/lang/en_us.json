@@ -1,0 +1,16 @@
+{
+  "block.gtceu.chaos_void_absorber": "Void Absorber",
+  "gtceu.ocean_fluid_extraction": "Ocean Extraction",
+  "gtceu.bedrock_fluid_extraction": "Fluid Vein Extraction",
+  "gtceu.void_absorber": "MA Source Extraction",
+  "gtcsolo.void_absorber.foundation": "Use bedrock or deepslate in the foundation, including at least five bedrock blocks.",
+  "gtcsolo.void_absorber.no_ocean": "No ocean biome above the extraction shaft",
+  "gtcsolo.void_absorber.ma_voltage": "MA source extraction requires UV voltage",
+  "gtcsolo.void_absorber.introduction.1": "Overview:\nAn advanced machine that extracts abundant, high-quality resources from the bedrock layer. Three modes extract different fluids.",
+  "gtcsolo.void_absorber.introduction.2": "Details\nMachine Performance:\nThe extraction shaft can be extended to suit the installation. Its length does not affect extraction performance.",
+  "gtcsolo.void_absorber.introduction.3": "All three modes support industrial overclocking. Reduced wear on fluid veins makes the machine suitable for a sustained, large-scale fluid supply.",
+  "gtcsolo.void_absorber.introduction.4": "Ocean Extraction:\nRequires an ocean biome directly above the extraction shaft. At its base MV voltage, it produces 4,000 mB of Salt Water per second.",
+  "gtcsolo.void_absorber.introduction.5": "Fluid Vein Extraction:\nRequires a chunk with a non-depleted fluid vein. At its base EV voltage, output is comparable to an EV Fluid Drilling Rig. More remaining fluid increases output; extraction stops when the vein is depleted. Remaining reserves are shared with other drilling rigs.",
+  "gtcsolo.void_absorber.introduction.6": "MA Source Extraction:\nRequires UV voltage. The careful extraction process produces 100 mB every 10 seconds without overclocking. Extraction does not damage the source, allowing continuous operation.",
+  "gtcsolo.void_absorber.introduction.7": "Notes:\n・Build the foundation from bedrock or deepslate, including at least five bedrock blocks.\n・Switching modes interrupts the current extraction cycle."
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtcsolo:block/heat_exchange_casing"
+    }
+  }
+}

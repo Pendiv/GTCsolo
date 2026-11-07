@@ -1,0 +1,221 @@
+package DIV.gtcsolo.machine;
+
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class FECMachine extends CoilWorkableElectricMultiblockMachine {
+
+    /** 内部プラズマストレージ: fluidId -> 残量(mb) */
+    private final Map<String, Long> plasmaStorage = new HashMap<>();
+
+    /** 直近レシピのOC回数（消費計算用） */
+    private int lastOcCount = 0;
+
+    /** プラズマ取り込み用ティックサブスクリプション */
+    private com.gregtechceu.gtceu.api.machine.TickableSubscription plasmaTickSub;
+    private int plasmaTickOffset = 0;
+
+    public FECMachine(IMachineBlockEntity holder) {
+        super(holder);
+    }
+
+    // =========================================================================
+    //  ライフサイクル: プラズマ取り込みをティック駆動に
+    // =========================================================================
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        if (plasmaTickSub == null) {
+            plasmaTickSub = subscribeServerTick(this::onPlasmaCheck);
+        }
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        if (plasmaTickSub != null) {
+            unsubscribe(plasmaTickSub);
+            plasmaTickSub = null;
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (plasmaTickSub != null) {
+            unsubscribe(plasmaTickSub);
+            plasmaTickSub = null;
+        }
+    }
+
+    /** 1秒(20tick)ごとにプラズマを取り込む */
+    private void onPlasmaCheck() {
+        if (!isFormed()) return;
+        if (++plasmaTickOffset % 20 != 0) return;
+        intakePlasma();
+    }
+
+    // =========================================================================
+    //  プラズマ判定: gtceu MODIDかつ末尾が _plasma
+    // =========================================================================
+
+    private static boolean isPlasma(FluidStack fluid) {
+        ResourceLocation id = ForgeRegistries.FLUIDS.getKey(fluid.getFluid());
+        if (id == null) return false;
+        return id.getNamespace().equals("gtceu") && id.getPath().endsWith("_plasma");
+    }
+
+    // =========================================================================
+    //  プラズマ取り込み（レシピ開始時）
+    // =========================================================================
+
+    public void intakePlasma() {
+        for (var part : getParts()) {
+            for (var handler : part.getRecipeHandlers()) {
+                if (handler.getHandlerIO() != IO.IN) continue;
+                if (!(handler instanceof NotifiableFluidTank tank)) continue;
+                for (int i = 0; i < tank.getTanks(); i++) {
+                    FluidStack contained = tank.getFluidInTank(i);
+                    if (contained.isEmpty() || !isPlasma(contained)) continue;
+
+                    String fluidId = ForgeRegistries.FLUIDS.getKey(contained.getFluid()).toString();
+                    int intakeAmount = (contained.getAmount() / 2000) * 2000;
+                    if (intakeAmount <= 0) continue;
+
+                    long stored = plasmaStorage.getOrDefault(fluidId, 0L);
+                    intakeAmount = (int) Math.min(intakeAmount, Long.MAX_VALUE - stored);
+                    if (intakeAmount <= 0) continue;
+                    FluidStack drained = tank.drainInternal(new FluidStack(contained.getFluid(), intakeAmount),
+                            net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                    if (!drained.isEmpty()) {
+                        plasmaStorage.put(fluidId, stored + drained.getAmount());
+                        markDirty();
+                    }
+                }
+            }
+        }
+    }
+
+    // =========================================================================
+    //  プラズマ種類数
+    // =========================================================================
+
+    public int getPlasmaTypeCount() {
+        return plasmaStorage.size();
+    }
+
+    // =========================================================================
+    //  プラズマ消費（レシピ完了時）
+    // =========================================================================
+
+    public void consumePlasma(int ocCount) {
+        if (plasmaStorage.isEmpty() || ocCount <= 0) return;
+
+        long consumePerType = (long) ocCount * 2L;
+        markDirty();
+        Iterator<Map.Entry<String, Long>> it = plasmaStorage.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Long> entry = it.next();
+            long remaining = entry.getValue() - consumePerType;
+            if (remaining <= 0) {
+                it.remove();
+            } else {
+                entry.setValue(remaining);
+            }
+        }
+    }
+
+    // =========================================================================
+    //  レシピ完了フック
+    // =========================================================================
+
+    @Override
+    public boolean beforeWorking(GTRecipe recipe) {
+        if (!super.beforeWorking(recipe)) return false;
+        lastOcCount = Math.max(0, recipe.ocLevel);
+        markDirty();
+        return true;
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        consumePlasma(lastOcCount);
+    }
+
+    // =========================================================================
+    //  レシピモディファイア
+    //  signature: (MetaMachine, GTRecipe) -> ModifierFunction = RecipeModifier functional interface
+    // =========================================================================
+
+    public static ModifierFunction fecOverclock(MetaMachine machine, @Nonnull GTRecipe recipe) {
+        if (!(machine instanceof FECMachine fec)) {
+            return ModifierFunction.IDENTITY;
+        }
+
+        // プラズマ取り込みはティック駆動（onPlasmaCheck）で行う。 ここでは現在のストレージ状態のみ参照する。
+        int plasmaTypes = fec.getPlasmaTypeCount();
+
+        int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
+        int machineTier = fec.getTier();
+
+        // OC回数
+        int totalOcLevels = Math.max(0, machineTier - recipeTier);
+        // PERFECT昇格数 = min(プラズマ種類数, OC回数)
+        int perfectLevels = Math.min(plasmaTypes, totalOcLevels);
+        int nonPerfectLevels = totalOcLevels - perfectLevels;
+
+        // OC倍率計算
+        double eutMultiplier = Math.pow(4.0, totalOcLevels);
+        double durationMultiplier = Math.pow(0.25, perfectLevels) * Math.pow(0.5, nonPerfectLevels);
+
+        return ModifierFunction.builder()
+                .eutMultiplier(eutMultiplier)
+                .durationMultiplier(durationMultiplier)
+                .addOCs(totalOcLevels)
+                .build();
+    }
+
+    // =========================================================================
+    //  NBT永続化
+    // =========================================================================
+
+    @Override
+    public void saveCustomPersistedData(@Nonnull CompoundTag tag, boolean forDrop) {
+        super.saveCustomPersistedData(tag, forDrop);
+        CompoundTag plasmaTag = new CompoundTag();
+        plasmaStorage.forEach((id, amount) -> plasmaTag.putLong(id, amount));
+        tag.put("fec_plasma", plasmaTag);
+        tag.putInt("fec_last_oc", lastOcCount);
+    }
+
+    @Override
+    public void loadCustomPersistedData(@Nonnull CompoundTag tag) {
+        super.loadCustomPersistedData(tag);
+        plasmaStorage.clear();
+        lastOcCount = Math.max(0, tag.getInt("fec_last_oc"));
+        if (tag.contains("fec_plasma")) {
+            CompoundTag plasmaTag = tag.getCompound("fec_plasma");
+            for (String key : plasmaTag.getAllKeys()) {
+                long amount = plasmaTag.getLong(key);
+                if (amount > 0) plasmaStorage.put(key, amount);
+            }
+        }
+    }
+}

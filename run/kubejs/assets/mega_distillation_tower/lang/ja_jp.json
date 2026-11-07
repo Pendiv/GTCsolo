@@ -1,0 +1,8 @@
+{
+  "block.gtceu.mega_distillation_tower": "工業的な蒸留塔",
+  "block.gtceu.mega_distillation_tower.tooltip.bonus": "1並列につき最大64倍の入出力ボーナス。ボーナス分の消費電力は増加しない。",
+  "block.gtceu.mega_distillation_tower.tooltip.parallel": "底部に並列ユニット1台を設置可能。入出力64回分を1並列分の電力で賄い、端数は切り上げる。",
+  "block.gtceu.mega_distillation_tower.tooltip.duration": "処理時間2倍。OCは標準蒸留塔と同じ。",
+  "block.gtceu.mega_distillation_tower.tooltip.height": "中間部は1〜11段。底部・天面を含めて高さ3〜13ブロック。",
+  "block.gtceu.mega_distillation_tower.tooltip.outputs": "液体は下の段から順に搬出。各段と天面の指定位置に液体搬出ハッチを置く。"
+}

@@ -1,0 +1,14 @@
+GTCsolo Tiered Torcherino
+Our independently written extension code: MIT, copyright (c) 2026 DIV.
+
+This extension uses the separately installed Torcherino 20.0.0 library at runtime.
+Torcherino is licensed under LGPL-3.0-only and remains under that license.
+Authors credited by Torcherino: LukeGrahamLandry, NinjaPhenix, sci4me, Moze_Intel.
+Project: https://www.curseforge.com/minecraft/mc-mods/torcherino
+Linked version: https://www.curseforge.com/minecraft/mc-mods/torcherino/files/4722725
+The Torcherino classes, original UI, textures and models are not bundled in this JAR.
+Original assets are referenced from the installed Torcherino resource namespace.
+GNU LGPL v3 and GPL v3 texts accompany this notice under META-INF/licenses/.
+Our complete source and build files are supplied separately under MIT.
+Nothing in our license restricts modification of Torcherino or reverse engineering
+to debug those modifications. The extension does not verify a fixed library hash.

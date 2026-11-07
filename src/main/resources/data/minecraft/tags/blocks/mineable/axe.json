@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo:voltage_jack_o_lantern_lv",
+    "gtcsolo:voltage_jack_o_lantern_mv",
+    "gtcsolo:voltage_jack_o_lantern_hv",
+    "gtcsolo:voltage_jack_o_lantern_ev",
+    "gtcsolo:voltage_jack_o_lantern_iv",
+    "gtcsolo:voltage_jack_o_lantern_luv",
+    "gtcsolo:voltage_jack_o_lantern_zpm",
+    "gtcsolo:voltage_jack_o_lantern_uv",
+    "gtcsolo:voltage_jack_o_lantern_uhv",
+    "gtcsolo:voltage_jack_o_lantern_uev",
+    "gtcsolo:voltage_jack_o_lantern_uiv",
+    "gtcsolo:voltage_jack_o_lantern_uxv",
+    "gtcsolo:voltage_jack_o_lantern_opv",
+    "gtcsolo:voltage_jack_o_lantern_max"
+  ]
+}

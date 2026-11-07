@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "machine": "gtcsolo:biochemical_reactor",
+      "prefix": "gtcsolo.biochemical.biochemical_reactor.",
+      "paragraphs": 5
+    },
+    {
+      "machine": "gtcsolo:membrane_separator",
+      "prefix": "gtcsolo.biochemical.membrane_separator.",
+      "paragraphs": 4
+    }
+  ]
+}

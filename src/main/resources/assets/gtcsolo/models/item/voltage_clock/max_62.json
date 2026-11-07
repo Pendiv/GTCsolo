@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtcsolo:item/voltage_clock/max_62"
+  }
+}

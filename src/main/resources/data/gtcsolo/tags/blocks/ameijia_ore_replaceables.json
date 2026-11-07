@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:stone_ore_replaceables",
+    "#minecraft:deepslate_ore_replaceables",
+    {"id": "gtcsolo:ameijia_stone", "required": false},
+    {"id": "gtcsolo:ameijia_deepslate", "required": false}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "gtcsolo:stasis_plasma",
+    "gtcsolo:baryon_plasma",
+    "gtcsolo:bedrockium_plasma",
+    "gtcsolo:jupitate_plasma",
+    "gtcsolo:auroralium_plasma",
+    "gtcsolo:tin_plasma"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "gtceu:block/overlay/tinted/front_2",
+  "textures": {
+    "particle": "gtceu:block/overlay/machine/overlay_hatch",
+    "overlay": "gtcsolo:block/port/energy_output/output_4a",
+    "overlay_tinted": "gtcsolo:block/port/energy_output/output_4a"
+  }
+}

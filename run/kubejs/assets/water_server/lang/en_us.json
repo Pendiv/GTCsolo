@@ -1,0 +1,10 @@
+{
+  "block.gtceu.water_server": "Water Dispenser",
+  "gtcsolo.water_server.flexible": "The controller can replace any wooden wall in the structure",
+  "gtcsolo.water_server.ready": "Water supply available",
+  "gtcsolo.water_server.stored": "Stored water: %s / %s mB",
+  "gtcsolo.water_server.rate": "Water production: %s mB/t",
+  "gtcsolo.water_server.introduction.1": "A continuous water supply that operates without power. Water is stored inside the controller and can be extracted from it.",
+  "gtcsolo.water_server.introduction.2": "The controller can replace any wooden wall in the structure. While formed, use an empty bottle, cell, bucket or another fluid container on a wooden wall to collect water.",
+  "gtcsolo.water_server.introduction.3": "Produces 500 mB/t and stores up to 200,000 mB. Breaking the structure stops generation and wall dispensing. Stored water can still be extracted from the controller."
+}

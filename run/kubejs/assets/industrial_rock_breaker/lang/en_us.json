@@ -1,0 +1,10 @@
+{
+  "block.gtceu.industrial_rock_breaker": "Industrial Rock Crusher",
+  "gtceu.advanced_rock_breaker": "Advanced Rock Breaking",
+  "gtcsolo.rock_breaker.environment_missing": "Insufficient environmental fluid",
+  "gtcsolo.rock_breaker.environment_fluids": "Environment: %s + %s (not consumed)",
+  "gtcsolo.rock_breaker.introduction.1": "An industrial machine that maintains an internal fluid environment for continuous rock production. Supports Rock Breaker and Advanced Rock Breaking recipes.",
+  "gtcsolo.rock_breaker.introduction.2": "Accepts up to two ULV Input Hatches for the environment. Each 1,000 mB pair of the required fluids enables one parallel operation, up to eight. Environmental fluids are not consumed.",
+  "gtcsolo.rock_breaker.introduction.3": "Supports industrial overclocking. Its input and output bonus multiplies with the parallel count provided by the environmental fluids. The internal fluids and moving rocks reflect the running recipe.",
+  "gtcsolo.rock_breaker.introduction.4": "Advanced Rock Breaking produces Netherrack with Lava and Liquid Nether Air, or End Stone with Lava and Liquid Ender Air. As with an ordinary Rock Crusher, place a sample of the desired rock in the input bus."
+}

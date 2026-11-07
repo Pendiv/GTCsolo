@@ -1,0 +1,22 @@
+{
+  "loader": "forge:separate_transforms",
+  "textures": {
+    "particle": "gtcsolo:item/draconic_star_weighted"
+  },
+  "base": {
+    "parent": "forge:item/default",
+    "loader": "forge:item_layers",
+    "textures": {
+      "layer0": "gtcsolo:item/draconic_star_weighted"
+    }
+  },
+  "perspectives": {
+    "ground": {
+      "parent": "forge:item/default",
+      "loader": "forge:item_layers",
+      "textures": {
+        "layer0": "gtcsolo:item/draconic_star_dropped"
+      }
+    }
+  }
+}

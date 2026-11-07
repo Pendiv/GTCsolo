@@ -1,0 +1,6 @@
+{
+  "block.gtceu.multi_ebf": "Multi Electric Blast Furnace",
+  "block.gtceu.multi_ebf.tooltip.parallel": "Up to 4 parallels. Power consumption and input/output amounts scale with the parallel count.",
+  "block.gtceu.multi_ebf.tooltip.energy": "Accepts 1 to 4 energy input hatches.",
+  "block.gtceu.multi_ebf.tooltip.hatches": "Heatproof casings accept I/O and maintenance hatches. One muffler is required at the top center."
+}

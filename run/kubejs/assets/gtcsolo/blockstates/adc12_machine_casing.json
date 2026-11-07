@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtcsolo:block/adc12_machine_casing"
+    }
+  }
+}

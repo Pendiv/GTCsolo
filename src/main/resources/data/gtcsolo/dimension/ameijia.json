@@ -1,0 +1,11 @@
+{
+  "type": "gtcsolo:ameijia",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "gtcsolo:ameijia",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "preset": "minecraft:overworld"
+    }
+  }
+}

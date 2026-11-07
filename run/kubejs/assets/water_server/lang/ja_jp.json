@@ -1,0 +1,10 @@
+{
+  "block.gtceu.water_server": "ウォーターサーバー",
+  "gtcsolo.water_server.flexible": "コアは木製の壁の位置に設置できます",
+  "gtcsolo.water_server.ready": "給水できます",
+  "gtcsolo.water_server.stored": "貯水量: %s / %s mB",
+  "gtcsolo.water_server.rate": "水の生成量: %s mB/t",
+  "gtcsolo.water_server.introduction.1": "水を継続的に供給する設備。電力を使わずに水を蓄え、コアから搬出できる。",
+  "gtcsolo.water_server.introduction.2": "コアは構造内の木製の壁の位置なら、どこにでも設置できる。構造が成立している間は、木製の壁に空瓶やセル、バケツなどを使って水を汲める。",
+  "gtcsolo.water_server.introduction.3": "水を500mB/tで生成し、最大200,000mBまで蓄える。構造が崩れると生成と壁からの給水が止まる。蓄えた水はコアから取り出せる。"
+}

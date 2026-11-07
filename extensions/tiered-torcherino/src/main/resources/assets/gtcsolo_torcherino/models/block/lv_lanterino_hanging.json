@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_lantern",
+  "textures": {
+    "lantern": "gtcsolo_torcherino:block/voltage_lantern/lv"
+  },
+  "render_type": "minecraft:cutout"
+}

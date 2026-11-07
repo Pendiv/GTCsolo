@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+[[mods]]
+modId="gtcsolo_torcherino"
+version="0.1.0"
+displayName="GTCsolo Tiered Torcherino"
+description='''GT-tiered acceleration budgets using the installed Torcherino UI and acceleration engine. Independent MIT extension; Torcherino retains its LGPL license.'''
+[[dependencies.gtcsolo_torcherino]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.gtcsolo_torcherino]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.gtcsolo_torcherino]]
+modId="torcherino"
+mandatory=true
+versionRange="[20.0.0,20.0.1)"
+ordering="AFTER"
+side="BOTH"

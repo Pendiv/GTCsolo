@@ -1,0 +1,9 @@
+{
+  "ldlib": {
+    "connection": "gtcsolo:block/casings/coils/machine_coil_draconium_awakened_bloom_ctm",
+    "emissive": true
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "gtcsolo:item/ma_crystal_pickaxe"
+  }
+}

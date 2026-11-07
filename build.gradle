@@ -1,0 +1,612 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+// Ensure subprojects are evaluated before we reference their sourceSets below.
+evaluationDependsOn(':cmdex')
+evaluationDependsOn(':credit')
+// Keep parent-build outputs separate from the extension's standalone build cache.
+project(':tieredTorcherino').layout.buildDirectory.set(layout.buildDirectory.dir('modules/tiered-torcherino'))
+evaluationDependsOn(':tieredTorcherino')
+// Keep battle available for development, but opt in explicitly when testing it.
+def withBattle = providers.gradleProperty('withBattle').map { it.toBoolean() }.getOrElse(false)
+if (withBattle) evaluationDependsOn(':battle')
+
+group = mod_group_id
+version = mod_version
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+jarJar.enable()
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            args '--mixin.config', 'gtcsolo_torcherino.mixins.json'
+            if (project.hasProperty('verboseDevLogs')) {
+                property 'forge.logging.markers', 'REGISTRIES'
+                property 'forge.logging.console.level', 'debug'
+            } else {
+                property 'forge.logging.console.level', 'info'
+            }
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+                cmdex {
+                    source project(':cmdex').sourceSets.main
+                }
+                gtcsolo_torcherino {
+                    source project(':tieredTorcherino').sourceSets.main
+                }
+                if (withBattle) {
+                    battle {
+                        source project(':battle').sourceSets.main
+                    }
+                }
+                // credit は sourceSet 相乗りを止め、 dev jar (official 名) を run/mods に置いて読み込む。
+                // 理由: 相乗りだと credit の implementation 依存 (EMI) も dev run に乗ってしまうため。
+                // EMI は credit に jarJar されておらず外部依存のみなので、 jar 化すれば EMI は付いてこない。
+                // include ':credit' は :credit:devJar を作るため残す。 相乗り (この block) のみ撤去。
+                // credit {
+                //     source project(':credit').sourceSets.main
+                // }
+            }
+        }
+
+        client {
+            property 'gtcsolo.optimization.jei.timing', 'true'
+            if (project.hasProperty('performanceWorld')) {
+                args '--quickPlaySingleplayer', project.property('performanceWorld').toString()
+            }
+            if (project.hasProperty('performanceJfr')) {
+                jvmArgs '-XX:StartFlightRecording=name=gtcsolo_startup,settings=profile,dumponexit=true,filename=' + project.property('performanceJfr').toString()
+            }
+            if (project.hasProperty('performanceBaseline')) {
+                property 'gtcsolo.optimization.hyperlink', 'false'
+                property 'gtcsolo.optimization.jei.introductionIndex', 'false'
+                property 'gtcsolo.optimization.jei.recipeIndex', 'false'
+                property 'gtcsolo.optimization.jei.setterLookup', 'false'
+                property 'gtcsolo.optimization.jei.nativePreview', 'false'
+                property 'gtcsolo.performance.chunkRetry', 'false'
+                property 'gtcsolo.performance.coordinates', 'false'
+                property 'gtcsolo.performance.predicateLoops', 'false'
+                property 'gtcsolo.performance.unconstrainedCells', 'false'
+            }
+            if (project.hasProperty('performanceOptimized')) {
+                property 'gtcsolo.optimization.hyperlink', 'true'
+                property 'gtcsolo.optimization.jei.introductionIndex', 'true'
+                property 'gtcsolo.optimization.jei.recipeIndex', 'true'
+            }
+            if (project.hasProperty('performanceVerify')) {
+                property 'gtcsolo.optimization.jei.recipeIndex.verify', 'true'
+            }
+            if (project.hasProperty('performanceSetterLookup')) {
+                property 'gtcsolo.optimization.jei.setterLookup', 'true'
+            }
+            if (project.hasProperty('performanceNativePreview')) {
+                property 'gtcsolo.optimization.jei.nativePreview', 'true'
+                if (project.hasProperty('performanceVerify')) {
+                    property 'gtcsolo.optimization.jei.nativePreview.verify', 'true'
+                }
+            }
+            property 'forge.enabledGameTestNamespaces', mod_id
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+        }
+
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// Mixin gradle plugin: dev/production 両対応で gtcsolo.mixins.json をクラスパスに登録
+mixin {
+    add sourceSets.main, 'gtcsolo.refmap.json'
+    config 'gtcsolo.mixins.json'
+    // Its mixins must follow the optional source set and be available before KubeJS loads.
+    if (withBattle) config 'allthegregtechbattle.mixins.json'
+}
+
+repositories {
+    maven {
+        url = 'https://maven.covers1624.net/'
+        content {
+            includeGroup 'io.codechicken'
+            includeGroup 'com.brandon3055.brandonscore'
+        }
+    }
+    // ForgeGradle が Forge maven / MavenCentral を足すけど、明示してもOK
+    mavenCentral()
+
+    // JEI
+    maven { url = "https://maven.blamejared.com/" }
+    maven { url = "https://cursemaven.com" }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    // Architectury (KubeJS dependency)
+    maven { url = "https://maven.architectury.dev" }
+
+    // AE2公式メンテメイヴン
+    maven {
+        url = "https://modmaven.dev/"
+        content {
+            includeGroup "appeng"
+        }
+    }
+
+    // Apotheosis / Placebo / ApothicAttributes (公式 maven、deobf 配布あり)
+    maven {
+        url = "https://maven.shadowsoffire.dev/releases"
+        content {
+            includeGroup "dev.shadowsoffire"
+        }
+    }
+
+    // Curios (theillusivec4 maven、 L2Hostility の hard dep)
+    maven {
+        url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+            includeGroup "top.theillusivec4.caelus"
+        }
+    }
+
+    // ★重要: libsフォルダを「リポジトリ（倉庫）」として登録する
+    flatDir {
+        dir 'libs'
+    }
+}
+dependencies {
+    // Forge
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // The extension is bundled; Torcherino itself remains the external UI/engine.
+    runtimeOnly(fg.deobf('local:Torcherino-forge-1.20.1:20.0.0')) { transitive = false }
+    jarJar(project(':tieredTorcherino')) {
+        transitive = false
+        jarJar.ranged(it, '[0.1.0,0.2.0)')
+    }
+
+    // Voltage pots reuse Botany Pots cultivation and rendering through their own dev JAR.
+    runtimeOnly(fg.deobf('local:BotanyPots-Forge-1.20.1:13.0.41')) { transitive = false }
+    runtimeOnly(fg.deobf('local:Bookshelf-Forge-1.20.1:20.2.13')) { transitive = false }
+    runtimeOnly(fg.deobf('local:MysticalAgriculture-1.20.1:7.0.23')) { transitive = false }
+    runtimeOnly(fg.deobf('local:Cucumber-1.20.1:7.0.15')) { transitive = false }
+    runtimeOnly(fg.deobf('local:MysticalCustomization-1.20.1:5.0.3')) { transitive = false }
+
+    // JEI
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    // The LDLib slot-position bridge targets the installed JEI implementation.
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+    // Jade — カスタムプロバイダ実装用にAPI(compileOnly)も追加
+    compileOnly fg.deobf("curse.maven:jade-324717:8479276")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:8479276")
+
+    // Synapse Connect — AI連携用。公式mappingの開発jarを開発ランタイムだけに読み込ませる
+    runtimeOnly "local:synapse:1.3.0-DEV"
+
+    // AE2 — 必須依存 (GTCEu前提環境のため)
+    implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
+    runtimeOnly fg.deobf("curse.maven:guideme-1173950:8204776") // AE2 requires GuideME [20.1.7,20.2.0).
+
+    // ExtendedAE 1.4.21 for Forge 1.20.1; its required Glodium library is mirrored locally.
+    implementation fg.deobf("curse.maven:ex-pattern-provider-892005:8918777")
+    runtimeOnly(fg.deobf("local:Glodium-1.20:1.5-forge")) { transitive = false }
+
+
+    implementation fg.deobf("local:gtceu-1.20.1:1.6.4")
+
+
+    implementation fg.deobf("local:ldlib-forge-1.20.1:1.0.48")
+    // Draconic Evolution 1.20.1-3.1.2.621 and its two mandatory runtime libraries.
+    implementation fg.deobf("curse.maven:draconic-evolution-223565:6793843")
+    implementation fg.deobf("com.brandon3055.brandonscore:BrandonsCore:1.20.1-3.2.1.302:universal")
+    implementation fg.deobf("io.codechicken:CodeChickenLib:1.20.1-4.4.0.516:universal")
+    implementation fg.deobf("curse.maven:mekanism-268560:6552911")
+    implementation fg.deobf("curse.maven:mekanism-elements-1103224:9249578") // Mekanism: Elements 3.0.1 (1.20.1 Forge)
+    runtimeOnly fg.deobf("curse.maven:mekanism-generators-268566:6552914")
+    runtimeOnly fg.deobf("curse.maven:evolved-mekanism-1230085:7599591")
+    runtimeOnly fg.deobf("curse.maven:iglee-library-541199:6987117")
+
+    // Immersive Engineering (credit MOD の対応 system 拡張用)
+    implementation fg.deobf("curse.maven:immersive-engineering-231951:6206989")
+
+    // Create (credit MOD の対応 system 拡張用)
+    // Registrate / Flywheel / Ponder / MixinExtras は JarJar で内包済み
+    implementation fg.deobf("curse.maven:create-328085:7178761")
+
+    // Ender IO / Powah — 開発環境用ランタイム (CurseForge file ID 固定)
+    runtimeOnly fg.deobf("curse.maven:ender-io-64578:7726916")       // Ender IO 6.2.18-beta (1.20.1 Forge)
+    runtimeOnly fg.deobf("curse.maven:powah-rearchitected-633483:6828054") // Powah 5.0.11 (1.20.1 Forge)
+    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729105")  // Powah必須: Cloth Config 11.1.136 (Forge)
+
+    // Forge of Planet の建築素材。libs の Forge 1.20.1 JAR を dev 用に再マップする。
+    runtimeOnly fg.deobf("local:Botania:1.20.1-453-FORGE")
+    runtimeOnly fg.deobf("local:chipped-forge-1.20.1:3.0.7")
+    runtimeOnly fg.deobf("local:resourcefullib-forge-1.20.1:2.1.29") // Chipped 必須
+    runtimeOnly fg.deobf("local:athena-forge-1.20.1:3.1.2")         // Chipped の描画ライブラリ
+    runtimeOnly fg.deobf("local:mcw-lights:1.1.5-mc1.20.1forge")
+
+    implementation fg.deobf("local:Registrate-MC1.20:1.3.3")
+    // Re-Avaritia (halo model adapterのcompile API + Singularity 90個KubeJS登録のruntime依存)
+    compileOnly fg.deobf("local:Re-Avaritia-forge-1.20.1:1.3.9.8-release")
+    runtimeOnly fg.deobf("local:Re-Avaritia-forge-1.20.1:1.3.9.8-release")
+    // Death Sentence × Muteki integration test target (dev runtime only)
+    runtimeOnly fg.deobf("curse.maven:hyperlink-1274604:7052766") // Hyperlink-1201.2.4
+    compileOnly fg.deobf("curse.maven:hyperlink-1274604:7052766")
+
+    // Source-reviewed development parity with the pack. Keep a reproducible baseline switch.
+    if (!project.hasProperty('performanceBaseline')) {
+        runtimeOnly fg.deobf('curse.maven:embeddium-908741:5681725')
+        runtimeOnly fg.deobf('curse.maven:ferritecore-429235:4810975')
+        runtimeOnly fg.deobf('curse.maven:modernfix-790626:9251675')
+    }
+    // KubeJS + dependencies (fg.deobf経由でSRG→officialリマッピング)
+    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+
+    // Apotheosis suite
+    implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
+    implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
+    implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
+
+    // L2 suite (= L2Hostility 独自 MobTrait 開発用)
+    // 注: PlayerTotemMixin が MobTraitCap を参照するため runtime にも要、 implementation を使用
+    //  (jar 配布物には bundle されない、 modpack 側の各 mod jar を runtime で使う)
+    implementation fg.deobf("local:l2library:2.5.0-slim")
+    implementation fg.deobf("local:l2serial:1.2.2")
+    implementation fg.deobf("local:l2damagetracker:0.4.3")
+    implementation fg.deobf("local:l2complements:2.6.1-slim")
+    implementation fg.deobf("local:l2modularblock:1.1.0")
+    implementation fg.deobf("local:l2screentracker:0.1.4")
+    implementation fg.deobf("local:l2tabs:0.3.3")
+    implementation fg.deobf("local:l2itemselector:0.1.8")
+    implementation fg.deobf("local:l2hostility:2.5.19")
+    // L2H/Complements の compat class が参照する周辺 L2 系 (= classpath 解決のみ目的)
+    runtimeOnly fg.deobf("local:l2archery:2.4.13")
+    runtimeOnly fg.deobf("local:l2artifacts:2.4.18-slim")
+    runtimeOnly fg.deobf("local:l2backpack:2.4.19-slim")
+    runtimeOnly fg.deobf("local:l2weaponry:2.4.26")
+    runtimeOnly fg.deobf("local:modulargolems:2.4.33-pre4-slim")
+    runtimeOnly fg.deobf("local:pandora:0.1.9-slim")
+    runtimeOnly fg.deobf("local:curseofpandora:2.4.25-slim")
+    runtimeOnly fg.deobf("local:mob_weapon_api:0.2.13")
+    // L2H の hard dep: curios + patchouli (= mods.toml で mandatory 指定)
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1")
+    // Botania 453 は Patchouli 83 以上が必要。相乗りする battle と同じ座標に揃える。
+    runtimeOnly fg.deobf("local:Patchouli:1.20.1-85-FORGE")
+
+    // Fantasy 装備系 + Iron's Spells 'n Spellbooks (コード依存の可能性ありのため implementation)
+    implementation fg.deobf("curse.maven:fantasy-armor-1083998:7850802")
+    implementation fg.deobf("curse.maven:fantasy-weapons-medieval-series-1090102:6761136")
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:7907340")
+    // 上記の前提MOD (Iron's Spells のハード依存 / Fantasy 系の geo レンダリング)。
+    // geckolib は FAArmorItem が implements GeoItem のため、 FA のメソッド呼び出し解決にコンパイル時も必要 (implementation)。
+    implementation fg.deobf("curse.maven:geckolib-388172:7553267")         // 4.8.3
+    runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")      // 1.0.2-rc1+1.20
+    runtimeOnly fg.deobf("curse.maven:irons-lib-1492763:7907335")          // 1.0.2
+
+    // Lukas' Weapon Leveling (武器強化システムの土台。コード依存のため implementation)
+    implementation fg.deobf("curse.maven:weapon-leveling-644704:8044642")
+    // ↑が JarJar する MidnightLib(1.4.2) は dev で refmap が remap されず OptionsScreen で
+    //   NoSuchFieldError クラッシュ。libs/ の同一 jar を fg.deobf 経由で正規 remap し上書きして回避。
+    runtimeOnly fg.deobf("local:midnightlib:1.4.2-forge")
+
+    // Mixin annotation processor (gtceu.refmap 生成用)
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    filteringCharset = 'UTF-8'
+    // src/main/resources と src/generated/resources に同名ファイルがある場合 (例: lang/en_us.json) は
+    // src/main を優先する。srcDir 順序が main → generated なので EXCLUDE で先勝ち (= main 勝ち)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    var replaceProperties = [minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+                             forge_version       : forge_version, forge_version_range: forge_version_range,
+                             loader_version_range: loader_version_range,
+                             mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+                             mod_authors         : mod_authors, mod_description: mod_description,]
+
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    archiveClassifier = 'slim'
+    destinationDirectory = layout.buildDirectory.dir('intermediates/slim')
+    // MixinGradle の addMixinsToJar が gtcsolo.refmap.json を後付けする一方、
+    // sourceSets.main 経由で compile output にも refmap が出るため、 jar task が同名 entry を
+    // 2 回受け取って FAIL する。 EXCLUDE で「先勝ち」 (= 最初に見た方を採用、 後続は無視) し、
+    // ZIP 内には 1 個だけ残るようにして reobfJar が再 zip 化する際の重複検知も回避する。
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(["Specification-Title"     : mod_id,
+                    "Specification-Vendor"    : mod_authors,
+                    "Specification-Version"   : "1",
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : project.jar.archiveVersion,
+                    "Implementation-Vendor"   : mod_authors,
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    "MixinConfigs"            : "gtcsolo.mixins.json"])
+    }
+    finalizedBy 'reobfJar'
+}
+
+// The usual distribution filename must contain the extension on every build.
+tasks.named('jarJar').configure {
+    archiveClassifier = ''
+    dependsOn ':tieredTorcherino:reobfJar'
+    manifest.from(tasks.named('jar', Jar).get().manifest)
+    finalizedBy 'reobfJarJar'
+}
+
+tasks.named('check').configure { dependsOn ':tieredTorcherino:check' }
+
+tasks.register('verifyBundledTorcherino') {
+    group = 'verification'
+    description = 'Checks the distributable contains exactly the production Torcherino extension.'
+    dependsOn 'reobfJarJar'
+    doLast {
+        def bundled = tasks.named('jarJar').get().archiveFile.get().asFile
+        def extensionJar = project(':tieredTorcherino').tasks.named('jar', Jar).get().archiveFile.get().asFile
+        new java.util.zip.ZipFile(bundled).withCloseable { archive ->
+            def metadata = archive.getEntry('META-INF/jarjar/metadata.json')
+            if (metadata == null) throw new GradleException('Missing bundled-mod metadata')
+            def data = new groovy.json.JsonSlurper().parse(archive.getInputStream(metadata))
+            if (data.jars.size() != 1) throw new GradleException('Unexpected embedded dependency count')
+            def nested = data.jars[0]
+            if (nested.identifier.artifact != 'tieredTorcherino') throw new GradleException('Wrong embedded module')
+            def entry = archive.getEntry(nested.path)
+            if (entry == null || !java.util.Arrays.equals(archive.getInputStream(entry).bytes, extensionJar.bytes)) {
+                throw new GradleException('Embedded extension is missing, stale, or not the production artifact')
+            }
+            new java.util.zip.ZipFile(extensionJar).withCloseable { extension ->
+                def resourceRoot = project(':tieredTorcherino').file('src/main/resources').toPath()
+                project(':tieredTorcherino').fileTree('src/main/resources').files.each { resource ->
+                    def path = resourceRoot.relativize(resource.toPath()).toString().replace('\\', '/')
+                    def packed = extension.getEntry(path)
+                    if (packed == null || !java.util.Arrays.equals(extension.getInputStream(packed).bytes, resource.bytes)) {
+                        throw new GradleException("Bundled resource differs from source: ${path}")
+                    }
+                }
+                if (extension.getEntry('gtcsolo_torcherino.refmap.json') == null) {
+                    throw new GradleException('Missing extension Mixin refmap')
+                }
+            }
+            def manifest = new java.util.jar.Manifest(archive.getInputStream(archive.getEntry('META-INF/MANIFEST.MF')))
+            if (manifest.mainAttributes.getValue('MixinConfigs') != 'gtcsolo.mixins.json') {
+                throw new GradleException('The outer JAR must not register the nested Mixin config twice')
+            }
+            println "Bundled Torcherino verified: ${nested.path}, ${entry.size} bytes"
+        }
+    }
+}
+
+tasks.named('check').configure { dependsOn 'verifyBundledTorcherino' }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// MixinGradle removes AP outputs before compile. Classpath-only incremental
+// compilation can process no Mixins, so regenerate and track the complete map.
+tasks.named('compileJava', JavaCompile).configure {
+    options.incremental = false
+    outputs.files(
+        layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'),
+        layout.buildDirectory.file("tmp/compileJava/${mod_id}.refmap.json"),
+        layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg')
+    )
+}
+
+// A dev launch must compile only the source sets it loads.
+tasks.matching { it.name in ['prepareRunClient', 'prepareRunServer', 'prepareRunGameTestServer'] }.configureEach {
+    dependsOn ':cmdex:classes'
+    dependsOn ':tieredTorcherino:classes'
+    if (withBattle) dependsOn ':battle:classes'
+}
+
+tasks.register('industrialRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs offline industrial regression checks without starting Minecraft.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.IndustrialRegressionTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('industrialRegressionTest') }
+
+tasks.register('voltageLightRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Verifies voltage lantern/pumpkin block states and shared spawn ward identity.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.VoltageLightRegressionTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('voltageLightRegressionTest') }
+
+tasks.register('voltageGlassRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Verifies voltage glass tier identity and glass state behaviour.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.VoltageGlassRegressionTest'
+    enableAssertions = true
+    maxHeapSize = '768m'
+}
+tasks.named('check').configure { dependsOn tasks.named('voltageGlassRegressionTest') }
+
+tasks.register('tieredHpcaRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks tiered HPCA parts with native allocation, cooling, power and damage persistence.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.TieredHpcaNativeRegressionTest'
+    enableAssertions = true
+    maxHeapSize = '768m'
+}
+tasks.named('check').configure { dependsOn tasks.named('tieredHpcaRegressionTest') }
+
+tasks.register('iterativeSampleRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks iterative assembly output samples with native item stacks and Forge inventories.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.IterativeSampleInventoryTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('iterativeSampleRegressionTest') }
+
+tasks.register('copyLayoutRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks copy layout rotation, native NBT serialization, and world-library persistence offline.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.CopyLayoutRegressionTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('copyLayoutRegressionTest') }
+
+tasks.register('wenPatternRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks flexible WEN shell positions and orientations with the native GT matcher.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.WENStoragePatternTest'
+    enableAssertions = true
+    maxHeapSize = '1G'
+}
+
+tasks.named('check').configure { dependsOn tasks.named('wenPatternRegressionTest') }
+
+tasks.register('wenNetworkRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks WEN persistence, precise display values and bounded packet decoding.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.WENNetworkRegressionTest'
+    enableAssertions = true
+}
+
+tasks.named('check').configure { dependsOn tasks.named('wenNetworkRegressionTest') }
+
+tasks.register('megaMixerPatternRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks the full mega mixer array with native GT preview generation and vanilla material stand-ins.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.MegaMixerPatternRegressionTest'
+    enableAssertions = true
+}
+
+tasks.named('check').configure { dependsOn tasks.named('megaMixerPatternRegressionTest') }
+
+tasks.register('oreFactoryPatternRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks the full ore factory array with native GT preview generation and vanilla material stand-ins.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.OreFactoryPatternRegressionTest'
+    enableAssertions = true
+}
+
+tasks.named('check').configure { dependsOn tasks.named('oreFactoryPatternRegressionTest') }
+
+tasks.register('megaBlastPatternRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks the giant furnace array, coil count and controller using native GT preview with stand-in blocks.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.MegaBlastPatternRegressionTest'
+    maxHeapSize = '2g'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('megaBlastPatternRegressionTest') }
+
+tasks.register('fusionVariantRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks exported fusion arrays with native GT preview and the original startup capacity limits.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.FusionVariantRegressionTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('fusionVariantRegressionTest') }
+
+tasks.register('unconstrainedSpaceRegressionTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks native unrestricted structure cells, required casings and source policy.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.UnconstrainedSpaceRegressionTest'
+    enableAssertions = true
+}
+
+tasks.named('check').configure { dependsOn tasks.named('unconstrainedSpaceRegressionTest') }
+
+tasks.register('gleamRayGeometryTest', JavaExec) {
+    group = 'verification'
+    description = 'Checks exposed block surfaces, partial occlusion, light thresholds, range clipping and bounded scans.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.GleamRayGeometryTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('gleamRayGeometryTest') }
+
+tasks.register('gleamRayMobOutlineTest', JavaExec) {
+    group = 'verification'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'DIV.gtcsolo.audit.GleamRayMobOutlineTest'
+    enableAssertions = true
+}
+tasks.named('check').configure { dependsOn tasks.named('gleamRayMobOutlineTest') }

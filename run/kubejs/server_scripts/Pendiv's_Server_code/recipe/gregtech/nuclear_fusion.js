@@ -38,7 +38,6 @@ ServerEvents.recipes(event => {
         ['lead_zinc_70_copernicium', 'gtceu:lead', 16, 'gtcsolo:zinc_70', 16,
             'gtceu:copernicium', 120, UHV, 1280]
     ];
-
     const missing = [];
     reactions.forEach(row => {
         [row[1], row[3], row[5]].forEach(id => {
@@ -66,6 +65,6 @@ ServerEvents.recipes(event => {
             fluidOutput: {fluid: 'gtceu:curium', amount: 1}
         }).id('gtcsolo:rotary/curium');
     }
-    // No recipes are registered here for Fl/Mc/Lv/Ts/Og pending the MK V design.
+    // Fl, Mc, Lv and Ts currently have material forms only.
     // Native darmstadtium production and the dedicated nihonium route are unchanged.
 });

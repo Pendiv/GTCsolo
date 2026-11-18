@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "gamacrafting:block/desk_top",
+    "down": "gamacrafting:block/desk_bottom",
+    "up": "gamacrafting:block/desk_top",
+    "north": "gamacrafting:block/desk_z",
+    "east": "gamacrafting:block/desk_x",
+    "south": "gamacrafting:block/desk_z",
+    "west": "gamacrafting:block/desk_x"
+  }
+}

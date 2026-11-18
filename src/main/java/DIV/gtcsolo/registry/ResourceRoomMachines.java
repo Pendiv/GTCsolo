@@ -129,7 +129,7 @@ public final class ResourceRoomMachines {
                 new RoomStructures.Cell(4, 0, 0), 'w', new RoomStructures.Cell(4, 0, structure.width() - 1), 'm');
     }
 
-    private static MachineDefinition previewEnergy(int grade) {
+    static MachineDefinition previewEnergy(int grade) {
         // High-tier hatches can be disabled by GT config; the corresponding room
         // grade still has a valid lower-voltage preview and cannot overclock past it.
         for (int tier = Math.min(grade, GTMachines.ENERGY_INPUT_HATCH.length - 1); tier >= GTValues.LV; tier--) {

@@ -1,0 +1,6 @@
+{
+  "block.gtceu.industrial_mega_distillation_tower": "工業的巨大蒸留塔",
+  "gtcsolo.industrial_mega_distillation_tower.ports": "液体出力ハッチは、レシピに必要な数を下の段から順に設置する。",
+  "gtcsolo.industrial_mega_distillation_tower.completions": "連続稼働数 %s / %s",
+  "gtcsolo.industrial_mega_distillation_tower.parallels": "記録中のレシピの並列上限 %s"
+}

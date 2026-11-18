@@ -80,8 +80,6 @@ public final class MaskedTextureProvider {
         register("test_u", "certus",         maskLoc("masked_3"));
         register("test_v", "lapis",          maskLoc("masked_4"));
         register("test_w", "radioactive",    maskLoc("masked_5"));
-        // gtcsolo:aurum_stellis_gold (Java 移植済) 用
-        register("aurum_stellis_gold", "shiny", maskLoc("masked_7"));
         // gtcsolo:nether_star — Apotheosis Gem 用、 GTCEu netherstar base × 白寄り cyan mask
         register("nether_star", "netherstar", maskLoc("nether_star"));
         LOGGER.debug("[MaskedTex] bootstrap() done — {} entries registered", ENTRIES.size());

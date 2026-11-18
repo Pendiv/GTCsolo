@@ -91,9 +91,7 @@
             const ticks = Math.max(1, Math.floor(Number(recipe.duration) * entry.base_duration *
                 Math.pow(Industrial.INDUSTRIAL_DURATION_FACTOR, stages)));
             if (!Number.isFinite(ticks) || ticks > 2147483647) return ModifierFunction.NULL;
-            const bonus = ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(entry.base_io))
-                .parallels(entry.base_io)
+            const bonus = Industrial.inputOutputBonus(entry.base_io)
                 .durationModifier(ContentModifier.addition(ticks - Number(adjusted.duration)))
                 .build();
             // Native content copying preserves non-consumables and uses parallels for chance rolls.

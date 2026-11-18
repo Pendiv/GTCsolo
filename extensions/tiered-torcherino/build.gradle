@@ -47,6 +47,14 @@ dependencies {
 }
 configurations.configureEach { if (name == '__obfuscated') transitive = false }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('processResources', ProcessResources).configure {
+    def modVersion = project.version.toString()
+    inputs.property('mod_version', modVersion)
+    filteringCharset = 'UTF-8'
+    filesMatching('META-INF/mods.toml') {
+        expand mod_version: modVersion
+    }
+}
 tasks.named('jar', Jar).configure {
     manifest { attributes('MixinConfigs': 'gtcsolo_torcherino.mixins.json') }
     finalizedBy 'reobfJar'

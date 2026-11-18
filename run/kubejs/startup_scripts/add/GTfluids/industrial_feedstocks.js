@@ -1,6 +1,6 @@
 // Activate native placeholder elements required by the industrial alloy recipes.
 GTCEuStartupEvents.registry('gtceu:material', event => {
-    event.create('gtcsolo:zircon').dust().color(0xB78D61).iconSet(GTMaterialIconSet.DULL)
+    event.create('gtcsolo:zircon').dust().ore(1, 1, false).color(0xB78D61).iconSet(GTMaterialIconSet.DULL)
         .flags(GTMaterialFlags.DISABLE_DECOMPOSITION);
 });
 

@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.resources.ResourceLocation;
@@ -76,7 +77,7 @@ public class ModMaterials {
 
     /** mask 系統 iconset 名一覧 = big_plate 自動生成から除外する material の判定用 */
     public static final Set<String> MASKED_ICONSETS = Set.of(
-            "paleblue_star", "red_star", "aurum_stellis_gold",
+            "paleblue_star", "red_star",
             "test_a", "test_b", "test_c", "test_d",
             "test_e", "test_f", "test_g", "test_h",
             "test_i", "test_j", "test_k", "test_l",
@@ -779,7 +780,8 @@ public class ModMaterials {
         // aurum_stellis_gold (旧 austar.js)
         AURUM_STELLIS_GOLD = new Material.Builder(id("aurum_stellis_gold"))
                 .ingot()
-                .color(0xFFD700)
+                .liquid(new FluidBuilder().textures(true, true))
+                .color(0xFFFFFF)
                 .iconSet(ICON_AURUM_STELLIS_GOLD)
                 .blastTemp(21600, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.UIV], 4000)
                 .cableProperties(GTValues.V[GTValues.UIV], 128, 0, true)

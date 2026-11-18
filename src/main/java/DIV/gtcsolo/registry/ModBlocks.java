@@ -2,11 +2,13 @@ package DIV.gtcsolo.registry;
 
 import DIV.gtcsolo.Gtcsolo;
 import DIV.gtcsolo.block.ExtendEnergyCubeBlock;
+import DIV.gtcsolo.block.FusionMk5CasingType;
 import DIV.gtcsolo.block.datachest.DataChestBlock;
 import DIV.gtcsolo.block.wen.WENDataMonitorBlock;
 import DIV.gtcsolo.block.wen.WENPortBlock;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
+import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import DIV.gtcsolo.block.DraconicCoilTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -23,6 +25,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> MITHRILITE_MACHINE_CASING = BLOCKS.register("mithrilite_machine_casing",
             () -> new Block(metalCasingProperties()));
+
+    public static final RegistryObject<Block> DAMPED_WASHING_FILTER_CASING =
+            BLOCKS.register("damped_washing_filter_casing",
+                    () -> new Block(metalCasingProperties().strength(2.0f, 8.0f).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> DRACONIC_STEEL_GEARBOX = BLOCKS.register("draconic_steel_gearbox",
             () -> new Block(BlockBehaviour.Properties.of().strength(5.0f, 12.0f)
@@ -64,6 +70,12 @@ public class ModBlocks {
             () -> new com.gregtechceu.gtceu.common.block.FusionCasingBlock(
                     BlockBehaviour.Properties.of().strength(5.0f, 10.0f).sound(SoundType.METAL)
                             .requiresCorrectToolForDrops(), DIV.gtcsolo.block.FusionMk4CasingType.INSTANCE));
+    public static final RegistryObject<FusionCasingBlock> FUSION_CASING_MK5 = BLOCKS.register("fusion_casing_mk5",
+            () -> new FusionCasingBlock(metalCasingProperties().strength(5.0f, 10.0f)
+                    .requiresCorrectToolForDrops(), FusionMk5CasingType.CASING));
+    public static final RegistryObject<FusionCasingBlock> ADVANCED_FUSION_COIL = BLOCKS.register("advanced_fusion_coil",
+            () -> new FusionCasingBlock(metalCasingProperties().strength(5.0f, 10.0f)
+                    .requiresCorrectToolForDrops().noOcclusion(), FusionMk5CasingType.COIL));
 
     public static final RegistryObject<Block> HIGH_STRENGTH_STEEL_CASING =
             BLOCKS.register("high_strength_steel_casing",

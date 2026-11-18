@@ -36,6 +36,11 @@
       "paragraphs": 2
     },
     {
+      "machine": "gtceu:mega_distillation_tower",
+      "prefix": "gtcsolo.mega_distillation_tower.introduction.",
+      "paragraphs": 2
+    },
+    {
       "machine": "gtceu:precision_blast_furnace",
       "prefix": "gtcsolo.precision_blast.introduction.",
       "paragraphs": 5

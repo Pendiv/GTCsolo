@@ -30,6 +30,31 @@ public final class EntroniumPipeModels {
         return model;
     }
 
+    public static PipeModel createRadiant(Insulation type) {
+        String root = "block/material_sets/radiant_entronium/";
+        PipeModel model = new PipeModel(type.thickness,
+                () -> GTCEu.id(root + (type.isCable ? "cable_side_" : "wire_side_") + type.amperage),
+                () -> GTCEu.id(root + "wire_end_" + type.amperage), null, null);
+        if (type.isCable) model.setEndOverlayTexture(GTCEu.id(root + "cable_end_" + type.insulationLevel));
+        return model;
+    }
+
+    public static PipeModel createRadiant(FluidPipeType type) {
+        return radiantPipe(type.thickness, type.name);
+    }
+
+    public static PipeModel createRadiant(ItemPipeType type) {
+        PipeModel model = radiantPipe(type.getThickness(), type.getSizeForTexture());
+        if (type.isRestrictive()) model.setSideOverlayTexture(GTCEu.id("block/pipe/pipe_restrictive"));
+        return model;
+    }
+
+    private static PipeModel radiantPipe(float thickness, String size) {
+        return new PipeModel(thickness,
+                () -> new ResourceLocation("gtcsolo", "block/pipe/radiant_entronium/pipe_side"),
+                () -> new ResourceLocation("gtcsolo", "block/pipe/radiant_entronium/pipe_" + size + "_in"), null, null);
+    }
+
     private static PipeModel pipe(float thickness, String size) {
         return new PipeModel(thickness,
                 () -> new ResourceLocation("gtcsolo", "block/pipe/entronium/pipe_side"),

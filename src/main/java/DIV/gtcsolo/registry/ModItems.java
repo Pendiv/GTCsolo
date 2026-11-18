@@ -7,6 +7,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.List;
+
 public class ModItems {
     private static Item createGleamRayRing() {
         if (net.minecraftforge.fml.ModList.get().isLoaded("curios"))
@@ -16,6 +18,19 @@ public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Gtcsolo.MODID);
+
+    public static final List<RegistryObject<Item>> DRACONIC_CIRCUIT_INTERMEDIATES = List.of(
+            "draconic_capacitor_array", "draconic_chip_carrier", "draconic_conductive_fibers", "draconic_contact_frame",
+            "draconic_control_package", "draconic_crystal_chip_fragments", "draconic_crystal_resonator", "draconic_crystal_soc",
+            "draconic_energy_crystal_chip", "draconic_engraved_crystal_chip", "draconic_epoxy_board", "draconic_epoxy_printed_board",
+            "draconic_fiber_laminate", "draconic_fiber_mesh", "draconic_logic_array", "draconic_memory_array",
+            "draconic_multilayer_board", "draconic_multilayer_printed_board", "draconic_nand_memory_module", "draconic_neural_cells",
+            "draconic_neural_culture", "draconic_neural_interface", "draconic_neural_printed_board", "draconic_neuro_processing_unit",
+            "draconic_nor_memory_module", "draconic_optical_bus", "draconic_power_regulator", "draconic_quantum_crystal",
+            "draconic_quantum_eye", "draconic_raw_crystal_chip", "draconic_reinforced_board", "draconic_reinforced_printed_board",
+            "draconic_signal_coupler", "draconic_silicon_interposer", "dsmd_capacitor", "dsmd_diode", "dsmd_inductor",
+            "dsmd_resistor", "dsmd_transistor", "draconic_thermal_spreader"
+    ).stream().map(id -> ITEMS.register(id, () -> new Item(new Item.Properties()))).toList();
 
     public static final RegistryObject<Item> GLEAM_RAY_RING = ITEMS.register("gleam_ray_ring", ModItems::createGleamRayRing);
 
@@ -27,6 +42,9 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MITHRILITE_MACHINE_CASING = ITEMS.register("mithrilite_machine_casing",
             () -> new BlockItem(ModBlocks.MITHRILITE_MACHINE_CASING.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DAMPED_WASHING_FILTER_CASING =
+            ITEMS.register("damped_washing_filter_casing",
+                    () -> new BlockItem(ModBlocks.DAMPED_WASHING_FILTER_CASING.get(), new Item.Properties()));
 
     // The processor is an intermediate; only assembly/computer/mainframe have circuit-tier tags.
     public static final RegistryObject<Item> DRACONIC_PROCESSOR = ITEMS.register("draconic_processor",
@@ -65,6 +83,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> FUSION_CASING_MK4 = ITEMS.register("fusion_casing_mk4",
             () -> new BlockItem(ModBlocks.FUSION_CASING_MK4.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FUSION_CASING_MK5 = ITEMS.register("fusion_casing_mk5",
+            () -> new BlockItem(ModBlocks.FUSION_CASING_MK5.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ADVANCED_FUSION_COIL = ITEMS.register("advanced_fusion_coil",
+            () -> new BlockItem(ModBlocks.ADVANCED_FUSION_COIL.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> XCRYSTAL =
             ITEMS.register("xcrystal",

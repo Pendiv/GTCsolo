@@ -1,0 +1,119 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:translucent",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "gtcsolo:block/casings/fusion/advanced_fusion_coil",
+    "glass": "gtcsolo:block/casings/fusion/advanced_fusion_coil",
+    "light": "gtcsolo:block/casings/fusion/advanced_fusion_coil_bloom"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#glass",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#glass",
+          "cullface": "south"
+        },
+        "east": {
+          "texture": "#glass",
+          "cullface": "east"
+        },
+        "west": {
+          "texture": "#glass",
+          "cullface": "west"
+        },
+        "up": {
+          "texture": "#glass",
+          "cullface": "up"
+        },
+        "down": {
+          "texture": "#glass",
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "from": [
+        -0.01,
+        -0.01,
+        -0.01
+      ],
+      "to": [
+        16.01,
+        16.01,
+        16.01
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "texture": "#light",
+          "cullface": "north",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        },
+        "south": {
+          "texture": "#light",
+          "cullface": "south",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        },
+        "east": {
+          "texture": "#light",
+          "cullface": "east",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        },
+        "west": {
+          "texture": "#light",
+          "cullface": "west",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        },
+        "up": {
+          "texture": "#light",
+          "cullface": "up",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        },
+        "down": {
+          "texture": "#light",
+          "cullface": "down",
+          "forge_data": {
+            "block_light": 15,
+            "sky_light": 15,
+            "ambient_occlusion": false
+          }
+        }
+      }
+    }
+  ]
+}

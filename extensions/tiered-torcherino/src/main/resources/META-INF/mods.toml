@@ -3,7 +3,7 @@ loaderVersion="[47,)"
 license="MIT"
 [[mods]]
 modId="gtcsolo_torcherino"
-version="0.1.0"
+version="${mod_version}"
 displayName="GTCsolo Tiered Torcherino"
 description='''GT-tiered acceleration budgets using the installed Torcherino UI and acceleration engine. Independent MIT extension; Torcherino retains its LGPL license.'''
 [[dependencies.gtcsolo_torcherino]]

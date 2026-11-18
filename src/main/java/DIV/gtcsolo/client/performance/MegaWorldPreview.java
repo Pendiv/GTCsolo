@@ -378,7 +378,7 @@ public final class MegaWorldPreview {
             lastStatus = now;
             var player = Minecraft.getInstance().player;
             if (player != null) player.displayClientMessage(Component.translatable(
-                    building ? "gtcsolo.mega_preview.mesh" : "gtcsolo.mega_preview.loading",
+                    building ? "gtcsolo.mega_preview.meshing" : "gtcsolo.mega_preview.loading",
                     building ? batches == null ? 0 : batches.percent() : data.visited() * 100 / data.volume()), true);
         }
 

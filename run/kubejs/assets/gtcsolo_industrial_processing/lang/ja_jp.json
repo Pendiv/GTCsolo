@@ -1,0 +1,8 @@
+{
+  "block.gtceu.industrial_chemical_bath": "工業的化学槽",
+  "gtcsolo.industrial_chemical_bath.introduction.1": "洗浄や薬液処理をまとめて行う化学槽。防水マシン外装に液体搬入ハッチを設置して、加工に使う液体を供給する。",
+  "gtcsolo.industrial_chemical_bath.introduction.2": "加工時間が15％短く、工業的オーバークロックに対応する。並列ハッチは設置できない。",
+  "block.gtceu.heating_chamber": "大容量抽出機",
+  "gtcsolo.heating_chamber.introduction.1": "金属をまとめて溶かすのに向いた大型の抽出機。溶けた金属は液体搬出ハッチから取り出せる。",
+  "gtcsolo.heating_chamber.introduction.2": "昇圧前は、通常の4倍の時間で16回分をまとめて処理する。"
+}

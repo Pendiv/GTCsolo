@@ -1,0 +1,8 @@
+{
+  "block.gtcsolo.irradiation_separation_chamber": "照射型分離室",
+  "gtcsolo.irradiation_separation": "照射分離",
+  "gtcsolo.multiblock.error.irradiation_glass_tier": "窓にはIV以上の同じTierの電圧ガラスを使う。",
+  "gtcsolo.irradiation_separation_chamber.introduction.1": "原料に光を照射し、レンズに応じた成分を分離する。レンズはアイテム搬入バスに入れて使い、加工で消費されない。",
+  "gtcsolo.irradiation_separation_chamber.introduction.2": "窓にはIV以上の電圧ガラスを使い、すべて同じTierに揃える。稼働電圧は電圧ガラスとエネルギーハッチの供給に制限される。",
+  "gtcsolo.irradiation_separation_chamber.introduction.3": "濃縮ナクアダ残留物はレンズで先に回収する成分を選べる。分離後の残液を蒸留すると、もう片方の成分を回収できる。"
+}

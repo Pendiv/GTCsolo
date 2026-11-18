@@ -89,11 +89,20 @@ public final class MultiblockIntroductionResources {
 
     static MultiblockIntroduction create(MultiblockMachineDefinition machine, JsonObject entry,
                                         Collection<Fluid> veinFluids) {
-        String prefix = entry.get("prefix").getAsString();
-        int paragraphs = entry.get("paragraphs").getAsInt();
-        if (prefix.isBlank() || paragraphs < 1 || paragraphs > 128)
-            throw new IllegalArgumentException("Invalid introduction text range for " + machine.getId());
-        var introduction = MultiblockIntroduction.named(machine, prefix, paragraphs);
+        var introduction = createText(machine, entry);
+        if (entry.has("variants")) {
+            var variants = new ArrayList<>(introduction.variants());
+            for (var raw : entry.getAsJsonArray("variants")) {
+                var variant = raw.getAsJsonObject();
+                var variantId = new ResourceLocation(variant.get("machine").getAsString());
+                var definition = GTRegistries.MACHINES.get(variantId);
+                if (definition == null) continue;
+                if (!(definition instanceof MultiblockMachineDefinition multiblock))
+                    throw new IllegalArgumentException("Not a multiblock: " + variantId);
+                variants.addAll(createText(multiblock, variant).variants());
+            }
+            introduction = new MultiblockIntroduction(variants, "", List.of());
+        }
         if (!entry.has("fluid_outputs")) return introduction;
         var section = entry.getAsJsonObject("fluid_outputs");
         var groups = new ArrayList<MultiblockIntroduction.FluidGroup>();
@@ -116,6 +125,14 @@ public final class MultiblockIntroductionResources {
         }
         return introduction.withFluidSection(new MultiblockIntroduction.FluidSection(
                 section.get("after_paragraph").getAsInt(), groups));
+    }
+
+    private static MultiblockIntroduction createText(MultiblockMachineDefinition machine, JsonObject entry) {
+        String prefix = entry.get("prefix").getAsString();
+        int paragraphs = entry.get("paragraphs").getAsInt();
+        if (prefix.isBlank() || paragraphs < 1 || paragraphs > 128)
+            throw new IllegalArgumentException("Invalid introduction text range for " + machine.getId());
+        return MultiblockIntroduction.named(machine, prefix, paragraphs);
     }
 
     private static void addFluid(TreeMap<String, FluidStack> fluids, Fluid fluid) {

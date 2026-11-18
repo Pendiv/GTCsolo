@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "north": "gtcsolo:block/particle_accelerator/beam_pipe_end",
+    "south": "gtcsolo:block/particle_accelerator/beam_pipe_end",
+    "east": "gtcsolo:block/particle_accelerator/beam_pipe_side",
+    "west": "gtcsolo:block/particle_accelerator/beam_pipe_side",
+    "up": "gtcsolo:block/particle_accelerator/beam_pipe_side",
+    "down": "gtcsolo:block/particle_accelerator/beam_pipe_side",
+    "particle": "gtcsolo:block/particle_accelerator/beam_pipe_side"
+  }
+}

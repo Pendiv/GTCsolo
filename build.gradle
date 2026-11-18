@@ -11,6 +11,7 @@ evaluationDependsOn(':credit')
 // Keep parent-build outputs separate from the extension's standalone build cache.
 project(':tieredTorcherino').layout.buildDirectory.set(layout.buildDirectory.dir('modules/tiered-torcherino'))
 evaluationDependsOn(':tieredTorcherino')
+evaluationDependsOn(':gamacrafting')
 // Keep battle available for development, but opt in explicitly when testing it.
 def withBattle = providers.gradleProperty('withBattle').map { it.toBoolean() }.getOrElse(false)
 if (withBattle) evaluationDependsOn(':battle')
@@ -36,7 +37,9 @@ minecraft {
     runs {
         configureEach {
             workingDirectory project.file('run')
+            args '--mixin.config', 'cmdex.mixins.json'
             args '--mixin.config', 'gtcsolo_torcherino.mixins.json'
+            args '--mixin.config', 'gamacrafting.mixins.json'
             if (project.hasProperty('verboseDevLogs')) {
                 property 'forge.logging.markers', 'REGISTRIES'
                 property 'forge.logging.console.level', 'debug'
@@ -53,6 +56,9 @@ minecraft {
                 }
                 gtcsolo_torcherino {
                     source project(':tieredTorcherino').sourceSets.main
+                }
+                gamacrafting {
+                    source project(':gamacrafting').sourceSets.main
                 }
                 if (withBattle) {
                     battle {
@@ -81,6 +87,8 @@ minecraft {
                 property 'gtcsolo.optimization.hyperlink', 'false'
                 property 'gtcsolo.optimization.jei.introductionIndex', 'false'
                 property 'gtcsolo.optimization.jei.recipeIndex', 'false'
+                property 'gtcsolo.optimization.jei.nativeItemKeys', 'false'
+                property 'gtcsolo.optimization.jei.arcaneAnvilIndex', 'false'
                 property 'gtcsolo.optimization.jei.setterLookup', 'false'
                 property 'gtcsolo.optimization.jei.nativePreview', 'false'
                 property 'gtcsolo.performance.chunkRetry', 'false'
@@ -224,9 +232,6 @@ dependencies {
     compileOnly fg.deobf("curse.maven:jade-324717:8479276")
     runtimeOnly fg.deobf("curse.maven:jade-324717:8479276")
 
-    // Synapse Connect — AI連携用。公式mappingの開発jarを開発ランタイムだけに読み込ませる
-    runtimeOnly "local:synapse:1.3.0-DEV"
-
     // AE2 — 必須依存 (GTCEu前提環境のため)
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
     runtimeOnly fg.deobf("curse.maven:guideme-1173950:8204776") // AE2 requires GuideME [20.1.7,20.2.0).
@@ -273,8 +278,7 @@ dependencies {
     // Re-Avaritia (halo model adapterのcompile API + Singularity 90個KubeJS登録のruntime依存)
     compileOnly fg.deobf("local:Re-Avaritia-forge-1.20.1:1.3.9.8-release")
     runtimeOnly fg.deobf("local:Re-Avaritia-forge-1.20.1:1.3.9.8-release")
-    // Death Sentence × Muteki integration test target (dev runtime only)
-    runtimeOnly fg.deobf("curse.maven:hyperlink-1274604:7052766") // Hyperlink-1201.2.4
+    // Compile the optional Hyperlink integration without loading it in development runs.
     compileOnly fg.deobf("curse.maven:hyperlink-1274604:7052766")
 
     // Source-reviewed development parity with the pack. Keep a reproducible baseline switch.
@@ -408,12 +412,13 @@ tasks.register('verifyBundledTorcherino') {
                 throw new GradleException('Embedded extension is missing, stale, or not the production artifact')
             }
             new java.util.zip.ZipFile(extensionJar).withCloseable { extension ->
-                def resourceRoot = project(':tieredTorcherino').file('src/main/resources').toPath()
-                project(':tieredTorcherino').fileTree('src/main/resources').files.each { resource ->
+                def resources = project(':tieredTorcherino').tasks.named('processResources').get().destinationDir
+                def resourceRoot = resources.toPath()
+                project(':tieredTorcherino').fileTree(resources).files.each { resource ->
                     def path = resourceRoot.relativize(resource.toPath()).toString().replace('\\', '/')
                     def packed = extension.getEntry(path)
                     if (packed == null || !java.util.Arrays.equals(extension.getInputStream(packed).bytes, resource.bytes)) {
-                        throw new GradleException("Bundled resource differs from source: ${path}")
+                        throw new GradleException("Bundled resource differs from processed output: ${path}")
                     }
                 }
                 if (extension.getEntry('gtcsolo_torcherino.refmap.json') == null) {
@@ -447,11 +452,14 @@ tasks.named('compileJava', JavaCompile).configure {
 }
 
 // A dev launch must compile only the source sets it loads.
-tasks.matching { it.name in ['prepareRunClient', 'prepareRunServer', 'prepareRunGameTestServer'] }.configureEach {
+tasks.matching { it.name ==~ /prepareRun(Client|Server|GameTestServer)(Compile)?/ }.configureEach {
     dependsOn ':cmdex:classes'
     dependsOn ':tieredTorcherino:classes'
+    dependsOn ':gamacrafting:classes'
     if (withBattle) dependsOn ':battle:classes'
 }
+
+apply from: 'gradle/prepare-local-dev-mods.gradle'
 
 tasks.register('industrialRegressionTest', JavaExec) {
     group = 'verification'

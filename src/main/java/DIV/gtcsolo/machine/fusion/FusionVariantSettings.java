@@ -9,7 +9,8 @@ public enum FusionVariantSettings {
     ADVANCED_MK3("advanced", 3), ADVANCED_MK4("advanced", 4),
     COMPACT_MK1("compact", 1), COMPACT_MK2("compact", 2),
     COMPACT_MK3("compact", 3), COMPACT_MK4("compact", 4),
-    GIANT_MK4("giant", 4), MEGA_MK4("mega", 4);
+    GIANT_MK4("giant", 4), MEGA_MK4("mega", 4),
+    STANDARD_MK5("standard", 5);
 
     public final String family;
     public final int mk;
@@ -21,16 +22,21 @@ public enum FusionVariantSettings {
         this.pattern = new FusionVariantPattern(id());
     }
 
-    public String id() { return family.equals("mega") ? "mega_fusion" : family + "_fusion_reactor_mk" + mk; }
+    public String id() {
+        if (family.equals("mega")) return "mega_fusion";
+        if (family.equals("standard")) return "fusion_reactor_mk" + mk;
+        return family + "_fusion_reactor_mk" + mk;
+    }
     public boolean isMega() { return this == MEGA_MK4; }
     public int tier() { return GTValues.LuV + mk - 1; }
-    public int minimumEnergyHatches() { return mk == 4 ? FusionMk4Machine.ENERGY_PORTS : 1; }
-    public int maximumEnergyHatches() { return isMega() ? 128 : mk == 4 ? FusionMk4Machine.ENERGY_PORTS : 16; }
-    public int maximumHatchTier() { return mk == 4 ? GTValues.UHV : GTValues.UV; }
-    public boolean fusionOverclocking() { return mk != 4; }
+    public int minimumEnergyHatches() { return mk >= 4 ? FusionMk4Machine.ENERGY_PORTS : 1; }
+    public int maximumEnergyHatches() { return isMega() ? 128 : mk >= 4 ? FusionMk4Machine.ENERGY_PORTS : 16; }
+    public int maximumHatchTier() { return mk >= 4 ? tier() : GTValues.UV; }
+    public boolean fusionOverclocking() { return mk < 4; }
     /** Receives GT's hatch-count-dependent capacity; use this hook to change actual storage. */
     public long startupCapacity(long nativeCapacity) {
         if (isMega()) return MegaFusionRules.STORAGE;
+        if (this == STANDARD_MK5) return 2_560_000_000L;
         return mk == 4 ? FusionMk4Machine.STARTUP_CAPACITY : nativeCapacity;
     }
     public long maximumStartupCapacity() {

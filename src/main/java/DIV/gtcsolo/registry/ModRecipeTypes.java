@@ -22,6 +22,7 @@ public class ModRecipeTypes {
     public static GTRecipeType ORE_SEPARATION_PROCESS;
     public static GTRecipeType FAMING_ROOM;
     public static GTRecipeType CONSTRUCTION_ROOM;
+    public static GTRecipeType IRRADIATION_SEPARATION;
 
     // WEN (Wireless Energy Network) — ダミーレシピタイプ
     // マルチブロック登録に必要だが、実際のレシピは持たない
@@ -113,6 +114,9 @@ public class ModRecipeTypes {
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
                 .addDataInfo(data -> com.lowdragmc.lowdraglib.utils.LocalizationUtils.format(
                         "gtceu.recipe.temperature", data.getInt(DIV.gtcsolo.machine.RoomRecipeRules.REQUIRED_TEMPERATURE))));
+        IRRADIATION_SEPARATION = reg(type("irradiation_separation")
+                .setMaxIOSize(3, 6, 3, 6).setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT));
         ORE_WASHING_PROCESS = oreFactoryType("ore_washing_process");
         ORE_CHEMICAL_WASHING_PROCESS = oreFactoryType("ore_chemical_washing_process");
         ORE_SEPARATION_PROCESS = oreFactoryType("ore_separation_process");

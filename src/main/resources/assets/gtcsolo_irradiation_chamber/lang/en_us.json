@@ -1,0 +1,8 @@
+{
+  "block.gtcsolo.irradiation_separation_chamber": "Irradiation Separation Chamber",
+  "gtcsolo.irradiation_separation": "Irradiation Separation",
+  "gtcsolo.multiblock.error.irradiation_glass_tier": "Use the same tier of Voltage Glass for every window, IV or higher.",
+  "gtcsolo.irradiation_separation_chamber.introduction.1": "Irradiates the feedstock to separate the components selected by the lens. Place the lens in an Item Input Bus. Processing leaves the lens intact.",
+  "gtcsolo.irradiation_separation_chamber.introduction.2": "Use a single grade of Voltage Glass, IV or higher, for every window. Both the glass tier and the Energy Hatches limit the operating voltage.",
+  "gtcsolo.irradiation_separation_chamber.introduction.3": "When processing Enriched Naquadah Waste, the lens selects which fraction to recover first. Distill the residual liquor to recover the other fraction."
+}

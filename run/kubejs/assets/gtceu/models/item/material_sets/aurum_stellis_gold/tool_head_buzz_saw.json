@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "gui_light": "front",
+  "textures": {
+    "layer0": "gtceu:item/material_sets/aurum_stellis_gold/_blank",
+    "layer1": "gtceu:item/material_sets/aurum_stellis_gold/_blank",
+    "layer2": "gtceu:item/material_sets/aurum_stellis_gold/tool_head_buzz_saw"
+  }
+}

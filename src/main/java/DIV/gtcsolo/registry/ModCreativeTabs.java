@@ -65,6 +65,8 @@ ModCreativeTabs {
                                     output.accept(IndustrialCircuitAssemblyLines.CORE.asStack());
                                 if (IndustrialSuperheatedMegaBlastFurnaces.CORE != null)
                                     output.accept(IndustrialSuperheatedMegaBlastFurnaces.CORE.asStack());
+                                if (DampedWashingCleanrooms.CORE != null)
+                                    output.accept(DampedWashingCleanrooms.CORE.asStack());
                                 if (IterativeAssemblyLines.CORE != null)
                                     output.accept(IterativeAssemblyLines.CORE.asStack());
                                 if (ForgeOfSunMachines.CORE != null)

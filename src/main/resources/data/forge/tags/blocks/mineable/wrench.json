@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "gtcsolo:damped_washing_filter_casing",
     "gtcsolo:draconic_steel_casing",
     "gtcsolo:draconium_coil_block",
     "gtcsolo:draconium_awakened_coil_block",
@@ -12,6 +13,8 @@
     "gtcsolo:stainless_steel_firebox_casing",
     "gtcsolo:mithrilite_extreme_engine_intake_casing",
     "gtcsolo:fusion_casing_mk4",
+    "gtcsolo:fusion_casing_mk5",
+    "gtcsolo:advanced_fusion_coil",
     "gtcsolo:high_strength_steel_casing",
     "gtcsolo:extend_energy_cube",
     "gtcsolo:bedrockium_he_casing",

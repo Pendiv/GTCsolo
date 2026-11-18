@@ -1,6 +1,9 @@
 package DIV.gtcsolo.machine;
 
+import DIV.gtcsolo.machine.mega.MegaMixerRecipeModifiers;
+import DIV.gtcsolo.util.GtcsoloRecipeModifiers;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
@@ -12,7 +15,9 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import DIV.gtcsolo.util.GtcsoloRecipeModifiers;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.gregtechceu.gtceu.common.machine.trait.FluidDrillLogic;
 import net.minecraft.ChatFormatting;
@@ -39,11 +44,24 @@ public final class VoidAbsorberMachine extends WorkableElectricMultiblockMachine
     public static final int MA_MODE = 2;
     private static final int DRILL_TIER = GTValues.EV;
     private static final String VEIN_RECIPE = "gtcsolo_absorber_vein";
+    private static final String VEIN_BATCHES = "gtcsolo_absorber_vein_batches";
+    private final int shaftOffset;
+    private final int baseParallels;
     private long surfaceCheckTime = Long.MIN_VALUE;
     private boolean oceanAbove;
 
     public VoidAbsorberMachine(IMachineBlockEntity holder) {
+        this(holder, 5, 1);
+    }
+
+    public static VoidAbsorberMachine deepDrillingRig(IMachineBlockEntity holder) {
+        return new VoidAbsorberMachine(holder, 0, 16);
+    }
+
+    private VoidAbsorberMachine(IMachineBlockEntity holder, int shaftOffset, int baseParallels) {
         super(holder);
+        this.shaftOffset = shaftOffset;
+        this.baseParallels = baseParallels;
     }
 
     /** Foundation blocks are structural requirements; their world altitude is unrestricted. */
@@ -91,8 +109,7 @@ public final class VoidAbsorberMachine extends WorkableElectricMultiblockMachine
     }
 
     private BlockPos drillingColumn() {
-        // The controller is on the front of the 11x11 top; the shaft is five blocks behind it.
-        return getPos().relative(getFrontFacing().getOpposite(), 5);
+        return getPos().relative(getFrontFacing().getOpposite(), shaftOffset);
     }
 
     private boolean hasOceanAbove() {
@@ -126,7 +143,47 @@ public final class VoidAbsorberMachine extends WorkableElectricMultiblockMachine
         if (candidate == null) return null;
         GTRecipe result = super.fullModifyRecipe(candidate);
         if (result == null) return null;
-        return GtcsoloRecipeModifiers.industrialOverclock(this, result).apply(result);
+        if (baseParallels == 1) return GtcsoloRecipeModifiers.industrialOverclock(this, result).apply(result);
+        return parallelExtraction(result);
+    }
+
+    private GTRecipe parallelExtraction(GTRecipe recipe) {
+        int hatchParallels = getParallelHatch().map(hatch -> Math.max(1, hatch.getCurrentParallel())).orElse(1);
+        int requested = (int) Math.min(Integer.MAX_VALUE, (long) baseParallels * hatchParallels);
+        var energy = getEnergyContainer();
+        long availableEUt = energy.getInputVoltage() * energy.getInputAmperage();
+        if (availableEUt <= 0) return null;
+
+        GTRecipe best = null;
+        int bestParallels = 0;
+        int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
+        int maximumMultiplier = MegaMixerRecipeModifiers.safeMultiplier(recipe);
+        // Reserve power for parallel extraction before spending the remaining budget on overclocking.
+        for (int tier = getTier(); tier >= recipeTier; tier--) {
+            if (Math.scalb(1.0, tier - recipeTier) > maximumMultiplier) continue;
+            GTRecipe overclocked = GtcsoloRecipeModifiers.industrialOverclock(recipe, tier).apply(recipe);
+            long eut = RecipeHelper.getInputEUt(overclocked);
+            if (eut <= 0) continue;
+            int limit = (int) Math.min(requested, availableEUt / eut);
+            limit = Math.min(limit, MegaMixerRecipeModifiers.safeMultiplier(overclocked));
+            if (limit <= bestParallels) continue;
+
+            var capacityProbe = overclocked.copy();
+            capacityProbe.tickInputs.remove(EURecipeCapability.CAP);
+            int parallels = MegaMixerRecipeModifiers.availableParallels(this, capacityProbe, limit);
+            if (parallels <= bestParallels) continue;
+            best = overclocked;
+            bestParallels = parallels;
+            if (parallels == requested) break;
+        }
+        if (best == null) return null;
+        var result = ModifierFunction.builder().modifyAllContents(ContentModifier.multiplier(bestParallels))
+                .eutMultiplier(bestParallels).parallels(bestParallels).build().apply(best);
+        if (result.data.getBoolean(VEIN_RECIPE)) {
+            result.data = result.data.copy();
+            result.data.putInt(VEIN_BATCHES, bestParallels);
+        }
+        return result;
     }
 
     @Override
@@ -167,13 +224,18 @@ public final class VoidAbsorberMachine extends WorkableElectricMultiblockMachine
         return recipe;
     }
 
-    private void depleteCompletedVein() {
+    private void depleteCompletedVein(int batches) {
         if (!(getLevel() instanceof ServerLevel level)) return;
         int chance = FluidDrillMachine.getDepletionChance(DRILL_TIER);
-        if (chance != 1 && GTValues.RNG.nextInt(chance) != 0) return;
         BlockPos column = drillingColumn();
-        BedrockFluidVeinSavedData.getOrCreate(level).depleteVein(
-                SectionPos.blockToSectionCoord(column.getX()), SectionPos.blockToSectionCoord(column.getZ()), 0, false);
+        int chunkX = SectionPos.blockToSectionCoord(column.getX());
+        int chunkZ = SectionPos.blockToSectionCoord(column.getZ());
+        var data = BedrockFluidVeinSavedData.getOrCreate(level);
+        var entry = data.getFluidVeinWorldEntry(chunkX, chunkZ);
+        if (entry == null || entry.getDefinition() == null || entry.getDefinition().getDepletionChance() == 0) return;
+        for (int batch = 0; batch < batches && entry.getOperationsRemaining() > 0; batch++) {
+            if (chance == 1 || GTValues.RNG.nextInt(chance) == 0) data.depleteVein(chunkX, chunkZ, 0, false);
+        }
     }
 
     @Override
@@ -214,7 +276,8 @@ public final class VoidAbsorberMachine extends WorkableElectricMultiblockMachine
         @Override
         protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
             boolean handled = super.handleRecipeIO(recipe, io);
-            if (handled && io == IO.OUT && recipe.data.getBoolean(VEIN_RECIPE)) absorber.depleteCompletedVein();
+            if (handled && io == IO.OUT && recipe.data.getBoolean(VEIN_RECIPE))
+                absorber.depleteCompletedVein(Math.max(1, recipe.data.getInt(VEIN_BATCHES)));
             return handled;
         }
     }

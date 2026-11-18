@@ -18,6 +18,12 @@ public abstract class EntroniumPipeModelMixin {
     private void gtcsolo$entroniumTextures(Material material, CallbackInfoReturnable<PipeModel> cir) {
         if (!EntroniumBlock.matches(material)) return;
         Object type = this;
+        if (EntroniumBlock.isRadiant(material)) {
+            if (type instanceof FluidPipeType fluid) cir.setReturnValue(EntroniumPipeModels.createRadiant(fluid));
+            else if (type instanceof ItemPipeType item) cir.setReturnValue(EntroniumPipeModels.createRadiant(item));
+            else if (type instanceof Insulation cable) cir.setReturnValue(EntroniumPipeModels.createRadiant(cable));
+            return;
+        }
         if (type instanceof FluidPipeType fluid) cir.setReturnValue(EntroniumPipeModels.create(fluid));
         else if (type instanceof ItemPipeType item) cir.setReturnValue(EntroniumPipeModels.create(item));
         else if (type instanceof Insulation cable) cir.setReturnValue(EntroniumPipeModels.create(cable));

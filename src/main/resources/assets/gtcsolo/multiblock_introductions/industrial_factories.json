@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "machine": "gtcsolo:material_press_factory",
+      "prefix": "gtcsolo.material_press_factory.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtcsolo:wire_manufacturing_factory",
+      "prefix": "gtcsolo.wire_manufacturing_factory.introduction.",
+      "paragraphs": 2
+    }
+  ]
+}

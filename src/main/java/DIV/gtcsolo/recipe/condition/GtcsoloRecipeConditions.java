@@ -1,10 +1,13 @@
 package DIV.gtcsolo.recipe.condition;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public final class GtcsoloRecipeConditions {
+    public static final CleanroomType DAMPED_WASHING_CLEANROOM = new CleanroomType(
+            "gtcsolo:damped_sterile_cleanroom", "gtcsolo.cleanroom.damped_washing.name");
     public static RecipeConditionType<MultiblockOnlyCondition> MULTIBLOCK_ONLY;
 
     private GtcsoloRecipeConditions() {}

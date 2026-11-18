@@ -1,0 +1,11 @@
+{
+  "material.gtcsolo.calcium_vapor": "カルシウム蒸気",
+  "material.gtcsolo.calcium_48_enriched_vapor": "カルシウム48濃縮蒸気",
+  "material.gtcsolo.calcium_48_depleted": "劣化カルシウム",
+  "material.gtcsolo.calcium_48": "カルシウム48",
+  "material.gtcsolo.californium_249_concentrate": "カリホルニウム249濃縮液",
+  "material.gtcsolo.californium_249_depleted": "劣化カリホルニウム",
+  "material.gtcsolo.californium_249_plating_solution": "カリホルニウム249電着液",
+  "material.gtcsolo.californium_249": "カリホルニウム249",
+  "item.gtcsolo.californium_249_target": "カリホルニウム249標的"
+}

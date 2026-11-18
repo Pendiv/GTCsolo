@@ -1,0 +1,8 @@
+{
+  "block.gamacrafting.desk": "ゲーマクラフター",
+  "recipe.gamacrafting.desk": "ゲーマクラフト",
+  "tooltip.gamacrafting.desk.animation": "Ctrl+Altを押している間はアニメーションが再生されません",
+  "tooltip.gamacrafting.desk.lock": "クリックでレシピをロック",
+  "tooltip.gamacrafting.desk.minecrafting": "マインしてクラフトだ！",
+  "tooltip.gamacrafting.desk.unlock": "シフトクリックでレシピをクリア"
+}

@@ -4,6 +4,13 @@
       "machine": "gtceu:chaos_void_absorber",
       "prefix": "gtcsolo.void_absorber.introduction.",
       "paragraphs": 7,
+      "variants": [
+        {
+          "machine": "gtceu:industrial_deep_drilling_rig",
+          "prefix": "gtcsolo.industrial_deep_drilling_rig.introduction.",
+          "paragraphs": 4
+        }
+      ],
       "fluid_outputs": {
         "after_paragraph": 2,
         "groups": [

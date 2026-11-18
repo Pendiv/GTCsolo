@@ -1,6 +1,7 @@
 ServerEvents.recipes(event => {
-    if (!Item.exists('gtceu:chaos_void_absorber') || !GTRecipeTypes.get('ocean_fluid_extraction')) {
-        console.info('[Void absorber] Restart with the updated machine before loading its extraction recipes.');
+    const hasExtractor = Item.exists('gtceu:chaos_void_absorber') || Item.exists('gtceu:industrial_deep_drilling_rig');
+    if (!hasExtractor || !GTRecipeTypes.get('ocean_fluid_extraction')) {
+        console.info('[Fluid extraction] Restart with an extraction machine before loading its recipes.');
         return;
     }
     // Surface-ocean eligibility is checked by the controller at the drilling column.

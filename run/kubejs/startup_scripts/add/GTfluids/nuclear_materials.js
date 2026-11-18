@@ -35,7 +35,7 @@ GTCEuStartupEvents.materialModification(event => {
         ['gtceu:fermium', 'Fm', true],
         ['gtcsolo:promethium', 'Pm', true],
         ['gtceu:actinium', 'Ac', true],
-        ['gtceu:astatine', 'At', false],
+        ['gtceu:astatine', 'At', true],
         ['gtceu:neptunium', 'Np', true],
         ['gtceu:curium', 'Cm', true],
         ['gtceu:darmstadtium', 'Ds', true],
@@ -83,5 +83,21 @@ GTCEuStartupEvents.materialModification(event => {
         material.addFlags(GTMaterialFlags.DISABLE_DECOMPOSITION);
         if (entry[2]) material.addFlags(GTMaterialFlags.GENERATE_PLATE, GTMaterialFlags.GENERATE_FOIL,
             GTMaterialFlags.GENERATE_ROD, GTMaterialFlags.GENERATE_RING, GTMaterialFlags.GENERATE_BOLT_SCREW);
+    });
+
+    // Fusion products without a downstream processing chain. Expand the existing materials and palettes.
+    const fusionProductForms = [GTMaterialFlags.GENERATE_PLATE, GTMaterialFlags.GENERATE_DENSE,
+        GTMaterialFlags.GENERATE_FOIL, GTMaterialFlags.GENERATE_ROD, GTMaterialFlags.GENERATE_LONG_ROD,
+        GTMaterialFlags.GENERATE_BOLT_SCREW, GTMaterialFlags.GENERATE_RING, GTMaterialFlags.GENERATE_ROUND,
+        GTMaterialFlags.GENERATE_FRAME, GTMaterialFlags.GENERATE_GEAR, GTMaterialFlags.GENERATE_SMALL_GEAR,
+        GTMaterialFlags.GENERATE_SPRING, GTMaterialFlags.GENERATE_SPRING_SMALL, GTMaterialFlags.GENERATE_ROTOR];
+
+    [
+        'astatine', 'mendelevium', 'nobelium', 'lawrencium', 'rutherfordium', 'dubnium',
+        'seaborgium', 'bohrium', 'hassium', 'meitnerium', 'roentgenium', 'copernicium', 'nihonium'
+    ].forEach(name => {
+        const material = GTMaterials.get('gtceu:' + name);
+        if (!material.hasProperty(PropertyKey.INGOT)) material.setProperty(PropertyKey.INGOT, new IngotProperty());
+        material.addFlags(fusionProductForms);
     });
 });

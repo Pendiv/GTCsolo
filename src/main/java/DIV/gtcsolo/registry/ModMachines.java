@@ -1167,6 +1167,9 @@ public class ModMachines {
         MegaAlloyBlastFurnaceMachines.init();
         ResourceRoomMachines.init();
         CultivationFormationRooms.init();
+        IrradiationSeparationChambers.init();
+        LargeScaleChemicalReactors.init();
+        DampedWashingCleanrooms.init();
         BiochemicalMachines.init();
         CombustionMinerMachines.init();
 

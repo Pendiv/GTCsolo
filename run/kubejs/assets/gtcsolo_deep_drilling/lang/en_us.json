@@ -1,0 +1,8 @@
+{
+  "block.gtceu.industrial_deep_drilling_rig": "Industrial Deep Drilling Rig",
+  "gtcsolo.industrial_deep_drilling_rig.parallel": "Provides 16 base parallels.",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.1": "An upgraded Void Absorber that supports Ocean, Fluid Vein and MA Source Extraction with industrial overclocking.",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.2": "The Parallel Hatch setting multiplies the 16 base parallels. Available power and space for fluid output determine how many run at once.",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.3": "Ocean Extraction requires an ocean directly above the controller. Fluid Vein Extraction draws on the reserves in the controller’s chunk and stops when the vein runs dry. MA Source Extraction requires UV voltage.",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.4": "Fit one to four Energy Hatches and a Fluid Output Hatch at the front. SUS316L Machine Casings can also be replaced with additional Fluid Output Hatches and one Parallel Hatch. Switching modes interrupts the current cycle."
+}

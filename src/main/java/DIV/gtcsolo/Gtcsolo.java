@@ -87,6 +87,7 @@ public class Gtcsolo {
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         DIV.gtcsolo.registry.UtilityEffects.EFFECTS.register(modEventBus);
+        DIV.gtcsolo.registry.FlightAttributes.register(modEventBus);
         DIV.gtcsolo.registry.IronCastingMolds.register(modEventBus);
         net.minecraftforge.common.crafting.CraftingHelper.register(
                 DIV.gtcsolo.recipe.mold.MoldIngredient.ID, DIV.gtcsolo.recipe.mold.MoldIngredient.SERIALIZER);
@@ -145,6 +146,7 @@ public class Gtcsolo {
     // CommonSetup
     private void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            DIV.gtcsolo.block.DampedWashingFilterType.register();
             // AE2 アップグレードカード登録 (対象AE2マシンへの互換登録)
             DIV.gtcsolo.integration.ae2.WENAe2Integration.registerUpgrades();
             DIV.gtcsolo.integration.mekanism.generator.GasGeneratorUpgrades.init();

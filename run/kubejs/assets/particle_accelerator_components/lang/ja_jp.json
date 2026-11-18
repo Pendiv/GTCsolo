@@ -1,0 +1,7 @@
+{
+  "block.gtcsolo.particle_accelerator_beam_pipe": "ビーム管",
+  "block.gtcsolo.particle_accelerator_quadrupole_magnet": "四極電磁石",
+  "block.gtcsolo.particle_accelerator_rf_cavity": "高周波加速空洞",
+  "block.gtcsolo.particle_accelerator_detector_module": "検出器モジュール",
+  "block.gtcsolo.particle_accelerator_controller": "粒子加速器の制御盤"
+}

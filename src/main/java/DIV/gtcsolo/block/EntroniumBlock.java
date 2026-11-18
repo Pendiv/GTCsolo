@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /** The generated material block keeps its native behavior, with glass-like light and occlusion. */
 public final class EntroniumBlock extends MaterialBlock {
     private static final ResourceLocation MATERIAL = new ResourceLocation("gtcsolo", "entronium");
+    private static final ResourceLocation RADIANT = new ResourceLocation("gtcsolo", "radiant_entronium");
 
     public EntroniumBlock(Properties properties, TagPrefix prefix, Material material) {
         super(properties.noOcclusion()
@@ -22,7 +23,11 @@ public final class EntroniumBlock extends MaterialBlock {
     }
 
     public static boolean matches(Material material) {
-        return material != null && MATERIAL.equals(material.getResourceLocation());
+        return material != null && (MATERIAL.equals(material.getResourceLocation()) || RADIANT.equals(material.getResourceLocation()));
+    }
+
+    public static boolean isRadiant(Material material) {
+        return material != null && RADIANT.equals(material.getResourceLocation());
     }
 
     @Override

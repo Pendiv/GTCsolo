@@ -93,7 +93,7 @@ public final class RoomStructureRegressionTest {
         assert structure.width() == width && structure.height() == height && structure.depth() == depth;
         assert structure.core().equals(new Cell(0, 0, width / 2));
         var rows = Pattern.compile("\\(([^)]*)\\)").matcher(Files.readString(root.resolve(
-                "run/cmdex/export/" + structure.id() + ".txt")));
+                "refs/pattern/implemented/" + structure.id() + ".txt")));
         int aisleIndex = 0;
         while (rows.find()) {
             var cells = Pattern.compile("\"([^\"]*)\"").matcher(rows.group(1));

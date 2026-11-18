@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "machine": "gtceu:industrial_chemical_bath",
+      "prefix": "gtcsolo.industrial_chemical_bath.introduction.",
+      "paragraphs": 2
+    },
+    {
+      "machine": "gtceu:heating_chamber",
+      "prefix": "gtcsolo.heating_chamber.introduction.",
+      "paragraphs": 2
+    }
+  ]
+}

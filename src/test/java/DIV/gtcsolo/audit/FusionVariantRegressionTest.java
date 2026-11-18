@@ -35,6 +35,11 @@ public final class FusionVariantRegressionTest {
             }
             if (settings==FusionVariantSettings.GIANT_MK4)
                 assert header.width==45 && header.height==5 && header.depth==45 && header.radius==20;
+            if (settings==FusionVariantSettings.STANDARD_MK5) {
+                assert header.width==25 && header.height==5 && header.depth==25 && header.radius==10;
+                assert settings.tier()==com.gregtechceu.gtceu.api.GTValues.UEV;
+                assert settings.minimumEnergyHatches()==32;
+            }
             try (var input=FusionVariantRegressionTest.class.getResourceAsStream("/data/gtcsolo/multiblocks/fusion/"+settings.id()+".json")) {
                 assert input!=null;
                 var json=JsonParser.parseReader(new InputStreamReader(input,StandardCharsets.UTF_8)).getAsJsonObject();
@@ -53,12 +58,16 @@ public final class FusionVariantRegressionTest {
                         exposed|=nx<0 || ny<0 || nz<0 || nx>=header.width || ny>=header.height || nz>=header.depth
                                 || rows[nz][ny].charAt(nx)=='#';
                     }
-                    if (exposed && c=='E') availableEnergy++;
+                    if (exposed && Character.toUpperCase(c)=='E') availableEnergy++;
                     if (exposed && Character.toUpperCase(c)=='I') availableInputs++;
+                    if (settings==FusionVariantSettings.STANDARD_MK5 && "EeIiOo".indexOf(c)>=0) {
+                        int faceY=y+(Character.isLowerCase(c)?-1:1);
+                        assert faceY<0 || faceY>=header.height || rows[z][faceY].charAt(x)=='#';
+                    }
                 }
                 assert availableEnergy>=settings.maximumEnergyHatches();
                 assert availableInputs>=2;
-                for (char c:"CGKEIiOo".toCharArray()) builder.where(c,Predicates.blocks(Blocks.IRON_BLOCK));
+                for (char c:"CGKEeIiOo".toCharArray()) builder.where(c,Predicates.blocks(Blocks.IRON_BLOCK));
                 builder.where('S',Predicates.controller(Predicates.blocks(Blocks.DIAMOND_BLOCK)))
                         .where('.',Predicates.any()).where('#',Predicates.any());
                 var pattern=builder.build(); int[] repetitions=new int[header.depth]; Arrays.fill(repetitions,1);
@@ -72,7 +81,7 @@ public final class FusionVariantRegressionTest {
                 assert preview[header.anchorX][header.anchorY][header.anchorZ].getBlockState().is(Blocks.DIAMOND_BLOCK);
                 assert settings.maximumStartupCapacity()==160_000_000L*(1L<<(settings.mk-1));
                 assert settings.fusionOverclocking()==(settings.mk<4);
-                assert settings.maximumEnergyHatches()==(settings.mk==4?32:16);
+                assert settings.maximumEnergyHatches()==(settings.mk>=4?32:16);
                 System.out.println("PASS "+settings.id()+" "+header.width+"x"+header.height+"x"+header.depth+"; exterior energy positions="+availableEnergy);
             }
         }

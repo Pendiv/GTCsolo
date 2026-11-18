@@ -1,13 +1,13 @@
 // Items from cmdex/export/scan_20261014_141141_4332227505434602248.txt.
-// Preserve the 14 item IDs and totals; split 128 casings into two conventional AL input buses.
+// Split 128 casings into two conventional assembly-line input buses.
 ServerEvents.recipes(event => {
     const icalUHV = 2097152;
     event.recipes.gtceu.assembly_line('gtcsolo:industrial_circuit_assembly_line')
         .itemInputs(
             '1x gtceu:large_circuit_assembler',
-            '1x gtceu:uhv_circuit_assembler',
+            '1x gtceu:uv_circuit_assembler',
             '1x gtceu:assembly_line',
-            '8x gtceu:wetware_processor_mainframe',
+            '8x #gtceu:circuits/uhv',
             '12x gtceu:uhv_field_generator',
             '32x gtceu:uhv_conveyor_module',
             '8x gtceu:uhv_electric_motor',

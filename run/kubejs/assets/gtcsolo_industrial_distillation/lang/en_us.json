@@ -1,0 +1,6 @@
+{
+  "block.gtceu.industrial_mega_distillation_tower": "Industrial Mega Distillation Tower",
+  "gtcsolo.industrial_mega_distillation_tower.ports": "Install the output hatches required by the recipe in order, starting at the bottom.",
+  "gtcsolo.industrial_mega_distillation_tower.completions": "Recorded runs %s / %s",
+  "gtcsolo.industrial_mega_distillation_tower.parallels": "Parallel limit for recorded recipe %s"
+}

@@ -1,0 +1,8 @@
+{
+  "block.gamacrafting.desk": "Gamacrafter",
+  "recipe.gamacrafting.desk": "Gamacrafting",
+  "tooltip.gamacrafting.desk.animation": "Hold down Ctrl+Alt to disable animation",
+  "tooltip.gamacrafting.desk.lock": "Click to lock the current recipe",
+  "tooltip.gamacrafting.desk.minecrafting": "Mine to craft!",
+  "tooltip.gamacrafting.desk.unlock": "Shift-click to clear the recipe"
+}

@@ -10,6 +10,7 @@ GTCEuStartupEvents.registry('gtceu:recipe_type', event => {
 
 GTCEuStartupEvents.registry('gtceu:machine', event => {
     const RelativeDirection = Java.loadClass('com.gregtechceu.gtceu.api.pattern.util.RelativeDirection');
+    const VoltageGlass = Java.loadClass('DIV.gtcsolo.registry.VoltageGlass');
     event.create('singularity_reconstruction_machine', 'multiblock')
         .rotationState(RotationState.NON_Y_AXIS)
         .allowExtendedFacing(false).allowFlip(false)
@@ -35,7 +36,7 @@ GTCEuStartupEvents.registry('gtceu:machine', event => {
                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMinGlobalLimited(1).setPreviewCount(2))
                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMinGlobalLimited(1).setPreviewCount(1))
                 .or(Predicates['autoAbilities(boolean,boolean,boolean)'](true, false, false)))
-            .where('B', Predicates.blocks('gtcsolo:voltage_glass_opv'))
+            .where('B', VoltageGlass.atLeast(GTValues.UHV))
             .where('C', Predicates.blocks('gtcsolo:mithrilite_firebox_casing'))
             .where('D', Predicates.blocks('gtcsolo:draconium_coil_block'))
             .where('E', Predicates.blocks('gtceu:atomic_casing'))

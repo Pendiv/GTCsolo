@@ -30,3 +30,19 @@ project(':battle').projectDir = file('MODs/allthegregtechbattle')
 
 include ':tieredTorcherino'
 project(':tieredTorcherino').projectDir = file('extensions/tiered-torcherino')
+
+include ':gamacrafting'
+project(':gamacrafting').projectDir = file('extensions/gamacrafting')
+
+// Keep the standalone projects' own ForgeGradle and gradle.properties settings.
+[
+    'bsj-dev': 'extensions/bilingual-search',
+    'botany-pots-dev': 'extensions/tiered-botany-pots',
+    'dumpall-dev': 'MODs/DumpAll',
+    'gtmh-dev': '../GregTechMultiblockHelper',
+    'synapse-dev': '../synapse'
+].each { buildName, path ->
+    if (file("${path}/settings.gradle").isFile()) {
+        includeBuild(path) { name = buildName }
+    }
+}

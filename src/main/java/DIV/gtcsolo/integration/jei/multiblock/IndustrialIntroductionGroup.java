@@ -15,12 +15,16 @@ final class IndustrialIntroductionGroup {
                     id("industrial_macerator"),
                     id("industrial_sifter"),
                     id("industrial_material_press"),
+                    new ResourceLocation("gtcsolo", "material_press_factory"),
+                    new ResourceLocation("gtcsolo", "wire_manufacturing_factory"),
                     id("industrial_cutter"),
                     id("industrial_mixer"),
                     id("industrial_centrifuge"),
                     id("industrial_electrolyzer"),
+                    id("industrial_chemical_bath"),
                     id("heat_exchange_industrial_vacuum_freezer"),
-                    id("industrial_rock_breaker"));
+                    id("industrial_rock_breaker"),
+                    id("mega_distillation_tower"));
 
     private IndustrialIntroductionGroup() {}
 

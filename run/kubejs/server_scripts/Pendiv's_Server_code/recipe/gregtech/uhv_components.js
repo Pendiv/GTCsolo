@@ -1,11 +1,18 @@
-// Exact scanned solids, in slot order; stacks above 64 are split for normal AL buses.
+// Scanned parts in slot order; stacks above 64 are split for normal assembly-line buses.
 // The pump uses the corrected UHV_electric_pump scan, not the old duplicate piston scan.
 ServerEvents.recipes(event => {
+    const magneticPraseodymiumAvailable = Item.exists('gtcsolo:long_magnetic_praseodymium_rod');
+    if (!magneticPraseodymiumAvailable) {
+        console.warn('[UHV components] Restart Minecraft to register the magnetic praseodymium rod.');
+    }
+    const motorMagneticRod = magneticPraseodymiumAvailable
+        ? '2x gtcsolo:long_magnetic_praseodymium_rod'
+        : '2x gtceu:long_magnetic_samarium_rod';
 
     // cmdex/export/UHV_electric_motor.txt
     event.recipes.gtceu.assembly_line('gtcsolo:uhv_electric_motor')
         .itemInputs(
-            '2x gtceu:long_magnetic_samarium_rod',
+            motorMagneticRod,
             '4x gtcsolo:long_anteria_rod',
             '8x gtcsolo:anteria_ring',
             '32x gtcsolo:anteria_round',
@@ -111,8 +118,8 @@ ServerEvents.recipes(event => {
             '32x gtcsolo:small_mithrilite_gear',
             '8x gtceu:uhv_electric_motor',
             '8x gtceu:uhv_electric_piston',
-            '3x gtcsolo:draconic_processor_computer',
-            '6x gtcsolo:draconic_processor_assembly',
+            '3x #gtceu:circuits/uhv',
+            '6x #gtceu:circuits/uv',
             '12x gtcsolo:draconic_processor',
             '2x gtceu:ruthenium_trinium_americium_neutronate_single_wire'
         )
@@ -138,7 +145,7 @@ ServerEvents.recipes(event => {
             '32x gtcsolo:anteria_ring',
             '32x gtcsolo:anteria_round',
             '16x gtcsolo:anteria_screw',
-            '4x gtcsolo:draconic_processor_computer',
+            '4x #gtceu:circuits/uhv',
             '2x draconicevolution:dragon_heart',
             '64x gtcsolo:mithrilite_foil',
             '64x gtcsolo:mithrilite_foil',
@@ -165,7 +172,7 @@ ServerEvents.recipes(event => {
             '4x gtceu:uhv_electric_motor',
             '8x gtcsolo:long_mithrilite_rod',
             '2x draconicevolution:dragon_heart',
-            '4x gtcsolo:draconic_processor_computer',
+            '4x #gtceu:circuits/uhv',
             '64x gtcsolo:mithrilite_foil',
             '64x gtcsolo:mithrilite_foil',
             '1x gtceu:big_neutronium_plate',
@@ -194,8 +201,8 @@ ServerEvents.recipes(event => {
                 '2x draconicevolution:dragon_heart',
                 '4x gtceu:uhv_emitter',
                 '6x gtceu:uhv_electric_motor',
-                '4x gtcsolo:draconic_processor_computer',
-                '8x gtcsolo:draconic_processor_assembly',
+                '4x #gtceu:circuits/uhv',
+                '8x #gtceu:circuits/uv',
                 '64x gtcsolo:fine_hyperx_neutronium_wire',
                 '64x gtcsolo:fine_mithrilite_wire',
                 '64x gtcsolo:fine_mithrilite_wire',

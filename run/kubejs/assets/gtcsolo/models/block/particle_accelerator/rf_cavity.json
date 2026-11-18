@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "north": "gtcsolo:block/particle_accelerator/rf_cavity_end",
+    "south": "gtcsolo:block/particle_accelerator/rf_cavity_end",
+    "east": "gtcsolo:block/particle_accelerator/rf_cavity_side",
+    "west": "gtcsolo:block/particle_accelerator/rf_cavity_side",
+    "up": "gtcsolo:block/particle_accelerator/rf_cavity_side",
+    "down": "gtcsolo:block/particle_accelerator/rf_cavity_side",
+    "particle": "gtcsolo:block/particle_accelerator/rf_cavity_side"
+  }
+}

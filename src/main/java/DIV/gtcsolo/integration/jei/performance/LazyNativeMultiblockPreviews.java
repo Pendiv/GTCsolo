@@ -37,16 +37,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Native recipe/widget types are retained. Only render-world construction is postponed.
+ * Native recipe/widget types are retained. Render worlds and later native builder pages are prepared on demand.
  * Search metadata uses native clone/drop/sort code for the first valid native page.
  */
 public final class LazyNativeMultiblockPreviews {
@@ -66,6 +68,12 @@ public final class LazyNativeMultiblockPreviews {
     private static final ThreadLocal<Descriptor> MATERIALIZING = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> METADATA = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> VERIFYING_INDEX = new ThreadLocal<>();
+    private static final ThreadLocal<Context> CAPTURING_SHAPES = new ThreadLocal<>();
+    private static final StackWalker SHAPE_CALLERS = StackWalker.getInstance();
+    private static final Set<String> NATIVE_SHAPE_PROVIDERS = Set.of(
+            "com.gregtechceu.gtceu.common.data.machines.GTMultiMachines",
+            "com.gregtechceu.gtceu.common.data.machines.GCYMMachines",
+            "com.gregtechceu.gtceu.common.data.machines.GTResearchMachines");
     private static final Map<MultiblockMachineDefinition, Descriptor> DESCRIPTORS = new IdentityHashMap<>();
     private static final Map<Class<?>, Boolean> CLONE_METHODS = new IdentityHashMap<>();
 
@@ -88,6 +96,8 @@ public final class LazyNativeMultiblockPreviews {
             Gtcsolo.LOGGER.info("[JEI-preview] deferred={} unchangedNativeWidgets={} rawVerified={} indexVerified={} candidateNativeBuildsDuringRegistration={} mismatches={} fallback={}",
                     context.deferred, context.unchanged, context.verified, context.indexVerified, context.fullBuilds,
                     context.mismatches, context.fallbacks);
+            Gtcsolo.LOGGER.info("[JEI-preview] deferredShapeBakes={} shapeBakesVerified={}",
+                    context.deferredShapeBakes, context.shapeBakesVerified);
         }
     }
 
@@ -240,11 +250,38 @@ public final class LazyNativeMultiblockPreviews {
         return descriptor == null ? Optional.empty() : Optional.of(copy(descriptor.inputs));
     }
 
+    public static MultiblockShapeInfo deferShapeBake(List<String[]> aisles, Map<Character, BlockInfo> symbols) {
+        Context context = CAPTURING_SHAPES.get();
+        if (context == null) return null;
+        // Only native producers audited to return builder results as pages can substitute a lazy shape.
+        if (!SHAPE_CALLERS.walk(frames -> frames.skip(1)
+                .dropWhile(frame -> frame.getClassName().equals(MultiblockShapeInfo.ShapeInfoBuilder.class.getName()))
+                .findFirst().map(frame -> NATIVE_SHAPE_PROVIDERS.contains(frame.getClassName())).orElse(false))) return null;
+        DeferredBuilderShape deferred = DeferredBuilderShape.capture(aisles, symbols);
+        if (deferred != null && JeiOptimizationOptions.nativePreviewVerificationEnabled()) {
+            var nativeBuilder = MultiblockShapeInfo.builder();
+            aisles.forEach(nativeBuilder::aisle);
+            symbols.forEach(nativeBuilder::where);
+            if (!Arrays.deepEquals(nativeBuilder.bakeArray(BlockInfo.class, BlockInfo.EMPTY), deferred.getBlocks())) {
+                context.mismatches++;
+                return null;
+            }
+            context.shapeBakesVerified++;
+        }
+        return deferred;
+    }
+
     private static Descriptor prepare(PatternPreviewWidget worker, MultiblockMachineDefinition definition)
             throws ReflectiveOperationException {
         List<MultiblockShapeInfo> originals;
+        Context previous = CAPTURING_SHAPES.get();
+        CAPTURING_SHAPES.set(REGISTRATION.get());
         try { originals = List.copyOf(definition.getMatchingShapes()); }
         catch (RuntimeException failure) { throw new ShapeProviderFailure(failure); }
+        finally {
+            if (previous == null) CAPTURING_SHAPES.remove();
+            else CAPTURING_SHAPES.set(previous);
+        }
         BlockPos start = (BlockPos) NEXT_REGION.get(null);
         try { return prepareMetadata(worker, definition, originals, start); }
         catch (ReflectiveOperationException | RuntimeException failure) {
@@ -276,6 +313,10 @@ public final class LazyNativeMultiblockPreviews {
                 if (!(parts instanceof List<?> lists)) throw new UnsupportedOperationException("parts-layout");
                 List<ItemStack> inputs = NativePreviewIngredientIndex.copyIndexedInputs(lists).orElseThrow();
                 success = true;
+                Context context = REGISTRATION.get();
+                context.deferredShapeBakes += shapes.stream()
+                        .filter(shapeInfo -> shapeInfo instanceof DeferredBuilderShape deferred && !deferred.isBaked())
+                        .count();
                 return new Descriptor(definition, shapes, inputs, start, true);
             }
             throw new UnsupportedOperationException("no-valid-controller-page");
@@ -347,17 +388,22 @@ public final class LazyNativeMultiblockPreviews {
 
     private static List<MultiblockShapeInfo> freeze(List<MultiblockShapeInfo> originals, List<BlockInfo> ownedInfos)
             throws ReflectiveOperationException {
-        List<BlockInfo[][][]> blocks = new ArrayList<>(originals.size());
+        var snapshot = new PreviewShapeMetadata.Snapshot<BlockInfo, ReflectiveOperationException>(info -> {
+            BlockInfo clone = freezeInfo(info);
+            ownedInfos.add(clone);
+            return clone;
+        }, MAX_METADATA_CELLS, REGION_STRIDE);
+        List<MultiblockShapeInfo> shapes = new ArrayList<>(originals.size());
         for (MultiblockShapeInfo shape : originals) {
-            if (shape.getClass() != MultiblockShapeInfo.class) throw new UnsupportedOperationException("shape-subclass");
-            blocks.add(shape.getBlocks());
+            if (shape instanceof DeferredBuilderShape deferred && !deferred.isBaked()) {
+                shapes.add(deferred.freeze(snapshot));
+            } else if (shape instanceof DeferredBuilderShape || shape.getClass() == MultiblockShapeInfo.class) {
+                shapes.add(new MultiblockShapeInfo(snapshot.freeze(shape.getBlocks())));
+            } else {
+                throw new UnsupportedOperationException("shape-subclass");
+            }
         }
-        return PreviewShapeMetadata.freeze(blocks, info -> {
-                    BlockInfo clone = freezeInfo(info);
-                    ownedInfos.add(clone);
-                    return clone;
-                },
-                MAX_METADATA_CELLS, REGION_STRIDE).stream().map(MultiblockShapeInfo::new).toList();
+        return List.copyOf(shapes);
     }
 
     @SuppressWarnings("unchecked")
@@ -486,7 +532,7 @@ public final class LazyNativeMultiblockPreviews {
 
     private static final class Context {
         final IIngredientManager manager;
-        long deferred, unchanged, verified, indexVerified, fullBuilds, mismatches;
+        long deferred, unchanged, verified, indexVerified, fullBuilds, mismatches, deferredShapeBakes, shapeBakesVerified;
         final Map<String, Long> fallbacks = new LinkedHashMap<>();
         Context(IIngredientManager manager) { this.manager = manager; }
     }

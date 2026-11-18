@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,6 +26,9 @@ import java.util.HashSet;
 /** Compact only those controllers whose full introduction was registered successfully. */
 @Mod.EventBusSubscriber(modid = Gtcsolo.MODID, value = Dist.CLIENT)
 public final class MultiblockIntroductionTooltips {
+    private static final Map<ResourceLocation, String> CONTROLLER_DESCRIPTIONS = Map.of(
+            new ResourceLocation("gtceu", "industrial_deep_drilling_rig"), "gtcsolo.industrial_deep_drilling_rig.parallel",
+            new ResourceLocation("gtceu", "mega_distillation_tower"), "block.gtceu.mega_distillation_tower.tooltip.structure");
     private static volatile Map<Item, List<GTRecipeType>> documented = Map.of();
     private static volatile Set<Item> singleBlocks = Set.of();
 
@@ -57,17 +61,23 @@ public final class MultiblockIntroductionTooltips {
         var types = documented.get(stack.getItem());
         if (types == null || stack.isEmpty() || lines.isEmpty()) return;
         var name = lines.get(0);
+        var itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
         var debugLines = new ArrayList<Component>();
         if (advanced) {
-            String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
             for (int i = 1; i < lines.size(); i++) {
                 var line = lines.get(i);
-                if (line.getString().equals(itemId) || line.getContents() instanceof TranslatableContents text
+                if (line.getString().equals(itemId.toString()) || line.getContents() instanceof TranslatableContents text
                         && text.getKey().equals("item.nbt_tags")) debugLines.add(line);
             }
         }
         lines.clear();
         lines.add(name);
+        var description = CONTROLLER_DESCRIPTIONS.get(itemId);
+        if (description != null) {
+            lines.add(Component.translatable(description));
+            lines.addAll(debugLines);
+            return;
+        }
         if (!types.isEmpty()) {
             var joined = Component.empty();
             for (int i = 0; i < types.size(); i++) {

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "north": "gtcsolo:block/particle_accelerator/quadrupole_magnet_end",
+    "south": "gtcsolo:block/particle_accelerator/quadrupole_magnet_end",
+    "east": "gtcsolo:block/particle_accelerator/quadrupole_magnet_side",
+    "west": "gtcsolo:block/particle_accelerator/quadrupole_magnet_side",
+    "up": "gtcsolo:block/particle_accelerator/quadrupole_magnet_side",
+    "down": "gtcsolo:block/particle_accelerator/quadrupole_magnet_side",
+    "particle": "gtcsolo:block/particle_accelerator/quadrupole_magnet_side"
+  }
+}

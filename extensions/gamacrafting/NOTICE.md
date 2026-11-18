@@ -1,0 +1,1 @@
+Gamacrafting adapts the Gamacrafter from [Hyperlink 1201.2.4](https://github.com/Sakurafuld/Hyperlink/tree/08cb01db13d2ac9ac6cc6c7fe7f30a5e67a0b6a6) by Sakurafuld. The original code and assets are MIT licensed. See `LICENSE`.

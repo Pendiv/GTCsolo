@@ -1,0 +1,11 @@
+{
+  "material.gtcsolo.calcium_vapor": "Calcium Vapor",
+  "material.gtcsolo.calcium_48_enriched_vapor": "Calcium-48-Enriched Vapor",
+  "material.gtcsolo.calcium_48_depleted": "Calcium-48-Depleted Calcium",
+  "material.gtcsolo.calcium_48": "Calcium-48",
+  "material.gtcsolo.californium_249_concentrate": "Californium-249 Concentrate",
+  "material.gtcsolo.californium_249_depleted": "Californium-249-Depleted Californium",
+  "material.gtcsolo.californium_249_plating_solution": "Californium-249 Plating Solution",
+  "material.gtcsolo.californium_249": "Californium-249",
+  "item.gtcsolo.californium_249_target": "Californium-249 Target"
+}

@@ -1,0 +1,8 @@
+{
+  "block.gtceu.industrial_deep_drilling_rig": "工業的深層掘削機",
+  "gtcsolo.industrial_deep_drilling_rig.parallel": "初期状態、16並列を保有する。",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.1": "虚空抽出器の上位機。海洋採掘、液体脈採掘、MA源流採掘を行い、工業的なオーバークロックに対応する。",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.2": "基礎の16並列に並列化ハッチの設定倍率を掛ける。実際の並列数は給電能力と液体搬出先の空きに応じて決まる。",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.3": "海洋採掘は操作盤の直上に海洋がある場合に稼働する。液体脈採掘は操作盤のあるチャンクの埋蔵量を使い、枯渇すると停止する。MA源流の採掘にはUV電圧が必要。",
+  "gtcsolo.industrial_deep_drilling_rig.introduction.4": "前面にエネルギーハッチを1～4個と液体搬出ハッチを取り付ける。SUS316L製マシン外装には追加の液体搬出ハッチと並列化ハッチ1個を設置できる。採掘モードを切り替えると、進行中の採掘は中断される。"
+}

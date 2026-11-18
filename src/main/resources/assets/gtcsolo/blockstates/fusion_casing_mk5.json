@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtcsolo:block/fusion_casing_mk5"
+    },
+    "active=true": {
+      "model": "gtcsolo:block/fusion_casing_mk5"
+    }
+  }
+}

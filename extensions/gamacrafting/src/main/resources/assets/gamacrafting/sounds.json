@@ -1,0 +1,32 @@
+{
+  "desk_pop": {
+    "sounds": [
+      "gamacrafting:desk_pop"
+    ]
+  },
+  "desk_result": {
+    "sounds": [
+      "gamacrafting:desk_result"
+    ]
+  },
+  "desk_mining": {
+    "sounds": [
+      "gamacrafting:desk_mining"
+    ]
+  },
+  "desk_minecraft_start": {
+    "sounds": [
+      "gamacrafting:desk_minecraft_start"
+    ]
+  },
+  "desk_minecraft_flap": {
+    "sounds": [
+      "gamacrafting:desk_minecraft_flap"
+    ]
+  },
+  "desk_minecraft_finish": {
+    "sounds": [
+      "gamacrafting:desk_minecraft_finish"
+    ]
+  }
+}

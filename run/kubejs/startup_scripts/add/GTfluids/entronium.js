@@ -1,6 +1,7 @@
 // Native material generation with the user's full-color, translucent icon set.
 GTCEuStartupEvents.registry('gtceu:material_icon_set', event => {
     event.create('entronium').parent(GTMaterialIconSet.SHINY);
+    event.create('radiant_entronium').parent(GTMaterialIconSet.SHINY);
 });
 
 GTCEuStartupEvents.registry('gtceu:material', event => {
@@ -56,4 +57,20 @@ GTCEuStartupEvents.registry('gtceu:material', event => {
             GTMaterialFlags.GENERATE_ROUND,
             GTMaterialFlags.GENERATE_FRAME,
             GTMaterialFlags.FORCE_GENERATE_BLOCK);
+
+    event.create('gtcsolo:radiant_entronium')
+        .ingot().dust()
+        .liquid(new GTFluidBuilder().temperature(293).textures(true, true))
+        .color(0xFFFFFF)
+        .iconSet(GTMaterialIconSet.getByName('radiant_entronium'))
+        .cableProperties(8388608, 1, 2)
+        .fluidPipeProperties(200000, 10000, true, true, true, true)
+        .flags(GTMaterialFlags.DISABLE_DECOMPOSITION, GTMaterialFlags.GENERATE_PLATE,
+            GTMaterialFlags.GENERATE_DENSE, GTMaterialFlags.GENERATE_FOIL,
+            GTMaterialFlags.GENERATE_ROD, GTMaterialFlags.GENERATE_LONG_ROD,
+            GTMaterialFlags.GENERATE_BOLT_SCREW, GTMaterialFlags.GENERATE_RING,
+            GTMaterialFlags.GENERATE_SPRING, GTMaterialFlags.GENERATE_SPRING_SMALL,
+            GTMaterialFlags.GENERATE_GEAR, GTMaterialFlags.GENERATE_SMALL_GEAR,
+            GTMaterialFlags.GENERATE_FINE_WIRE, GTMaterialFlags.GENERATE_ROUND,
+            GTMaterialFlags.GENERATE_FRAME, GTMaterialFlags.FORCE_GENERATE_BLOCK);
 });

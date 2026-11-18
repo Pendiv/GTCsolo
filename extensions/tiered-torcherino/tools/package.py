@@ -2,6 +2,7 @@ from pathlib import Path
 import hashlib
 import json
 import shutil
+import tomllib
 import zipfile
 from verify_resources import verify
 
@@ -9,8 +10,11 @@ project = Path(__file__).resolve().parents[1]
 root = project.parents[1]
 dist = root / 'dist/tiered-torcherino'
 dist.mkdir(parents=True, exist_ok=True)
-jar = project / 'build/libs/gtcsolo-tiered-torcherino-0.1.0.jar'
-dev = project / 'build/libs/gtcsolo-tiered-torcherino-0.1.0-dev.jar'
+build = project / 'build'
+processed_metadata = build / 'resources/main/META-INF/mods.toml'
+version = tomllib.loads(processed_metadata.read_text(encoding='utf-8'))['mods'][0]['version']
+jar = build / f'libs/gtcsolo-tiered-torcherino-{version}.jar'
+dev = build / f'libs/gtcsolo-tiered-torcherino-{version}-dev.jar'
 resources = project / 'src/main/resources'
 verify(resources)
 dependency = project / 'libs/Torcherino-forge-1.20.1-20.0.0.jar'
@@ -22,7 +26,8 @@ with zipfile.ZipFile(jar) as archive, zipfile.ZipFile(dependency) as native:
     for asset in resources.rglob('*'):
         if asset.is_file():
             relative = asset.relative_to(resources).as_posix()
-            assert archive.read(relative) == asset.read_bytes(), relative
+            expected = processed_metadata if relative == 'META-INF/mods.toml' else asset
+            assert archive.read(relative) == expected.read_bytes(), relative
             if relative.startswith('assets/') and asset.suffix == '.json':
                 data = json.loads(asset.read_text(encoding='utf-8'))
                 parent = data.get('parent', '')
@@ -32,7 +37,7 @@ with zipfile.ZipFile(jar) as archive, zipfile.ZipFile(dependency) as native:
     assert 'BlockEntityTypeAccess' in str(refmap) and 'SliderMixin' in str(refmap)
 for artifact in [jar, dev, project / 'README-ja.md', project / 'LICENSE']:
     shutil.copy2(artifact, dist / artifact.name)
-source_zip = dist / 'gtcsolo-tiered-torcherino-0.1.0-source.zip'
+source_zip = dist / f'gtcsolo-tiered-torcherino-{version}-source.zip'
 with zipfile.ZipFile(source_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
     files = [project / name for name in ['build.gradle', 'settings.gradle', 'gradle.properties', 'gradlew', 'gradlew.bat', 'LICENSE', 'README-ja.md', '.gitignore']]
     files += [path for base in ['src', 'tools', 'gradle/wrapper'] for path in (project / base).rglob('*')

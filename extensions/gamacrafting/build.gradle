@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        mavenCentral()
+    }
+    dependencies { classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT' }
+}
+
+plugins { id 'net.minecraftforge.gradle' version '[6.0.16,6.2)' }
+apply plugin: 'org.spongepowered.mixin'
+
+group = 'DIV.gamacrafting'
+version = '0.1.0'
+base { archivesName = 'gamacrafting-forge-1.20.1' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(17) }
+
+minecraft { mappings channel: 'official', version: '1.20.1' }
+
+repositories {
+    maven { url = 'https://maven.blamejared.com/' }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.15'
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge:15.20.0.115')
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, 'gamacrafting.refmap.json'
+    config 'gamacrafting.mixins.json'
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+def mixinRefmap = layout.buildDirectory.file('tmp/compileJava/gamacrafting.refmap.json')
+tasks.named('compileJava', JavaCompile).configure {
+    options.incremental = false
+    outputs.files(
+        layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'),
+        mixinRefmap,
+        layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg')
+    )
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    def modVersion = project.version.toString()
+    inputs.property('mod_version', modVersion)
+    filteringCharset = 'UTF-8'
+    filesMatching('META-INF/mods.toml') {
+        expand mod_version: modVersion
+    }
+    // Source-loaded Forge runs need the refmap in their resource directory.
+    dependsOn 'compileJava'
+    from(mixinRefmap)
+}
+
+tasks.named('jar', Jar).configure {
+    from('LICENSE', 'NOTICE.md')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest { attributes('Implementation-Version': project.version, 'MixinConfigs': 'gamacrafting.mixins.json') }
+    finalizedBy 'reobfJar'
+}

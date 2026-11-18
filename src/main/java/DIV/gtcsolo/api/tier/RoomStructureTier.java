@@ -36,14 +36,20 @@ public final class RoomStructureTier {
     public List<Integer> tiers() { return TIERS; }
 
     public TraceabilityPredicate casingPredicate() {
-        return predicate("gtcsolo_room_casing", state -> casingTierOf(state.getBlockState()),
+        return predicate("gtcsolo_room_casing", GTValues.LV, MISMATCH_ERROR, state -> casingTierOf(state.getBlockState()),
                 () -> TIERS.stream().map(this::casingForTier).map(RoomStructureTier::blockInfo).toArray(BlockInfo[]::new));
     }
 
     public TraceabilityPredicate glassPredicate() {
-        return predicate("gtcsolo_room_glass", state -> glassTierOf(state.getBlockState()), () -> {
+        return glassPredicate(GTValues.LV, MISMATCH_ERROR);
+    }
+
+    public TraceabilityPredicate glassPredicate(int minimumTier, String mismatchError) {
+        validateTier(minimumTier);
+        return predicate("gtcsolo_room_glass", minimumTier, mismatchError, state -> glassTierOf(state.getBlockState()), () -> {
             List<BlockInfo> candidates = new ArrayList<>();
             for (int tier : TIERS) {
+                if (tier < minimumTier) continue;
                 candidates.add(blockInfo(VoltageGlass.get(tier)));
                 if (tier == GTValues.LV) candidates.add(blockInfo(GTBlocks.CASING_TEMPERED_GLASS.get()));
                 if (tier == GTValues.HV) candidates.add(blockInfo(GTBlocks.CASING_LAMINATED_GLASS.get()));
@@ -52,18 +58,18 @@ public final class RoomStructureTier {
         });
     }
 
-    private TraceabilityPredicate predicate(String type,
+    private TraceabilityPredicate predicate(String type, int minimumTier, String mismatchError,
             java.util.function.ToIntFunction<MultiblockState> tierResolver,
             java.util.function.Supplier<BlockInfo[]> candidates) {
         return new TraceabilityPredicate(new SimplePredicate(type, state -> {
             int tier = tierResolver.applyAsInt(state);
             if (tier < GTValues.LV || tier > GTValues.OpV) return false;
-            if (!matchTier(state.getMatchContext(), tier)) {
-                state.setError(new PatternStringError(MISMATCH_ERROR));
+            if (tier < minimumTier || !matchTier(state.getMatchContext(), tier)) {
+                state.setError(new PatternStringError(mismatchError));
                 return false;
             }
             return true;
-        }, candidates)).addTooltips(Component.translatable(MISMATCH_ERROR));
+        }, candidates)).addTooltips(Component.translatable(mismatchError));
     }
 
     /** Shared by both predicates; a failed match cannot replace the grade already selected. */

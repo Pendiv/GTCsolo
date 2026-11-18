@@ -23,7 +23,7 @@ public final class FusionVariantMachine extends FusionReactorMachine {
         super.onStructureFormed();
         long capacity = settings.startupCapacity(energyContainer.getEnergyCapacity());
         if (capacity != energyContainer.getEnergyCapacity()) {
-            // Match the existing MK IV's 1,280 MEU, not the capacity of its 32 hatch inputs.
+            // A fixed-capacity reactor uses its own storage rating.
             energyContainer.resetBasicInfo(capacity, 0, 0, 0, 0);
             energyContainer.setEnergyStored(Math.min(energyContainer.getEnergyStored(), capacity));
             updatePreHeatSubscription();
@@ -33,7 +33,7 @@ public final class FusionVariantMachine extends FusionReactorMachine {
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof FusionVariantMachine reactor)) return ModifierFunction.NULL;
         if (reactor.settings.fusionOverclocking()) return FusionReactorMachine.recipeModifier(machine, recipe);
-        // Same startup charging and no-OC policy as the existing FusionMk4Machine.
+        // Fixed-capacity reactors use the MK IV startup charging and no-OC policy.
         if (RecipeHelper.getRecipeEUtTier(recipe) > reactor.getTier() || !recipe.data.contains("eu_to_start"))
             return ModifierFunction.NULL;
         long startup = recipe.data.getLong("eu_to_start");

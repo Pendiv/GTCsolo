@@ -1,10 +1,10 @@
-// Materials: cmdex/export/ial.txt. Preserve first-slot order and every ID total.
+// Materials and slot order from cmdex/export/ial.txt.
 ServerEvents.recipes(event => {
     const ialLuV = 32768;
     event.recipes.gtceu.assembly_line('gtcsolo:iterative_assembly_line')
         .itemInputs(
             '1x gtceu:assembly_line',
-            '8x gtceu:wetware_processor',
+            '8x #gtceu:circuits/luv',
             '12x gtceu:big_trinium_plate',
             '8x gtceu:big_europium_plate',
             '4x gtceu:big_naquadah_plate',

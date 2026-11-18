@@ -26,8 +26,17 @@ public final class GtcsoloRecipeModifiers {
     public static final double INDUSTRIAL_EUT_FACTOR = 4.0;
     public static final double INDUSTRIAL_IO_FACTOR = 2.0;
 
+    public static ModifierFunction.FunctionBuilder inputOutputBonus(int multiplier) {
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(multiplier))
+                .parallels(multiplier);
+    }
+
     public static ModifierFunction industrialOverclock(@Nonnull MetaMachine machine, @Nonnull GTRecipe recipe) {
-        int machineTier = resolveTier(machine);
+        return industrialOverclock(recipe, resolveTier(machine));
+    }
+
+    public static ModifierFunction industrialOverclock(@Nonnull GTRecipe recipe, int machineTier) {
         if (machineTier < 0) return ModifierFunction.NULL;
 
         int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
@@ -42,12 +51,10 @@ public final class GtcsoloRecipeModifiers {
         double ioMult = Math.pow(INDUSTRIAL_IO_FACTOR, n);
         int ioMultInt = (int) Math.round(ioMult);
 
-        return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(ioMult))
+        return inputOutputBonus(ioMultInt)
                 .eutMultiplier(eutMult)
                 .durationMultiplier(durationMult)
                 .addOCs(n)
-                .parallels(ioMultInt)
                 .build();
     }
 

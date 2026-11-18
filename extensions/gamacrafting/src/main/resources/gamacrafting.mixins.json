@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "DIV.gamacrafting.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "gamacrafting.refmap.json",
+  "client": ["desk.AbstractContainerScreenMixin"],
+  "injectors": {"defaultRequire": 1}
+}

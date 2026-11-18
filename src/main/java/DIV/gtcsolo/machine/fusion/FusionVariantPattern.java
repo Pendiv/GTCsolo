@@ -72,7 +72,7 @@ public final class FusionVariantPattern {
                     rows[z][y]=row;
                     for (int x=0;x<size[0];x++) {
                         char symbol=row.charAt(x);
-                        if ("CGKEIiOoS.#".indexOf(symbol)<0) throw new IllegalStateException("Unknown fusion symbol");
+                        if ("CGKEeIiOoS.#".indexOf(symbol)<0) throw new IllegalStateException("Unknown fusion symbol");
                         if (symbol=='S') {
                             controllers++;
                             if (x!=anchor[0] || y!=anchor[1] || z!=anchor[2])
@@ -87,7 +87,13 @@ public final class FusionVariantPattern {
     }
 
     public static Block casing(FusionVariantSettings settings) {
+        if (settings == FusionVariantSettings.STANDARD_MK5) return ModBlocks.FUSION_CASING_MK5.get();
         return settings.mk==4 ? ModBlocks.FUSION_CASING_MK4.get() : FusionReactorMachine.getCasingState(settings.tier());
+    }
+
+    private static Block coil(FusionVariantSettings settings) {
+        return settings == FusionVariantSettings.STANDARD_MK5 ? ModBlocks.ADVANCED_FUSION_COIL.get()
+                : FusionReactorMachine.getCoilState(settings.tier());
     }
 
     public BlockPattern create(MultiblockMachineDefinition definition, FusionVariantSettings settings) {
@@ -97,12 +103,13 @@ public final class FusionVariantPattern {
         var shell=blocks(casing(settings));
         var input=shell.or(abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(2));
         var output=shell.or(abilities(PartAbility.EXPORT_FLUIDS));
+        var energy=shell.or(blocks(PartAbility.INPUT_ENERGY.getBlockRange(settings.tier(),settings.maximumHatchTier())
+                .toArray(Block[]::new)).setMinGlobalLimited(settings.minimumEnergyHatches())
+                .setMaxGlobalLimited(settings.maximumEnergyHatches()).setPreviewCount(settings.maximumEnergyHatches()));
         return builder.where('S',controller(blocks(definition.getBlock())))
                 .where('C',shell).where('G',blocks(GTBlocks.FUSION_GLASS.get()).or(shell))
-                .where('K',blocks(FusionReactorMachine.getCoilState(settings.tier())))
-                .where('E',shell.or(blocks(PartAbility.INPUT_ENERGY.getBlockRange(settings.tier(),settings.maximumHatchTier())
-                        .toArray(Block[]::new)).setMinGlobalLimited(settings.minimumEnergyHatches())
-                        .setMaxGlobalLimited(settings.maximumEnergyHatches()).setPreviewCount(settings.maximumEnergyHatches())))
+                .where('K',blocks(coil(settings)))
+                .where('E',energy).where('e',energy)
                 .where('I',input).where('i',input).where('O',output).where('o',output)
                 .where('.',any()).where('#',any()).build();
     }
@@ -116,7 +123,7 @@ public final class FusionVariantPattern {
         Map<String,Character> ports=new HashMap<>();
         int energyPositions=0;
         for (int z=0;z<data.depth;z++) for (int y=0;y<data.height;y++) for (int x=0;x<data.width;x++)
-            if (data.at(x,y,z)=='E' && exposedFace(data,x,y,z)!=null) energyPositions++;
+            if (Character.toUpperCase(data.at(x,y,z))=='E' && portFace(data,settings,x,y,z)!=null) energyPositions++;
         int energySeen=0, energyPlaced=0, required=settings.maximumEnergyHatches();
         for (int z=0;z<data.depth;z++) {
             String[] rows=new String[data.height];
@@ -125,7 +132,7 @@ public final class FusionVariantPattern {
                 for (int x=0;x<data.width;x++) {
                     char role=Character.toUpperCase(row.charAt(x));
                     if (role!='E' && role!='I' && role!='O') continue;
-                    Direction facing=exposedFace(data,x,y,z);
+                    Direction facing=portFace(data,settings,x,y,z);
                     if (facing==null) { row.setCharAt(x,'C'); continue; }
                     if (role=='E') {
                         boolean place=(energySeen++ * required / energyPositions)>=energyPlaced;
@@ -150,8 +157,16 @@ public final class FusionVariantPattern {
         if (energyPlaced!=required) throw new IllegalStateException("Fusion preview lacks required energy ports");
         return builder.where('S',definition,Direction.NORTH).where('C',casing(settings))
                 .where('G',glass ? GTBlocks.FUSION_GLASS.get() : casing(settings))
-                .where('K',FusionReactorMachine.getCoilState(settings.tier()))
+                .where('K',coil(settings))
                 .where('.',Blocks.AIR).where('#',Blocks.AIR).build();
+    }
+
+    private static Direction portFace(Layout data,FusionVariantSettings settings,int x,int y,int z) {
+        if (settings == FusionVariantSettings.STANDARD_MK5) {
+            Direction facing = Character.isLowerCase(data.at(x,y,z)) ? Direction.DOWN : Direction.UP;
+            return data.at(x,y+facing.getStepY(),z)=='#' ? facing : null;
+        }
+        return exposedFace(data,x,y,z);
     }
 
     private static Direction exposedFace(Layout data,int x,int y,int z) {

@@ -1,0 +1,8 @@
+{
+  "block.gtceu.industrial_chemical_bath": "Industrial Chemical Bath",
+  "gtcsolo.industrial_chemical_bath.introduction.1": "A chemical bath for bulk washing and chemical treatment. Fit a fluid input hatch in the watertight casing to supply the required liquid.",
+  "gtcsolo.industrial_chemical_bath.introduction.2": "Processing time is reduced by 15%. Supports Industrial Overclocking. Parallel hatches are unavailable.",
+  "block.gtceu.heating_chamber": "High-Capacity Extractor",
+  "gtcsolo.heating_chamber.introduction.1": "A large extractor suited to melting metal in bulk. Collect molten metal from the fluid output hatch.",
+  "gtcsolo.heating_chamber.introduction.2": "Before overclocking, it processes 16 batches in four times the duration of a standard operation."
+}

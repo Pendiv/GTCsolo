@@ -1,0 +1,110 @@
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Path
+import java.util.zip.ZipFile
+
+// Load only the official-mapped artifacts, never the standalone projects' runtime dependencies.
+def localBuilds = [
+    'bsj-dev': 'bilingualsearch',
+    'botany-pots-dev': 'gtcsolo_botanypots',
+    'dumpall-dev': 'dumpall',
+    'gtmh-dev': 'gtmh',
+    'synapse-dev': 'synapse'
+]
+def exports = [:]
+def producers = []
+gradle.includedBuilds.each { build ->
+    def modId = localBuilds[build.name]
+    if (modId != null) {
+        exports[modId] = providers.provider { new File(build.projectDir, 'build/parent-dev/mod.jar') }
+        producers.add(build.task(':exportParentDevJar'))
+    }
+}
+def creditJar = project(':credit').tasks.named('devJar', Jar)
+exports['credit'] = creditJar.flatMap { it.archiveFile }.map { it.asFile }
+producers.add(creditJar)
+
+def readModIds = { File file ->
+    new ZipFile(file).withCloseable { archive ->
+        def metadata = archive.getEntry('META-INF/mods.toml')
+        if (metadata == null) return []
+        def text = archive.getInputStream(metadata).withCloseable { it.getText(StandardCharsets.UTF_8.name()) }
+        text.split(/(?m)^\s*(?=\[)/).findAll { it.startsWith('[[mods]]') }.collect { section ->
+            def match = section =~ /(?m)^\s*modId\s*=\s*["']([^"']+)["']/
+            match.find() ? match.group(1) : null
+        }.findAll { it != null }
+    }
+}
+
+def installMods = { File gameDirectory ->
+    def files = exports.collectEntries { modId, provider ->
+        File source = provider.get()
+        if (!source.isFile() || readModIds(source) != [modId]) {
+            throw new GradleException("Invalid local development JAR for ${modId}: ${source}")
+        }
+        [(modId): source]
+    }
+    Path directory = Files.createDirectories(gameDirectory.toPath().resolve('mods'))
+    def existing = [:].withDefault { [] }
+    directory.toFile().listFiles()?.findAll { it.isFile() && it.name.toLowerCase(Locale.ROOT).endsWith('.jar') }?.each { File jar ->
+        def ids = readModIds(jar)
+        def managed = ids.findAll { files.containsKey(it) }
+        if (!managed.isEmpty()) {
+            if (ids.size() != 1) throw new GradleException("Cannot replace a JAR shared by multiple mods: ${jar}")
+            existing[managed[0]].add(jar.toPath())
+        }
+    }
+
+    files.each { modId, File source ->
+        Path target = directory.resolve("${modId}-local-dev.jar")
+        if (Files.exists(target) && !existing[modId].contains(target)) {
+            throw new GradleException("Another mod occupies the managed filename: ${target}")
+        }
+        boolean current = Files.isRegularFile(target) && Files.mismatch(source.toPath(), target) == -1L
+        def previous = existing[modId].findAll { it != target || !current }
+        if (current && previous.isEmpty()) return
+
+        def backups = [:]
+        Path prepared = null
+        try {
+            if (!current) {
+                prepared = Files.createTempFile(directory, modId, '.tmp')
+                Files.copy(source.toPath(), prepared, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            }
+            if (!previous.isEmpty()) {
+                Path backupRoot = Files.createDirectories(gameDirectory.toPath().resolve('mods_disabled/local-dev'))
+                Path backupDirectory = Files.createTempDirectory(backupRoot, "${modId}-")
+                previous.each { Path old ->
+                    Path backup = backupDirectory.resolve(old.fileName)
+                    Files.move(old, backup)
+                    backups[old] = backup
+                }
+            }
+            if (prepared != null) Files.move(prepared, target)
+            logger.lifecycle("Prepared ${modId} for ${gameDirectory.name}")
+        } catch (Exception failure) {
+            backups.each { Path old, Path backup ->
+                if (!Files.exists(old)) {
+                    try { Files.move(backup, old) }
+                    catch (Exception rollback) { failure.addSuppressed(rollback) }
+                }
+            }
+            throw failure
+        } finally {
+            if (prepared != null) Files.deleteIfExists(prepared)
+        }
+    }
+}
+
+['client': 'Client', 'server': 'Server', 'gameTestServer': 'GameTestServer'].each { runName, suffix ->
+    def prepare = tasks.register("prepare${suffix}LocalDevMods") {
+        group = 'forgegradle runs'
+        description = 'Builds and refreshes the local development mods for this Minecraft run.'
+        // Gradle 8.8 can execute included-build task references during a parent dry-run.
+        if (!gradle.startParameter.dryRun) dependsOn producers
+        doLast { installMods(file(minecraft.runs.getByName(runName).workingDirectory)) }
+    }
+    tasks.matching { it.name == "prepareRun${suffix}" || it.name == "prepareRun${suffix}Compile" }.configureEach {
+        dependsOn prepare
+    }
+}

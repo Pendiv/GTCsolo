@@ -69,9 +69,10 @@ refs/
 /MultiGregged/
 /mapaccel/
 
-# Only the extension bundled in the main JAR belongs in this repository.
+# Track the extensions built by this workspace.
 /extensions/*
 !/extensions/tiered-torcherino/
+!/extensions/gamacrafting/
 
 # Tool caches and desktop metadata
 __pycache__/

@@ -1,4 +1,7 @@
 {
+  "upgrade.gtcsolo.slot": "Slot Upgrade",
+  "upgrade.gtcsolo.slot.processes": "Unlocked processes: %s / %s",
+  "upgrade.gtcsolo.slot.description": "Unlocks one additional factory process.",
   "gtcsolo.recipe.recommended_temperature": "Recommended: %s K",
   "effect.gtcsolo.spectator": "Spectator",
   "attribute.name.gtcsolo.can_creative_fly": "Creative Flight Permission",

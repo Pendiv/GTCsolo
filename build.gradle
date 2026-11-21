@@ -339,6 +339,8 @@ dependencies {
     //   NoSuchFieldError クラッシュ。libs/ の同一 jar を fg.deobf 経由で正規 remap し上書きして回避。
     runtimeOnly fg.deobf("local:midnightlib:1.4.2-forge")
 
+    // GTCEu 1.6.4 supplies this version at runtime.
+    compileOnly "io.github.llamalad7:mixinextras-common:0.2.0"
     // Mixin annotation processor (gtceu.refmap 生成用)
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }

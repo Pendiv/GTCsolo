@@ -1,4 +1,7 @@
 {
+  "upgrade.gtcsolo.slot": "スロットアップグレード",
+  "upgrade.gtcsolo.slot.processes": "解放済みの処理スロット：%s / %s",
+  "upgrade.gtcsolo.slot.description": "ファクトリーの処理スロットを1列解放する。",
   "gtcsolo.recipe.recommended_temperature": "推奨温度: %s K",
   "effect.gtcsolo.spectator": "スペクテイター",
   "attribute.name.gtcsolo.can_creative_fly": "クリエイティブ飛行の許可",

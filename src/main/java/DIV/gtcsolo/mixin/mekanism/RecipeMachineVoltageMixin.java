@@ -1,9 +1,11 @@
 package DIV.gtcsolo.mixin.mekanism;
 
 import DIV.gtcsolo.integration.mekanism.MachineVoltage;
+import DIV.gtcsolo.integration.mekanism.RecipeCleanroom;
 import DIV.gtcsolo.integration.mekanism.RecipePower;
 import DIV.gtcsolo.integration.mekanism.RecipeVoltage;
 import DIV.gtcsolo.integration.mekanism.SlotUpgrade;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 import mekanism.api.recipes.MekanismRecipe;
@@ -30,9 +32,15 @@ public abstract class RecipeMachineVoltageMixin {
     @Inject(method = "createNewCachedRecipe(Lmekanism/api/recipes/MekanismRecipe;I)Lmekanism/api/recipes/cache/CachedRecipe;", at = @At("RETURN"))
     private void gtcsolo$applyVoltageCondition(MekanismRecipe recipe, int index, CallbackInfoReturnable<CachedRecipe<?>> result) {
         CachedRecipe<?> cached = result.getReturnValue();
-        if (cached == null || !(handler instanceof TileEntityMekanism machine)) return;
-        RecipePower power = ((RecipeVoltage) recipe).gtcsolo$getPower();
+        if (cached == null) return;
         CachedRecipeConditionsAccess access = (CachedRecipeConditionsAccess) cached;
+        CleanroomType room = ((RecipeCleanroom) recipe).gtcsolo$getRequiredCleanroom();
+        if (room != null) {
+            BooleanSupplier existing = access.gtcsolo$getHolderCondition();
+            cached.setCanHolderFunction(() -> existing.getAsBoolean() && RecipeCleanroom.matches(handler, room));
+        }
+        if (!(handler instanceof TileEntityMekanism machine)) return;
+        RecipePower power = ((RecipeVoltage) recipe).gtcsolo$getPower();
         boolean factory = machine instanceof TileEntityFactory<?>;
         if (power == null && !factory) return;
         long rating = MachineVoltage.rating(machine);

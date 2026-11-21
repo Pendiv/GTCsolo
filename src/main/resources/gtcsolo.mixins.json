@@ -28,6 +28,7 @@
     "mekanism.FactoryGasLayoutMixin",
     "mekanism.FactoryMenuLayoutMixin",
     "mekanism.MachinePacketCapacityMixin",
+    "mekanism.MachineCleanroomReceiverMixin",
     "mekanism.MachineVoltageMixin",
     "mekanism.ProxyInputVoltageMixin",
     "mekanism.ForgeInputVoltageMixin",

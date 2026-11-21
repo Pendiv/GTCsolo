@@ -1,5 +1,6 @@
 package DIV.gtcsolo.mixin.mekanism;
 
+import DIV.gtcsolo.integration.mekanism.RecipeCleanroom;
 import DIV.gtcsolo.integration.mekanism.RecipePower;
 import DIV.gtcsolo.integration.mekanism.RecipeVoltage;
 import com.google.gson.JsonObject;
@@ -21,8 +22,9 @@ public interface RecipeVoltageJsonMixin {
         if (!(result.getReturnValue() instanceof RecipeVoltage recipe)) return;
         try {
             recipe.gtcsolo$setPower(RecipePower.read(json));
+            ((RecipeCleanroom) recipe).gtcsolo$setRequiredCleanroom(RecipeCleanroom.read(json));
         } catch (ArithmeticException | IllegalArgumentException | JsonSyntaxException e) {
-            throw new JsonSyntaxException("Invalid machine power specification for " + id, e);
+            throw new JsonSyntaxException("Invalid machine requirements for " + id + ": " + e.getMessage(), e);
         }
     }
 }

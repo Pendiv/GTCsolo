@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "mekanismgenerators:rotational_complex", "required": false },
+    { "id": "mekanismgenerators:fusion_reactor_controller", "required": false }
+  ]
+}

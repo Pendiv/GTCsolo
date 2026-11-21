@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(value = CleanroomMachine.class, remap = false)
@@ -41,8 +42,9 @@ public abstract class DampedWashingCleanroomMixin {
         var damped = GtcsoloRecipeConditions.DAMPED_WASHING_CLEANROOM;
         if (!callback.getReturnValue().contains(damped)) return;
 
-        callback.setReturnValue(cleanAmount == 100
-                ? Set.of(CleanroomType.STERILE_CLEANROOM, damped)
-                : Set.of(CleanroomType.STERILE_CLEANROOM));
+        var types = new HashSet<>(callback.getReturnValue());
+        types.add(CleanroomType.STERILE_CLEANROOM);
+        if (cleanAmount != 100) types.remove(damped);
+        callback.setReturnValue(Set.copyOf(types));
     }
 }
